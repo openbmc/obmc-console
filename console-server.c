@@ -74,7 +74,8 @@ static void usage(const char *progname)
 "usage: %s [options]\n"
 "\n"
 "Options:\n"
-"  --config <FILE>  Use FILE for configuration\n"
+"  --config <FILE>         Use FILE for configuration\n"
+"  --tty    <Serial port>  Use this Serial port(example: ttyS5)\n"
 "",
 		progname);
 }
@@ -215,8 +216,6 @@ static int tty_init(struct console *console, struct config *config)
 	const char *val;
 	char *endp;
 	int rc;
-
-	console->tty_kname = config_get_value(config, "device");
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
@@ -498,28 +497,35 @@ int run_console(struct console *console)
 }
 static const struct option options[] = {
 	{ "config",	required_argument,	0, 'c'},
+	{ "tty",	required_argument,	0, 't'},
 	{ 0,  0, 0, 0},
 };
 
 int main(int argc, char **argv)
 {
 	const char *config_filename = NULL;
+	const char *config_tty_kname = NULL;
 	struct console *console;
 	struct config *config;
 	int rc;
 
 	rc = -1;
+	int c, idx;
 
 	for (;;) {
-		int c, idx;
 
-		c = getopt_long(argc, argv, "c:", options, &idx);
+		c = getopt_long(argc, argv, "c:t:", options, &idx);
 		if (c == -1)
 			break;
 
 		switch (c) {
 		case 'c':
 			config_filename = optarg;
+			break;
+
+		case 't':
+			config_tty_kname = optarg;
+			printf("Overwritten TTY:[%s]\n", config_tty_kname);
 			break;
 		case 'h':
 		case '?':
@@ -539,9 +545,15 @@ int main(int argc, char **argv)
 		goto out_free;
 	}
 
+	if(config_tty_kname)
+		console->tty_kname = config_tty_kname;
+	else
+		console->tty_kname = config_get_value(config, "device");
+
 	rc = tty_init(console, config);
 	if (rc)
 		goto out_config_fini;
+
 
 	handlers_init(console, config);
 
