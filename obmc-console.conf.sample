@@ -1,6 +1,3 @@
-# Device to use for our UART console
-device = ttyUSB0
-
 # For VUART devices, we can specify the LPC address and SIRQ parameters
 lpc-address = 0x3f8
 sirq = 4

@@ -71,7 +71,7 @@ static bool sigint;
 static void usage(const char *progname)
 {
 	fprintf(stderr,
-"usage: %s [options]\n"
+"usage: %s [options] <DEVICE>\n"
 "\n"
 "Options:\n"
 "  --config <FILE>  Use FILE for configuration\n"
@@ -215,8 +215,6 @@ static int tty_init(struct console *console, struct config *config)
 	const char *val;
 	char *endp;
 	int rc;
-
-	console->tty_kname = config_get_value(config, "device");
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
@@ -504,6 +502,7 @@ static const struct option options[] = {
 int main(int argc, char **argv)
 {
 	const char *config_filename = NULL;
+	const char *config_tty_kname = NULL;
 	struct console *console;
 	struct config *config;
 	int rc;
@@ -528,6 +527,13 @@ int main(int argc, char **argv)
 		}
 	}
 
+	if (optind >= argc) {
+		usage(argv[0]);
+		return EXIT_SUCCESS;
+	}
+
+	config_tty_kname = argv[optind];
+
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
 	console->pollfds = calloc(n_internal_pollfds,
@@ -538,6 +544,8 @@ int main(int argc, char **argv)
 		warnx("Can't read configuration, exiting.");
 		goto out_free;
 	}
+
+	console->tty_kname = config_tty_kname;
 
 	rc = tty_init(console, config);
 	if (rc)
