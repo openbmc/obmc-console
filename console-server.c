@@ -71,10 +71,10 @@ static bool sigint;
 static void usage(const char *progname)
 {
 	fprintf(stderr,
-"usage: %s [options]\n"
+"usage: %s <DEVICE> [options]\n"
 "\n"
 "Options:\n"
-"  --config <FILE>  Use FILE for configuration\n"
+"  --config <FILE>         Use FILE for configuration\n"
 "",
 		progname);
 }
@@ -215,8 +215,6 @@ static int tty_init(struct console *console, struct config *config)
 	const char *val;
 	char *endp;
 	int rc;
-
-	console->tty_kname = config_get_value(config, "device");
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
@@ -504,12 +502,26 @@ static const struct option options[] = {
 int main(int argc, char **argv)
 {
 	const char *config_filename = NULL;
+	const char *config_tty_kname = NULL;
 	struct console *console;
 	struct config *config;
 	int rc;
 
 	rc = -1;
 
+	if (argc == 1) {
+		usage(argv[0]);
+		return EXIT_SUCCESS;
+	}
+
+	config_tty_kname = argv[1];
+	/* considering max tty devices to be ttyS999 */
+	if (strlen(config_tty_kname) > 7) {
+		fprintf (stderr, "Invalid device");
+		usage(argv[0]);
+		return EXIT_SUCCESS;
+	}
+	
 	for (;;) {
 		int c, idx;
 
@@ -538,6 +550,8 @@ int main(int argc, char **argv)
 		warnx("Can't read configuration, exiting.");
 		goto out_free;
 	}
+
+	console->tty_kname = config_tty_kname;
 
 	rc = tty_init(console, config);
 	if (rc)
