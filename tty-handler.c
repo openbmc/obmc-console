@@ -1,5 +1,6 @@
 /**
  * Copyright © 2016 IBM Corporation
+ * Copyright © 2016 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,10 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
 
 #include "console-server.h"
 
@@ -59,11 +63,52 @@ static enum poller_ret tty_poll(struct handler *handler,
 	return POLLER_OK;
 }
 
+static int tty_mirror_init(struct handler *handler,
+	struct console *console __attribute__((unused)),
+	struct config *config)
+{
+	struct tty_handler *th = to_tty_handler(handler);
+	struct termios tty_terminfo;
+	const char *tty_baud;
+	int tty_baudrate = 115200;
+	speed_t tty_enum_baudrate;
+
+	tty_baud = config_get_value(config, "local-tty-baud");
+	if (tty_baud)
+		tty_baudrate = atoi(tty_baud);
+
+	if (tty_baudrate == 19200)
+		tty_enum_baudrate = B19200;
+	else if (tty_baudrate == 38400)
+		tty_enum_baudrate = B38400;
+	else if (tty_baudrate == 57600)
+		tty_enum_baudrate = B57600;
+	else
+		/* Default to 115200 baud */
+		tty_enum_baudrate = B115200;
+
+	/* set up serial tty */
+	tcgetattr(th->fd, &tty_terminfo);
+	tty_terminfo.c_iflag = 0;
+	tty_terminfo.c_oflag = 0;
+	tty_terminfo.c_lflag = 0;
+	tty_terminfo.c_cflag = 0;
+	tty_terminfo.c_cc[VMIN] = 0;
+	tty_terminfo.c_cc[VTIME] = 0;
+	cfsetospeed(&tty_terminfo, tty_enum_baudrate);
+	cfsetispeed(&tty_terminfo, tty_enum_baudrate);
+	tty_terminfo.c_cflag |= CREAD|CLOCAL|CS8;
+	tcsetattr(th->fd, TCSANOW, &tty_terminfo);
+
+	return 0;
+}
+
 static int tty_init(struct handler *handler, struct console *console,
-		struct config *config __attribute__((unused)))
+		struct config *config)
 {
 	struct tty_handler *th = to_tty_handler(handler);
 	const char *tty_name;
+	const char *tty_type;
 	char *tty_path;
 	int rc, flags;
 
@@ -75,7 +120,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (!rc)
 		return -1;
 
-	th->fd = open(tty_path, O_RDWR);
+	th->fd = open(tty_path, O_RDWR|O_SYNC);
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
 		free(tty_path);
@@ -92,6 +137,15 @@ static int tty_init(struct handler *handler, struct console *console,
 	th->poller = console_register_poller(console, handler, tty_poll,
 			th->fd, POLLIN, NULL);
 	th->console = console;
+
+	tty_type = config_get_value(config, "local-tty-type");
+	if (!tty_type)
+		return 0;
+
+	if (strcmp(tty_type, "serial"))
+		return 0;
+
+	tty_mirror_init(handler, console, config);
 
 	return 0;
 }
