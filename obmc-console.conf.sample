@@ -4,3 +4,7 @@ sirq = 4
 
 # To mirror to a local tty device (typically a hardware UART), set local-tty
 # local-tty = ttyS0
+
+# To set up serial parameters, set the following keys
+# local-tty-type = serial
+# local-tty-baud = 115200
