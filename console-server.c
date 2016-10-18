@@ -85,20 +85,43 @@ static int tty_find_device(struct console *console)
 	char *tty_class_device_link;
 	char *tty_device_tty_dir;
 	char *tty_device_reldir;
+	char *tty_path_input;
+	char *tty_path_input_real;
+	char *tty_kname_real;
 	int rc;
 
 	tty_class_device_link = NULL;
 	tty_device_tty_dir = NULL;
 	tty_device_reldir = NULL;
+	tty_path_input = NULL;
+	tty_path_input_real = NULL;
+	tty_kname_real = NULL;
 
-	rc = asprintf(&tty_class_device_link,
-			"/sys/class/tty/%s", console->tty_kname);
+	/* udev may rename the tty name with a symbol link, try to resolve */
+	rc = asprintf(&tty_path_input, "/dev/%s", console->tty_kname);
 	if (rc < 0)
 		return -1;
 
+	tty_path_input_real = realpath(tty_path_input, NULL);
+	if (!tty_path_input_real) {
+		warn("Can't find realpath for /dev/%s", console->tty_kname);
+		goto out_free;
+	}
+
+	tty_kname_real = basename(tty_path_input_real);
+	if (!tty_kname_real) {
+		warn("Can't find real name for /dev/%s", console->tty_kname);
+		goto out_free;
+	}
+
+	rc = asprintf(&tty_class_device_link,
+			"/sys/class/tty/%s", tty_kname_real);
+	if (rc < 0)
+		goto out_free;
+
 	tty_device_tty_dir = realpath(tty_class_device_link, NULL);
-	if (rc < 0) {
-		warn("Can't query sysfs for device %s", console->tty_kname);
+	if (!tty_device_tty_dir) {
+		warn("Can't query sysfs for device %s", tty_kname_real);
 		goto out_free;
 	}
 
@@ -108,12 +131,9 @@ static int tty_find_device(struct console *console)
 
 	console->tty_sysfs_devnode = realpath(tty_device_reldir, NULL);
 	if (!console->tty_sysfs_devnode)
-		warn("Can't find parent device for %s", console->tty_kname);
+		warn("Can't find parent device for %s", tty_kname_real);
 
-
-	/* todo: lookup from major/minor info in sysfs, in case udev has
-	 * renamed us */
-	rc = asprintf(&console->tty_dev, "/dev/%s", console->tty_kname);
+	rc = asprintf(&console->tty_dev, "/dev/%s", tty_kname_real);
 	if (rc < 0)
 		goto out_free;
 
@@ -123,6 +143,8 @@ out_free:
 	free(tty_class_device_link);
 	free(tty_device_tty_dir);
 	free(tty_device_reldir);
+	free(tty_path_input);
+	free(tty_path_input_real);
 	return rc;
 }
 
