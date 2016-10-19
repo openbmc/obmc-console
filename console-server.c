@@ -472,12 +472,21 @@ int run_console(struct console *console)
 		/* process internal fd first */
 		BUILD_ASSERT(n_internal_pollfds == 1);
 
-		if (console->pollfds[console->n_pollers].revents) {
+		if (console->pollfds[console->n_pollers].revents & POLLHUP ||
+			console->pollfds[console->n_pollers].revents & POLLERR ||
+			console->pollfds[console->n_pollers].revents & POLLNVAL)
+			continue;
+
+		if (console->pollfds[console->n_pollers].revents & POLLIN) {
 			rc = read(console->tty_fd, buf, sizeof(buf));
-			if (rc <= 0) {
+			if (rc < 0) {
 				warn("Error reading from tty device");
 				rc = -1;
 				break;
+			}
+			if (rc == 0) {
+				/* EOF, just ignore */
+				continue;
 			}
 			rc = handlers_data_in(console, buf, rc);
 			if (rc)
