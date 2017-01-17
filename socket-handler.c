@@ -81,25 +81,45 @@ static void client_close(struct socket_handler *sh, struct client *client)
 			sizeof(*sh->clients) * sh->n_clients);
 }
 
-/* Write data to the client, until error or block.
- *
- * Returns -1 on hard failure, otherwise number of bytes written. A zero
- * return indicates that no bytes were written due to potential block,
- * but isn't a failure
- */
-static ssize_t client_send_data(struct client *client, uint8_t *buf,
-		size_t len)
+static size_t client_buffer_space(struct client *client)
 {
-	size_t pos;
-	ssize_t rc;
-	int flags;
+	return buffer_size_max - client->buf_len;
+}
 
-	flags = MSG_DONTWAIT | MSG_NOSIGNAL;
+static int client_queue_data(struct client *client, uint8_t *buf, size_t len)
+{
+	/* we may need to allocate space, but we know that increasing by len
+	 * won't exceed buffer_size_max */
+
+	if (client->buf_len + len > client->buf_alloc) {
+		if (!client->buf_alloc)
+			client->buf_alloc = 2048;
+		client->buf_alloc *= 2;
+
+		if (client->buf_alloc > buffer_size_max)
+			client->buf_alloc = buffer_size_max;
+
+		client->buf = realloc(client->buf, client->buf_alloc);
+	}
+
+	memcpy(client->buf + client->buf_len, buf, len);
+	client->buf_len += len;
+	return 0;
+}
+
+static ssize_t send_all(int fd, void *buf, size_t len, bool block)
+{
+	int rc, flags;
+	size_t pos;
+
+	flags = MSG_NOSIGNAL;
+	if (!block)
+		flags |= MSG_DONTWAIT;
 
 	for (pos = 0; pos < len; pos += rc) {
-		rc = send(client->fd, buf + pos, len - pos, flags);
+		rc = send(fd, buf + pos, len - pos, flags);
 		if (rc < 0) {
-			if (errno == EAGAIN || errno == EWOULDBLOCK)
+			if (!block && (errno == EAGAIN || errno == EWOULDBLOCK))
 				break;
 
 			if (errno == EINTR)
@@ -114,32 +134,64 @@ static ssize_t client_send_data(struct client *client, uint8_t *buf,
 	return pos;
 }
 
+/* Drain the queue to the socket and update the queue buffer. If force_len is
+ * set, send at least that many bytes from the queue, possibly while blocking
+ */
+static int client_drain_queue(struct client *client, size_t force_len)
+{
+	ssize_t wlen;
+	size_t len;
+	bool block;
+
+	if (!client->buf_len)
+		return 0;
+
+	block = false;
+	len = client->buf_len;
+	if (force_len) {
+		block = true;
+		len = force_len;
+	}
+
+	wlen = send_all(client->fd, client->buf, len, block);
+	if (wlen < 0)
+		return -1;
+
+	if (force_len && wlen < force_len)
+		return -1;
+
+	client->buf_len -= wlen;
+	memmove(client->buf, client->buf + wlen, client->buf_len);
+
+	return 0;
+}
+
 static enum poller_ret client_poll(struct handler *handler,
 		int events, void *data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client = data;
 	uint8_t buf[4096];
-	ssize_t len;
 	int rc;
 
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
-		if (rc <= 0)
+		if (rc < 0) {
+			if (errno == EAGAIN || errno == EWOULDBLOCK)
+				return POLLER_OK;
+			else
+				goto err_close;
+		}
+		if (rc == 0)
 			goto err_close;
 
 		console_data_out(sh->console, buf, rc);
 	}
 
 	if (events & POLLOUT) {
-		len = client_send_data(client, client->buf, client->buf_len);
-		if (len < 0)
+		rc = client_drain_queue(client, 0);
+		if (rc)
 			goto err_close;
-
-		/* consume from the queue */
-		client->buf_len -= len;
-		memmove(client->buf, client->buf + len,
-				client->buf_len);
 	}
 
 	return POLLER_OK;
@@ -150,44 +202,38 @@ err_close:
 	return POLLER_REMOVE;
 }
 
-static int client_queue_data(struct client *client, uint8_t *buf, size_t len)
+static int client_data(struct client *client, uint8_t *buf, size_t len)
 {
-	if (client->buf_len + len > client->buf_alloc) {
-		if (!client->buf_alloc)
-			client->buf_alloc = 2048;
-		client->buf_alloc *= 2;
+	ssize_t wlen;
+	size_t space;
+	int rc;
 
-		if (client->buf_alloc > buffer_size_max)
-			return -1;
+	space = client_buffer_space(client);
 
-		client->buf = realloc(client->buf, client->buf_alloc);
-	}
-
-	memcpy(client->buf + client->buf_len, buf, len);
-	client->buf_len += len;
-	return 0;
-}
-
-static int client_send_or_queue(struct client *client, uint8_t *buf, size_t len)
-{
-	ssize_t rc;
-
-	/* only send if the queue is empty */
-	if (!client->buf_len) {
-		rc = client_send_data(client, buf, len);
-		if (rc < 0)
-			return -1;
-	} else {
-		rc = 0;
-	}
-
-	if ((size_t)rc < len) {
-		rc = client_queue_data(client, buf + rc, len - rc);
+	/* blocking send to create space in the queue for this data */
+	if (len > space) {
+		rc = client_drain_queue(client, len - space);
 		if (rc)
 			return -1;
 	}
 
-	return 0;
+	wlen = 0;
+
+	/* if the queue is empty, try to send without queuing */
+	if (!client->buf_len) {
+		wlen = send_all(client->fd, buf, len, false);
+		if (wlen < 0)
+			return -1;
+
+		if (wlen == len)
+			return 0;
+	}
+
+	/* queue anything unsent. this queue should always succeed, as we've
+	 * created space above */
+	client_queue_data(client, buf + wlen, len - wlen);
+
+	return client_drain_queue(client, 0);
 }
 
 static enum poller_ret socket_poll(struct handler *handler,
@@ -267,7 +313,7 @@ static int socket_data(struct handler *handler, uint8_t *buf, size_t len)
 
 	for (i = 0; i < sh->n_clients; i++) {
 		struct client *client = sh->clients[i];
-		rc = client_send_or_queue(client, buf, len);
+		rc = client_data(client, buf, len);
 		if (!rc)
 			continue;
 
