@@ -65,7 +65,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	struct tty_handler *th = to_tty_handler(handler);
 	const char *tty_name;
 	char *tty_path;
-	int rc, flags;
+	int rc;
 
 	tty_name = config_get_value(config, "local-tty");
 	if (!tty_name)
@@ -75,7 +75,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (!rc)
 		return -1;
 
-	th->fd = open(tty_path, O_RDWR);
+	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
 		free(tty_path);
@@ -83,11 +83,6 @@ static int tty_init(struct handler *handler, struct console *console,
 	}
 
 	free(tty_path);
-
-	/* initial tty setup */
-	flags = fcntl(th->fd, F_GETFL, 0);
-	flags |= FNDELAY;
-	fcntl(th->fd, F_SETFL, flags);
 
 	th->poller = console_register_poller(console, handler, tty_poll,
 			th->fd, POLLIN, NULL);
