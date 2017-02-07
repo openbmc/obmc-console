@@ -475,6 +475,8 @@ int run_console(struct console *console)
 	for (;;) {
 		uint8_t buf[4096];
 
+		BUILD_ASSERT(sizeof(buf) <= buffer_size);
+
 		if (sigint) {
 			fprintf(stderr, "Received interrupt, exiting\n");
 			break;
