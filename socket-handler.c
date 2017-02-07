@@ -37,6 +37,7 @@ struct client {
 	struct poller			*poller;
 	struct ringbuffer_consumer	*rbc;
 	int				fd;
+	bool				blocked;
 };
 
 struct socket_handler {
@@ -82,10 +83,29 @@ static void client_close(struct client *client)
 			sizeof(*sh->clients) * sh->n_clients);
 }
 
-static ssize_t send_all(int fd, void *buf, size_t len, bool block)
+static void client_set_blocked(struct client *client, bool blocked)
 {
-	int rc, flags;
+	int events;
+
+	if (client->blocked == blocked)
+		return;
+
+	client->blocked = blocked;
+
+	events = POLLIN;
+	if (client->blocked)
+		events |= POLLOUT;
+
+	console_poller_set_events(client->sh->console, client->poller, events);
+}
+
+static ssize_t send_all(struct client *client, void *buf,
+		size_t len, bool block)
+{
+	int fd, rc, flags;
 	size_t pos;
+
+	fd = client->fd;
 
 	flags = MSG_NOSIGNAL;
 	if (!block)
@@ -94,8 +114,11 @@ static ssize_t send_all(int fd, void *buf, size_t len, bool block)
 	for (pos = 0; pos < len; pos += rc) {
 		rc = send(fd, buf + pos, len - pos, flags);
 		if (rc < 0) {
-			if (!block && (errno == EAGAIN || errno == EWOULDBLOCK))
+			if (!block && (errno == EAGAIN ||
+						errno == EWOULDBLOCK)) {
+				client_set_blocked(client, true);
 				break;
+			}
 
 			if (errno == EINTR)
 				continue;
@@ -123,12 +146,16 @@ static int client_drain_queue(struct client *client, size_t force_len)
 	wlen = 0;
 	block = !!force_len;
 
+	/* if we're already blocked, no need for the write */
+	if (!block && client->blocked)
+		return 0;
+
 	for (;;) {
 		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf);
 		if (!len)
 			break;
 
-		wlen = send_all(client->fd, buf, len, block);
+		wlen = send_all(client, buf, len, block);
 		if (wlen <= 0)
 			break;
 
@@ -187,6 +214,7 @@ static enum poller_ret client_poll(struct handler *handler,
 	}
 
 	if (events & POLLOUT) {
+		client_set_blocked(client, false);
 		rc = client_drain_queue(client, 0);
 		if (rc)
 			goto err_close;

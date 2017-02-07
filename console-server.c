@@ -394,6 +394,19 @@ void console_poller_unregister(struct console *console,
 	free(poller);
 }
 
+void console_poller_set_events(struct console *console, struct poller *poller,
+		int events)
+{
+	int i;
+
+	/* find the entry in our pollers array */
+	for (i = 0; i < console->n_pollers; i++)
+		if (console->pollers[i] == poller)
+			break;
+
+	console->pollfds[i].events = events;
+}
+
 static int call_pollers(struct console *console)
 {
 	struct poller *poller;

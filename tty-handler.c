@@ -32,6 +32,8 @@ struct tty_handler {
 	struct ringbuffer_consumer	*rbc;
 	struct poller			*poller;
 	int				fd;
+	int				fd_flags;
+	bool				blocked;
 };
 
 static struct tty_handler *to_tty_handler(struct handler *handler)
@@ -39,21 +41,58 @@ static struct tty_handler *to_tty_handler(struct handler *handler)
 	return container_of(handler, struct tty_handler, handler);
 }
 
+static void tty_set_fd_blocking(struct tty_handler *th, bool fd_blocking)
+{
+	int flags;
+
+	flags = th->fd_flags & ~O_NONBLOCK;
+	if (!fd_blocking)
+		flags |= O_NONBLOCK;
+
+	if (flags != th->fd_flags) {
+		fcntl(th->fd, F_SETFL, flags);
+		th->fd_flags = flags;
+	}
+}
+
+/*
+ * A "blocked" handler indicates that the last write returned EAGAIN
+ * (==EWOULDBLOCK), so we know not to continue writing (for non-forced output),
+ * as it'll just return EAGAIN again.
+ *
+ * Once we detect this, we watch for POLLOUT in the poller events. A
+ * POLLOUT indicates that the fd is no longer blocking, so we clear
+ * blocked mode and can continue writing.
+ */
+static void tty_set_blocked(struct tty_handler *th, bool blocked)
+{
+	int events;
+
+	if (blocked == th->blocked)
+		return;
+
+	th->blocked = blocked;
+	events = POLLIN;
+
+	if (th->blocked)
+		events |= POLLOUT;
+
+	console_poller_set_events(th->console, th->poller, events);
+}
+
 static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 {
 	size_t len, total_len;
 	ssize_t wlen;
 	uint8_t *buf;
-	int flags;
 
 	/* if we're forcing data, we need to clear non-blocking mode */
-	if (force_len) {
-		flags = fcntl(th->fd, F_GETFL, 0);
-		if (flags & O_NONBLOCK) {
-			flags &= ~O_NONBLOCK;
-			fcntl(th->fd, F_SETFL, flags);
-		}
-	}
+	if (force_len)
+		tty_set_fd_blocking(th, true);
+
+	/* no point writing, we'll just see -EAGAIN */
+	else if (th->blocked)
+		return 0;
 
 	total_len = 0;
 
@@ -71,8 +110,10 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 			if (errno == EINTR)
 				continue;
 			if ((errno == EAGAIN || errno == EWOULDBLOCK)
-					&& !force_len)
+					&& !force_len) {
+				tty_set_blocked(th, true);
 				break;
+			}
 			warn("failed writing to local tty; disabling");
 			return -1;
 		}
@@ -86,7 +127,7 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	ringbuffer_dequeue_commit(th->rbc, total_len);
 
 	if (force_len)
-		fcntl(th->fd, F_SETFL, flags | O_NONBLOCK);
+		tty_set_fd_blocking(th, false);
 
 	return 0;
 }
@@ -125,6 +166,7 @@ static enum poller_ret tty_poll(struct handler *handler,
 	}
 
 	if (events & POLLOUT) {
+		tty_set_blocked(th, false);
 		rc = tty_drain_queue(th, 0);
 		if (rc) {
 			ringbuffer_consumer_unregister(th->rbc);
@@ -159,6 +201,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	}
 
 	free(tty_path);
+	th->fd_flags = fcntl(th->fd, F_GETFL, 0);
 
 	th->console = console;
 	th->poller = console_poller_register(console, handler, tty_poll,

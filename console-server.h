@@ -75,6 +75,9 @@ struct poller *console_poller_register(struct console *console,
 
 void console_poller_unregister(struct console *console, struct poller *poller);
 
+void console_poller_set_events(struct console *console, struct poller *poller,
+		int events);
+
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
 	RINGBUFFER_POLL_OK = 0,
