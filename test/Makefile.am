@@ -3,10 +3,15 @@ check_PROGRAMS =
 # Run all 'check' test programs
 TESTS = $(check_PROGRAMS)
 
-#Build/add config-test to test suite
-check_PROGRAMS += config-test
-config_test_CPPFLAGS = -Igtest $(GTEST_CPPFLAGS) \
-	-DCONFIG_TEST -DSYSCONFDIR=\"\"
-config_test_LDFLAGS = -lgtest_main -lgtest $(PTHREAD_LIBS) $(OESDK_TESTCASE_FLAGS)
-config_test_SOURCES = config.c
-config_test_LDADD = $(top_builddir)/config.o
+check_PROGRAMS += \
+	test-ringbuffer-contained-read \
+	test-ringbuffer-contained-offset-read \
+	test-ringbuffer-read-commit \
+	test-ringbuffer-boundary-read \
+	test-ringbuffer-simple-poll \
+	test-ringbuffer-boundary-poll \
+	test-ringbuffer-poll-force
+
+EXTRA_DIST = ringbuffer-test-utils.c
+
+AM_CPPFLAGS = -I$(top_srcdir)

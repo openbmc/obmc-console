@@ -11,6 +11,7 @@ obmc_console_server_SOURCES = \
 	 console-server.c \
 	 console-server.h \
 	 util.c \
+	 ringbuffer.c \
 	 config.c \
 	 log-handler.c \
 	 socket-handler.c \
@@ -23,4 +24,4 @@ obmc_console_client_SOURCES = \
 	 console-socket.c \
 	 util.c
 
-#SUBDIRS = test
+SUBDIRS = test
