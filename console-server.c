@@ -46,6 +46,8 @@ struct console {
 	int		tty_lpc_addr;
 	int		tty_fd;
 
+	struct ringbuffer	*rb;
+
 	struct handler	**handlers;
 	int		n_handlers;
 
@@ -64,6 +66,9 @@ struct poller {
 
 /* we have one extra entry in the pollfds array for the VUART tty */
 static const int n_internal_pollfds = 1;
+
+/* size of the shared backlog ringbuffer */
+const size_t buffer_size = 128 * 1024;
 
 /* state shared with the signal handler */
 static bool sigint;
@@ -311,29 +316,11 @@ static void handlers_fini(struct console *console)
 	}
 }
 
-static int handlers_data_in(struct console *console, uint8_t *buf, size_t len)
+struct ringbuffer_consumer *console_ringbuffer_consumer_register(
+		struct console *console,
+		ringbuffer_poll_fn_t poll_fn, void *data)
 {
-	struct handler *handler;
-	int i, rc, tmp;
-
-	rc = 0;
-
-	for (i = 0; i < console->n_handlers; i++) {
-		handler = console->handlers[i];
-
-		if (!handler->active)
-			continue;
-
-		if (!handler->data_in)
-			continue;
-
-		tmp = handler->data_in(handler, buf, len);
-		if (tmp == HANDLER_EXIT)
-			rc = 1;
-	}
-
-	return rc;
-
+	return ringbuffer_consumer_register(console->rb, poll_fn, data);
 }
 
 struct poller *console_poller_register(struct console *console,
@@ -501,7 +488,7 @@ int run_console(struct console *console)
 				rc = -1;
 				break;
 			}
-			rc = handlers_data_in(console, buf, rc);
+			rc = ringbuffer_queue(console->rb, buf, rc);
 			if (rc)
 				break;
 		}
@@ -561,6 +548,7 @@ int main(int argc, char **argv)
 	memset(console, 0, sizeof(*console));
 	console->pollfds = calloc(n_internal_pollfds,
 			sizeof(*console->pollfds));
+	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);
 	if (!config) {

@@ -21,13 +21,8 @@
 struct console;
 struct config;
 
-/* handler API */
-enum {
-	HANDLER_OK = 0,
-	HANDLER_EXIT,
-};
-
-/*
+/* Handler API.
+ *
  * Console data handlers: these implement the functions that process
  * data coming out of the main tty device.
  *
@@ -35,8 +30,9 @@ enum {
  * macro. We call each handler's ->init() function at startup, and ->fini() at
  * exit.
  *
- * Incoming data from the tty will be passed to the handler through the
- * ->data_in() function. To send data to the tty, use console_data_out().
+ * Handlers will almost always want to register a ringbuffer consumer, which
+ * provides data coming from the tty. Use cosole_register_ringbuffer_consumer()
+ * for this. To send data to the tty, use console_data_out().
  *
  * If a handler needs to monitor a separate file descriptor for events, use the
  * poller API, through console_poller_register().
@@ -46,8 +42,6 @@ struct handler {
 	int		(*init)(struct handler *handler,
 				struct console *console,
 				struct config *config);
-	int		(*data_in)(struct handler *handler,
-				uint8_t *buf, size_t len);
 	void		(*fini)(struct handler *handler);
 	bool		active;
 };
@@ -107,6 +101,11 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 		uint8_t **data);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
+
+/* console wrapper around ringbuffer consumer registration */
+struct ringbuffer_consumer *console_ringbuffer_consumer_register(
+		struct console *console,
+		ringbuffer_poll_fn_t poll_fn, void *data);
 
 /* config API */
 struct config;

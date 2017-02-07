@@ -32,8 +32,6 @@
 
 #include "console-server.h"
 
-const size_t buffer_size = 128 * 1024;
-
 struct client {
 	struct socket_handler		*sh;
 	struct poller			*poller;
@@ -45,7 +43,6 @@ struct socket_handler {
 	struct handler		handler;
 	struct console		*console;
 	struct poller		*poller;
-	struct ringbuffer	*ringbuffer;
 	int			sd;
 
 	struct client		**clients;
@@ -224,7 +221,7 @@ static enum poller_ret socket_poll(struct handler *handler,
 	client->fd = fd;
 	client->poller = console_poller_register(sh->console, handler,
 			client_poll, client->fd, POLLIN, client);
-	client->rbc = ringbuffer_consumer_register(sh->ringbuffer,
+	client->rbc = console_ringbuffer_consumer_register(sh->console,
 			client_ringbuffer_poll, client);
 
 	n = sh->n_clients++;
@@ -246,12 +243,6 @@ static int socket_init(struct handler *handler, struct console *console,
 	sh->console = console;
 	sh->clients = NULL;
 	sh->n_clients = 0;
-
-	sh->ringbuffer = ringbuffer_init(buffer_size);
-	if (!sh->ringbuffer) {
-		warn("Can't allocate backlog ring buffer");
-		return -1;
-	}
 
 	sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
 	if(sh->sd < 0) {
@@ -282,13 +273,6 @@ static int socket_init(struct handler *handler, struct console *console,
 	return 0;
 }
 
-static int socket_data(struct handler *handler, uint8_t *buf, size_t len)
-{
-	struct socket_handler *sh = to_socket_handler(handler);
-	ringbuffer_queue(sh->ringbuffer, buf, len);
-	return 0;
-}
-
 static void socket_fini(struct handler *handler)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
@@ -299,9 +283,6 @@ static void socket_fini(struct handler *handler)
 	if (sh->poller)
 		console_poller_unregister(sh->console, sh->poller);
 
-	if (sh->ringbuffer)
-		ringbuffer_fini(sh->ringbuffer);
-
 	close(sh->sd);
 }
 
@@ -309,7 +290,6 @@ static struct socket_handler socket_handler = {
 	.handler = {
 		.name		= "socket",
 		.init		= socket_init,
-		.data_in	= socket_data,
 		.fini		= socket_fini,
 	},
 };
