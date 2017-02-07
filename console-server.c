@@ -336,7 +336,7 @@ static int handlers_data_in(struct console *console, uint8_t *buf, size_t len)
 
 }
 
-struct poller *console_register_poller(struct console *console,
+struct poller *console_poller_register(struct console *console,
 		struct handler *handler, poller_fn_t poller_fn,
 		int fd, int events, void *data)
 {
@@ -372,7 +372,7 @@ struct poller *console_register_poller(struct console *console,
 	return poller;
 }
 
-void console_unregister_poller(struct console *console,
+void console_poller_unregister(struct console *console,
 		struct poller *poller)
 {
 	int i;
@@ -445,7 +445,7 @@ static int call_pollers(struct console *console)
 		for (i = 0; i < console->n_pollers; i++) {
 			poller = console->pollers[i];
 			if (poller->remove) {
-				console_unregister_poller(console, poller);
+				console_poller_unregister(console, poller);
 				removed = true;
 				break;
 			}

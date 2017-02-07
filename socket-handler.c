@@ -64,7 +64,7 @@ static void client_close(struct client *client)
 
 	close(client->fd);
 	if (client->poller)
-		console_unregister_poller(sh->console, client->poller);
+		console_poller_unregister(sh->console, client->poller);
 
 	if (client->rbc)
 		ringbuffer_consumer_unregister(client->rbc);
@@ -222,7 +222,7 @@ static enum poller_ret socket_poll(struct handler *handler,
 
 	client->sh = sh;
 	client->fd = fd;
-	client->poller = console_register_poller(sh->console, handler,
+	client->poller = console_poller_register(sh->console, handler,
 			client_poll, client->fd, POLLIN, client);
 	client->rbc = ringbuffer_consumer_register(sh->ringbuffer,
 			client_ringbuffer_poll, client);
@@ -276,7 +276,7 @@ static int socket_init(struct handler *handler, struct console *console,
 		return -1;
 	}
 
-	sh->poller = console_register_poller(console, handler, socket_poll,
+	sh->poller = console_poller_register(console, handler, socket_poll,
 			sh->sd, POLLIN, NULL);
 
 	return 0;
@@ -297,7 +297,7 @@ static void socket_fini(struct handler *handler)
 		client_close(sh->clients[0]);
 
 	if (sh->poller)
-		console_unregister_poller(sh->console, sh->poller);
+		console_poller_unregister(sh->console, sh->poller);
 
 	if (sh->ringbuffer)
 		ringbuffer_fini(sh->ringbuffer);
@@ -314,5 +314,5 @@ static struct socket_handler socket_handler = {
 	},
 };
 
-console_register_handler(&socket_handler.handler);
+console_handler_register(&socket_handler.handler);
 

@@ -41,7 +41,7 @@ struct handler {
 #define __handler_name(n) __handler_  ## n
 #define  _handler_name(n) __handler_name(n)
 
-#define console_register_handler(h) \
+#define console_handler_register(h) \
 	static const \
 		__attribute__((section("handlers"))) \
 		__attribute__((used)) \
@@ -61,11 +61,11 @@ enum poller_ret {
 typedef enum poller_ret (*poller_fn_t)(struct handler *handler,
 					int revents, void *data);
 
-struct poller *console_register_poller(struct console *console,
+struct poller *console_poller_register(struct console *console,
 		struct handler *handler, poller_fn_t poller_fn,
 		int fd, int events, void *data);
 
-void console_unregister_poller(struct console *console, struct poller *poller);
+void console_poller_unregister(struct console *console, struct poller *poller);
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {

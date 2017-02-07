@@ -149,5 +149,5 @@ static struct log_handler log_handler = {
 	},
 };
 
-console_register_handler(&log_handler.handler);
+console_handler_register(&log_handler.handler);
 
