@@ -27,6 +27,20 @@ enum {
 	HANDLER_EXIT,
 };
 
+/*
+ * Console data handlers: these implement the functions that process
+ * data coming out of the main tty device.
+ *
+ * Handlers are registered at link time using the console_handler_register()
+ * macro. We call each handler's ->init() function at startup, and ->fini() at
+ * exit.
+ *
+ * Incoming data from the tty will be passed to the handler through the
+ * ->data_in() function. To send data to the tty, use console_data_out().
+ *
+ * If a handler needs to monitor a separate file descriptor for events, use the
+ * poller API, through console_poller_register().
+ */
 struct handler {
 	const char	*name;
 	int		(*init)(struct handler *handler,
