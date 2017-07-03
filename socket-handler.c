@@ -282,7 +282,9 @@ static int socket_init(struct handler *handler, struct console *console,
 	addr.sun_family = AF_UNIX;
 	memcpy(&addr.sun_path, &console_socket_path, console_socket_path_len);
 
-	rc = bind(sh->sd, (struct sockaddr *)&addr, sizeof(addr));
+	rc = bind(sh->sd, (struct sockaddr *)&addr,
+			offsetof(struct sockaddr_un, sun_path) +
+			console_socket_path_len);
 	if (rc) {
 		warn("Can't bind to socket path %s",
 				console_socket_path_readable);

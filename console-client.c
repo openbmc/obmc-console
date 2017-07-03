@@ -173,7 +173,8 @@ static int client_init(struct console_client *client)
 	memcpy(&addr.sun_path, &console_socket_path, console_socket_path_len);
 
 	rc = connect(client->console_sd, (struct sockaddr *)&addr,
-			sizeof(addr));
+			offsetof(struct sockaddr_un, sun_path) +
+			console_socket_path_len);
 	if (rc) {
 		warn("Can't connect to console server");
 		close(client->console_sd);
