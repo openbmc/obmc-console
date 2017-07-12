@@ -163,11 +163,8 @@ static enum poller_ret tty_poll(struct handler *handler,
 
 	if (events & POLLIN) {
 		len = read(th->fd, buf, sizeof(buf));
-		if (len <= 0) {
-			th->poller = NULL;
-			close(th->fd);
-			return POLLER_REMOVE;
-		}
+		if (len <= 0)
+			goto err;
 
 		console_data_out(th->console, buf, len);
 	}
@@ -175,13 +172,17 @@ static enum poller_ret tty_poll(struct handler *handler,
 	if (events & POLLOUT) {
 		tty_set_blocked(th, false);
 		rc = tty_drain_queue(th, 0);
-		if (rc) {
-			ringbuffer_consumer_unregister(th->rbc);
-			return POLLER_REMOVE;
-		}
+		if (rc)
+			goto err;
 	}
 
 	return POLLER_OK;
+
+err:
+	th->poller = NULL;
+	close(th->fd);
+	ringbuffer_consumer_unregister(th->rbc);
+	return POLLER_REMOVE;
 }
 
 static int baud_string_to_speed(speed_t *speed, const char *baud_string) {
