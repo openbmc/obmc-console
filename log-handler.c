@@ -42,7 +42,10 @@ struct log_handler {
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
 
-static const size_t logsize = 16 * 1024;
+/* Default logsize to 16KB.
+ * Can be between 1 and 1024KB configured through commandline parameters.
+ */
+size_t logsize_KB = 16;
 
 static struct log_handler *to_log_handler(struct handler *handler)
 {
@@ -136,7 +139,7 @@ static int log_init(struct handler *handler, struct console *console,
 	int rc;
 
 	lh->console = console;
-	lh->maxsize = logsize;
+	lh->maxsize = logsize_KB;
 	lh->pagesize = 4096;
 	lh->size = 0;
 

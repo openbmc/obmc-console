@@ -80,6 +80,7 @@ static void usage(const char *progname)
 "\n"
 "Options:\n"
 "  --config <FILE>  Use FILE for configuration\n"
+"  --logsize <SIZE_KB>  Optional. Configure log size in KB (1-1024)\n"
 "",
 		progname);
 }
@@ -520,6 +521,7 @@ int run_console(struct console *console)
 }
 static const struct option options[] = {
 	{ "config",	required_argument,	0, 'c'},
+	{ "logsize",	required_argument,	0, 's'},
 	{ 0,  0, 0, 0},
 };
 
@@ -529,6 +531,7 @@ int main(int argc, char **argv)
 	const char *config_tty_kname = NULL;
 	struct console *console;
 	struct config *config;
+	size_t logsize_input;
 	int rc;
 
 	rc = -1;
@@ -536,13 +539,28 @@ int main(int argc, char **argv)
 	for (;;) {
 		int c, idx;
 
-		c = getopt_long(argc, argv, "c:", options, &idx);
+		c = getopt_long(argc, argv, "c:s:", options, &idx);
 		if (c == -1)
 			break;
 
 		switch (c) {
 		case 'c':
 			config_filename = optarg;
+			break;
+		case 's':
+			logsize_input = strtoul(optarg, NULL, 0);
+			if (logsize_input == 0 || errno == ERANGE) {
+				fprintf(stderr, "Invalid log size\n");
+				break;
+			}
+			if (logsize_input > 1024) {
+				fprintf(stderr,
+					"Log size %zu clamped to 1024KB\n",
+					logsize_input);
+				logsize_input = 1024;
+			}
+			printf("Configured log size %zu KB\n", logsize_KB);
+			logsize_KB = logsize_input;
 			break;
 		case 'h':
 		case '?':

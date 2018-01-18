@@ -121,6 +121,9 @@ extern const char *console_socket_path;
 extern const size_t console_socket_path_len;
 extern const char *console_socket_path_readable;
 
+/* log size in KB. */
+extern size_t logsize_KB;
+
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 
