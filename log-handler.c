@@ -42,8 +42,6 @@ struct log_handler {
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
 
-static const size_t logsize = 16 * 1024;
-
 static struct log_handler *to_log_handler(struct handler *handler)
 {
 	return container_of(handler, struct log_handler, handler);
@@ -136,7 +134,7 @@ static int log_init(struct handler *handler, struct console *console,
 	int rc;
 
 	lh->console = console;
-	lh->maxsize = logsize;
+	lh->maxsize = console_get_logsize(console);
 	lh->pagesize = 4096;
 	lh->size = 0;
 

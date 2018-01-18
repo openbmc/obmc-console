@@ -55,6 +55,8 @@ struct console {
 	int		n_pollers;
 
 	struct pollfd	*pollfds;
+
+	size_t logsize;
 };
 
 struct poller {
@@ -80,6 +82,7 @@ static void usage(const char *progname)
 "\n"
 "Options:\n"
 "  --config <FILE>  Use FILE for configuration\n"
+"  --logsizeKB <SIZE_KB>  Configure log size in KB (1-1024). Default is 16KB.\n"
 "",
 		progname);
 }
@@ -518,8 +521,14 @@ int run_console(struct console *console)
 
 	return rc ? -1 : 0;
 }
+
+size_t console_get_logsize(struct console *console) {
+	return console->logsize;
+}
+
 static const struct option options[] = {
 	{ "config",	required_argument,	0, 'c'},
+	{ "logsizeKB",	required_argument,	0, 's'},
 	{ 0,  0, 0, 0},
 };
 
@@ -529,6 +538,7 @@ int main(int argc, char **argv)
 	const char *config_tty_kname = NULL;
 	struct console *console;
 	struct config *config;
+	size_t logsizeKB = 0;
 	int rc;
 
 	rc = -1;
@@ -536,13 +546,20 @@ int main(int argc, char **argv)
 	for (;;) {
 		int c, idx;
 
-		c = getopt_long(argc, argv, "c:", options, &idx);
+		c = getopt_long(argc, argv, "c:s:", options, &idx);
 		if (c == -1)
 			break;
 
 		switch (c) {
 		case 'c':
 			config_filename = optarg;
+			break;
+		case 's':
+			logsizeKB = strtoul(optarg, NULL, 0);
+			if (logsizeKB == 0 || errno == ERANGE) {
+				fprintf(stderr, "Invalid log size\n");
+				break;
+			}
 			break;
 		case 'h':
 		case '?':
@@ -561,6 +578,17 @@ int main(int argc, char **argv)
 
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
+
+	if (logsizeKB == 0)
+		logsizeKB = 16;
+	else if (logsizeKB > 1024) {
+		fprintf(stderr, "Log size %zu clamped to 1024KB\n",
+			logsizeKB);
+		logsizeKB = 1024;
+	}
+	printf("Configure log size to be %zu KB\n", logsizeKB);
+	console->logsize = logsizeKB * 1024;
+
 	console->pollfds = calloc(n_internal_pollfds,
 			sizeof(*console->pollfds));
 	console->rb = ringbuffer_init(buffer_size);
