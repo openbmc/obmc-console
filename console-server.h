@@ -56,6 +56,7 @@ struct handler {
 		struct handler * _handler_name(__COUNTER__) = h;
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
+size_t console_get_logsize(struct console *console);
 
 /* poller API */
 struct poller;
