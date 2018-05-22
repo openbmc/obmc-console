@@ -1,0 +1,9 @@
+Code-Review+1: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Code-Review+1: Andrew Jeffery <andrew@aj.id.au>
+Code-Review+2: Joel Stanley <joel@jms.id.au>
+Verified+1: Joel Stanley <joel@jms.id.au>
+Submitted-by: Joel Stanley <joel@jms.id.au>
+Submitted-at: Tue, 22 May 2018 02:32:41 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/10664
+Project: openbmc/obmc-console
+Branch: refs/heads/master
