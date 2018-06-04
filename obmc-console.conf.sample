@@ -2,5 +2,8 @@
 lpc-address = 0x3f8
 sirq = 4
 
+# For real UART devices, we can specify the baud rate
+# baud = 115200
+
 # To mirror to a local tty device (typically a hardware UART), set local-tty
 # local-tty = ttyS0

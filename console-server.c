@@ -44,6 +44,7 @@ struct console {
 	char		*tty_dev;
 	int		tty_sirq;
 	int		tty_lpc_addr;
+	speed_t		tty_baud;
 	int		tty_fd;
 
 	struct ringbuffer	*rb;
@@ -187,8 +188,7 @@ out_free:
 }
 
 /**
- * Set console to raw mode: we don't want any processing to occur on
- * the underlying terminal input/output.
+ * Set termios attributes on the console tty.
  */
 static void tty_init_termios(struct console *console)
 {
@@ -201,10 +201,19 @@ static void tty_init_termios(struct console *console)
 		return;
 	}
 
+	if (console->tty_baud) {
+		if (cfsetspeed(&termios, console->tty_baud) < 0)
+			warn("Couldn't set speeds for %s", console->tty_kname);
+	}
+
+	/* Set console to raw mode: we don't want any processing to occur on
+	 * the underlying terminal input/output.
+	 */
 	cfmakeraw(&termios);
+
 	rc = tcsetattr(console->tty_fd, TCSANOW, &termios);
 	if (rc)
-		warn("Can't set terminal raw mode for tty");
+		warn("Can't set terminal options for %s", console->tty_kname);
 }
 
 /**
@@ -257,6 +266,12 @@ static int tty_init(struct console *console, struct config *config)
 		console->tty_sirq = strtoul(val, &endp, 0);
 		if (endp == optarg)
 			warn("Invalid sirq: '%s'", val);
+	}
+
+	val = config_get_value(config, "baud");
+	if (val) {
+		if(config_parse_baud(&console->tty_baud, val))
+			warnx("Invalid baud rate: '%s'", val);
 	}
 
 	if (!console->tty_kname) {
