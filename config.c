@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+#include <ctype.h>
 #include <err.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -210,6 +212,64 @@ int config_parse_baud(speed_t *speed, const char *baud_string) {
 		}
 	}
 	return -1;
+}
+
+int config_parse_logsize(const char *size_str, size_t *size)
+{
+	struct size_suffix_shift {
+		/* Left shiftwidth corresponding to the suffix. */
+		size_t	shiftwidth;
+		int	unit;
+	};
+
+	const struct size_suffix_shift suffixes[] = {
+		{ 10, 'k' },
+		{ 20, 'M' },
+		{ 30, 'G' },
+	};
+	const size_t num_suffixes = sizeof(suffixes) /
+				    sizeof(struct size_suffix_shift);
+	size_t logsize;
+	char *suffix;
+	size_t i;
+
+	if (!size_str)
+		return -1;
+
+	logsize = strtoul(size_str, &suffix, 0);
+	if (logsize == 0 || logsize >= UINT32_MAX || suffix == size_str)
+		return -1;
+
+	/* Ignore spaces between number and suffix */
+	while (*suffix && isspace(*suffix))
+		suffix++;
+
+	for (i = 0; i < num_suffixes; i++) {
+		if (*suffix == suffixes[i].unit) {
+			/*
+			 * If logsize overflows, probably something was wrong.
+			 * Return instead of clamping to an arbitrary value.
+			 */
+			if (logsize > (UINT32_MAX >> suffixes[i].shiftwidth))
+				return -1;
+
+			logsize <<= suffixes[i].shiftwidth;
+			suffix++;
+			break;
+		}
+	}
+
+	/* Allow suffix like 'kB' */
+	while (*suffix && (tolower(*suffix) == 'b' || isspace(*suffix)))
+		suffix++;
+
+	if (*suffix) {
+		warn("Invalid suffix!");
+		return -1;
+	}
+
+	*size = logsize;
+	return 0;
 }
 
 #ifdef CONFIG_TEST
