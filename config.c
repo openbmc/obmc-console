@@ -15,7 +15,9 @@
  */
 
 #include <err.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <limits.h> /* for ULONG_MAX */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -210,6 +212,56 @@ int config_parse_baud(speed_t *speed, const char *baud_string) {
 		}
 	}
 	return -1;
+}
+
+struct size_suffix_shift {
+	/* Left shiftwidth corresponding to the suffix. */
+	size_t		shiftwidth;
+	const char	*name;
+};
+
+int config_parse_logsize(const char *size_str, size_t *size)
+{
+	const struct size_suffix_shift suffixes[] = {
+		{ 0, "B" },
+		{ 10, "k" },
+		{ 10, "kB" },
+		{ 20, "M" },
+		{ 20, "MB" },
+		{ 30, "G" },
+		{ 30, "GB" },
+	};
+	const size_t num_suffixes = sizeof(suffixes) /
+				    sizeof(struct size_suffix_shift);
+	size_t logsize;
+	char *suffix;
+	size_t i;
+
+	if (!size_str)
+		return -1;
+
+	logsize = strtoul(size_str, &suffix, 0);
+	if ((logsize == ULONG_MAX && errno == ERANGE) ||
+	    logsize == 0 ||
+	    errno == EINVAL)
+		return -1;
+
+	for (i = 0; i < num_suffixes; i++) {
+		if (strcmp(suffix, suffixes[i].name) == 0) {
+			/*
+			 * If logsize overflows, probably something was wrong.
+			 * Return instead of clamping to an arbitrary value.
+			 */
+			if (logsize > (SIZE_MAX >> suffixes[i].shiftwidth))
+				return -1;
+
+			logsize <<= suffixes[i].shiftwidth;
+			break;
+		}
+	}
+
+	*size = logsize;
+	return 0;
 }
 
 #ifdef CONFIG_TEST

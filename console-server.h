@@ -118,6 +118,7 @@ struct config *config_init(const char *filename);
 void config_fini(struct config *config);
 
 int config_parse_baud(speed_t *speed, const char *baud_string);
+int config_parse_logsize(const char *size_str, size_t *size);
 
 /* socket paths */
 extern const char *console_socket_path;
