@@ -41,8 +41,7 @@ struct log_handler {
 
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
-
-static const size_t logsize = 16 * 1024;
+static const size_t default_logsize = 16 * 1024;
 
 static struct log_handler *to_log_handler(struct handler *handler)
 {
@@ -129,16 +128,24 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
 }
 
 static int log_init(struct handler *handler, struct console *console,
-		struct config *config __attribute__((unused)))
+		struct config *config)
 {
 	struct log_handler *lh = to_log_handler(handler);
-	const char *filename;
+	const char *filename, *logsize_str;
+	size_t logsize;
 	int rc;
 
 	lh->console = console;
-	lh->maxsize = logsize;
 	lh->pagesize = 4096;
 	lh->size = 0;
+
+	logsize_str = config_get_value(config, "logsize");
+	rc = config_parse_logsize(logsize_str, &logsize);
+	if (logsize_str != NULL && rc) {
+		logsize = default_logsize;
+		warn("Invalid logsize. Default to %ldkB", logsize >> 10);
+	}
+	lh->maxsize = logsize <= lh->pagesize ? lh->pagesize + 1 : logsize;
 
 	filename = config_get_value(config, "logfile");
 	if (!filename)
