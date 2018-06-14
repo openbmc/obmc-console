@@ -7,3 +7,9 @@ sirq = 4
 
 # To mirror to a local tty device (typically a hardware UART), set local-tty
 # local-tty = ttyS0
+
+# Specify log size. Default is 16kB if unset. Takes the following suffixes:
+#   No suffix: byte
+#   "k": kilobyte = 1024B
+#   "M": megabytes = 1024kB
+# logsize = 128k
