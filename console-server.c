@@ -533,6 +533,7 @@ int run_console(struct console *console)
 
 	return rc ? -1 : 0;
 }
+
 static const struct option options[] = {
 	{ "config",	required_argument,	0, 'c'},
 	{ 0,  0, 0, 0},
