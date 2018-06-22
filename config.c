@@ -265,10 +265,70 @@ int config_parse_logsize(const char *size_str, size_t *size)
 }
 
 #ifdef CONFIG_TEST
+struct test_parse_size_unit {
+	const char	*test_str;
+	size_t		expected_size;
+	int		expected_rc;
+};
+
+static int test_config_parse_logsize(void)
+{
+	const struct test_parse_size_unit test_data[] = {
+		{"0",		0,		-1},
+		{"1",		1,		0},
+		{"2B",		2,		0},
+		{"3B ",		3,		0},
+		{"4k",		4*1024,		0},
+		{"5kB",		5*1024,		0},
+		{"6M",		6*1024*1024,	0},
+		{"7MB",		7*1024*1024,	0},
+		{"4095M",	(4095ul << 20),	0},
+		{"2G",		(2ul << 30),	0},
+		{"-123",	ULONG_MAX - 122,0},	/* Negative */
+		{"8M\n",	8,		0},	/* Suffix ignored */
+		{"11T",		11,		0},	/* Suffix ignored */
+		{"9G",		0,		-1},	/* Overflow */
+		{"4294967296",	0,		-1},	/* Overflow */
+		{"4096M",	0,		-1},	/* Overflow */
+		{"65535M",	0,		-1},	/* Overflow */
+		{"xyz",		0,		-1},	/* Invalid */
+		{"000",		0,		-1},	/* Invalid */
+		{"0.1",		0,		-1},	/* Invalid */
+	};
+	const size_t num_tests = sizeof(test_data) /
+		sizeof(struct test_parse_size_unit);
+	size_t size;
+	int i, rc;
+
+	printf("Testing parsing log size string!\n");
+
+	for (i = 0; i < num_tests; i++) {
+		rc = config_parse_logsize(test_data[i].test_str, &size);
+		if ((rc == -1 && rc != test_data[i].expected_rc) ||
+		    (rc == 0 && test_data[i].expected_size != size)) {
+			warn("[%d] Str %s expected size %lu rc %d,"
+                             " got size %lu rc %d\n",
+			     i,
+			     test_data[i].test_str,
+			     test_data[i].expected_size,
+			     test_data[i].expected_rc,
+			     size,
+			     rc);
+		}
+	}
+
+	return 0;
+}
+
 int main(void)
 {
 	struct config_item *item;
 	struct config *config;
+
+	if (test_config_parse_logsize())
+		printf("SUCCESS\n");
+	else
+		printf("FAIL\n");
 
 	config = config_init_fd(STDIN_FILENO, "<stdin>");
 	if (!config)
