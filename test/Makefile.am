@@ -10,8 +10,10 @@ check_PROGRAMS += \
 	test-ringbuffer-boundary-read \
 	test-ringbuffer-simple-poll \
 	test-ringbuffer-boundary-poll \
-	test-ringbuffer-poll-force
+	test-ringbuffer-poll-force \
+	test-config-parse-logsize
 
 EXTRA_DIST = ringbuffer-test-utils.c
 
 AM_CPPFLAGS = -I$(top_srcdir)
+AM_LDFLAGS = $(GTEST_LIBS) $(PTHREAD_LIBS) $(OESDK_TESTCASE_FLAGS)
