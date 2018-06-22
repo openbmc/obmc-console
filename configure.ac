@@ -30,7 +30,7 @@ AC_ARG_ENABLE([oe-sdk],
 )
 AC_ARG_VAR(OECORE_TARGET_SYSROOT,
     [Path to the OE SDK SYSROOT])
-AS_IF([test "x$enable_oe-sdk" == "xyes"],
+AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AS_IF([test "x$OECORE_TARGET_SYSROOT" == "x"],
           AC_MSG_ERROR([OECORE_TARGET_SYSROOT must be set with --enable-oe-sdk])
     )
