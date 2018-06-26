@@ -80,7 +80,7 @@ struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
 
 	n = rb->n_consumers++;
 	rb->consumers = realloc(rb->consumers,
-			sizeof(*rb->consumers) * rb->n_consumers);
+				sizeof(*rb->consumers) * rb->n_consumers);
 	rb->consumers[n] = rbc;
 
 	return rbc;
@@ -100,10 +100,10 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	rb->n_consumers--;
 
 	memmove(&rb->consumers[i], &rb->consumers[i+1],
-			sizeof(*rb->consumers)	* (rb->n_consumers - i));
+		sizeof(*rb->consumers)	* (rb->n_consumers - i));
 
 	rb->consumers = realloc(rb->consumers,
-			sizeof(*rb->consumers) * rb->n_consumers);
+				sizeof(*rb->consumers) * rb->n_consumers);
 
 	free(rbc);
 }
@@ -122,7 +122,7 @@ static size_t ringbuffer_space(struct ringbuffer_consumer *rbc)
 }
 
 static int ringbuffer_consumer_ensure_space(
-		struct ringbuffer_consumer *rbc, size_t len)
+	struct ringbuffer_consumer *rbc, size_t len)
 {
 	enum ringbuffer_poll_ret prc;
 	int force_len;
@@ -193,7 +193,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 }
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data)
+			       uint8_t **data)
 {
 	struct ringbuffer *rb = rbc->rb;
 	size_t pos;

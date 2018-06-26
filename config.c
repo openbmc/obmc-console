@@ -60,10 +60,10 @@ static void config_parse(struct config *config, char *buf)
 	int rc;
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
-			line = strtok_r(NULL, "\n", &p)) {
+	     line = strtok_r(NULL, "\n", &p)) {
 
 		/* trim leading space */
-		for (;*line == ' ' || *line == '\t'; line++)
+		for (; *line == ' ' || *line == '\t'; line++)
 			;
 
 		/* skip comments */
@@ -168,7 +168,8 @@ struct terminal_speed_name {
 	const char	*name;
 };
 
-int config_parse_baud(speed_t *speed, const char *baud_string) {
+int config_parse_baud(speed_t *speed, const char *baud_string)
+{
 	const struct terminal_speed_name terminal_speeds[] = {
 		{ B50, "50" },
 		{ B75, "75" },
@@ -202,7 +203,7 @@ int config_parse_baud(speed_t *speed, const char *baud_string) {
 		{ B4000000, "4000000" },
 	};
 	const size_t num_terminal_speeds = sizeof(terminal_speeds) /
-		sizeof(struct terminal_speed_name);
+					   sizeof(struct terminal_speed_name);
 	size_t i;
 
 	for (i = 0; i < num_terminal_speeds; i++) {

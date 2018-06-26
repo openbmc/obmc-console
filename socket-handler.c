@@ -78,9 +78,9 @@ static void client_close(struct client *client)
 
 	sh->n_clients--;
 	memmove(&sh->clients[idx], &sh->clients[idx+1],
-			sizeof(*sh->clients) * (sh->n_clients - idx));
+		sizeof(*sh->clients) * (sh->n_clients - idx));
 	sh->clients = realloc(sh->clients,
-			sizeof(*sh->clients) * sh->n_clients);
+			      sizeof(*sh->clients) * sh->n_clients);
 }
 
 static void client_set_blocked(struct client *client, bool blocked)
@@ -100,7 +100,7 @@ static void client_set_blocked(struct client *client, bool blocked)
 }
 
 static ssize_t send_all(struct client *client, void *buf,
-		size_t len, bool block)
+			size_t len, bool block)
 {
 	int fd, rc, flags;
 	size_t pos;
@@ -115,7 +115,7 @@ static ssize_t send_all(struct client *client, void *buf,
 		rc = send(fd, buf + pos, len - pos, flags);
 		if (rc < 0) {
 			if (!block && (errno == EAGAIN ||
-						errno == EWOULDBLOCK)) {
+				       errno == EWOULDBLOCK)) {
 				client_set_blocked(client, true);
 				break;
 			}
@@ -192,7 +192,7 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 }
 
 static enum poller_ret client_poll(struct handler *handler,
-		int events, void *data)
+				   int events, void *data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client = data;
@@ -229,7 +229,7 @@ err_close:
 }
 
 static enum poller_ret socket_poll(struct handler *handler,
-		int events, void __attribute__((unused)) *data)
+				   int events, void __attribute__((unused)) *data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client;
@@ -248,13 +248,13 @@ static enum poller_ret socket_poll(struct handler *handler,
 	client->sh = sh;
 	client->fd = fd;
 	client->poller = console_poller_register(sh->console, handler,
-			client_poll, client->fd, POLLIN, client);
+			 client_poll, client->fd, POLLIN, client);
 	client->rbc = console_ringbuffer_consumer_register(sh->console,
 			client_ringbuffer_poll, client);
 
 	n = sh->n_clients++;
 	sh->clients = realloc(sh->clients,
-			sizeof(*sh->clients) * sh->n_clients);
+			      sizeof(*sh->clients) * sh->n_clients);
 	sh->clients[n] = client;
 
 	return POLLER_OK;
@@ -262,7 +262,7 @@ static enum poller_ret socket_poll(struct handler *handler,
 }
 
 static int socket_init(struct handler *handler, struct console *console,
-		struct config *config __attribute__((unused)))
+		       struct config *config __attribute__((unused)))
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct sockaddr_un addr;
@@ -285,7 +285,7 @@ static int socket_init(struct handler *handler, struct console *console,
 	rc = bind(sh->sd, (struct sockaddr *)&addr, sizeof(addr));
 	if (rc) {
 		warn("Can't bind to socket path %s",
-				console_socket_path_readable);
+		     console_socket_path_readable);
 		return -1;
 	}
 
@@ -296,7 +296,7 @@ static int socket_init(struct handler *handler, struct console *console,
 	}
 
 	sh->poller = console_poller_register(console, handler, socket_poll,
-			sh->sd, POLLIN, NULL);
+					     sh->sd, POLLIN, NULL);
 
 	return 0;
 }

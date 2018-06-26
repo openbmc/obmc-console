@@ -37,7 +37,7 @@ void test_config_parse_logsize(void)
 		{"0.1",		0,		-1},	/* Invalid */
 	};
 	const size_t num_tests = sizeof(test_data) /
-		sizeof(struct test_parse_size_unit);
+				 sizeof(struct test_parse_size_unit);
 	size_t size;
 	int i, rc;
 
