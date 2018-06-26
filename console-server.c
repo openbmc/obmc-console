@@ -77,11 +77,11 @@ static bool sigint;
 static void usage(const char *progname)
 {
 	fprintf(stderr,
-"usage: %s [options] <DEVICE>\n"
-"\n"
-"Options:\n"
-"  --config <FILE>  Use FILE for configuration\n"
-"",
+		"usage: %s [options] <DEVICE>\n"
+		"\n"
+		"Options:\n"
+		"  --config <FILE>  Use FILE for configuration\n"
+		"",
 		progname);
 }
 
@@ -121,7 +121,7 @@ static int tty_find_device(struct console *console)
 	}
 
 	rc = asprintf(&tty_class_device_link,
-			"/sys/class/tty/%s", tty_kname_real);
+		      "/sys/class/tty/%s", tty_kname_real);
 	if (rc < 0)
 		goto out_free;
 
@@ -155,7 +155,7 @@ out_free:
 }
 
 static int tty_set_sysfs_attr(struct console *console, const char *name,
-		int value)
+			      int value)
 {
 	char *path;
 	FILE *fp;
@@ -168,7 +168,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	fp = fopen(path, "w");
 	if (!fp) {
 		warn("Can't access attribute %s on device %s",
-				name, console->tty_kname);
+		     name, console->tty_kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -177,7 +177,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	rc = fprintf(fp, "0x%x", value);
 	if (rc < 0)
 		warn("Error writing to %s attribute of device %s",
-				name, console->tty_kname);
+		     name, console->tty_kname);
 	fclose(fp);
 
 
@@ -225,7 +225,7 @@ static int tty_init_io(struct console *console)
 		tty_set_sysfs_attr(console, "sirq", console->tty_sirq);
 	if (console->tty_lpc_addr)
 		tty_set_sysfs_attr(console, "lpc_address",
-				console->tty_lpc_addr);
+				   console->tty_lpc_addr);
 
 	console->tty_fd = open(console->tty_dev, O_RDWR);
 	if (console->tty_fd <= 0) {
@@ -303,7 +303,7 @@ static void handlers_init(struct console *console, struct config *config)
 	console->handlers = &__start_handlers;
 
 	printf("%d handler%s\n", console->n_handlers,
-			console->n_handlers == 1 ? "" : "s");
+	       console->n_handlers == 1 ? "" : "s");
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
@@ -315,7 +315,7 @@ static void handlers_init(struct console *console, struct config *config)
 		handler->active = rc == 0;
 
 		printf("  %s [%sactive]\n", handler->name,
-				handler->active ? "" : "in");
+		       handler->active ? "" : "in");
 	}
 }
 
@@ -332,15 +332,15 @@ static void handlers_fini(struct console *console)
 }
 
 struct ringbuffer_consumer *console_ringbuffer_consumer_register(
-		struct console *console,
-		ringbuffer_poll_fn_t poll_fn, void *data)
+	struct console *console,
+	ringbuffer_poll_fn_t poll_fn, void *data)
 {
 	return ringbuffer_consumer_register(console->rb, poll_fn, data);
 }
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_fn_t poller_fn,
-		int fd, int events, void *data)
+				       struct handler *handler, poller_fn_t poller_fn,
+				       int fd, int events, void *data)
 {
 	struct poller *poller;
 	int n;
@@ -354,19 +354,19 @@ struct poller *console_poller_register(struct console *console,
 	/* add one to our pollers array */
 	n = console->n_pollers++;
 	console->pollers = realloc(console->pollers,
-			sizeof(*console->pollers) * console->n_pollers);
+				   sizeof(*console->pollers) * console->n_pollers);
 
 	console->pollers[n] = poller;
 
 	/* increase pollfds array too  */
 	console->pollfds = realloc(console->pollfds,
-			sizeof(*console->pollfds) *
-				(n_internal_pollfds + console->n_pollers));
+				   sizeof(*console->pollfds) *
+				   (n_internal_pollfds + console->n_pollers));
 
 	/* shift the end pollfds up by one */
 	memcpy(&console->pollfds[n+n_internal_pollfds],
-			&console->pollfds[n],
-			sizeof(*console->pollfds) * n_internal_pollfds);
+	       &console->pollfds[n],
+	       sizeof(*console->pollfds) * n_internal_pollfds);
 
 	console->pollfds[n].fd = fd;
 	console->pollfds[n].events = events;
@@ -375,7 +375,7 @@ struct poller *console_poller_register(struct console *console,
 }
 
 void console_poller_unregister(struct console *console,
-		struct poller *poller)
+			       struct poller *poller)
 {
 	int i;
 
@@ -390,27 +390,27 @@ void console_poller_unregister(struct console *console,
 
 	/* remove the item from the pollers array... */
 	memmove(&console->pollers[i], &console->pollers[i+1],
-			sizeof(*console->pollers)
-				* (console->n_pollers - i));
+		sizeof(*console->pollers)
+		* (console->n_pollers - i));
 
 	console->pollers = realloc(console->pollers,
-			sizeof(*console->pollers) * console->n_pollers);
+				   sizeof(*console->pollers) * console->n_pollers);
 
 	/* ... and the pollfds array */
 	memmove(&console->pollfds[i], &console->pollfds[i+1],
-			sizeof(*console->pollfds) *
-				(n_internal_pollfds + console->n_pollers - i));
+		sizeof(*console->pollfds) *
+		(n_internal_pollfds + console->n_pollers - i));
 
 	console->pollfds = realloc(console->pollfds,
-			sizeof(*console->pollfds) *
-				(n_internal_pollfds + console->n_pollers));
+				   sizeof(*console->pollfds) *
+				   (n_internal_pollfds + console->n_pollers));
 
 
 	free(poller);
 }
 
 void console_poller_set_events(struct console *console, struct poller *poller,
-		int events)
+			       int events)
 {
 	int i;
 
@@ -443,7 +443,7 @@ static int call_pollers(struct console *console)
 			continue;
 
 		prc = poller->fn(poller->handler, pollfd->revents,
-				poller->data);
+				 poller->data);
 		if (prc == POLLER_EXIT)
 			rc = -1;
 		else if (prc == POLLER_REMOVE)
@@ -498,7 +498,7 @@ int run_console(struct console *console)
 		}
 
 		rc = poll(console->pollfds,
-				console->n_pollers + n_internal_pollfds, -1);
+			  console->n_pollers + n_internal_pollfds, -1);
 		if (rc < 0) {
 			if (errno == EINTR) {
 				continue;
@@ -577,7 +577,7 @@ int main(int argc, char **argv)
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
 	console->pollfds = calloc(n_internal_pollfds,
-			sizeof(*console->pollfds));
+				  sizeof(*console->pollfds));
 	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);

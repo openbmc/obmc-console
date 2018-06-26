@@ -80,8 +80,8 @@ static enum process_rc process_tty(struct console_client *client)
 				/* flush out any data before the escape */
 				if (i > client->esc_str_pos)
 					write_buf_to_fd(client->console_sd,
-						buf,
-						i - client->esc_str_pos);
+							buf,
+							i - client->esc_str_pos);
 
 				return PROCESS_EXIT;
 			}
@@ -97,7 +97,7 @@ static enum process_rc process_tty(struct console_client *client)
 	}
 
 	rc = write_buf_to_fd(client->console_sd, buf,
-			len - client->esc_str_pos);
+			     len - client->esc_str_pos);
 	if (rc < 0)
 		return PROCESS_ERR;
 
@@ -173,7 +173,7 @@ static int client_init(struct console_client *client)
 	memcpy(&addr.sun_path, &console_socket_path, console_socket_path_len);
 
 	rc = connect(client->console_sd, (struct sockaddr *)&addr,
-			sizeof(addr));
+		     sizeof(addr));
 	if (rc) {
 		warn("Can't connect to console server");
 		close(client->console_sd);

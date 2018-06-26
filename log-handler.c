@@ -128,7 +128,7 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
 }
 
 static int log_init(struct handler *handler, struct console *console,
-		struct config *config)
+		    struct config *config)
 {
 	struct log_handler *lh = to_log_handler(handler);
 	const char *filename, *logsize_str;
