@@ -18,7 +18,7 @@ void test_simple_poll(void)
 
 	rb = ringbuffer_init(10);
 	ctx->rbc = ringbuffer_consumer_register(rb,
-			ringbuffer_poll_append_all, ctx);
+						ringbuffer_poll_append_all, ctx);
 
 	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf));
 	assert(!rc);
