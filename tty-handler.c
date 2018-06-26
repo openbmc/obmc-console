@@ -112,7 +112,7 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 			if (errno == EINTR)
 				continue;
 			if ((errno == EAGAIN || errno == EWOULDBLOCK)
-					&& !force_len) {
+			    && !force_len) {
 				tty_set_blocked(th, true);
 				break;
 			}
@@ -149,7 +149,7 @@ static enum ringbuffer_poll_ret tty_ringbuffer_poll(void *arg, size_t force_len)
 }
 
 static enum poller_ret tty_poll(struct handler *handler,
-		int events, void __attribute__((unused)) *data)
+				int events, void __attribute__((unused)) *data)
 {
 	struct tty_handler *th = to_tty_handler(handler);
 	uint8_t buf[4096];
@@ -181,13 +181,14 @@ err:
 }
 
 static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
-		const char *desired_baud) {
+			     const char *desired_baud)
+{
 	struct termios term_options;
 	speed_t speed;
 
 	if (config_parse_baud(&speed, desired_baud) != 0) {
 		fprintf(stderr, "%s is not a valid baud rate for terminal %s\n",
-				desired_baud, tty_name);
+			desired_baud, tty_name);
 		return -1;
 	}
 
@@ -210,7 +211,8 @@ static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
 	return 0;
 }
 
-static int make_terminal_raw(struct tty_handler *th, const char *tty_name) {
+static int make_terminal_raw(struct tty_handler *th, const char *tty_name)
+{
 	struct termios term_options;
 
 	if (tcgetattr(th->fd, &term_options) < 0) {
@@ -233,7 +235,7 @@ static int make_terminal_raw(struct tty_handler *th, const char *tty_name) {
 }
 
 static int tty_init(struct handler *handler, struct console *console,
-		struct config *config __attribute__((unused)))
+		    struct config *config __attribute__((unused)))
 {
 	struct tty_handler *th = to_tty_handler(handler);
 	const char *tty_name;
@@ -263,13 +265,13 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (tty_baud != NULL)
 		if (set_terminal_baud(th, tty_name, tty_baud) != 0)
 			fprintf(stderr, "Couldn't set baud rate for %s to %s\n",
-					tty_name, tty_baud);
+				tty_name, tty_baud);
 
 	if (make_terminal_raw(th, tty_name) != 0)
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
 
 	th->poller = console_poller_register(console, handler, tty_poll,
-			th->fd, POLLIN, NULL);
+					     th->fd, POLLIN, NULL);
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
 			tty_ringbuffer_poll, th);
