@@ -68,16 +68,16 @@ enum poller_ret {
 };
 
 typedef enum poller_ret (*poller_fn_t)(struct handler *handler,
-					int revents, void *data);
+				       int revents, void *data);
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_fn_t poller_fn,
-		int fd, int events, void *data);
+				       struct handler *handler, poller_fn_t poller_fn,
+				       int fd, int events, void *data);
 
 void console_poller_unregister(struct console *console, struct poller *poller);
 
 void console_poller_set_events(struct console *console, struct poller *poller,
-		int events);
+			       int events);
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
@@ -102,14 +102,14 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc);
 int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len);
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data);
+			       uint8_t **data);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
 
 /* console wrapper around ringbuffer consumer registration */
 struct ringbuffer_consumer *console_ringbuffer_consumer_register(
-		struct console *console,
-		ringbuffer_poll_fn_t poll_fn, void *data);
+	struct console *console,
+	ringbuffer_poll_fn_t poll_fn, void *data);
 
 /* config API */
 struct config;
