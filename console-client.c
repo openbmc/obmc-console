@@ -208,14 +208,14 @@ int main(void)
 	if (rc)
 		goto out_fini;
 
-	prc = PROCESS_OK;
 	for (;;) {
+		prc = PROCESS_OK;
 		pollfds[0].fd = client->fd_in;
 		pollfds[0].events = POLLIN;
 		pollfds[1].fd = client->console_sd;
 		pollfds[1].events = POLLIN;
 
-		rc = poll(pollfds, 2, -1);
+		rc = poll(pollfds, 2, 10);
 		if (rc < 0) {
 			warn("Poll failure");
 			break;
