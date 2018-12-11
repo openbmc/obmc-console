@@ -56,6 +56,7 @@ struct console {
 	int		n_pollers;
 
 	struct pollfd	*pollfds;
+	struct sd_bus	*bus;
 };
 
 struct poller {
@@ -66,7 +67,9 @@ struct poller {
 };
 
 /* we have one extra entry in the pollfds array for the VUART tty */
-static const int n_internal_pollfds = 1;
+static const int n_internal_pollfds = 2;
+
+static int dbus_poller = 0;
 
 /* size of the shared backlog ringbuffer */
 const size_t buffer_size = 128 * 1024;
@@ -293,6 +296,79 @@ int console_data_out(struct console *console, const uint8_t *data, size_t len)
 	return write_buf_to_fd(console->tty_fd, data, len);
 }
 
+int method_set_window_size(sd_bus_message *msg, void *userdata,
+                         sd_bus_error *err)
+{
+	int r;
+	struct console_context *context = userdata;
+	unsigned int width = 0;
+	unsigned int height = 0;
+	unsigned int fontSize = 0;
+
+	if (!context) {
+		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
+		r = 0;
+		return sd_bus_reply_method_return(msg, "x", r);
+	}
+
+	r = sd_bus_message_read(msg, "uuu", &width, &height, &fontSize);
+	if (r < 0) {
+		sd_bus_error_set_const(err, DBUS_ERR, "Bad message");
+		r = -EINVAL;
+		return sd_bus_reply_method_return(msg, "x", r);
+	}
+
+	context->width = width;
+	context->height = height;
+	context->fontSize = fontSize;
+
+	return sd_bus_reply_method_return(msg, "x", r);
+}
+
+static void dbus_init(struct console *console, struct config *config)
+{
+	int r;
+	struct console_context *context;
+	int fd;
+
+	context = calloc(1, sizeof(*context));
+
+	if(!context)
+	{
+		fprintf(stderr,"Couldn't alloc context for console\n");
+		return;
+	}
+	r = sd_bus_default_system(&console->bus);
+	if (r < 0) {
+		fprintf(stderr, "Failed to connect to system bus: %s\n", strerror(-r));
+		return;
+	}
+
+	r = sd_bus_add_object_vtable(console->bus, NULL, OBJ_NAME, DBUS_NAME, console_vtable, context);
+	if (r < 0) {
+		fprintf(stderr, "Failed to issue method call: %s\n", strerror(-r));
+		return;
+	}
+	r = sd_bus_request_name(console->bus, DBUS_NAME, SD_BUS_NAME_ALLOW_REPLACEMENT
+				|SD_BUS_NAME_REPLACE_EXISTING);
+	if (r < 0) {
+		fprintf(stderr, "Failed to acquire service name: %s\n", strerror(-r));
+		return;
+	}
+
+	fd = sd_bus_get_fd(console->bus);
+	if(fd < 0)
+	{
+		fprintf(stderr,"Couldn't get the bus file descriptor\n");
+		return;
+	}
+
+	dbus_poller = n_internal_pollfds -1;
+
+	console->pollfds[dbus_poller].fd = fd;
+	console->pollfds[dbus_poller].events = POLLIN;
+}
+
 static void handlers_init(struct console *console, struct config *config)
 {
 	extern struct handler *__start_handlers, *__stop_handlers;
@@ -344,6 +420,7 @@ struct poller *console_poller_register(struct console *console,
 {
 	struct poller *poller;
 	int n;
+	int internal_index;
 
 	poller = malloc(sizeof(*poller));
 	poller->remove = false;
@@ -363,10 +440,13 @@ struct poller *console_poller_register(struct console *console,
 			sizeof(*console->pollfds) *
 				(n_internal_pollfds + console->n_pollers));
 
-	/* shift the end pollfds up by one */
-	memcpy(&console->pollfds[n+n_internal_pollfds],
-			&console->pollfds[n],
-			sizeof(*console->pollfds) * n_internal_pollfds);
+	for(internal_index =  n_internal_pollfds; internal_index > 0; internal_index--)
+	{
+		/* shift the end pollfds up by one */
+		memcpy(&console->pollfds[n+internal_index],
+			&console->pollfds[n+internal_index-1],
+			sizeof(*console->pollfds));
+	}
 
 	console->pollfds[n].fd = fd;
 	console->pollfds[n].events = events;
@@ -509,7 +589,7 @@ int run_console(struct console *console)
 		}
 
 		/* process internal fd first */
-		BUILD_ASSERT(n_internal_pollfds == 1);
+		BUILD_ASSERT(n_internal_pollfds == 2);
 
 		if (console->pollfds[console->n_pollers].revents) {
 			rc = read(console->tty_fd, buf, sizeof(buf));
@@ -523,6 +603,9 @@ int run_console(struct console *console)
 				break;
 		}
 
+		if (console->pollfds[console->n_pollers + 1].revents) {
+			sd_bus_process(console->bus, NULL);
+		}
 		/* ... and then the pollers */
 		rc = call_pollers(console);
 		if (rc)
@@ -530,6 +613,7 @@ int run_console(struct console *console)
 	}
 
 	signal(SIGINT, sighandler_save);
+	sd_bus_unref(console->bus);
 
 	return rc ? -1 : 0;
 }
@@ -591,6 +675,8 @@ int main(int argc, char **argv)
 	rc = tty_init(console, config);
 	if (rc)
 		goto out_config_fini;
+
+	dbus_init(console, config);
 
 	handlers_init(console, config);
 
