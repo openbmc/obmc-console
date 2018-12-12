@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
+#include <systemd/sd-bus.h>
 
 struct console;
 struct config;
@@ -140,3 +141,25 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 	do { \
 		char __c[(c)?1:-1] __attribute__((unused)); \
 	} while (0)
+
+#define DBUS_ERR "org.openbmc.error"
+#define DBUS_NAME "xyz.openbmc_project.console"
+#define OBJ_NAME "/xyz/openbmc_project/console"
+
+struct console_context {
+	unsigned int width;
+	unsigned int height;
+	unsigned int fontSize;
+};
+
+int method_set_window_size(sd_bus_message *msg, void *userdata,
+                         sd_bus_error *err);
+
+static const sd_bus_vtable console_vtable[] = {
+	SD_BUS_VTABLE_START(0),
+	SD_BUS_METHOD("setWindowSize", "uuu", "x", &method_set_window_size,
+		      SD_BUS_VTABLE_UNPRIVILEGED),
+	SD_BUS_WRITABLE_PROPERTY("width", "u", NULL, NULL, offsetof(struct console_context, width), 0),
+	SD_BUS_WRITABLE_PROPERTY("height", "u", NULL, NULL, offsetof(struct console_context, height), 0),
+	SD_BUS_WRITABLE_PROPERTY("fontSize", "u", NULL, NULL, offsetof(struct console_context, fontSize), 0),
+	SD_BUS_VTABLE_END,};
