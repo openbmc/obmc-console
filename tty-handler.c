@@ -285,11 +285,32 @@ static void tty_fini(struct handler *handler)
 	close(th->fd);
 }
 
+static int tty_baudrate(struct handler *handler, const char *baudrate)
+{
+	const char *tty_name;
+	struct tty_handler *th = to_tty_handler(handler);
+
+	tty_name = "local-tty";
+
+	if (baudrate == NULL)
+	{
+		return -1;
+	}
+	if (set_terminal_baud(th, tty_name, baudrate) != 0)
+	{
+		fprintf(stderr, "Couldn't set baud rate for %s to %s\n",
+			tty_name, baudrate);
+		return -1;
+	}
+	return 0;
+}
+
 static struct tty_handler tty_handler = {
 	.handler = {
 		.name		= "tty",
 		.init		= tty_init,
 		.fini		= tty_fini,
+		.baudrate	= tty_baudrate,
 	},
 };
 

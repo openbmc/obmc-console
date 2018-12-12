@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
+#include <systemd/sd-bus.h>
 
 struct console;
 struct config;
@@ -44,6 +45,8 @@ struct handler {
 				struct console *console,
 				struct config *config);
 	void		(*fini)(struct handler *handler);
+	int		(*baudrate)(struct handler *handler,
+				    const char *baudrate);
 	bool		active;
 };
 
@@ -140,3 +143,25 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 	do { \
 		char __c[(c)?1:-1] __attribute__((unused)); \
 	} while (0)
+
+#define DBUS_ERR "org.openbmc.error"
+#define DBUS_NAME "xyz.openbmc_project.console"
+#define OBJ_NAME "/xyz/openbmc_project/console"
+
+struct console_context {
+	const char* baudrate;
+	struct console *console;
+};
+
+int method_set_baud_rate(sd_bus_message *msg, void *userdata,
+			 sd_bus_error *err);
+
+int get_handler(sd_bus *bus, const char *path, const char *interface,
+		const char *property, sd_bus_message *reply, void *userdata, sd_bus_error *error);
+
+static const sd_bus_vtable console_vtable[] = {
+	SD_BUS_VTABLE_START(0),
+	SD_BUS_METHOD("setBaudRate", "s", "x", method_set_baud_rate,
+		      SD_BUS_VTABLE_UNPRIVILEGED),
+	SD_BUS_PROPERTY("baudrate", "s", get_handler, 0, 0),
+	SD_BUS_VTABLE_END,};
