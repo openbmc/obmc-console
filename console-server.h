@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
+#include <systemd/sd-bus.h>
 
 struct console;
 struct config;
@@ -44,6 +45,8 @@ struct handler {
 				struct console *console,
 				struct config *config);
 	void		(*fini)(struct handler *handler);
+	int		(*baudrate)(struct handler *handler,
+				    const char *baudrate);
 	bool		active;
 };
 
@@ -118,6 +121,7 @@ struct config *config_init(const char *filename);
 void config_fini(struct config *config);
 
 int config_parse_baud(speed_t *speed, const char *baud_string);
+int config_parse_baud_name(const char **baud_string, speed_t speed);
 int config_parse_logsize(const char *size_str, size_t *size);
 
 /* socket paths */
