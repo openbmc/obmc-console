@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "console-server.h"
 #include <ctype.h>
 #include <err.h>
 #include <fcntl.h>
@@ -165,53 +166,77 @@ void config_fini(struct config *config)
 
 struct terminal_speed_name {
 	speed_t		speed;
+	uint32_t	baud;
 	const char	*name;
 };
 
+#define TERM_SPEED(x) { B##x, x, #x}
+
+static const struct terminal_speed_name terminal_speeds[] = {
+	TERM_SPEED(50),
+	TERM_SPEED(75),
+	TERM_SPEED(110),
+	TERM_SPEED(134),
+	TERM_SPEED(150),
+	TERM_SPEED(200),
+	TERM_SPEED(300),
+	TERM_SPEED(600),
+	TERM_SPEED(1200),
+	TERM_SPEED(1800),
+	TERM_SPEED(2400),
+	TERM_SPEED(4800),
+	TERM_SPEED(9600),
+	TERM_SPEED(19200),
+	TERM_SPEED(38400),
+	TERM_SPEED(57600),
+	TERM_SPEED(115200),
+	TERM_SPEED(230400),
+	TERM_SPEED(460800),
+	TERM_SPEED(500000),
+	TERM_SPEED(576000),
+	TERM_SPEED(921600),
+	TERM_SPEED(1000000),
+	TERM_SPEED(1152000),
+	TERM_SPEED(1500000),
+	TERM_SPEED(2000000),
+	TERM_SPEED(2500000),
+	TERM_SPEED(3000000),
+	TERM_SPEED(3500000),
+	TERM_SPEED(4000000),
+};
+
 int config_parse_baud(speed_t *speed, const char *baud_string) {
-	const struct terminal_speed_name terminal_speeds[] = {
-		{ B50, "50" },
-		{ B75, "75" },
-		{ B110, "110" },
-		{ B134, "134" },
-		{ B150, "150" },
-		{ B200, "200" },
-		{ B300, "300" },
-		{ B600, "600" },
-		{ B1200, "1200" },
-		{ B1800, "1800" },
-		{ B2400, "2400" },
-		{ B4800, "4800" },
-		{ B9600, "9600" },
-		{ B19200, "19200" },
-		{ B38400, "38400" },
-		{ B57600, "57600" },
-		{ B115200, "115200" },
-		{ B230400, "230400" },
-		{ B460800, "460800" },
-		{ B500000, "500000" },
-		{ B576000, "576000" },
-		{ B921600, "921600" },
-		{ B1000000, "1000000" },
-		{ B1152000, "1152000" },
-		{ B1500000, "1500000" },
-		{ B2000000, "2000000" },
-		{ B2500000, "2500000" },
-		{ B3000000, "3000000" },
-		{ B3500000, "3500000" },
-		{ B4000000, "4000000" },
-	};
-	const size_t num_terminal_speeds = sizeof(terminal_speeds) /
-		sizeof(struct terminal_speed_name);
 	size_t i;
 
-	for (i = 0; i < num_terminal_speeds; i++) {
+	for (i = 0; i < ARRAY_SIZE(terminal_speeds); i++) {
 		if (strcmp(baud_string, terminal_speeds[i].name) == 0) {
 			*speed = terminal_speeds[i].speed;
 			return 0;
 		}
 	}
 	return -1;
+}
+
+uint32_t parse_baud_to_int(speed_t speed) {
+	size_t i;
+
+	for (i = 0; i < ARRAY_SIZE(terminal_speeds); i++) {
+		if (terminal_speeds[i].speed == speed) {
+			return terminal_speeds[i].baud;
+		}
+	}
+	return 0;
+}
+
+speed_t parse_int_to_baud(uint32_t baud) {
+	size_t i;
+
+	for (i = 0; i < ARRAY_SIZE(terminal_speeds); i++) {
+		if (terminal_speeds[i].baud == baud) {
+			return terminal_speeds[i].speed;
+		}
+	}
+	return 0;
 }
 
 int config_parse_logsize(const char *size_str, size_t *size)
