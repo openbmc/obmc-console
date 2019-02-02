@@ -18,6 +18,9 @@ obmc_console_server_SOURCES = \
 	 tty-handler.c \
 	 console-socket.c
 
+obmc_console_server_LDFLAGS = $(SYSTEMD_LIBS)
+obmc_console_server_CFLAGS = $(SYSTEMD_CFLAGS)
+
 obmc_console_client_SOURCES = \
 	 console-client.c \
 	 console-server.h \

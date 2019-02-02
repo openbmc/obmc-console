@@ -12,6 +12,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
+PKG_CHECK_MODULES([SYSTEMD], [libsystemd > 221])
 
 # Checks for header files.
 
