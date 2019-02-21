@@ -181,15 +181,8 @@ err:
 }
 
 static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
-		const char *desired_baud) {
+		speed_t speed) {
 	struct termios term_options;
-	speed_t speed;
-
-	if (config_parse_baud(&speed, desired_baud) != 0) {
-		fprintf(stderr, "%s is not a valid baud rate for terminal %s\n",
-				desired_baud, tty_name);
-		return -1;
-	}
 
 	if (tcgetattr(th->fd, &term_options) < 0) {
 		warn("Can't get config for %s", tty_name);
@@ -205,7 +198,6 @@ static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
 		warn("Couldn't commit terminal options for %s", tty_name);
 		return -1;
 	}
-	printf("Set %s terminal baud rate to %s\n", tty_name, desired_baud);
 
 	return 0;
 }
@@ -236,6 +228,7 @@ static int tty_init(struct handler *handler, struct console *console,
 		struct config *config __attribute__((unused)))
 {
 	struct tty_handler *th = to_tty_handler(handler);
+	speed_t desired_speed;
 	const char *tty_name;
 	const char *tty_baud;
 	char *tty_path;
@@ -260,10 +253,18 @@ static int tty_init(struct handler *handler, struct console *console,
 	th->fd_flags = fcntl(th->fd, F_GETFL, 0);
 
 	tty_baud = config_get_value(config, "local-tty-baud");
-	if (tty_baud != NULL)
-		if (set_terminal_baud(th, tty_name, tty_baud) != 0)
-			fprintf(stderr, "Couldn't set baud rate for %s to %s\n",
+	if (tty_baud != NULL) {
+		rc = config_parse_baud(&desired_speed, tty_baud);
+		if (rc) {
+			fprintf(stderr, "%s is not a valid baud rate\n",
+				tty_baud);
+		} else {
+			rc = set_terminal_baud(th, tty_name, desired_speed);
+			if (rc)
+				fprintf(stderr, "Couldn't set baud rate for %s to %s\n",
 					tty_name, tty_baud);
+		}
+	}
 
 	if (make_terminal_raw(th, tty_name) != 0)
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
@@ -285,11 +286,29 @@ static void tty_fini(struct handler *handler)
 	close(th->fd);
 }
 
+static int tty_baudrate(struct handler *handler, speed_t baudrate)
+{
+	const char *tty_name = "local-tty";
+	struct tty_handler *th = to_tty_handler(handler);
+
+	if (baudrate == 0) {
+		return -1;
+	}
+
+	if (set_terminal_baud(th, tty_name, baudrate) != 0) {
+		fprintf(stderr, "Couldn't set baud rate for %s to %d\n",
+			tty_name, baudrate);
+		return -1;
+	}
+	return 0;
+}
+
 static struct tty_handler tty_handler = {
 	.handler = {
 		.name		= "tty",
 		.init		= tty_init,
 		.fini		= tty_fini,
+		.baudrate	= tty_baudrate,
 	},
 };
 
