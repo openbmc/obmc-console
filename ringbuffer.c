@@ -148,33 +148,35 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	if (len >= rb->size)
 		return -1;
 
-	/* Ensure there is at least len bytes of space available.
-	 *
-	 * If a client doesn't have sufficient space, perform a blocking write
-	 * (by calling ->poll_fn with force_len) to create it.
-	 */
-	for (i = 0; i < rb->n_consumers; i++) {
-		rbc = rb->consumers[i];
+	if (len > 0) {
+		/* Ensure there is at least len bytes of space available.
+		 *
+		 * If a client doesn't have sufficient space, perform a blocking write
+		 * (by calling ->poll_fn with force_len) to create it.
+		 */
+		for (i = 0; i < rb->n_consumers; i++) {
+			rbc = rb->consumers[i];
 
-		rc = ringbuffer_consumer_ensure_space(rbc, len);
-		if (rc) {
-			ringbuffer_consumer_unregister(rbc);
-			i--;
-			continue;
+			rc = ringbuffer_consumer_ensure_space(rbc, len);
+			if (rc) {
+				ringbuffer_consumer_unregister(rbc);
+				i--;
+				continue;
+			}
+
+			assert(ringbuffer_space(rbc) >= len);
 		}
 
-		assert(ringbuffer_space(rbc) >= len);
+		/* Now that we know we have enough space, add new data to tail */
+		wlen = min(len, rb->size - rb->tail);
+		memcpy(rb->buf + rb->tail, data, wlen);
+		rb->tail = (rb->tail + wlen) % rb->size;
+		len -= wlen;
+		data += wlen;
+
+		memcpy(rb->buf, data, len);
+		rb->tail += len;
 	}
-
-	/* Now that we know we have enough space, add new data to tail */
-	wlen = min(len, rb->size - rb->tail);
-	memcpy(rb->buf + rb->tail, data, wlen);
-	rb->tail = (rb->tail + wlen) % rb->size;
-	len -= wlen;
-	data += wlen;
-
-	memcpy(rb->buf, data, len);
-	rb->tail += len;
 
 	/* Inform consumers of new data in non-blocking mode, by calling
 	 * ->poll_fn with 0 force_len */
@@ -193,7 +195,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 }
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data)
+		uint8_t **data, bool *wrapped)
 {
 	struct ringbuffer *rb = rbc->rb;
 	size_t pos;
@@ -203,10 +205,13 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 		return 0;
 
 	pos = (rbc->pos + offset) % rb->size;
-	if (pos <= rb->tail)
+	if (pos <= rb->tail) {
 		len = rb->tail - pos;
-	else
+		if (wrapped) *wrapped = false;
+	} else {
 		len = rb->size - pos;
+		if (wrapped) *wrapped = true;
+	}
 
 	*data = rb->buf + pos;
 	return len;
