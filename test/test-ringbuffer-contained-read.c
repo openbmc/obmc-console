@@ -20,7 +20,7 @@ void test_contained_read(void)
 	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf));
 	assert(!rc);
 
-	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf);
+	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf, NULL);
 	assert(len == sizeof(in_buf));
 	assert(!memcmp(in_buf, out_buf, sizeof(in_buf)));
 
