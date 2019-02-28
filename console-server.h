@@ -20,7 +20,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
+#include <time.h>
 #include <systemd/sd-bus.h>
+#include <sys/time.h>
 
 struct console;
 struct config;
@@ -72,17 +74,23 @@ enum poller_ret {
 	POLLER_EXIT,
 };
 
-typedef enum poller_ret (*poller_fn_t)(struct handler *handler,
+typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
 					int revents, void *data);
+typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
+					void *data);
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_fn_t poller_fn,
-		int fd, int events, void *data);
+		struct handler *handler, poller_event_fn_t event_fn,
+		poller_timeout_fn_t timeout_fn, int fd, int events,
+		void *data);
 
 void console_poller_unregister(struct console *console, struct poller *poller);
 
 void console_poller_set_events(struct console *console, struct poller *poller,
 		int events);
+
+void console_poller_set_timeout(struct console *console, struct poller *poller,
+				const struct timeval *interval);
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
@@ -110,6 +118,8 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 		uint8_t **data);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
+
+size_t ringbuffer_len(struct ringbuffer_consumer *rbc);
 
 /* console wrapper around ringbuffer consumer registration */
 struct ringbuffer_consumer *console_ringbuffer_consumer_register(

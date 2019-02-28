@@ -32,6 +32,10 @@
 
 #include "console-server.h"
 
+#define SOCKET_HANDLER_PKT_SIZE 512
+/* Set poll() timeout to 4000 uS, or 4 mS */
+#define SOCKET_HANDLER_PKT_US_TIMEOUT 4000
+
 struct client {
 	struct socket_handler		*sh;
 	struct poller			*poller;
@@ -48,6 +52,11 @@ struct socket_handler {
 
 	struct client		**clients;
 	int			n_clients;
+};
+
+static struct timeval const socket_handler_timeout = {
+	.tv_sec = 0,
+	.tv_usec = SOCKET_HANDLER_PKT_US_TIMEOUT
 };
 
 static struct socket_handler *to_socket_handler(struct handler *handler)
@@ -179,7 +188,17 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 		size_t force_len)
 {
 	struct client *client = arg;
-	int rc;
+	int rc, len;
+
+	len = ringbuffer_len(client->rbc);
+	if (!force_len && (len < SOCKET_HANDLER_PKT_SIZE)) {
+		/* Do nothing until many small requests have accumulated, or
+		 * the UART is idle for awhile (as determined by the timeout
+		 * value supplied to the poll function call in console_server.c. */
+		console_poller_set_timeout(client->sh->console, client->poller,
+					   &socket_handler_timeout);
+		return RINGBUFFER_POLL_OK;
+	}
 
 	rc = client_drain_queue(client, force_len);
 	if (rc) {
@@ -189,6 +208,26 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 	}
 
 	return RINGBUFFER_POLL_OK;
+}
+
+static enum poller_ret client_timeout(struct handler *handler, void *data)
+{
+	struct client *client = data;
+	int rc = 0;
+
+	if (client->blocked) {
+		/* nothing to do here, we'll call client_drain_queue when
+		 * we become unblocked */
+		return POLLER_OK;
+	}
+
+	rc = client_drain_queue(client, 0);
+	if (rc) {
+		client_close(client);
+		return POLLER_REMOVE;
+	}
+
+	return POLLER_OK;
 }
 
 static enum poller_ret client_poll(struct handler *handler,
@@ -248,7 +287,8 @@ static enum poller_ret socket_poll(struct handler *handler,
 	client->sh = sh;
 	client->fd = fd;
 	client->poller = console_poller_register(sh->console, handler,
-			client_poll, client->fd, POLLIN, client);
+			client_poll, client_timeout, client->fd, POLLIN,
+			client);
 	client->rbc = console_ringbuffer_consumer_register(sh->console,
 			client_ringbuffer_poll, client);
 
@@ -297,7 +337,7 @@ static int socket_init(struct handler *handler, struct console *console,
 	}
 
 	sh->poller = console_poller_register(console, handler, socket_poll,
-			sh->sd, POLLIN, NULL);
+			NULL, sh->sd, POLLIN, NULL);
 
 	return 0;
 }

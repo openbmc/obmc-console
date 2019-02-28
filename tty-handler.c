@@ -269,7 +269,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (make_terminal_raw(th, tty_name) != 0)
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
 
-	th->poller = console_poller_register(console, handler, tty_poll,
+	th->poller = console_poller_register(console, handler, tty_poll, NULL,
 			th->fd, POLLIN, NULL);
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
