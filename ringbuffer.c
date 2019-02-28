@@ -121,32 +121,30 @@ static size_t ringbuffer_space(struct ringbuffer_consumer *rbc)
 	return rbc->rb->size - ringbuffer_len(rbc) - 1;
 }
 
-static int ringbuffer_consumer_ensure_space(
-		struct ringbuffer_consumer *rbc, size_t len)
+static int ringbuffer_consumer_ensure_space(struct ringbuffer_consumer *rbc,
+					    size_t len)
 {
-	enum ringbuffer_poll_ret prc;
-	int force_len;
+	int force_len, tmo_req;
 
-	if (ringbuffer_space(rbc) >= len)
-		return 0;
+	if (ringbuffer_space(rbc) >= len) {
+		return RINGBUFFER_POLL_OK;
+	}
 
 	force_len = len - ringbuffer_space(rbc);
-
-	prc = rbc->poll_fn(rbc->poll_data, force_len);
-	if (prc != RINGBUFFER_POLL_OK)
-		return -1;
-
-	return 0;
+	return rbc->poll_fn(rbc->poll_data, force_len, 1, &tmo_req);
 }
 
-int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
+int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len,
+		     int *request_timeout)
 {
 	struct ringbuffer_consumer *rbc;
 	size_t wlen;
 	int i, rc;
+	int timed_out = (len == 0);
+	int tmo_req;
 
 	if (len >= rb->size)
-		return -1;
+		return RINGBUFFER_ERR;
 
 	/* Ensure there is at least len bytes of space available.
 	 *
@@ -167,22 +165,28 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	}
 
 	/* Now that we know we have enough space, add new data to tail */
-	wlen = min(len, rb->size - rb->tail);
-	memcpy(rb->buf + rb->tail, data, wlen);
-	rb->tail = (rb->tail + wlen) % rb->size;
-	len -= wlen;
-	data += wlen;
+	if (len > 0) {
+		wlen = min(len, rb->size - rb->tail);
+		memcpy(rb->buf + rb->tail, data, wlen);
+		rb->tail = (rb->tail + wlen) % rb->size;
+		len -= wlen;
+		data += wlen;
 
-	memcpy(rb->buf, data, len);
-	rb->tail += len;
+		memcpy(rb->buf, data, len);
+		rb->tail += len;
+	}
 
 	/* Inform consumers of new data in non-blocking mode, by calling
 	 * ->poll_fn with 0 force_len */
+	*request_timeout = 0;
 	for (i = 0; i < rb->n_consumers; i++) {
 		enum ringbuffer_poll_ret prc;
 
 		rbc = rb->consumers[i];
-		prc = rbc->poll_fn(rbc->poll_data, 0);
+		prc = rbc->poll_fn(rbc->poll_data, 0, timed_out, &tmo_req);
+		if (tmo_req) {
+			*request_timeout = tmo_req;
+		}
 		if (prc == RINGBUFFER_POLL_REMOVE) {
 			ringbuffer_consumer_unregister(rbc);
 			i--;
@@ -193,7 +197,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 }
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data)
+			       uint8_t **data, int *wrapped)
 {
 	struct ringbuffer *rb = rbc->rb;
 	size_t pos;
@@ -203,10 +207,13 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 		return 0;
 
 	pos = (rbc->pos + offset) % rb->size;
-	if (pos <= rb->tail)
+	if (pos <= rb->tail) {
 		len = rb->tail - pos;
-	else
+		if (wrapped) *wrapped = 0;
+	} else {
 		len = rb->size - pos;
+		if (wrapped) *wrapped = 1;
+	}
 
 	*data = rb->buf + pos;
 	return len;

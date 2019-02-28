@@ -11,7 +11,7 @@ void test_simple_poll(void)
 	uint8_t in_buf[] = { 'a', 'b', 'c' };
 	struct rb_test_ctx _ctx, *ctx;
 	struct ringbuffer *rb;
-	int rc;
+	int rc, to_req;
 
 	ctx = &_ctx;
 	ringbuffer_test_context_init(ctx);
@@ -20,7 +20,7 @@ void test_simple_poll(void)
 	ctx->rbc = ringbuffer_consumer_register(rb,
 			ringbuffer_poll_append_all, ctx);
 
-	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf));
+	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf), &to_req);
 	assert(!rc);
 
 	assert(ctx->count == 1);

@@ -11,7 +11,7 @@ void test_poll_force(void)
 	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f', };
 	struct rb_test_ctx _ctx, *ctx = &_ctx;
 	struct ringbuffer *rb;
-	int rc;
+	int rc, to_req;
 
 	ringbuffer_test_context_init(ctx);
 
@@ -23,13 +23,13 @@ void test_poll_force(void)
 	ctx->force_only = true;
 
 	/* fill the ringbuffer */
-	rc = ringbuffer_queue(rb, in_buf, 4);
+	rc = ringbuffer_queue(rb, in_buf, 4, &to_req);
 	assert(!rc);
 
 	assert(ctx->count == 0);
 
 	/* add more data */
-	rc = ringbuffer_queue(rb, in_buf + 4, 2);
+	rc = ringbuffer_queue(rb, in_buf + 4, 2, &to_req);
 	assert(!rc);
 
 	/* we should have had a forced poll for the initial two bytes */
