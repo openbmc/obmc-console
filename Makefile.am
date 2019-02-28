@@ -7,6 +7,8 @@ obmc_console_server_CPPFLAGS = \
 	-DLOCALSTATEDIR=\"$(localstatedir)\" \
 	-DSYSCONFDIR=\"$(sysconfdir)\"
 
+obmc_console_server_LDFLAGS = -lrt
+
 obmc_console_server_SOURCES = \
 	 console-server.c \
 	 console-server.h \

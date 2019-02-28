@@ -15,9 +15,12 @@
  */
 
 #include <poll.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
+#include <time.h>
+#include <sys/time.h>
 #include <systemd/sd-bus.h>
 
 struct console;
@@ -84,6 +87,7 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
+	RINGBUFFER_ERR = -1,
 	RINGBUFFER_POLL_OK = 0,
 	RINGBUFFER_POLL_REMOVE,
 };
@@ -105,7 +109,7 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc);
 int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len);
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data);
+		uint8_t **data, int *wrapped);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
 
@@ -113,6 +117,17 @@ int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
 struct ringbuffer_consumer *console_ringbuffer_consumer_register(
 		struct console *console,
 		ringbuffer_poll_fn_t poll_fn, void *data);
+
+int set_ringbuffer_consumer_timer_id(struct ringbuffer_consumer *rbc,
+				     timer_t timerid);
+int get_ringbuffer_consumer_timer_id(struct ringbuffer_consumer *rbc,
+				     timer_t *timerid);
+
+int set_ringbuffer_consumer_timer_mask(struct ringbuffer_consumer *rbc,
+				       sigset_t timer_mask);
+
+int get_ringbuffer_consumer_timer_mask(struct ringbuffer_consumer *rbc,
+				       sigset_t *timer_mask);
 
 /* config API */
 struct config;

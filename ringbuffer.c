@@ -42,6 +42,8 @@ struct ringbuffer_consumer {
 	ringbuffer_poll_fn_t		poll_fn;
 	void				*poll_data;
 	size_t				pos;
+	timer_t timerid;
+	sigset_t timer_mask;
 };
 
 struct ringbuffer *ringbuffer_init(size_t size)
@@ -57,6 +59,34 @@ struct ringbuffer *ringbuffer_init(size_t size)
 	rb->buf = (void *)(rb + 1);
 
 	return rb;
+}
+
+int set_ringbuffer_consumer_timer_id(struct ringbuffer_consumer *rbc,
+				     timer_t timerid)
+{
+	rbc->timerid = timerid;
+	return 0;
+}
+
+int get_ringbuffer_consumer_timer_id(struct ringbuffer_consumer *rbc,
+				     timer_t *timerid)
+{
+	*timerid = rbc->timerid;
+	return 0;
+}
+
+int set_ringbuffer_consumer_timer_mask(struct ringbuffer_consumer *rbc,
+				     sigset_t timer_mask)
+{
+	rbc->timer_mask = timer_mask;
+	return 0;
+}
+
+int get_ringbuffer_consumer_timer_mask(struct ringbuffer_consumer *rbc,
+				       sigset_t *timer_mask)
+{
+	*timer_mask = rbc->timer_mask;
+	return 0;
 }
 
 void ringbuffer_fini(struct ringbuffer *rb)
@@ -193,7 +223,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 }
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data)
+		uint8_t **data, int *wrapped)
 {
 	struct ringbuffer *rb = rbc->rb;
 	size_t pos;
@@ -203,10 +233,13 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 		return 0;
 
 	pos = (rbc->pos + offset) % rb->size;
-	if (pos <= rb->tail)
+	if (pos <= rb->tail) {
 		len = rb->tail - pos;
-	else
+		if (wrapped) *wrapped = 0;
+	} else {
 		len = rb->size - pos;
+		if (wrapped) *wrapped = 1;
+	}
 
 	*data = rb->buf + pos;
 	return len;

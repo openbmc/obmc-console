@@ -22,7 +22,7 @@ void test_contained_offset_read(void)
 
 	/* test all possible offsets */
 	for (i = 0; i <= sizeof(in_buf); i++) {
-		len = ringbuffer_dequeue_peek(rbc, i, &out_buf);
+		len = ringbuffer_dequeue_peek(rbc, i, &out_buf, NULL);
 		assert(len == sizeof(in_buf) - i);
 		if (len)
 			assert(!memcmp(in_buf + i, out_buf, len));
