@@ -11,16 +11,16 @@ void test_read_commit(void)
 	uint8_t *out_buf, in_buf[] = { 'a', 'b', 'c', };
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
-	size_t len;
+	size_t len, to_req;
 
 	rb = ringbuffer_init(10);
 	rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_nop, NULL);
 
-	ringbuffer_queue(rb, in_buf, sizeof(in_buf));
-	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf);
+	ringbuffer_queue(rb, in_buf, sizeof(in_buf), &to_req);
+	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf, NULL);
 
 	ringbuffer_dequeue_commit(rbc, len);
-	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf);
+	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf, NULL);
 	assert(len == 0);
 
 	ringbuffer_fini(rb);

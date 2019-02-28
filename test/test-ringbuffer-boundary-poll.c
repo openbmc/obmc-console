@@ -11,7 +11,7 @@ void test_boundary_poll(void)
 	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
 	struct rb_test_ctx _ctx, *ctx = &_ctx;
 	struct ringbuffer *rb;
-	int rc;
+	int rc, to_req;
 
 	ringbuffer_test_context_init(ctx);
 
@@ -24,7 +24,7 @@ void test_boundary_poll(void)
 	ctx->ignore_poll = true;
 
 	/* queue and dequeue, so our tail is non-zero */
-	ringbuffer_queue(rb, in_buf, sizeof(in_buf));
+	ringbuffer_queue(rb, in_buf, sizeof(in_buf), &to_req);
 	ringbuffer_dequeue_commit(ctx->rbc, sizeof(in_buf));
 
 	/* start queueing data */
@@ -33,7 +33,7 @@ void test_boundary_poll(void)
 	/* ensure we're getting the second batch of data back */
 	in_buf[0] = 'A';
 
-	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf));
+	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf), &to_req);
 	assert(!rc);
 
 	assert(ctx->count == 1);

@@ -69,10 +69,13 @@ struct poller {
 static const int n_internal_pollfds = 1;
 
 /* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128 * 1024;
+static const size_t buffer_size = 128 * 1024;
 
 /* state shared with the signal handler */
 static bool sigint;
+
+// Assign a maximum time (mSec) to wait for TTY data to arrive
+#define CONSOLE_SERVER_POLL_TO 2
 
 static void usage(const char *progname)
 {
@@ -482,6 +485,7 @@ int run_console(struct console *console)
 {
 	sighandler_t sighandler_save;
 	int rc;
+	int request_timeout = 0;
 
 	sighandler_save = signal(SIGINT, sighandler);
 
@@ -498,8 +502,41 @@ int run_console(struct console *console)
 		}
 
 		rc = poll(console->pollfds,
-				console->n_pollers + n_internal_pollfds, -1);
-		if (rc < 0) {
+			  console->n_pollers + n_internal_pollfds,
+			  request_timeout ? CONSOLE_SERVER_POLL_TO : -1);
+
+		if (rc > 0) {
+			/* process internal fd first */
+			BUILD_ASSERT(n_internal_pollfds == 1);
+
+			if (console->pollfds[console->n_pollers].revents) {
+				rc = read(console->tty_fd, buf, sizeof(buf));
+				if (rc <= 0) {
+					warn("Error reading from tty device");
+					rc = -1;
+					break;
+				}
+				rc = ringbuffer_queue(console->rb, buf, rc,
+						      &request_timeout);
+				if (rc)
+					break;
+			}
+
+			/* ... and then the pollers */
+			rc = call_pollers(console);
+			if (rc)
+				break;
+		} else if (rc == 0) {
+			// poll timed out
+			rc = ringbuffer_queue(console->rb, NULL, rc,
+					      &request_timeout);
+			if (rc)
+				break;
+			/* ... and then the pollers */
+			rc = call_pollers(console);
+			if (rc)
+				break;
+		} else {
 			if (errno == EINTR) {
 				continue;
 			} else {
@@ -507,26 +544,6 @@ int run_console(struct console *console)
 				break;
 			}
 		}
-
-		/* process internal fd first */
-		BUILD_ASSERT(n_internal_pollfds == 1);
-
-		if (console->pollfds[console->n_pollers].revents) {
-			rc = read(console->tty_fd, buf, sizeof(buf));
-			if (rc <= 0) {
-				warn("Error reading from tty device");
-				rc = -1;
-				break;
-			}
-			rc = ringbuffer_queue(console->rb, buf, rc);
-			if (rc)
-				break;
-		}
-
-		/* ... and then the pollers */
-		rc = call_pollers(console);
-		if (rc)
-			break;
 	}
 
 	signal(SIGINT, sighandler_save);

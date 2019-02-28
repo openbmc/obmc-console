@@ -103,17 +103,20 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 }
 
 static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
-		size_t force_len __attribute__((unused)))
+						    size_t force_len __attribute__((unused)),
+						    int timed_out __attribute__ ((unused)),
+						    int *to_req)
 {
 	struct log_handler *lh = arg;
 	uint8_t *buf;
 	size_t len;
 	int rc;
 
+	*to_req = 0;
 	/* we log synchronously, so just dequeue everything we can, and
 	 * commit straight away. */
 	for (;;) {
-		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf);
+		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf, NULL);
 		if (!len)
 			break;
 

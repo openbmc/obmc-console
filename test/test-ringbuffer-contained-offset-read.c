@@ -12,17 +12,17 @@ void test_contained_offset_read(void)
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
 	size_t len;
-	int rc, i;
+	int rc, i, to_req;
 
 	rb = ringbuffer_init(10);
 	rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_nop, NULL);
 
-	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf));
+	rc = ringbuffer_queue(rb, in_buf, sizeof(in_buf), &to_req);
 	assert(!rc);
 
 	/* test all possible offsets */
 	for (i = 0; i <= sizeof(in_buf); i++) {
-		len = ringbuffer_dequeue_peek(rbc, i, &out_buf);
+		len = ringbuffer_dequeue_peek(rbc, i, &out_buf, NULL);
 		assert(len == sizeof(in_buf) - i);
 		if (len)
 			assert(!memcmp(in_buf + i, out_buf, len));

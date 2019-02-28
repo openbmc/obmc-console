@@ -81,12 +81,15 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
+	RINGBUFFER_ERR = -1,
 	RINGBUFFER_POLL_OK = 0,
 	RINGBUFFER_POLL_REMOVE,
 };
 
 typedef enum ringbuffer_poll_ret (*ringbuffer_poll_fn_t)(void *data,
-		size_t force_len);
+							 size_t force_len,
+							 int timed_out,
+							 int *request_timeout);
 
 struct ringbuffer;
 struct ringbuffer_consumer;
@@ -99,10 +102,10 @@ struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
 
 void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc);
 
-int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len);
+int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len, int *request_timeout);
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data);
+			       uint8_t **data, int *wrapped);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
 

@@ -32,6 +32,8 @@
 
 #include "console-server.h"
 
+#define SOCKET_HANDLER_PKT_SIZE 512
+
 struct client {
 	struct socket_handler		*sh;
 	struct poller			*poller;
@@ -135,14 +137,13 @@ static ssize_t send_all(struct client *client, void *buf,
 /* Drain the queue to the socket and update the queue buffer. If force_len is
  * set, send at least that many bytes from the queue, possibly while blocking
  */
-static int client_drain_queue(struct client *client, size_t force_len)
+static int client_drain_queue(struct client *client, size_t force_len, int timed_out)
 {
 	uint8_t *buf;
 	ssize_t wlen;
-	size_t len, total_len;
+	size_t len, total_len = 0;
 	bool block;
 
-	total_len = 0;
 	wlen = 0;
 	block = !!force_len;
 
@@ -150,8 +151,8 @@ static int client_drain_queue(struct client *client, size_t force_len)
 	if (!block && client->blocked)
 		return 0;
 
-	for (;;) {
-		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf);
+	while (1) {
+		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 
@@ -161,27 +162,48 @@ static int client_drain_queue(struct client *client, size_t force_len)
 
 		total_len += wlen;
 
-		if (force_len && total_len >= force_len)
+		if (force_len && (total_len >= force_len))
 			break;
 	}
 
-	if (wlen < 0)
-		return -1;
-
-	if (force_len && total_len < force_len)
-		return -1;
+	if ((wlen < 0) || (force_len && (total_len < force_len))) {
+		return RINGBUFFER_ERR;
+	}
 
 	ringbuffer_dequeue_commit(client->rbc, total_len);
 	return 0;
 }
 
 static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
-		size_t force_len)
+						       size_t force_len,
+						       int timed_out,
+						       int *to_req)
 {
 	struct client *client = arg;
-	int rc;
+	uint8_t *buf;
+	int wrapped;
+	int rc, len, total_len = 0;
 
-	rc = client_drain_queue(client, force_len);
+	len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf, &wrapped);
+	if (!len)
+		return RINGBUFFER_POLL_OK;
+
+	*to_req = 0;
+	if (!force_len && (len < SOCKET_HANDLER_PKT_SIZE) && !timed_out && !wrapped) {
+		// Do nothing until many small requests have accumulated, or
+		// the UART is idle for awhile (as determined by the timeout
+		// value supplied to the poll function call in
+		// console_server.c.  Keep buffering until the ring buffer
+		// wraps.  Wrapping the buffer is a discontinuity that needs to
+		// be handled immediately.
+
+		// Request the ringbuffer poll to timeout since there is data
+		// being buffered.
+		*to_req = 1;
+		return RINGBUFFER_POLL_OK;
+	}
+
+	rc = client_drain_queue(client, force_len, timed_out);
 	if (rc) {
 		client->rbc = NULL;
 		client_close(client);
@@ -215,7 +237,7 @@ static enum poller_ret client_poll(struct handler *handler,
 
 	if (events & POLLOUT) {
 		client_set_blocked(client, false);
-		rc = client_drain_queue(client, 0);
+		rc = client_drain_queue(client, 0, 1);
 		if (rc)
 			goto err_close;
 	}

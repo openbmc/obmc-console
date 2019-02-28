@@ -99,7 +99,7 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	total_len = 0;
 
 	for (;;) {
-		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf);
+		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 
@@ -134,15 +134,22 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	return 0;
 }
 
-static enum ringbuffer_poll_ret tty_ringbuffer_poll(void *arg, size_t force_len)
+static enum ringbuffer_poll_ret tty_ringbuffer_poll(void *arg, size_t force_len,
+						    int timed_out, int *to_req)
 {
 	struct tty_handler *th = arg;
 	int rc;
 
-	rc = tty_drain_queue(th, force_len);
-	if (rc) {
+	*to_req = 0;
+	if (!timed_out) {
+		// The incoming data is not being buffered, so there's no need
+		// to perform special handling when the console-server times
+		// out.
+		rc = tty_drain_queue(th, force_len);
+		if (rc) {
 		console_poller_unregister(th->console, th->poller);
 		return RINGBUFFER_POLL_REMOVE;
+		}
 	}
 
 	return RINGBUFFER_POLL_OK;
