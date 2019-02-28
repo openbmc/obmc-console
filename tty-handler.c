@@ -99,7 +99,7 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	total_len = 0;
 
 	for (;;) {
-		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf);
+		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 

@@ -78,7 +78,7 @@ enum internal_pollfds {
 };
 
 /* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128 * 1024;
+static const size_t buffer_size = 128 * 1024;
 
 /* state shared with the signal handler */
 static bool sigint;
@@ -624,7 +624,28 @@ int run_console(struct console *console)
 
 		rc = poll(console->pollfds,
 				console->n_pollers + MAX_INTERNAL_POLLFD, -1);
-		if (rc < 0) {
+
+		if (rc > 0) {
+			/* process internal fd first */
+			BUILD_ASSERT(n_internal_pollfds == 1);
+
+			if (console->pollfds[console->n_pollers].revents) {
+				rc = read(console->tty_fd, buf, sizeof(buf));
+				if (rc <= 0) {
+					warn("Error reading from tty device");
+					rc = -1;
+					break;
+				}
+				rc = ringbuffer_queue(console->rb, buf, rc);
+				if (rc)
+					break;
+			}
+
+			/* ... and then the pollers */
+			rc = call_pollers(console);
+			if (rc)
+				break;
+		} else {
 			if (errno == EINTR) {
 				continue;
 			} else {
@@ -632,28 +653,6 @@ int run_console(struct console *console)
 				break;
 			}
 		}
-
-		/* process internal fd first */
-		if (console->pollfds[console->n_pollers].revents) {
-			rc = read(console->tty_fd, buf, sizeof(buf));
-			if (rc <= 0) {
-				warn("Error reading from tty device");
-				rc = -1;
-				break;
-			}
-			rc = ringbuffer_queue(console->rb, buf, rc);
-			if (rc)
-				break;
-		}
-
-		if (console->pollfds[console->n_pollers + 1].revents) {
-			sd_bus_process(console->bus, NULL);
-		}
-
-		/* ... and then the pollers */
-		rc = call_pollers(console);
-		if (rc)
-			break;
 	}
 
 	signal(SIGINT, sighandler_save);

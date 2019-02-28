@@ -32,6 +32,9 @@
 
 #include "console-server.h"
 
+#define SOCKET_HANDLER_POLL_TIMEOUT 2000000 // 2mS
+#define SOCKET_HANDLER_PKT_SIZE 512
+
 struct client {
 	struct socket_handler		*sh;
 	struct poller			*poller;
@@ -64,8 +67,12 @@ static void client_close(struct client *client)
 	if (client->poller)
 		console_poller_unregister(sh->console, client->poller);
 
-	if (client->rbc)
+	if (client->rbc) {
+		timer_t timer_id;
+		get_ringbuffer_consumer_timer_id(client->rbc, &timer_id);
+		timer_delete(timer_id);
 		ringbuffer_consumer_unregister(client->rbc);
+	}
 
 	for (idx = 0; idx < sh->n_clients; idx++)
 		if (sh->clients[idx] == client)
@@ -139,10 +146,9 @@ static int client_drain_queue(struct client *client, size_t force_len)
 {
 	uint8_t *buf;
 	ssize_t wlen;
-	size_t len, total_len;
+	size_t len, total_len = 0;
 	bool block;
 
-	total_len = 0;
 	wlen = 0;
 	block = !!force_len;
 
@@ -150,8 +156,8 @@ static int client_drain_queue(struct client *client, size_t force_len)
 	if (!block && client->blocked)
 		return 0;
 
-	for (;;) {
-		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf);
+	while (true) {
+		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 
@@ -161,17 +167,60 @@ static int client_drain_queue(struct client *client, size_t force_len)
 
 		total_len += wlen;
 
-		if (force_len && total_len >= force_len)
+		if (force_len && (total_len >= force_len))
 			break;
 	}
 
-	if (wlen < 0)
+	if ((wlen < 0) || (force_len && (total_len < force_len))) {
 		return -1;
-
-	if (force_len && total_len < force_len)
-		return -1;
+	}
 
 	ringbuffer_dequeue_commit(client->rbc, total_len);
+	return 0;
+}
+
+static void ringbuffer_timer_handler(int sig, siginfo_t *siginfo, void *private)
+{
+	struct client *client = siginfo->si_value.sival_ptr;
+	client_drain_queue(client, 0);
+}
+
+static int create_socket_timer(struct client *client)
+{
+	struct sigevent sigev;
+	struct sigaction sigact;
+	sigset_t timer_mask;
+	timer_t timer_id;
+
+	sigact.sa_flags = SA_SIGINFO;
+	sigact.sa_sigaction = ringbuffer_timer_handler;
+	sigemptyset(&sigact.sa_mask);
+	if (sigaction(SIGRTMIN, &sigact, NULL) == -1) {
+		return -1;
+	}
+
+	// Block the timer signal temporarily
+	sigemptyset(&timer_mask);
+	sigaddset(&timer_mask, SIGRTMIN);
+	if (sigprocmask(SIG_SETMASK, &timer_mask, NULL) == -1) {
+		return -1;
+	}
+
+	// Create the timer
+	sigev.sigev_notify = SIGEV_SIGNAL;
+	sigev.sigev_signo = SIGRTMIN;
+	sigev.sigev_value.sival_ptr = client;
+	if (timer_create(CLOCK_MONOTONIC, &sigev, &timer_id) == -1) {
+		return -1;
+	}
+
+	// Unblock signal
+	if (sigprocmask(SIG_UNBLOCK, &timer_mask, NULL) == -1) {
+		return -1;
+	}
+	set_ringbuffer_consumer_timer_id(client->rbc, timer_id);
+	set_ringbuffer_consumer_timer_mask(client->rbc, timer_mask);
+
 	return 0;
 }
 
@@ -179,7 +228,46 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 		size_t force_len)
 {
 	struct client *client = arg;
-	int rc;
+	uint8_t *buf;
+	int wrapped;
+	int rc, len, total_len = 0;
+	sigset_t timer_mask;
+
+	len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf, &wrapped);
+	if (!len)
+		return RINGBUFFER_POLL_OK;
+
+	if (!force_len && (len < SOCKET_HANDLER_PKT_SIZE) && !wrapped) {
+		// Do nothing until many small requests have accumulated, or
+		// the UART is idle for awhile.
+
+		// Keep buffering until the ring buffer wraps.
+		// Wrapping the buffer is a discontinuity that needs
+		// to be handled immediately.
+
+		// Start the timer to allow the callback handler to
+		// drain any pending data in the ringbuffer
+		timer_t timerid;
+		struct itimerspec its;
+
+		its.it_value.tv_sec = 0;
+		its.it_value.tv_nsec = SOCKET_HANDLER_POLL_TIMEOUT;
+		its.it_interval.tv_sec = 0;
+		its.it_interval.tv_nsec = 0;
+		get_ringbuffer_consumer_timer_id(client->rbc, &timerid);
+		if (timer_settime(timerid, 0, &its, NULL) == -1) {
+			return RINGBUFFER_ERR;
+		}
+		return RINGBUFFER_POLL_OK;
+	}
+
+	/* Block timer signal temporarily */
+	get_ringbuffer_consumer_timer_mask(client->rbc, &timer_mask);
+	sigemptyset(&timer_mask);
+	sigaddset(&timer_mask, SIGRTMIN);
+	if (sigprocmask(SIG_SETMASK, &timer_mask, NULL) == -1) {
+		return RINGBUFFER_POLL_REMOVE;
+	}
 
 	rc = client_drain_queue(client, force_len);
 	if (rc) {
@@ -187,6 +275,11 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 		client_close(client);
 		return RINGBUFFER_POLL_REMOVE;
 	}
+
+	if (sigprocmask(SIG_UNBLOCK, &timer_mask, NULL) == -1) {
+		return RINGBUFFER_POLL_REMOVE;
+	}
+	set_ringbuffer_consumer_timer_mask(client->rbc, timer_mask);
 
 	return RINGBUFFER_POLL_OK;
 }
@@ -233,7 +326,7 @@ static enum poller_ret socket_poll(struct handler *handler,
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client;
-	int fd, n;
+	int fd, n, rc;
 
 	if (!(events & POLLIN))
 		return POLLER_OK;
@@ -252,6 +345,10 @@ static enum poller_ret socket_poll(struct handler *handler,
 	client->rbc = console_ringbuffer_consumer_register(sh->console,
 			client_ringbuffer_poll, client);
 
+	rc = create_socket_timer(client);
+	if (rc) {
+		return POLLER_REMOVE;
+	}
 	n = sh->n_clients++;
 	sh->clients = realloc(sh->clients,
 			sizeof(*sh->clients) * sh->n_clients);
