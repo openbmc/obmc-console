@@ -15,9 +15,8 @@
  */
 
 #include <err.h>
+#include <stdint.h>
 #include <unistd.h>
-
-#include "console-server.h"
 
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 {

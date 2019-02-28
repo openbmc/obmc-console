@@ -113,7 +113,7 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
 	/* we log synchronously, so just dequeue everything we can, and
 	 * commit straight away. */
 	for (;;) {
-		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf);
+		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf, NULL);
 		if (!len)
 			break;
 

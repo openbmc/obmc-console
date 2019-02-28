@@ -31,9 +31,11 @@
 #include <string.h>
 #include <getopt.h>
 #include <limits.h>
+#include <time.h>
 #include <termios.h>
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <poll.h>
 
 #include "console-server.h"
@@ -64,10 +66,12 @@ struct console {
 };
 
 struct poller {
-	struct handler	*handler;
-	void		*data;
-	poller_fn_t	fn;
-	bool		remove;
+	struct handler		*handler;
+	void			*data;
+	poller_event_fn_t	 event_fn;
+	poller_timeout_fn_t	 timeout_fn;
+	struct timeval		 timeout;
+	bool			 remove;
 };
 
 /* we have two extra entry in the pollfds array for the VUART tty */
@@ -78,7 +82,7 @@ enum internal_pollfds {
 };
 
 /* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128 * 1024;
+static const size_t buffer_size = 128 * 1024;
 
 /* state shared with the signal handler */
 static bool sigint;
@@ -456,6 +460,26 @@ static void handlers_fini(struct console *console)
 	}
 }
 
+static int get_current_time(struct timeval *tv)
+{
+	struct timespec t;
+	int rc;
+
+	/*
+	 * We use clock_gettime(CLOCK_MONOTONIC) so we're immune to
+	 * local time changes. However, a struct timeval is more
+	 * convenient for calculations, so convert to that.
+	 */
+	rc = clock_gettime(CLOCK_MONOTONIC, &t);
+	if (rc)
+		return rc;
+
+	tv->tv_sec = t.tv_sec;
+	tv->tv_usec = t.tv_nsec / 1000;
+
+	return 0;
+}
+
 struct ringbuffer_consumer *console_ringbuffer_consumer_register(
 		struct console *console,
 		ringbuffer_poll_fn_t poll_fn, void *data)
@@ -464,8 +488,9 @@ struct ringbuffer_consumer *console_ringbuffer_consumer_register(
 }
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_fn_t poller_fn,
-		int fd, int events, void *data)
+		struct handler *handler, poller_event_fn_t poller_fn,
+		poller_timeout_fn_t timeout_fn, int fd,
+		int events, void *data)
 {
 	struct poller *poller;
 	int n;
@@ -473,7 +498,8 @@ struct poller *console_poller_register(struct console *console,
 	poller = malloc(sizeof(*poller));
 	poller->remove = false;
 	poller->handler = handler;
-	poller->fn = poller_fn;
+	poller->event_fn = poller_fn;
+	poller->timeout_fn = timeout_fn;
 	poller->data = data;
 
 	/* add one to our pollers array */
@@ -547,7 +573,57 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 	console->pollfds[i].events = events;
 }
 
-static int call_pollers(struct console *console)
+void console_poller_set_timeout(struct console *console, struct poller *poller,
+		const struct timeval *tv)
+{
+	struct timeval now;
+	int rc;
+
+	rc = get_current_time(&now);
+	if (rc)
+		return;
+
+	timeradd(&now, tv, &poller->timeout);
+}
+
+static int get_poll_timeout(struct console *console, struct timeval *cur_time)
+{
+	struct timeval *earliest, interval;
+	struct poller *poller;
+	int i;
+
+	earliest = NULL;
+
+	for (i = 0; i < console->n_pollers; i++) {
+		poller = console->pollers[i];
+
+		if (poller->timeout_fn && timerisset(&poller->timeout) &&
+		    (!earliest ||
+		     (earliest && timercmp(&poller->timeout, earliest, <)))){
+			// poller is buffering data and needs the poll
+			// function to timeout.
+			earliest = &poller->timeout;
+		}
+	}
+
+	if (earliest) {
+		if (timercmp(earliest, cur_time, >)) {
+			/* recalculate the timeout period, time period has
+			 * not elapsed */
+			timersub(earliest, cur_time, &interval);
+			return ((interval.tv_sec * 1000) +
+				(interval.tv_usec / 1000));
+		} else {
+			/* return from poll immediately */
+			return 0;
+		}
+	} else {
+		/* poll indefinitely */
+		return -1;
+	}
+}
+
+static int call_pollers(struct console *console, struct timeval *cur_time)
 {
 	struct poller *poller;
 	struct pollfd *pollfd;
@@ -563,16 +639,33 @@ static int call_pollers(struct console *console)
 	for (i = 0; i < console->n_pollers; i++) {
 		poller = console->pollers[i];
 		pollfd = &console->pollfds[i];
+		prc = POLLER_OK;
 
-		if (!pollfd->revents)
-			continue;
+		/* process pending events... */
+		if (pollfd->revents) {
+			prc = poller->event_fn(poller->handler, pollfd->revents,
+					poller->data);
+			if (prc == POLLER_EXIT)
+				rc = -1;
+			else if (prc == POLLER_REMOVE)
+				poller->remove = true;
+		}
 
-		prc = poller->fn(poller->handler, pollfd->revents,
-				poller->data);
-		if (prc == POLLER_EXIT)
-			rc = -1;
-		else if (prc == POLLER_REMOVE)
-			poller->remove = true;
+		if ((prc == POLLER_OK) && poller->timeout_fn &&
+		    timerisset(&poller->timeout) &&
+		    timercmp(&poller->timeout, cur_time, <=)) {
+			/* One of the ringbuffer consumers is buffering the
+			data stream. The amount of idle time the consumer
+			desired has expired.  Process the buffered data for
+			transmission. */
+			timerclear(&poller->timeout);
+			prc = poller->timeout_fn(poller->handler, poller->data);
+			if (prc == POLLER_EXIT) {
+				rc = -1;
+			} else if (prc == POLLER_REMOVE) {
+				poller->remove = true;
+			}
+		}
 	}
 
 	/**
@@ -606,7 +699,8 @@ static void sighandler(int signal)
 int run_console(struct console *console)
 {
 	sighandler_t sighandler_save;
-	int rc;
+	struct timeval tv;
+	int rc, timeout;
 
 	sighandler_save = signal(SIGINT, sighandler);
 
@@ -622,8 +716,18 @@ int run_console(struct console *console)
 			break;
 		}
 
+		rc = get_current_time(&tv);
+		if (rc) {
+			warn("Failed to read current time");
+			break;
+		}
+
+		timeout = get_poll_timeout(console, &tv);
+
 		rc = poll(console->pollfds,
-				console->n_pollers + MAX_INTERNAL_POLLFD, -1);
+			  console->n_pollers + n_internal_pollfds,
+			  timeout);
+
 		if (rc < 0) {
 			if (errno == EINTR) {
 				continue;
@@ -651,9 +755,10 @@ int run_console(struct console *console)
 		}
 
 		/* ... and then the pollers */
-		rc = call_pollers(console);
+		rc = call_pollers(console, &tv);
 		if (rc)
 			break;
+
 	}
 
 	signal(SIGINT, sighandler_save);

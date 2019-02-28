@@ -99,7 +99,7 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	total_len = 0;
 
 	for (;;) {
-		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf);
+		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 
@@ -269,7 +269,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (make_terminal_raw(th, tty_name) != 0)
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
 
-	th->poller = console_poller_register(console, handler, tty_poll,
+	th->poller = console_poller_register(console, handler, tty_poll, NULL,
 			th->fd, POLLIN, NULL);
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
