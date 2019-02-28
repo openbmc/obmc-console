@@ -17,10 +17,10 @@ void test_read_commit(void)
 	rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_nop, NULL);
 
 	ringbuffer_queue(rb, in_buf, sizeof(in_buf));
-	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf);
+	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf, NULL);
 
 	ringbuffer_dequeue_commit(rbc, len);
-	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf);
+	len = ringbuffer_dequeue_peek(rbc, 0, &out_buf, NULL);
 	assert(len == 0);
 
 	ringbuffer_fini(rb);

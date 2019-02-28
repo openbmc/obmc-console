@@ -46,7 +46,7 @@ enum ringbuffer_poll_ret ringbuffer_poll_append_all(void *data,
 
 	total_len = 0;
 	for (;;) {
-		len = ringbuffer_dequeue_peek(ctx->rbc, total_len, &buf);
+		len = ringbuffer_dequeue_peek(ctx->rbc, total_len, &buf, NULL);
 		if (!len)
 			break;
 
