@@ -1,0 +1,10 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+2: Jeremy Kerr <jk@ozlabs.org>
+Ok-To-Test+1: Jeremy Kerr <jk@ozlabs.org>
+Verified+1: Jeremy Kerr <jk@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Submitted-by: Jeremy Kerr <jk@ozlabs.org>
+Submitted-at: Mon, 25 Mar 2019 01:56:21 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/obmc-console/+/18784
+Project: openbmc/obmc-console
+Branch: refs/heads/master
