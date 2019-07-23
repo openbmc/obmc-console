@@ -82,6 +82,10 @@ static void config_parse(struct config *config, char *buf)
 
 		/* create a new item and add to our list */
 		item = malloc(sizeof(*item));
+        if (item == NULL) {
+           warn("Pointer item malloc failed");
+           break;
+        }
 		item->name = name;
 		item->value = value;
 		item->next = config->items;
@@ -99,6 +103,10 @@ static struct config *config_init_fd(int fd, const char *filename)
 	size = 4096;
 	len = 0;
 	buf = malloc(size + 1);
+    if (buf == NULL) {
+        warn("Pointer buf malloc failed");
+        return NULL;
+    }
 	config = NULL;
 
 	for (;;) {
@@ -114,12 +122,20 @@ static struct config *config_init_fd(int fd, const char *filename)
 		if (len == size) {
 			size <<= 1;
 			buf = realloc(buf, size + 1);
+            if (buf == NULL) {
+                warn("Pointer buf malloc failed");
+                goto out_free;
+            }
 		}
 
 	}
 	buf[len] = '\0';
 
 	config = malloc(sizeof(*config));
+    if (config == NULL) {
+        warn("Pointer config malloc failed");
+        goto out_free;
+    }
 	config->items = NULL;
 
 	config_parse(config, buf);

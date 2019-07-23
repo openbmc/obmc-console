@@ -239,9 +239,10 @@ static int tty_init(struct handler *handler, struct console *console,
 		return -1;
 
 	rc = asprintf(&tty_path, "/dev/%s", tty_name);
-	if (!rc)
+	if (!rc) {
+        free(tty_path);
 		return -1;
-
+    }
 	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);

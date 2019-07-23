@@ -496,6 +496,10 @@ struct poller *console_poller_register(struct console *console,
 	int n;
 
 	poller = malloc(sizeof(*poller));
+    if (!poller) {
+        warnx("Pointer poller malloc failed");
+        return NULL;
+    }
 	poller->remove = false;
 	poller->handler = handler;
 	poller->event_fn = poller_fn;
@@ -506,6 +510,10 @@ struct poller *console_poller_register(struct console *console,
 	n = console->n_pollers++;
 	console->pollers = realloc(console->pollers,
 			sizeof(*console->pollers) * console->n_pollers);
+    if (!(console->pollers)) {
+        warnx("Pointer console->pollers realloc failed");
+        return poller;
+    }
 
 	console->pollers[n] = poller;
 
@@ -807,6 +815,10 @@ int main(int argc, char **argv)
 	config_tty_kname = argv[optind];
 
 	console = malloc(sizeof(struct console));
+    if (console == NULL) {
+        warnx("Pointer console malloc failed");
+        return EXIT_FAILURE;
+    }
 	memset(console, 0, sizeof(*console));
 	console->pollfds = calloc(MAX_INTERNAL_POLLFD,
 			sizeof(*console->pollfds));
@@ -840,7 +852,10 @@ out_free:
 	free(console->pollfds);
 	free(console->tty_sysfs_devnode);
 	free(console->tty_dev);
-	free(console);
+    free(console->rb);
+    if (console) {
+	    free(console);
+    }
 
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }

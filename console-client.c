@@ -201,9 +201,11 @@ int main(void)
 	memset(client, 0, sizeof(*client));
 
 	rc = client_init(client);
-	if (rc)
+	if (rc) {
+        warn("Can't connect to console server");
+        close(client->console_sd);
 		return EXIT_FAILURE;
-
+    }
 	rc = client_tty_init(client);
 	if (rc)
 		goto out_fini;

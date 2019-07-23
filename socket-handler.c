@@ -282,6 +282,10 @@ static enum poller_ret socket_poll(struct handler *handler,
 		return POLLER_OK;
 
 	client = malloc(sizeof(*client));
+    if (client == NULL) {
+        close(fd);
+        return POLLER_REMOVE;
+    }
 	memset(client, 0, sizeof(*client));
 
 	client->sh = sh;
@@ -295,6 +299,11 @@ static enum poller_ret socket_poll(struct handler *handler,
 	n = sh->n_clients++;
 	sh->clients = realloc(sh->clients,
 			sizeof(*sh->clients) * sh->n_clients);
+    if (sh->clients == NULL) {
+        close(fd);
+        free(client);
+        return POLLER_REMOVE;
+    }
 	sh->clients[n] = client;
 
 	return POLLER_OK;

@@ -73,6 +73,9 @@ struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
 	int n;
 
 	rbc = malloc(sizeof(*rbc));
+    if (rbc == NULL) {
+        return NULL;
+    }
 	rbc->rb = rb;
 	rbc->poll_fn = fn;
 	rbc->poll_data = data;
@@ -81,6 +84,10 @@ struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
 	n = rb->n_consumers++;
 	rb->consumers = realloc(rb->consumers,
 			sizeof(*rb->consumers) * rb->n_consumers);
+    if (rb->consumers == NULL) {
+        free(rbc);
+        return NULL;
+    }
 	rb->consumers[n] = rbc;
 
 	return rbc;
