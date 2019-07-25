@@ -37,24 +37,71 @@ enum process_rc {
 	PROCESS_ESC,
 };
 
+enum esc_type {
+	ESC_TYPE_SSH,
+};
+
+struct ssh_esc_state {
+	uint8_t state;
+};
+
 struct console_client {
 	int		console_sd;
 	int		fd_in;
 	int		fd_out;
 	bool		is_tty;
 	struct termios	orig_termios;
-	int		esc_str_pos;
-	bool		newline;
+	enum esc_type	esc_type;
+	union {
+		struct ssh_esc_state ssh;
+	} esc_state;
 };
 
-static const uint8_t esc_str[] = { '~', '.' };
+static enum process_rc process_ssh_tty(
+		struct console_client *client, const uint8_t *buf, size_t len)
+{
+	struct ssh_esc_state *esc_state = &client->esc_state.ssh;
+	const uint8_t *out_buf = buf;
+	int rc;
+
+	for (size_t i = 0; i < len; ++i) {
+		switch (buf[i])
+		{
+		case '.':
+			if (esc_state->state != '~') {
+				esc_state->state = '\0';
+				break;
+			}
+			return PROCESS_ESC;
+		case '~':
+			if (esc_state->state != '\r') {
+				esc_state->state = '\0';
+				break;
+			}
+			esc_state->state = '~';
+			/* We need to print everything to skip the tilde */
+			rc = write_buf_to_fd(
+				client->console_sd, out_buf, i-(out_buf-buf));
+			if (rc < 0)
+				return PROCESS_ERR;
+			out_buf = &buf[i+1];
+			break;
+		case '\r':
+			esc_state->state = '\r';
+			break;
+		default:
+			esc_state->state = '\0';
+		}
+	}
+
+	rc = write_buf_to_fd(client->console_sd, out_buf, len-(out_buf-buf));
+	return rc < 0 ? PROCESS_ERR : PROCESS_OK;
+}
 
 static enum process_rc process_tty(struct console_client *client)
 {
-	uint8_t e, buf[4096];
-	long i;
+	uint8_t buf[4096];
 	ssize_t len;
-	int rc;
 
 	len = read(client->fd_in, buf, sizeof(buf));
 	if (len < 0)
@@ -62,49 +109,13 @@ static enum process_rc process_tty(struct console_client *client)
 	if (len == 0)
 		return PROCESS_EXIT;
 
-	/* check escape sequence status */
-	for (i = 0; i < len; i++) {
-		/* the escape string is only valid after a newline */
-		if (buf[i] == '\r') {
-			client->newline = true;
-			continue;
-		}
-
-		if (!client->newline)
-			continue;
-
-		e = esc_str[client->esc_str_pos];
-		if (buf[i] == e) {
-			client->esc_str_pos++;
-
-			/* have we hit the end of the escape string? */
-			if (client->esc_str_pos == ARRAY_SIZE(esc_str)) {
-
-				/* flush out any data before the escape */
-				if (i > client->esc_str_pos)
-					write_buf_to_fd(client->console_sd,
-						buf,
-						i - client->esc_str_pos);
-
-				return PROCESS_ESC;
-			}
-		} else {
-			/* if we're partially the way through the escape
-			 * string, flush out the bytes we'd skipped */
-			if (client->esc_str_pos)
-				write_buf_to_fd(client->console_sd,
-						esc_str, client->esc_str_pos);
-			client->esc_str_pos = 0;
-			client->newline = false;
-		}
-	}
-
-	rc = write_buf_to_fd(client->console_sd, buf,
-			len - client->esc_str_pos);
-	if (rc < 0)
+	switch (client->esc_type)
+	{
+	case ESC_TYPE_SSH:
+		return process_ssh_tty(client, buf, len);
+	default:
 		return PROCESS_ERR;
-
-	return PROCESS_OK;
+	}
 }
 
 
@@ -202,6 +213,7 @@ int main(void)
 
 	client = &_client;
 	memset(client, 0, sizeof(*client));
+	client->esc_type = ESC_TYPE_SSH;
 
 	rc = client_init(client);
 	if (rc)
