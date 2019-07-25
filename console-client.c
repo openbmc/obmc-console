@@ -54,10 +54,8 @@ static enum process_rc process_tty(struct console_client *client)
 	int rc;
 
 	len = read(client->fd_in, buf, sizeof(buf));
-	if (len < 0)
+	if (len <= 0)
 		return PROCESS_ERR;
-	if (len == 0)
-		return PROCESS_EXIT;
 
 	/* check escape sequence status */
 	for (i = 0; i < len; i++) {
@@ -117,7 +115,7 @@ static int process_console(struct console_client *client)
 	}
 	if (len == 0) {
 		fprintf(stderr, "Connection closed\n");
-		return PROCESS_EXIT;
+		return PROCESS_ERR;
 	}
 
 	rc = write_buf_to_fd(client->fd_out, buf, len);
