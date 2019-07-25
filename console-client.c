@@ -28,10 +28,13 @@
 
 #include "console-server.h"
 
+#define EXIT_ESCAPE 2
+
 enum process_rc {
 	PROCESS_OK = 0,
 	PROCESS_ERR,
 	PROCESS_EXIT,
+	PROCESS_ESC,
 };
 
 struct console_client {
@@ -83,7 +86,7 @@ static enum process_rc process_tty(struct console_client *client)
 						buf,
 						i - client->esc_str_pos);
 
-				return PROCESS_EXIT;
+				return PROCESS_ESC;
 			}
 		} else {
 			/* if we're partially the way through the escape
@@ -194,7 +197,7 @@ int main(void)
 {
 	struct console_client _client, *client;
 	struct pollfd pollfds[2];
-	enum process_rc prc;
+	enum process_rc prc = PROCESS_OK;
 	int rc;
 
 	client = &_client;
@@ -208,7 +211,6 @@ int main(void)
 	if (rc)
 		goto out_fini;
 
-	prc = PROCESS_OK;
 	for (;;) {
 		pollfds[0].fd = client->fd_in;
 		pollfds[0].events = POLLIN;
@@ -234,6 +236,8 @@ int main(void)
 
 out_fini:
 	client_fini(client);
+	if (prc == PROCESS_ESC)
+		return EXIT_ESCAPE;
 	return rc ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
