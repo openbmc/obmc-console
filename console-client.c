@@ -15,6 +15,7 @@
  */
 
 #include <err.h>
+#include <getopt.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -36,10 +37,16 @@ enum process_rc {
 
 enum esc_type {
 	ESC_TYPE_SSH,
+	ESC_TYPE_STR,
 };
 
 struct ssh_esc_state {
 	uint8_t state;
+};
+
+struct str_esc_state {
+	const uint8_t *str;
+	size_t pos;
 };
 
 struct console_client {
@@ -51,6 +58,7 @@ struct console_client {
 	enum esc_type	esc_type;
 	union {
 		struct ssh_esc_state ssh;
+		struct str_esc_state str;
 	} esc_state;
 };
 
@@ -95,6 +103,27 @@ static enum process_rc process_ssh_tty(
 	return rc < 0 ? PROCESS_ERR : PROCESS_OK;
 }
 
+static enum process_rc process_str_tty(
+		struct console_client *client, const uint8_t *buf, size_t len)
+{
+	struct str_esc_state *esc_state = &client->esc_state.str;
+	enum process_rc prc = PROCESS_OK;
+	size_t i;
+
+	for (i = 0; i < len; ++i) {
+		if (buf[i] == esc_state->str[esc_state->pos])
+			esc_state->pos++;
+		if (esc_state->str[esc_state->pos] == '\0') {
+			prc = PROCESS_EXIT;
+			break;
+		}
+	}
+
+	if (write_buf_to_fd(client->console_sd, buf, i) < 0)
+		return PROCESS_ERR;
+	return prc;
+}
+
 static enum process_rc process_tty(struct console_client *client)
 {
 	uint8_t buf[4096];
@@ -110,6 +139,8 @@ static enum process_rc process_tty(struct console_client *client)
 	{
 	case ESC_TYPE_SSH:
 		return process_ssh_tty(client, buf, len);
+	case ESC_TYPE_STR:
+		return process_str_tty(client, buf, len);
 	default:
 		return PROCESS_ERR;
 	}
@@ -201,7 +232,7 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	struct console_client _client, *client;
 	struct pollfd pollfds[2];
@@ -211,6 +242,29 @@ int main(void)
 	client = &_client;
 	memset(client, 0, sizeof(*client));
 	client->esc_type = ESC_TYPE_SSH;
+
+	for (;;) {
+		rc = getopt(argc, argv, "e:");
+		if (rc == -1)
+			break;
+
+		switch (rc) {
+		case 'e':
+			if (optarg[0] == '\0') {
+				fprintf(stderr, "Escape str cannot be empty\n");
+				return EXIT_FAILURE;
+			}
+			client->esc_type = ESC_TYPE_STR;
+			client->esc_state.str.str = (const uint8_t*)optarg;
+			break;
+		default:
+			fprintf(stderr,
+				"Usage: %s "
+				"[-e <escape sequence>]\n",
+				argv[0]);
+			return EXIT_FAILURE;
+		}
+	}
 
 	rc = client_init(client);
 	if (rc)
