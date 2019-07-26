@@ -121,6 +121,7 @@ static enum process_rc process_str_tty(
 
 		if (esc_state->str[esc_state->pos] == '\0') {
 			prc = PROCESS_ESC;
+			++i;
 			break;
 		}
 	}
