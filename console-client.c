@@ -207,7 +207,7 @@ static int client_tty_init(struct console_client *client)
 	return 0;
 }
 
-static int client_init(struct console_client *client)
+static int client_init(struct console_client *client, const char *socket_id)
 {
 	struct sockaddr_un addr;
 	ssize_t len;
@@ -221,7 +221,7 @@ static int client_init(struct console_client *client)
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(&addr, NULL);
+	len = console_socket_path(&addr, socket_id);
 	if (len < 0) {
 		if (errno)
 			warn("Failed to configure socket: %s", strerror(errno));
@@ -253,6 +253,7 @@ int main(int argc, char *argv[])
 	struct console_client _client, *client;
 	struct pollfd pollfds[2];
 	enum process_rc prc = PROCESS_OK;
+	const char *socket_id = NULL;
 	int rc;
 
 	client = &_client;
@@ -260,7 +261,7 @@ int main(int argc, char *argv[])
 	client->esc_type = ESC_TYPE_SSH;
 
 	for (;;) {
-		rc = getopt(argc, argv, "e:");
+		rc = getopt(argc, argv, "e:i:");
 		if (rc == -1)
 			break;
 
@@ -273,16 +274,24 @@ int main(int argc, char *argv[])
 			client->esc_type = ESC_TYPE_STR;
 			client->esc_state.str.str = (const uint8_t*)optarg;
 			break;
+		case 'i':
+			if (optarg[0] == '\0') {
+				fprintf(stderr, "Socket ID str cannot be empty\n");
+				return EXIT_FAILURE;
+			}
+			socket_id = optarg;
+			break;
 		default:
 			fprintf(stderr,
 				"Usage: %s "
-				"[-e <escape sequence>]\n",
+				"[-e <escape sequence>]"
+				"[-i <socket ID>]\n",
 				argv[0]);
 			return EXIT_FAILURE;
 		}
 	}
 
-	rc = client_init(client);
+	rc = client_init(client, socket_id);
 	if (rc)
 		return EXIT_FAILURE;
 
