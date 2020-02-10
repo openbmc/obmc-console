@@ -18,11 +18,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define main __main
 #define read __read
+#include "console-socket.c"
+#define main __main
 #include "console-client.c"
-#undef main
 #undef read
+#undef main
 
 struct test {
 	enum esc_type	esc_type;
@@ -152,11 +153,6 @@ struct test tests[] = {
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
 struct test_ctx ctxs[ARRAY_SIZE(tests)];
-
-/* stubs for console socket */
-const char *console_socket_path = "";
-const size_t console_socket_path_len = 1;
-const char *console_socket_path_readable = 0;
 
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 {
