@@ -18,3 +18,7 @@ EXTRA_DIST = ringbuffer-test-utils.c
 
 AM_CPPFLAGS = -I$(top_srcdir)
 AM_LDFLAGS = $(OESDK_TESTCASE_FLAGS)
+
+test_client_escape_SOURCES = \
+	test-client-escape.c \
+	$(top_builddir)/console-socket.c

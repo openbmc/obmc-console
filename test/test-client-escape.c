@@ -153,11 +153,6 @@ struct test tests[] = {
 
 struct test_ctx ctxs[ARRAY_SIZE(tests)];
 
-/* stubs for console socket */
-const char *console_socket_path = "";
-const size_t console_socket_path_len = 1;
-const char *console_socket_path_readable = 0;
-
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 {
 	struct test_ctx *ctx = &ctxs[fd];
