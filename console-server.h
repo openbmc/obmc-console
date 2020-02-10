@@ -23,6 +23,7 @@
 #include <time.h>
 #include <systemd/sd-bus.h>
 #include <sys/time.h>
+#include <sys/un.h>
 
 struct console;
 struct config;
@@ -138,9 +139,8 @@ speed_t parse_int_to_baud(uint32_t baud);
 int config_parse_logsize(const char *size_str, size_t *size);
 
 /* socket paths */
-extern const char *console_socket_path;
-extern const size_t console_socket_path_len;
-extern const char *console_socket_path_readable;
+ssize_t console_socket_path(struct sockaddr_un *addr, const char *id);
+int console_socket_path_readable(void *, size_t addrlen, char **name);
 
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);

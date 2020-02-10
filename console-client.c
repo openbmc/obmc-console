@@ -15,6 +15,7 @@
  */
 
 #include <err.h>
+#include <errno.h>
 #include <getopt.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -209,6 +210,7 @@ static int client_tty_init(struct console_client *client)
 static int client_init(struct console_client *client)
 {
 	struct sockaddr_un addr;
+	ssize_t len;
 	int rc;
 
 	client->console_sd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -219,17 +221,24 @@ static int client_init(struct console_client *client)
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	memcpy(&addr.sun_path, &console_socket_path, console_socket_path_len);
-
-	rc = connect(client->console_sd, (struct sockaddr *)&addr,
-			sizeof(addr) - sizeof(addr.sun_path) + console_socket_path_len);
-	if (rc) {
-		warn("Can't connect to console server");
-		close(client->console_sd);
-		return -1;
+	len = console_socket_path(&addr, NULL);
+	if (len < 0) {
+		if (errno)
+			warn("Failed to configure socket: %s", strerror(errno));
+		else
+			warn("Socket name length exceeds buffer limits");
+		goto cleanup;
 	}
 
-	return 0;
+	rc = connect(client->console_sd, (struct sockaddr *)&addr,
+			sizeof(addr) - sizeof(addr.sun_path) + len);
+	if (!rc)
+		return 0;
+
+	warn("Can't connect to console server");
+cleanup:
+	close(client->console_sd);
+	return -1;
 }
 
 static void client_fini(struct console_client *client)
