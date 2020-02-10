@@ -306,6 +306,8 @@ static int socket_init(struct handler *handler, struct console *console,
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct sockaddr_un addr;
+	size_t addrlen;
+	ssize_t len;
 	int rc;
 
 	sh->console = console;
@@ -320,26 +322,39 @@ static int socket_init(struct handler *handler, struct console *console,
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	memcpy(&addr.sun_path, &console_socket_path, console_socket_path_len);
+	len = console_socket_path(&addr, NULL);
+	if (len < 0) {
+		if (errno)
+			warn("Failed to configure socket: %s", strerror(errno));
+		else
+			warn("Socket name length exceeds buffer limits");
+		goto cleanup;
+	}
 
-	rc = bind(sh->sd, (struct sockaddr *)&addr,
-			sizeof(addr) - sizeof(addr.sun_path) + console_socket_path_len);
+	addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
+
+	rc = bind(sh->sd, (struct sockaddr *)&addr, addrlen);
 	if (rc) {
-		warn("Can't bind to socket path %s",
-				console_socket_path_readable);
-		return -1;
+		socket_path_t name;
+		console_socket_path_readable(&addr, addrlen, name);
+		warn("Can't bind to socket path %s (terminated at first null)",
+				name);
+		goto cleanup;
 	}
 
 	rc = listen(sh->sd, 1);
 	if (rc) {
 		warn("Can't listen for incoming connections");
-		return -1;
+		goto cleanup;
 	}
 
 	sh->poller = console_poller_register(console, handler, socket_poll,
 			NULL, sh->sd, POLLIN, NULL);
 
 	return 0;
+cleanup:
+	close(sh->sd);
+	return -1;
 }
 
 static void socket_fini(struct handler *handler)
