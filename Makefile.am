@@ -1,7 +1,21 @@
 sbin_PROGRAMS = obmc-console-server
 bin_PROGRAMS = obmc-console-client
 
-EXTRA_DIST = obmc-console.conf.sample
+obmcconsoledir = $(sysconfdir)/obmc-console
+obmcconsole_DATA = conf/server.ttyVUART0.conf
+
+if WITH_SYSTEMD
+systemdsystemunit_DATA = conf/obmc-console@.service \
+			 conf/obmc-console-ssh@.service
+
+if ENABLE_CONCURRENT_SERVERS
+obmcconsole_DATA += conf/client.2200.conf
+else
+systemdsystemunit_DATA += conf/obmc-console-ssh.socket
+sshservicedir = $(systemdsystemunitdir)/obmc-console-ssh@.service.d
+sshservice_DATA = conf/obmc-console-ssh@.service.d/use-socket.conf
+endif
+endif
 
 obmc_console_server_CPPFLAGS = \
 	-DLOCALSTATEDIR=\"$(localstatedir)\" \

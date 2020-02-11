@@ -12,6 +12,8 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
+PKG_PROG_PKG_CONFIG
+
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd > 221])
 
 # Checks for header files.
@@ -21,6 +23,21 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CFLAGS])
 
 # Checks for library functions.
 LT_INIT # Removes 'unrecognized options: --with-libtool-sysroot'
+
+AC_ARG_WITH([systemdsystemunitdir],
+	AS_HELP_STRING([--with-systemdsystemunitdir=DIR],  [Directory for systemd service files]),
+	[], [with_systemdsystemunitdir=${prefix}$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
+if test "x$with_systemdsystemunitdir" != xno; then
+    AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+fi
+AM_CONDITIONAL(WITH_SYSTEMD, [test -n "$with_systemdsystemunitdir" -a "x$with_systemdsystemunitdir" != xno ])
+
+AC_ARG_ENABLE([concurrent-servers],
+              [AS_HELP_STRING([--enable-concurrent-servers],
+                              [Configure applications and systemd units for concurrent server instances])],
+              [],
+              [enable_concurrent_servers="no"])
+AM_CONDITIONAL([ENABLE_CONCURRENT_SERVERS], [test "x$enable_concurrent_servers" = "xyes"])
 
 # Check/set gtest specific functions.
 AX_PTHREAD([GTEST_CPPFLAGS="-DGTEST_HAS_PTHREAD=1"],[GTEST_CPP_FLAGS="-DGTEST_HAS_PTHREAD=0"])
@@ -45,5 +62,14 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
 )
 
 # Create configured output
-AC_CONFIG_FILES([Makefile test/Makefile])
+AC_CONFIG_FILES([
+                 conf/client.2200.conf
+                 conf/obmc-console@.service
+                 conf/obmc-console-ssh@.service
+                 conf/obmc-console-ssh@.service.d/use-socket.conf
+                 conf/obmc-console-ssh.socket
+                 conf/server.ttyVUART0.conf
+                 Makefile
+                 test/Makefile
+                ])
 AC_OUTPUT
