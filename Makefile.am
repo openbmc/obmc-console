@@ -1,7 +1,17 @@
 sbin_PROGRAMS = obmc-console-server
 bin_PROGRAMS = obmc-console-client
 
-EXTRA_DIST = obmc-console.conf.sample
+EXTRA_DATA = \
+	 conf/client.2200.conf \
+	 conf/server.ttyVUART0.conf
+
+if HAVE_SYSTEMD
+EXTRA_DATA += \
+	 conf/obmc-console@.service \
+	 conf/obmc-console-ssh@.service \
+	 conf/obmc-console-ssh@.service.d/use-socket.conf \
+	 conf/obmc-console-ssh.socket
+endif
 
 obmc_console_server_CPPFLAGS = \
 	-DLOCALSTATEDIR=\"$(localstatedir)\" \
