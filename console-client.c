@@ -253,7 +253,10 @@ int main(int argc, char *argv[])
 	struct console_client _client, *client;
 	struct pollfd pollfds[2];
 	enum process_rc prc = PROCESS_OK;
+	const char *config_path = NULL;
+	struct config *config = NULL;
 	const char *socket_id = NULL;
+	const uint8_t *esc = NULL;
 	int rc;
 
 	client = &_client;
@@ -261,18 +264,24 @@ int main(int argc, char *argv[])
 	client->esc_type = ESC_TYPE_SSH;
 
 	for (;;) {
-		rc = getopt(argc, argv, "e:i:");
+		rc = getopt(argc, argv, "c:e:i:");
 		if (rc == -1)
 			break;
 
 		switch (rc) {
+		case 'c':
+			if (optarg[0] == '\0') {
+				fprintf(stderr, "Config str cannot be empty\n");
+				return EXIT_FAILURE;
+			}
+			config_path = optarg;
+			break;
 		case 'e':
 			if (optarg[0] == '\0') {
 				fprintf(stderr, "Escape str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
-			client->esc_type = ESC_TYPE_STR;
-			client->esc_state.str.str = (const uint8_t*)optarg;
+			esc = (const uint8_t*)optarg;
 			break;
 		case 'i':
 			if (optarg[0] == '\0') {
@@ -285,19 +294,39 @@ int main(int argc, char *argv[])
 			fprintf(stderr,
 				"Usage: %s "
 				"[-e <escape sequence>]"
-				"[-i <socket ID>]\n",
+				"[-i <socket ID>]"
+				"[-c <config>]\n",
 				argv[0]);
 			return EXIT_FAILURE;
 		}
 	}
 
+	if (config_path) {
+		config = config_init(config_path);
+		if (!config) {
+			warnx("Can't read configuration, exiting.");
+			return EXIT_FAILURE;
+		}
+
+		if (!esc)
+			esc = (const uint8_t *)config_get_value(config, "escape-sequence");
+
+		if (!socket_id)
+			socket_id = config_get_value(config, "socket-id");
+	}
+
+	if (esc) {
+		client->esc_type = ESC_TYPE_STR;
+		client->esc_state.str.str = esc;
+	}
+
 	rc = client_init(client, socket_id);
 	if (rc)
-		return EXIT_FAILURE;
+		goto out_config_fini;
 
 	rc = client_tty_init(client);
 	if (rc)
-		goto out_fini;
+		goto out_client_fini;
 
 	for (;;) {
 		pollfds[0].fd = client->fd_in;
@@ -322,8 +351,13 @@ int main(int argc, char *argv[])
 			break;
 	}
 
-out_fini:
+out_client_fini:
 	client_fini(client);
+
+out_config_fini:
+	if (config_path)
+		config_fini(config);
+
 	if (prc == PROCESS_ESC)
 		return EXIT_ESCAPE;
 	return rc ? EXIT_FAILURE : EXIT_SUCCESS;

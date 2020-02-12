@@ -21,10 +21,14 @@ obmc_console_server_SOURCES = \
 obmc_console_server_LDFLAGS = $(SYSTEMD_LIBS) -lrt
 obmc_console_server_CFLAGS = $(SYSTEMD_CFLAGS)
 
+obmc_console_client_CPPFLAGS = \
+	-DSYSCONFDIR=\"$(sysconfdir)\"
+
 obmc_console_client_SOURCES = \
 	 console-client.c \
 	 console-server.h \
 	 console-socket.c \
+	 config.c \
 	 util.c
 
 SUBDIRS = test

@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 #define read __read
+#include "config.c"
 #include "console-socket.c"
 #define main __main
 #include "console-client.c"
