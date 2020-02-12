@@ -798,13 +798,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (optind >= argc) {
-		warnx("Required argument <DEVICE> missing");
-		usage(argv[0]);
-		return EXIT_FAILURE;
-	}
-
-	config_tty_kname = argv[optind];
+	if (optind < argc)
+		config_tty_kname = argv[optind];
 
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
@@ -816,6 +811,15 @@ int main(int argc, char **argv)
 	if (!config) {
 		warnx("Can't read configuration, exiting.");
 		goto out_free;
+	}
+
+	if (!config_tty_kname)
+		config_tty_kname = config_get_value(config, "upstream-tty");
+
+	if (!config_tty_kname) {
+		warnx("No TTY device specified");
+		usage(argv[0]);
+		return EXIT_FAILURE;
 	}
 
 	console->tty_kname = config_tty_kname;
