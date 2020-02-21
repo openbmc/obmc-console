@@ -210,6 +210,7 @@ static int client_tty_init(struct console_client *client)
 static int client_init(struct console_client *client, const char *socket_id)
 {
 	struct sockaddr_un addr;
+	socket_path_t path;
 	ssize_t len;
 	int rc;
 
@@ -235,7 +236,8 @@ static int client_init(struct console_client *client, const char *socket_id)
 	if (!rc)
 		return 0;
 
-	warn("Can't connect to console server");
+	console_socket_path_readable(&addr, len, path);
+	warn("Can't connect to console server '@%s'", path);
 cleanup:
 	close(client->console_sd);
 	return -1;
