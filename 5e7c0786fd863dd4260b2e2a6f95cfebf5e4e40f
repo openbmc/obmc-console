@@ -1,0 +1,9 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Code-Review+2: Andrew Jeffery <andrew@aj.id.au>
+Submitted-by: Andrew Jeffery <andrew@aj.id.au>
+Submitted-at: Tue, 25 Feb 2020 02:55:55 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/obmc-console/+/29194
+Project: openbmc/obmc-console
+Branch: refs/heads/master
