@@ -4,6 +4,11 @@ bin_PROGRAMS = obmc-console-client
 obmcconsoledir = $(sysconfdir)/obmc-console
 obmcconsole_DATA = conf/server.ttyVUART0.conf
 
+if WITH_UDEV
+udevrulesddir = $(udevdir)/rules.d
+udevrulesd_DATA = conf/80-obmc-console-uart.rules
+endif
+
 if WITH_SYSTEMD
 systemdsystemunit_DATA = conf/obmc-console@.service \
 			 conf/obmc-console-ssh@.service

@@ -24,6 +24,14 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CFLAGS])
 # Checks for library functions.
 LT_INIT # Removes 'unrecognized options: --with-libtool-sysroot'
 
+AC_ARG_WITH([udevdir],
+        AS_HELP_STRING([--with-udevdir=DIR],  [Directory for udev rules]),
+        [], [with_udevdir=${prefix}$($PKG_CONFIG --variable=udevdir udev)])
+if test "x$with_udevdir" != xno; then
+    AC_SUBST([udevdir], [$with_udevdir])
+fi
+AM_CONDITIONAL(WITH_UDEV, [test -n "$with_udevdir" -a "x$with_udevdir" != xno ])
+
 AC_ARG_WITH([systemdsystemunitdir],
 	AS_HELP_STRING([--with-systemdsystemunitdir=DIR],  [Directory for systemd service files]),
 	[], [with_systemdsystemunitdir=${prefix}$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
@@ -63,6 +71,7 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
 
 # Create configured output
 AC_CONFIG_FILES([
+                 conf/80-obmc-console-uart.rules
                  conf/client.2200.conf
                  conf/obmc-console@.service
                  conf/obmc-console-ssh@.service
