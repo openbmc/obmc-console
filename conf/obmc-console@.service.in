@@ -7,3 +7,7 @@ ConditionPathExists=/etc/obmc-console/server.%i.conf
 ExecStart=/usr/sbin/obmc-console-server --config /etc/obmc-console/server.%i.conf %i
 SyslogIdentifier=%i-console-server
 Restart=always
+
+[Install]
+WantedBy=default.target
+
