@@ -106,6 +106,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b0a8bb_60e57c61",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T07:12:51Z",
+      "side": 1,
+      "message": "Yes, that\u0027s fine, but note that the fd will now refer to the renamed file.\n\nSo:\n\n- if the rename succeeds, you can close() the old fd and open(O_CREAT) the new file.\n\n- if the rename fails, you can lseek() and ftruncate().\n\n(continued in the next comment though)",
+      "parentUuid": "fcd06af7_0cc17cfe",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc5770a4_0e5568a4",
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "In case rename fails, the old file still exists and thus I need to truncate it.\nIn case it fails, make it return -1 so that log_data() will not write the data to the fd.",
       "parentUuid": "dc5770a4_0e5568a4",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec860ced_cf515b62",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T07:12:51Z",
+      "side": 1,
+      "message": "... in that latter case, where rename() fails, the only critical thing is the lseek(). If that fails, the file will continue to grow. If the ftruncate() fails, the old file content will remain, but will be overwritten as new log data is received - I don\u0027t think that should be an error, but happy either way if you have strong opinions on that.\n\n[keep in mind this is only relevant if the rename() also fails, so will be very rare!]",
+      "parentUuid": "0cc4bc85_5611c482",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -242,6 +278,24 @@
       "side": 1,
       "message": "Then it needs strcpy and strcat.\nI feel a bit simpler with snprintf()",
       "parentUuid": "e5959fe6_d83d3932",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6258b00e_ec6e64e8",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T07:12:51Z",
+      "side": 1,
+      "message": "OK, sure.",
+      "parentUuid": "478e5cd3_af01323f",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

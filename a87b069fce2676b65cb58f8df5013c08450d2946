@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f855ab46_7c7f95bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T07:12:51Z",
+      "side": 1,
+      "message": "Some comments on handling error conditions, but I\u0027d be OK with the patchset as-is.",
+      "revId": "a87b069fce2676b65cb58f8df5013c08450d2946",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
