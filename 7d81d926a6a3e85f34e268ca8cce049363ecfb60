@@ -269,6 +269,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cd70ead_67353452",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T08:57:34Z",
+      "side": 1,
+      "message": "sounds good! does this mean we should do a rotate during init then?",
+      "parentUuid": "e10298fc_be47a4de",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4115ec6_ad36e1a2",
         "filename": "log-handler.c",
         "patchSetId": 1
