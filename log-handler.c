@@ -37,6 +37,8 @@ struct log_handler {
 	size_t				size;
 	size_t				maxsize;
 	int				pagesize;
+	char				*log_filename;
+	char				*rotate_filename;
 };
 
 
@@ -50,32 +52,31 @@ static struct log_handler *to_log_handler(struct handler *handler)
 
 static int log_trim(struct log_handler *lh, size_t space)
 {
-	int rc, n_shift_pages, shift_len, shift_start;
-	off_t pos;
-	void *buf;
+	int rc;
 
-	pos = lseek(lh->fd, 0, SEEK_CUR);
+	/* Move the log buffer file to the rotate file */
+	close(lh->fd);
+	rc = rename(lh->log_filename, lh->rotate_filename);
+	if (rc) {
+		warn("Failed to rename %s to %s", lh->log_filename, lh->rotate_filename);
+		/* don't return, as we need to re-open the logfile */
+	}
 
-	n_shift_pages = (space + lh->pagesize - 1) / lh->pagesize;
-	shift_start = n_shift_pages * lh->pagesize;
-	shift_len = pos - (n_shift_pages * lh->pagesize);
-
-	buf = mmap(NULL, pos, PROT_READ | PROT_WRITE, MAP_SHARED, lh->fd, 0);
-	if (buf == MAP_FAILED)
+	lh->fd = open(lh->log_filename, O_RDWR | O_CREAT, 0644);
+	if (lh->fd < 0) {
+		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
+	}
+	rc = ftruncate(lh->fd, 0);
+	if (rc) {
+		warn("Can't truncate file %s", lh->log_filename);
+		close(lh->fd);
+		return -1;
+	}
 
-	memmove(buf, buf + shift_start, shift_len);
-
-	munmap(buf, pos);
-
-	lh->size = shift_len;
-	rc = ftruncate(lh->fd, lh->size);
-	if (rc)
-		warn("failed to truncate file");
-	lseek(lh->fd, 0, SEEK_END);
+	lh->size = 0;
 
 	return 0;
-
 }
 
 static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
@@ -133,11 +134,14 @@ static int log_init(struct handler *handler, struct console *console,
 	struct log_handler *lh = to_log_handler(handler);
 	const char *filename, *logsize_str;
 	size_t logsize = default_logsize;
+	size_t rotate_filename_len = 0;
 	int rc;
 
 	lh->console = console;
 	lh->pagesize = 4096;
 	lh->size = 0;
+	lh->log_filename = NULL;
+	lh->rotate_filename = NULL;
 
 	logsize_str = config_get_value(config, "logsize");
 	rc = config_parse_logsize(logsize_str, &logsize);
@@ -164,6 +168,11 @@ static int log_init(struct handler *handler, struct console *console,
 		return -1;
 	}
 
+	lh->log_filename = strdup(filename);
+	rotate_filename_len = strlen(filename) + 3;
+	lh->rotate_filename = malloc(rotate_filename_len);
+	snprintf(lh->rotate_filename, rotate_filename_len, "%s%s", filename, ".1");
+
 	lh->rbc = console_ringbuffer_consumer_register(console,
 			log_ringbuffer_poll, lh);
 
@@ -175,6 +184,10 @@ static void log_fini(struct handler *handler)
 	struct log_handler *lh = to_log_handler(handler);
 	ringbuffer_consumer_unregister(lh->rbc);
 	close(lh->fd);
+	if (lh->log_filename)
+		free(lh->log_filename);
+	if (lh->rotate_filename)
+		free(lh->rotate_filename);
 }
 
 static struct log_handler log_handler = {
