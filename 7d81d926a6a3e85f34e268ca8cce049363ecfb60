@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b3c413_bf46fead",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "Looks good - seeing as we don\u0027t have logrotate available, I\u0027m fine doing this within obmc-console (we will want to review that if we ever do include logrotate though).\n\nA couple of comments on the code, but they\u0027re fairly minor.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "468c81d2_41c010dd",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "use the convention above for the placement of \u0027*\u0027.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381c8f8c_8a7df7f8",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "This wording is a little ambiguous; maybe invert the logic:\n\n/* don\u0027t return, as we need to re-open the logfile */\n\nhowever, it\u0027s also possible to defer the close() until after you know the rotate is successful...\n\nall other comments in this project are C-style, would be good to keep that consistent.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5770a4_0e5568a4",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any need to exit (or even warn, really) here. The fd will be at offset zero, so the new log data will overwrite the old.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4115ec6_ad36e1a2",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "declarations at the top, for consistency.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de49c306_492e0c27",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "no need to cast",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5959fe6_d83d3932",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "just strcat here, no need to re-format.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779788e4_823b1d75",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T05:46:53Z",
+      "side": 1,
+      "message": "no need for the braces here",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
