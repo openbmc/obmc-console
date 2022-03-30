@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9f6dc91_c426918d",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T07:26:45Z",
+      "side": 1,
+      "message": "In the case of the rename failing but the lseek succeeding we\u0027d avoid the problem of the log file growing too large, but wouldn\u0027t we then end up with the new problem of readers being unaware of the boundary between the new data at the start of the file and the old data following it?  That seems like it could lead to hard-to-predict awkwardness downstream (I certainly don\u0027t know offhand what rsyslog would do in that case).",
+      "parentUuid": "ec860ced_cf515b62",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4115ec6_ad36e1a2",
         "filename": "log-handler.c",
         "patchSetId": 1
