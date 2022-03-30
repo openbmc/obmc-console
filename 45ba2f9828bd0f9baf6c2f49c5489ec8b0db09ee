@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c33511bb_6cbed657",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T23:56:08Z",
+      "side": 1,
+      "message": "That\u0027s fairly straightforward to apply globally with a umask.\n\nHowever, I haven\u0027t had much traction with the security folks about this kind of thing; filesystem access has been considered to be protected to privileged users anyway, so I don\u0027t think this would be a high priority.\n\nBut yep, not something to address in this patch.",
+      "parentUuid": "512c99bf_e7a3d196",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3d1dc71_0561e9f8",
