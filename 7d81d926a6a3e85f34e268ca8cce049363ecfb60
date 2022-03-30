@@ -197,6 +197,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfe502a9_ca446508",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-03-30T07:38:12Z",
+      "side": 1,
+      "message": "Yep, we\u0027d end up with the start of the new log in the file, and the end of the old.\n\nI\u0027d say that\u0027s better than dropping log data, but the confusing file contents could be an issue. I\u0027m OK either way.",
+      "parentUuid": "d9f6dc91_c426918d",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4115ec6_ad36e1a2",
         "filename": "log-handler.c",
         "patchSetId": 1
