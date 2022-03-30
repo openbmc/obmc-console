@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1df31a1_91780430",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Even with logrotate, it depends on logrotate to be run timely. If the BMC receives too many SOL content in short time, the buffer will exeeds the size limit until logrotate to be run.\n\nThe code in obmc-console-server makes sure the log file does not exeeds the limit.",
+      "parentUuid": "c8b3c413_bf46fead",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "468c81d2_41c010dd",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15300c15_88fd13d9",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "468c81d2_41c010dd",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "381c8f8c_8a7df7f8",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-30T05:46:53Z",
       "side": 1,
       "message": "This wording is a little ambiguous; maybe invert the logic:\n\n/* don\u0027t return, as we need to re-open the logfile */\n\nhowever, it\u0027s also possible to defer the close() until after you know the rotate is successful...\n\nall other comments in this project are C-style, would be good to keep that consistent.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcd06af7_0cc17cfe",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Done.\n\nCould we rename the file without closing it?",
+      "parentUuid": "381c8f8c_8a7df7f8",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0cc4bc85_5611c482",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "In case rename fails, the old file still exists and thus I need to truncate it.\nIn case it fails, make it return -1 so that log_data() will not write the data to the fd.",
+      "parentUuid": "dc5770a4_0e5568a4",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4115ec6_ad36e1a2",
         "filename": "log-handler.c",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2022-03-30T05:46:53Z",
       "side": 1,
       "message": "declarations at the top, for consistency.",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3968ebb_bbb7b93f",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4115ec6_ad36e1a2",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-30T05:46:53Z",
       "side": 1,
       "message": "no need to cast",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79937592_e846a01c",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de49c306_492e0c27",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -122,6 +230,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "478e5cd3_af01323f",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Then it needs strcpy and strcat.\nI feel a bit simpler with snprintf()",
+      "parentUuid": "e5959fe6_d83d3932",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "779788e4_823b1d75",
         "filename": "log-handler.c",
         "patchSetId": 1
@@ -133,6 +259,24 @@
       "writtenOn": "2022-03-30T05:46:53Z",
       "side": 1,
       "message": "no need for the braces here",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd2edeaf_a84b0b13",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-30T06:25:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "779788e4_823b1d75",
       "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
