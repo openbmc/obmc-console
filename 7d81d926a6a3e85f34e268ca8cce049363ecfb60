@@ -215,6 +215,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a95b6de6_8001d9dc",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T07:50:31Z",
+      "side": 1,
+      "message": "Yeah, I\u0027d certainly agree that exiting would be an overreaction, but it does seem like a sufficiently weird/confusing situation to merit the `warn()` call it\u0027s currently got IMO.  (Could definitely be a helpful clue for someone attempting to debug post-mortem in the event it ever actually occurs.)",
+      "parentUuid": "cfe502a9_ca446508",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4115ec6_ad36e1a2",
         "filename": "log-handler.c",
         "patchSetId": 1
