@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a969de0_da069234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T11:57:12Z",
+      "side": 1,
+      "message": "One last tiny nitpick that could be addressed, but it basically looks good to me.",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "512c99bf_e7a3d196",
@@ -66,6 +83,23 @@
       "side": 1,
       "message": "Right, if we are going to change the mode, let\u0027s do it in a separate patch.",
       "parentUuid": "d3d1dc71_0561e9f8",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58400465_58c98e68",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T11:57:12Z",
+      "side": 1,
+      "message": "`free(NULL)` is guaranteed to be a safe no-op, so the `if` checks here could be removed.",
       "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
