@@ -16,6 +16,40 @@
       "message": "Very clean, I like it!",
       "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "512c99bf_e7a3d196",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T11:15:48Z",
+      "side": 1,
+      "message": "One other thing that just occurred to me...is 0644 the right mode to be passing here?  I suspect in most existing deployments OpenBMC effectively runs as a single-user system (with nearly all processes running as root), but I think there are some efforts underway working towards changing that, which makes me wonder if maybe it shouldn\u0027t be world-readable.  Maybe 0600 instead?",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3d1dc71_0561e9f8",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2022-03-30T11:15:48Z",
+      "side": 1,
+      "message": "And likewise here, though arguably it\u0027s tangential to this particular patch and should be done separately.",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
