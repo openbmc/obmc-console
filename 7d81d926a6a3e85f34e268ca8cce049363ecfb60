@@ -285,6 +285,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7eafd58_b73a36dd",
+        "filename": "log-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2022-03-31T12:41:17Z",
+      "side": 1,
+      "message": "Usually it\u0027s not necessary, because the obmc-console-server is started during BMC boot and is never restarted unless it\u0027s crashed and restarted.",
+      "parentUuid": "2cd70ead_67353452",
+      "revId": "7d81d926a6a3e85f34e268ca8cce049363ecfb60",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4115ec6_ad36e1a2",
