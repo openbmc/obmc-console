@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27d61ea_e3fe4d42",
+        "filename": "log-handler.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-03-31T10:28:21Z",
+      "side": 1,
+      "message": "I don\u0027t think we want err() here, and passing rc to err() is wrong regardless (it should either be EXIT_SUCCESS or EXIT_FAILURE).\n\nI think we just warn() and return -1 like we do in the body of the condition on line 154.",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 49
+      },
+      "revId": "a43d9db3f4ef0be6898e3226a5c6f46752a99e77",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
