@@ -107,6 +107,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fd91850_d327d3e3",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-03-31T04:53:14Z",
+      "side": 1,
+      "message": "We\u0027re building without specifying -std\u003d and are using gcc, so we default to -std\u003dgnu17. Given that we can use asprintf() (we should also be more explicit about what C dialect the source is written in, but that\u0027s a problem for a different patch).\n\nFurther, \"%s%s\" is a bit much when the second string is also a constant. We can just use:\n\n rc \u003d asprintf(\u0026lh-\u003erotate_filename, \"%s.1\", filename);\n if (rc \u003c 0) { ...",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 162,
+        "endChar": 76
+      },
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58400465_58c98e68",
         "filename": "log-handler.c",
         "patchSetId": 3
@@ -118,6 +141,24 @@
       "writtenOn": "2022-03-30T11:57:12Z",
       "side": 1,
       "message": "`free(NULL)` is guaranteed to be a safe no-op, so the `if` checks here could be removed.",
+      "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd665cf_4e9fd984",
+        "filename": "log-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2022-03-31T04:53:14Z",
+      "side": 1,
+      "message": "Yeah, I prefer we clean that up now.",
+      "parentUuid": "58400465_58c98e68",
       "revId": "45ba2f9828bd0f9baf6c2f49c5489ec8b0db09ee",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
