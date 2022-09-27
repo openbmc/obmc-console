@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2226e7_d720f6ee",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-09-27T10:33:47Z",
+      "side": 0,
+      "message": "moving this form the .c to the .h seems unrelated?",
+      "revId": "bbc95526c6b612ec42f45e3d554d01324477c4e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
