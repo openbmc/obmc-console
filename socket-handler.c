@@ -268,6 +268,23 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 	uint8_t buf[4096];
 	ssize_t rc;
 
+	if (events & POLLPRI) {
+		rc = recv(client->fd, buf, sizeof(buf), MSG_OOB | MSG_DONTWAIT);
+		if (rc < 0) {
+			if (errno == EAGAIN || errno == EWOULDBLOCK) {
+				return POLLER_OK;
+			}
+			goto err_close;
+		}
+		if (rc == 0) {
+			goto err_close;
+		}
+		/* Send break to the OS. The data needs to match what the SOL client sends. */
+		if (buf[0] == 72) {
+			console_send_break(sh->console);
+		}
+	}
+
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
 		if (rc < 0) {
@@ -323,7 +340,8 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	client->fd = fd;
 	client->poller = console_poller_register(sh->console, handler,
 						 client_poll, client_timeout,
-						 client->fd, POLLIN, client);
+						 client->fd, POLLIN | POLLPRI,
+						 client);
 	client->rbc = console_ringbuffer_consumer_register(
 		sh->console, client_ringbuffer_poll, client);
 
