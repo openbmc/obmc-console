@@ -34,6 +34,24 @@
       "parentUuid": "0e2226e7_d720f6ee",
       "revId": "bbc95526c6b612ec42f45e3d554d01324477c4e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2591ea7f_5c87cda5",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2022-09-27T23:48:56Z",
+      "side": 0,
+      "message": "Ah, sorry, I missed that!\n\nIn that case, I\u0027d prefer to keep the encapsulation as-is, and just add a small helper in console.c to perform the tcsendbreak(); say, console_send_break().",
+      "parentUuid": "00bf8f03_157c4e76",
+      "revId": "bbc95526c6b612ec42f45e3d554d01324477c4e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
