@@ -25,7 +25,26 @@
 #include <sys/time.h>
 #include <sys/un.h>
 
-struct console;
+struct console {
+	const char	*tty_kname;
+	char		*tty_sysfs_devnode;
+	char		*tty_dev;
+	int		tty_sirq;
+	int		tty_lpc_addr;
+	speed_t		tty_baud;
+	int		tty_fd;
+
+	struct ringbuffer	*rb;
+
+	struct handler	**handlers;
+	int		n_handlers;
+
+	struct poller	**pollers;
+	int		n_pollers;
+
+	struct pollfd	*pollfds;
+	struct sd_bus	*bus;
+};
 struct config;
 
 /* Handler API.
