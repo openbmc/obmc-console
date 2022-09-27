@@ -47,6 +47,11 @@ const size_t buffer_size = 128ul * 1024ul;
 /* state shared with the signal handler */
 static bool sigint;
 
+int console_send_break(struct console *console)
+{
+	return tcsendbreak(console->tty.fd, 0);
+}
+
 static void usage(const char *progname)
 {
 	fprintf(stderr,

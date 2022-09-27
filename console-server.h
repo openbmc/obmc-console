@@ -64,6 +64,7 @@ struct handler {
 /* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
+int console_send_break(struct console *console);
 
 enum poller_ret {
 	POLLER_OK = 0,
