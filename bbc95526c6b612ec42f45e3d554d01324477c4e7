@@ -52,6 +52,24 @@
       "parentUuid": "00bf8f03_157c4e76",
       "revId": "bbc95526c6b612ec42f45e3d554d01324477c4e7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "391a2b07_45e744a1",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001613
+      },
+      "writtenOn": "2022-09-29T09:42:32Z",
+      "side": 0,
+      "message": "Changed as your suggestion.Thanks~",
+      "parentUuid": "2591ea7f_5c87cda5",
+      "revId": "bbc95526c6b612ec42f45e3d554d01324477c4e7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
