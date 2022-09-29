@@ -33,6 +33,24 @@
       "message": "I\u0027d suggest making this conditional on at least some portion of the received data; For example: you could define an OOB byte of 0x01 to signify the break, and then we have a facility to add further out-of-band actions later.",
       "revId": "1fbbcf177c42de1920eeb9a1ff79c83bfae6722f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d850f540_2ff2291a",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001613
+      },
+      "writtenOn": "2022-09-29T09:43:16Z",
+      "side": 1,
+      "message": "Changed as your suggestion, thanks~",
+      "parentUuid": "76325706_dfa2b0d9",
+      "revId": "1fbbcf177c42de1920eeb9a1ff79c83bfae6722f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
