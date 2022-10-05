@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53aa7612_34920a34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2022-10-05T03:52:41Z",
+      "side": 1,
+      "message": "Some minor code style feedback, and a question about the recv call with MSG_OOB",
+      "revId": "8c21ada146c4f3352bc45982a49354c745438d93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "247800f7_3905fd6c",
+        "filename": "console-server.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2022-10-05T03:52:41Z",
+      "side": 1,
+      "message": "nit: put a line of whitespace below this",
+      "revId": "8c21ada146c4f3352bc45982a49354c745438d93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6724c1_a436cbe2",
+        "filename": "socket-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2022-10-05T03:52:41Z",
+      "side": 1,
+      "message": "Reading the manpage:\n\n       MSG_DONTWAIT (since Linux 2.2)\n              Enables  nonblocking operation; if the operation would block, the call fails with the error EAGAIN or EWOULDBLOCK. \n\nAs you don\u0027t have MSG_DONTWAIT set, I\u0027m not sure that you need to check for these values?\n\nHowever, I think you do want to set MSG_OOB|MSG_DONTWAIT ?",
+      "revId": "8c21ada146c4f3352bc45982a49354c745438d93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ebd6dde_cddb1bc5",
+        "filename": "socket-handler.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2022-10-05T03:52:41Z",
+      "side": 1,
+      "message": "nit: follow the style of the existing code:\n\n /* Send break to the OS. The data needs to match what the SoL client sends. */\n if (buf[0] \u003d\u003d 72) {\n    console_send_break(sh-\u003econsole);\n }\n \nNote the change of spacing, where the brace is, etc.",
+      "revId": "8c21ada146c4f3352bc45982a49354c745438d93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
