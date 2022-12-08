@@ -1,5 +1,7 @@
 ## To Build
-Note: In addition to a toolchain and autoconf tools, this requires `autotools-archive` to be installed.
+
+Note: In addition to a toolchain and autoconf tools, this requires
+`autotools-archive` to be installed.
 
 To build this project, run the following shell commands:
 
@@ -10,11 +12,13 @@ make
 ```
 
 To fully clean the repository, run:
+
 ```
 ./bootstrap.sh clean
 ```
 
 ## To Run Server
+
 Running the server requires a serial port (e.g. /dev/ttyS0):
 
 ```
@@ -23,6 +27,7 @@ touch obmc-console.conf
 ```
 
 ## To Connect Client
+
 To connect to the server, simply run the client:
 
 ```
@@ -30,7 +35,6 @@ To connect to the server, simply run the client:
 ```
 
 To disconnect the client, use the standard `~.` combination.
-
 
 ## Underlying design
 
@@ -55,8 +59,8 @@ Network    | 2200 +-->                     +->+ @obmc-console.host0 +<-+        
                +--------------------------------------------------------------------------------------------+
 ```
 
-This supports multiple independent consoles.  The socket-id is a unique
-portion for the unix domain socket created by the obmc-console-server
-instance. The server needs to know this because it needs to know what to name
-the pipe; the client needs to know it as it needs to form the abstract socket
-name to which to connect.
+This supports multiple independent consoles. The socket-id is a unique portion
+for the unix domain socket created by the obmc-console-server instance. The
+server needs to know this because it needs to know what to name the pipe; the
+client needs to know it as it needs to form the abstract socket name to which to
+connect.
