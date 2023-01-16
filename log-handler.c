@@ -62,7 +62,7 @@ static int log_trim(struct log_handler *lh)
 		/* don't return, as we need to re-open the logfile */
 	}
 
-	lh->fd = open(lh->log_filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	lh->fd = open(lh->log_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (lh->fd < 0) {
 		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
@@ -126,6 +126,30 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg, size_t force_len
 	return RINGBUFFER_POLL_OK;
 }
 
+static int log_create(struct log_handler *lh)
+{
+	off_t pos;
+
+	lh->fd = open(lh->log_filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (lh->fd < 0) {
+		warn("Can't open log buffer file %s", lh->log_filename);
+		return -1;
+	}
+	pos = lseek(lh->fd, 0, SEEK_CUR);
+	if (pos < 0) {
+		warn("Can't query log position for file %s", lh->log_filename);
+		close(lh->fd);
+		return -1;
+	}
+
+	if ((size_t)pos >= lh->maxsize) {
+		return log_trim(lh);
+	}
+
+	lh->size = pos;
+	return 0;
+}
+
 static int log_init(struct handler *handler, struct console *console,
 		    struct config *config)
 {
@@ -155,17 +179,15 @@ static int log_init(struct handler *handler, struct console *console,
 		filename = default_filename;
 	}
 
-	lh->fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (lh->fd < 0) {
-		warn("Can't open log buffer file %s", filename);
-		return -1;
-	}
-
 	lh->log_filename = strdup(filename);
 
 	rc = asprintf(&lh->rotate_filename, "%s.1", filename);
 	if (rc < 0) {
 		warn("Failed to construct rotate filename");
+		return -1;
+	}
+
+	if (log_create(lh) < 0) {
 		return -1;
 	}
 
