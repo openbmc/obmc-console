@@ -25,6 +25,7 @@
 #include <unistd.h>
 
 #include <sys/mman.h>
+#include <sys/stat.h>
 
 #include <linux/types.h>
 
@@ -123,6 +124,33 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
 	return RINGBUFFER_POLL_OK;
 }
 
+static int log_create(struct log_handler *lh)
+{
+	struct stat st;
+	int rc = stat(lh->log_filename, &st);
+	if (rc < 0) {
+		lh->fd = open(lh->log_filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		if (lh->fd < 0) {
+			warn("Can't open log buffer file %s", lh->log_filename);
+			return -1;
+		}
+		lh->size = 0;
+		return 0;
+	}
+
+	lh->fd = open(lh->log_filename, O_RDWR | O_APPEND, 0644);
+	if (lh->fd < 0) {
+		warn("Can't open log buffer file %s", lh->log_filename);
+		return -1;
+	}
+
+	if (st.st_size >= lh->maxsize)
+		return log_trim(lh, 0);
+
+	lh->size = st.st_size;
+	return 0;
+}
+
 static int log_init(struct handler *handler, struct console *console,
 		struct config *config)
 {
@@ -150,12 +178,6 @@ static int log_init(struct handler *handler, struct console *console,
 	if (!filename)
 		filename = default_filename;
 
-	lh->fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (lh->fd < 0) {
-		warn("Can't open log buffer file %s", filename);
-		return -1;
-	}
-
 	lh->log_filename = strdup(filename);
 
 	rc = asprintf(&lh->rotate_filename, "%s.1", filename);
@@ -163,6 +185,9 @@ static int log_init(struct handler *handler, struct console *console,
 		warn("Failed to construct rotate filename");
 		return -1;
 	}
+
+	if (log_create(lh) < 0)
+		return -1;
 
 	lh->rbc = console_ringbuffer_consumer_register(console,
 			log_ringbuffer_poll, lh);
