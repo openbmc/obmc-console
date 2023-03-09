@@ -6,7 +6,8 @@ After=dropbearkey.service
 [Service]
 # Unit defaults to a templated service
 Environment="DROPBEAR_RSAKEY_DIR=/etc/dropbear"
-EnvironmentFile=/etc/default/dropbear
+EnvironmentFile=/etc/obmc-console/dropbear.env
+EnvironmentFile=-/etc/obmc-console/dropbear.%i.env
 EnvironmentFile=-/etc/default/obmc-console-client
 ExecStart=/usr/sbin/dropbear -K 5 -r ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key -c "/usr/bin/obmc-console-client -c /etc/obmc-console/client.%i.conf" -p %i -F $DROPBEAR_EXTRA_ARGS
 SyslogIdentifier=console-client-%i
