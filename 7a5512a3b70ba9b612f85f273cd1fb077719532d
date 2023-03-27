@@ -16,6 +16,69 @@
       "message": "Looks good to me.",
       "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7396922e_01bece50",
+        "filename": "conf/obmc-console-ssh@.service.d/use-socket.conf.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-27T23:04:27Z",
+      "side": 1,
+      "message": "Again, I\u0027d prefer we reorder `$DROPBEAR_PRIV_ARGS` and `$DROPBEAR_EXTRA_ARGS` here. Minor issue though.",
+      "range": {
+        "startLine": 5,
+        "startChar": 135,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d5a0fa7_510a660a",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-27T23:04:27Z",
+      "side": 1,
+      "message": "Proper nit-pick of a comment, but can we move this to line 10? That way we keep the dropbear environment files grouped together.",
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b78a944_8a8d0fee",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-27T23:04:27Z",
+      "side": 1,
+      "message": "Again a bit of a nit pick, but can we order `$DROPBEAR_PRIV_ARGS` before `$DROPBEAR_EXTRA_ARGS`? That way the line reads left-to-right in increasing optionalness/volatility",
+      "range": {
+        "startLine": 12,
+        "startChar": 182,
+        "endLine": 12,
+        "endChar": 201
+      },
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
