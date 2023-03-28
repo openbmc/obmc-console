@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14a5d518_09bc05c2",
+        "filename": "conf/obmc-console-ssh@.service.d/use-socket.conf.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-03-28T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7396922e_01bece50",
+      "range": {
+        "startLine": 5,
+        "startChar": 135,
+        "endLine": 6,
+        "endChar": 20
+      },
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d5a0fa7_510a660a",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11ac5e7f_756c2e2d",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-03-28T01:50:56Z",
+      "side": 1,
+      "message": "No, That was deliberate so that port specific variable overrides the all other variables.",
+      "parentUuid": "2d5a0fa7_510a660a",
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b78a944_8a8d0fee",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-03-27T23:04:27Z",
       "side": 1,
       "message": "Again a bit of a nit pick, but can we order `$DROPBEAR_PRIV_ARGS` before `$DROPBEAR_EXTRA_ARGS`? That way the line reads left-to-right in increasing optionalness/volatility",
+      "range": {
+        "startLine": 12,
+        "startChar": 182,
+        "endLine": 12,
+        "endChar": 201
+      },
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97d6f763_bbd1a807",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-03-28T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b78a944_8a8d0fee",
       "range": {
         "startLine": 12,
         "startChar": 182,
