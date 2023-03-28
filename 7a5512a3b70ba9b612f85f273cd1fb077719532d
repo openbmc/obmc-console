@@ -100,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5fb5770_c0e891dd",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-28T23:21:36Z",
+      "side": 1,
+      "message": "Hmm, hopefully we\u0027re not setting obmc-console-client environment variables in the dropbear environment files, but fair enough.",
+      "parentUuid": "11ac5e7f_756c2e2d",
+      "revId": "7a5512a3b70ba9b612f85f273cd1fb077719532d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b78a944_8a8d0fee",
