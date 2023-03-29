@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be5cb0f_7285d534",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-29T02:15:13Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we save ourselves some complication in the patch to openbmc/openbmc by dropping `EnvironmentFile\u003d/etc/default/dropbear`. A quick analysis in the tree with respect to `DROPBEAR_EXTRA_ARGS`:\n\n```\n2 05:22:55 andrew@fedora:~/src/openbmc/openbmc ((e6970b4909a2...)) $ git grep ^DROPBEAR_EXTRA_ARGS\u003d\nmeta-google/recipes-core/dropbear/dropbear/dropbear.default:DROPBEAR_EXTRA_ARGS\u003d\"\"\nmeta-phosphor/recipes-core/dropbear/dropbear/dropbear.default:DROPBEAR_EXTRA_ARGS\u003d\"-G priv-admin\"\nmeta-yadro/recipes-core/dropbear/dropbear/dropbear.default:DROPBEAR_EXTRA_ARGS\u003d\"\"\npoky/meta/recipes-core/dropbear/dropbear/dropbear.default:DROPBEAR_EXTRA_ARGS\u003d\"-w\"\npoky/meta/recipes-core/dropbear/dropbear/init:DROPBEAR_EXTRA_ARGS\u003d\n2 05:23:04 andrew@fedora:~/src/openbmc/openbmc ((e6970b4909a2...)) $ \n```\n\nNo-one seems to set anything significant in it, save for `-G priv-admin` from `meta-phosphor`.\n\nLet\u0027s leave `/etc/default/dropbear` to the domain of `dropbear@.service` and set the expectation that for the purpose of obmc-console, any variables should be specified only by `/etc/default/obmc-console-client` or `/etc/obmc-console/dropbear.%i.env` (and not `/etc/default/dropbear`).",
+      "revId": "40e2f095dd029602f8c062d034fbd5d95f6f83e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
