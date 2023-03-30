@@ -69,6 +69,24 @@
       "parentUuid": "1be5cb0f_7285d534",
       "revId": "40e2f095dd029602f8c062d034fbd5d95f6f83e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5919d312_438b419e",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-03-30T23:33:20Z",
+      "side": 1,
+      "message": "Okay. Maybe I\u0027ll write a blog post about how this all fits together and then we can talk to the Ampere people about cleaning that up. That\u0027s an unfortunate approach to solve the problem, and shouldn\u0027t be necessary.",
+      "parentUuid": "62c1362d_82070c24",
+      "revId": "40e2f095dd029602f8c062d034fbd5d95f6f83e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
