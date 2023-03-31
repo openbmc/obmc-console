@@ -144,6 +144,8 @@ ssize_t console_socket_path(struct sockaddr_un *addr, const char *id);
 typedef char (socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path);
+ssize_t console_socket_get_path(const struct sockaddr_un *addr,
+				     size_t addrlen, socket_path_t path);
 
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);

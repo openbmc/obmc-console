@@ -64,3 +64,15 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 
 	return len; /* strlen() style */
 }
+
+/* Get the socket path */
+ssize_t console_socket_get_path(const struct sockaddr_un *addr,
+                     size_t pathLen, socket_path_t path)
+{
+    const char *src = (const char *)addr;
+
+    memcpy(path, src + sizeof(addr->sun_family), pathLen);
+    path[pathLen] = '\0';
+
+    return pathLen;
+}
