@@ -227,7 +227,7 @@ static int client_init(struct console_client *client, const char *socket_id)
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(&addr, socket_id);
+	len = console_socket_path(&addr, socket_id, NULL);
 	if (len < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));

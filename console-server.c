@@ -34,50 +34,10 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/socket.h>
 #include <poll.h>
 
 #include "console-server.h"
-
-#define DBUS_ERR  "org.openbmc.error"
-#define DBUS_NAME "xyz.openbmc_project.console"
-#define OBJ_NAME  "/xyz/openbmc_project/console"
-
-struct console {
-	const char *tty_kname;
-	char *tty_sysfs_devnode;
-	char *tty_dev;
-	int tty_sirq;
-	uint16_t tty_lpc_addr;
-	speed_t tty_baud;
-	int tty_fd;
-
-	struct ringbuffer *rb;
-
-	struct handler **handlers;
-	long n_handlers;
-
-	struct poller **pollers;
-	long n_pollers;
-
-	struct pollfd *pollfds;
-	struct sd_bus *bus;
-};
-
-struct poller {
-	struct handler *handler;
-	void *data;
-	poller_event_fn_t event_fn;
-	poller_timeout_fn_t timeout_fn;
-	struct timeval timeout;
-	bool remove;
-};
-
-/* we have two extra entry in the pollfds array for the VUART tty */
-enum internal_pollfds {
-	POLLFD_HOSTTTY = 0,
-	POLLFD_DBUS = 1,
-	MAX_INTERNAL_POLLFD = 2,
-};
 
 /* size of the shared backlog ringbuffer */
 const size_t buffer_size = 128ul * 1024ul;
@@ -209,7 +169,7 @@ out_free:
 /**
  * Set termios attributes on the console tty.
  */
-static void tty_init_termios(struct console *console)
+void tty_init_termios(struct console *console)
 {
 	struct termios termios;
 	int rc;
@@ -234,28 +194,6 @@ static void tty_init_termios(struct console *console)
 	rc = tcsetattr(console->tty_fd, TCSANOW, &termios);
 	if (rc) {
 		warn("Can't set terminal options for %s", console->tty_kname);
-	}
-}
-
-static void tty_change_baudrate(struct console *console)
-{
-	struct handler *handler;
-	int i;
-	int rc;
-
-	tty_init_termios(console);
-
-	for (i = 0; i < console->n_handlers; i++) {
-		handler = console->handlers[i];
-		if (!handler->baudrate) {
-			continue;
-		}
-
-		rc = handler->baudrate(handler, console->tty_baud);
-		if (rc) {
-			warnx("Can't set terminal baudrate for handler %s",
-			      handler->name);
-		}
 	}
 }
 
@@ -365,109 +303,32 @@ int console_data_out(struct console *console, const uint8_t *data, size_t len)
 	return write_buf_to_fd(console->tty_fd, data, len);
 }
 
-static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
-				sd_bus_error *err)
+/* Read console if from config and prepare a socket name */
+static int set_socket_info(struct console *console, struct config *config)
 {
-	struct console *console = userdata;
-	uint32_t baudrate;
-	speed_t speed;
-	int r;
+	struct sockaddr_un addr;
+	ssize_t len;
 
-	if (!console) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
-		return sd_bus_reply_method_return(msg, "x", 0);
+	console->console_id = config_get_value(config, "socket-id");
+	if (!console->console_id) {
+		warnx("Error: The socket-id is not set in the config file");
+		return EXIT_FAILURE;
 	}
 
-	r = sd_bus_message_read(msg, "u", &baudrate);
-	if (r < 0) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Bad message");
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
+	/* Create a dummy socket address to build the path */
+	memset(&addr, 0, sizeof(addr));
+	addr.sun_family = AF_UNIX;
+	len = console_socket_path(&addr, console->console_id,
+				  console->socket_name);
+	if (len < 0) {
+		warn("Failed to set socket path: %s", strerror(errno));
+		return EXIT_FAILURE;
 	}
 
-	speed = parse_int_to_baud(baudrate);
-	if (!speed) {
-		warnx("Invalid baud rate: '%u'", baudrate);
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
-	}
+	/* Socket name is not a null terminated string hence save the length */
+	console->socket_name_len = len;
 
-	console->tty_baud = speed;
-	tty_change_baudrate(console);
-
-	return sd_bus_reply_method_return(msg, "x", r);
-}
-
-static int get_handler(sd_bus *bus __attribute__((unused)),
-		       const char *path __attribute__((unused)),
-		       const char *interface __attribute__((unused)),
-		       const char *property __attribute__((unused)),
-		       sd_bus_message *reply, void *userdata,
-		       sd_bus_error *error __attribute__((unused)))
-{
-	struct console *console = userdata;
-	uint32_t baudrate;
-	int r;
-
-	baudrate = parse_baud_to_int(console->tty_baud);
-	if (!baudrate) {
-		warnx("Invalid baud rate: '%d'", console->tty_baud);
-	}
-
-	r = sd_bus_message_append(reply, "u", baudrate);
-
-	return r;
-}
-
-static const sd_bus_vtable console_vtable[] = {
-	SD_BUS_VTABLE_START(0),
-	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
-		      SD_BUS_VTABLE_UNPRIVILEGED),
-	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
-	SD_BUS_VTABLE_END,
-};
-
-static void dbus_init(struct console *console,
-		      struct config *config __attribute__((unused)))
-{
-	int dbus_poller = 0;
-	int fd;
-	int r;
-
-	if (!console) {
-		warnx("Couldn't get valid console");
-		return;
-	}
-
-	r = sd_bus_default_system(&console->bus);
-	if (r < 0) {
-		warnx("Failed to connect to system bus: %s", strerror(-r));
-		return;
-	}
-
-	r = sd_bus_add_object_vtable(console->bus, NULL, OBJ_NAME, DBUS_NAME,
-				     console_vtable, console);
-	if (r < 0) {
-		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
-	}
-
-	r = sd_bus_request_name(console->bus, DBUS_NAME,
-				SD_BUS_NAME_ALLOW_REPLACEMENT |
-					SD_BUS_NAME_REPLACE_EXISTING);
-	if (r < 0) {
-		warnx("Failed to acquire service name: %s", strerror(-r));
-		return;
-	}
-
-	fd = sd_bus_get_fd(console->bus);
-	if (fd < 0) {
-		warnx("Couldn't get the bus file descriptor");
-		return;
-	}
-
-	dbus_poller = POLLFD_DBUS;
-
-	console->pollfds[dbus_poller].fd = fd;
-	console->pollfds[dbus_poller].events = POLLIN;
+	return 0;
 }
 
 static void handlers_init(struct console *console, struct config *config)
@@ -897,6 +758,10 @@ int main(int argc, char **argv)
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
 		usage(argv[0]);
+		return EXIT_FAILURE;
+	}
+
+	if (set_socket_info(console, config)) {
 		return EXIT_FAILURE;
 	}
 

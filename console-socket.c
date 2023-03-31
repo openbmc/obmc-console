@@ -27,7 +27,12 @@
 
 #define CONSOLE_SOCKET_PREFIX "obmc-console"
 
-ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
+/*
+ * Build the socket path. The caller may also optionally request copying the
+ * socket path on success
+ */
+ssize_t console_socket_path(struct sockaddr_un *addr, const char *id,
+			    socket_path_t path)
 {
 	char *sun_path;
 	ssize_t rc;
@@ -52,6 +57,11 @@ ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
 	}
 
 	sun_path[0] = '\0';
+
+	/* User requested to copy socket path on success. */
+	if (path) {
+		memcpy(path, sun_path, rc + 1);
+	}
 
 	return rc + 1 /* Capture NUL prefix */;
 }

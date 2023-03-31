@@ -46,6 +46,7 @@ endif
 
 executable('obmc-console-server',
            'config.c',
+           'console-dbus.c',
            'console-server.c',
            'console-socket.c',
            'log-handler.c',
