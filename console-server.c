@@ -34,6 +34,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/socket.h>
 #include <poll.h>
 
 #include "console-server.h"
@@ -300,6 +301,30 @@ static int tty_init(struct console *console, struct config *config)
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
 {
 	return write_buf_to_fd(console->tty_fd, data, len);
+}
+
+/* Read console if from config and prepare a socket name */
+static int set_socket_info(struct console *console, struct config *config)
+{
+	ssize_t len;
+
+	console->console_id = config_get_value(config, "socket-id");
+	if (!console->console_id) {
+		warnx("Error: The socket-id is not set in the config file");
+		return EXIT_FAILURE;
+	}
+
+	/* Get the socket name/path */
+	len = console_socket_path(console->socket_name, console->console_id);
+	if (len < 0) {
+		warn("Failed to set socket path: %s", strerror(errno));
+		return EXIT_FAILURE;
+	}
+
+	/* Socket name is not a null terminated string hence save the length */
+	console->socket_name_len = len;
+
+	return 0;
 }
 
 static void handlers_init(struct console *console, struct config *config)
@@ -729,6 +754,10 @@ int main(int argc, char **argv)
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
 		usage(argv[0]);
+		return EXIT_FAILURE;
+	}
+
+	if (set_socket_info(console, config)) {
 		return EXIT_FAILURE;
 	}
 
