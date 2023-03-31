@@ -29,6 +29,7 @@
 
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <systemd/sd-daemon.h>
 
 #include "console-server.h"
 
@@ -314,12 +315,6 @@ static int socket_init(struct handler *handler, struct console *console,
 	sh->clients = NULL;
 	sh->n_clients = 0;
 
-	sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
-	if(sh->sd < 0) {
-		warn("Can't create socket");
-		return -1;
-	}
-
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
 	len = console_socket_path(&addr, config_get_value(config, "socket-id"));
@@ -328,24 +323,36 @@ static int socket_init(struct handler *handler, struct console *console,
 			warn("Failed to configure socket: %s", strerror(errno));
 		else
 			warn("Socket name length exceeds buffer limits");
-		goto cleanup;
+		return -1;
 	}
 
-	addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
+	/* Try to take a socket from systemd first */
+	if (sd_listen_fds(0) == 1 &&
+		sd_is_socket_unix(SD_LISTEN_FDS_START, SOCK_STREAM, 1, addr.sun_path, len) > 0) {
+		sh->sd = SD_LISTEN_FDS_START;
+	} else {
+		sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
+		if(sh->sd < 0) {
+			warn("Can't create socket");
+			return -1;
+		}
 
-	rc = bind(sh->sd, (struct sockaddr *)&addr, addrlen);
-	if (rc) {
-		socket_path_t name;
-		console_socket_path_readable(&addr, addrlen, name);
-		warn("Can't bind to socket path %s (terminated at first null)",
-				name);
-		goto cleanup;
-	}
+		addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
 
-	rc = listen(sh->sd, 1);
-	if (rc) {
-		warn("Can't listen for incoming connections");
-		goto cleanup;
+		rc = bind(sh->sd, (struct sockaddr *)&addr, addrlen);
+		if (rc) {
+			socket_path_t name;
+			console_socket_path_readable(&addr, addrlen, name);
+			warn("Can't bind to socket path %s (terminated at first null)",
+					name);
+			goto cleanup;
+		}
+
+		rc = listen(sh->sd, 1);
+		if (rc) {
+			warn("Can't listen for incoming connections");
+			goto cleanup;
+		}
 	}
 
 	sh->poller = console_poller_register(console, handler, socket_poll,

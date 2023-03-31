@@ -74,6 +74,7 @@ AC_CONFIG_FILES([
                  conf/80-obmc-console-uart.rules
                  conf/client.2200.conf
                  conf/obmc-console@.service
+                 conf/obmc-console@.socket
                  conf/obmc-console-ssh@.service
                  conf/obmc-console-ssh@.service.d/use-socket.conf
                  conf/obmc-console-ssh.socket
