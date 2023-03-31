@@ -63,21 +63,64 @@ struct handler {
 	_handler_name(__COUNTER__) = h
 /* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 
-int console_data_out(struct console *console, const uint8_t *data, size_t len);
-
-/* poller API */
-struct poller;
-
 enum poller_ret {
 	POLLER_OK = 0,
 	POLLER_REMOVE,
 	POLLER_EXIT,
 };
 
+typedef char(socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
+
 typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
 					     int revents, void *data);
 typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
 					       void *data);
+
+/* Console server structure */
+struct console {
+	const char *tty_kname;
+	char *tty_sysfs_devnode;
+	char *tty_dev;
+	const char *console_id;
+	int tty_sirq;
+	uint16_t tty_lpc_addr;
+	speed_t tty_baud;
+	int tty_fd;
+
+	/* Socket name starts with null character hence we need length */
+	socket_path_t socket_name;
+	ssize_t socket_name_len;
+
+	struct ringbuffer *rb;
+
+	struct handler **handlers;
+	long n_handlers;
+
+	struct poller **pollers;
+	long n_pollers;
+
+	struct pollfd *pollfds;
+	struct sd_bus *bus;
+};
+
+/* poller API */
+struct poller {
+	struct handler *handler;
+	void *data;
+	poller_event_fn_t event_fn;
+	poller_timeout_fn_t timeout_fn;
+	struct timeval timeout;
+	bool remove;
+};
+
+/* we have two extra entry in the pollfds array for the VUART tty */
+enum internal_pollfds {
+	POLLFD_HOSTTTY = 0,
+	POLLFD_DBUS = 1,
+	MAX_INTERNAL_POLLFD = 2,
+};
+
+int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
 struct poller *console_poller_register(struct console *console,
 				       struct handler *handler,
@@ -143,6 +186,9 @@ struct ringbuffer_consumer *
 console_ringbuffer_consumer_register(struct console *console,
 				     ringbuffer_poll_fn_t poll_fn, void *data);
 
+/* console server API */
+void tty_init_termios(struct console *console);
+
 /* config API */
 struct config;
 const char *config_get_value(struct config *config, const char *name);
@@ -155,14 +201,18 @@ speed_t parse_int_to_baud(uint32_t baud);
 int config_parse_logsize(const char *size_str, size_t *size);
 
 /* socket paths */
-ssize_t console_socket_path(struct sockaddr_un *addr, const char *id);
+ssize_t console_socket_path(struct sockaddr_un *addr, const char *id,
+			    socket_path_t path);
 
-typedef char(socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path);
 
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
+
+/* console-dbus API */
+void dbus_init(struct console *console,
+	       struct config *config __attribute__((unused)));
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
