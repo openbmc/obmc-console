@@ -27,18 +27,17 @@
 
 #define CONSOLE_SOCKET_PREFIX "obmc-console"
 
-ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
+/* Build the socket path. */
+ssize_t console_socket_path(socket_path_t sun_path, const char *id)
 {
-	char *sun_path;
 	ssize_t rc;
-
-	sun_path = (char *)addr + sizeof(*addr) - sizeof(addr->sun_path);
+	size_t path_len = sizeof(((struct sockaddr_un *)NULL)->sun_path);
 
 	if (id) {
-		rc = snprintf(sun_path + 1, sizeof(addr->sun_path) - 1,
+		rc = snprintf(sun_path + 1, path_len - 1,
 			      CONSOLE_SOCKET_PREFIX ".%s", id);
 	} else {
-		rc = snprintf(sun_path + 1, sizeof(addr->sun_path) - 1,
+		rc = snprintf(sun_path + 1, path_len - 1,
 			      CONSOLE_SOCKET_PREFIX);
 	}
 
@@ -46,7 +45,7 @@ ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
 		return rc;
 	}
 
-	if ((size_t)rc > (sizeof(addr->sun_path) - 1)) {
+	if ((size_t)rc > (path_len - 1)) {
 		errno = 0;
 		return -1;
 	}
