@@ -36,6 +36,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/socket.h>
 #include <poll.h>
 
 #include "console-server.h"
@@ -43,15 +44,23 @@
 #define DBUS_ERR "org.openbmc.error"
 #define DBUS_NAME "xyz.openbmc_project.console"
 #define OBJ_NAME "/xyz/openbmc_project/console"
+#define CONSOLE_DBUS_NAME "xyz.openbmc_project.Console.%s"
+#define CONSOLE_OBJ_NAME "/xyz/openbmc_project/console/%s"
+#define CONSOLE_INTF_NAME "xyz.openbmc_project.Console.Access"
 
 struct console {
 	const char	*tty_kname;
 	char		*tty_sysfs_devnode;
 	char		*tty_dev;
+	const char	*console_id;
 	int		tty_sirq;
 	int		tty_lpc_addr;
 	speed_t		tty_baud;
 	int		tty_fd;
+
+	/* Socket name starts with null character hence we need length */
+	socket_path_t socket_name;
+	int           socket_name_len;
 
 	struct ringbuffer	*rb;
 
@@ -83,6 +92,9 @@ enum internal_pollfds {
 
 /* size of the shared backlog ringbuffer */
 const size_t buffer_size = 128 * 1024;
+
+/* size of the dbus object path length */
+const size_t dbus_obj_path_len = 1024;
 
 /* state shared with the signal handler */
 static bool sigint;
@@ -373,6 +385,19 @@ static int get_handler(sd_bus *bus, const char *path, const char *interface,
 	return r;
 }
 
+static int get_socket_name(sd_bus *bus, const char *path, const char *interface,
+			const char *property, sd_bus_message *reply, void *userdata,
+			sd_bus_error *error)
+{
+	struct console *console = userdata;
+
+	/* The abstract socket name starts with null character hence we need to
+	 * send it as a byte stream instead of regular string.
+	 */
+	return sd_bus_message_append_array(reply, 'y', console->socket_name,
+										console->socket_name_len);
+}
+
 static const sd_bus_vtable console_vtable[] = {
 	SD_BUS_VTABLE_START(0),
 	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
@@ -380,10 +405,17 @@ static const sd_bus_vtable console_vtable[] = {
 	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
 	SD_BUS_VTABLE_END,};
 
+static const sd_bus_vtable supported_consoles_vtable[] = {
+	SD_BUS_VTABLE_START(0),
+	SD_BUS_PROPERTY("SocketName", "ay", get_socket_name, 0, 0),
+	SD_BUS_VTABLE_END,};
+
 static void dbus_init(struct console *console, struct config *config)
 {
 	int dbus_poller = 0;
-	int fd, r;
+	int fd, r, bytes;
+    char console_obj_name[dbus_obj_path_len];
+    char console_bus_name[dbus_obj_path_len];
 
 	if (!console) {
 		warnx("Couldn't get valid console");
@@ -410,6 +442,35 @@ static void dbus_init(struct console *console, struct config *config)
 		return;
 	}
 
+	/* Register support console interface */
+	bytes = snprintf(console_obj_name, dbus_obj_path_len, CONSOLE_OBJ_NAME,
+			console->console_id);
+	if (bytes == dbus_obj_path_len) {
+		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+			console->console_id);
+		return;
+	}
+	r = sd_bus_add_object_vtable(console->bus, NULL, console_obj_name, CONSOLE_INTF_NAME,
+								supported_consoles_vtable, console);
+	if (r < 0) {
+		warnx("Failed to issue method call: %s", strerror(-r));
+		return;
+	}
+
+	bytes = snprintf(console_bus_name, dbus_obj_path_len, CONSOLE_DBUS_NAME,
+					console->console_id);
+	if (bytes == dbus_obj_path_len) {
+		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+				console->console_id);
+		return;
+	}
+	r = sd_bus_request_name(console->bus, console_bus_name, SD_BUS_NAME_ALLOW_REPLACEMENT
+							|SD_BUS_NAME_REPLACE_EXISTING);
+	if (r < 0) {
+		warnx("Failed to acquire service name: %s", strerror(-r));
+		return;
+	}
+
 	fd = sd_bus_get_fd(console->bus);
 	if (fd < 0) {
 		warnx("Couldn't get the bus file descriptor");
@@ -420,6 +481,43 @@ static void dbus_init(struct console *console, struct config *config)
 
 	console->pollfds[dbus_poller].fd = fd;
 	console->pollfds[dbus_poller].events = POLLIN;
+}
+
+/* Read console if from config and prepare a socket name */
+static int set_socket_info(struct console *console, struct config *config)
+{
+	struct sockaddr_un addr;
+	socket_path_t socketName;
+	size_t addrlen, len;
+	char  *name;
+
+	console->console_id = config_get_value(config, "socket-id");
+	if (!console->console_id) {
+		warnx("Error: The socket-id is not set in the config file");
+		return EXIT_FAILURE;
+	}
+
+	/* Create a dummy socket address to build the path */
+	memset(&addr, 0, sizeof(addr));
+	addr.sun_family = AF_UNIX;
+	len = console_socket_path(&addr, console->console_id);
+	if (len < 0) {
+		warn("Failed to set socket path: %s", strerror(errno));
+		return EXIT_FAILURE;
+	}
+
+	/* Now get the socket name string from address and save it in the console */
+	addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
+	console_socket_path_readable(&addr, addrlen, socketName);
+
+	/* Save the abstract socket name */
+	name = &console->socket_name[0];
+	memcpy(name + 1, socketName, len);
+	name[0] = '\0';
+
+	console->socket_name_len = len;
+
+	return 0;
 }
 
 static void handlers_init(struct console *console, struct config *config)
@@ -819,6 +917,10 @@ int main(int argc, char **argv)
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
 		usage(argv[0]);
+		return EXIT_FAILURE;
+	}
+
+	if (set_socket_info(console, config)) {
 		return EXIT_FAILURE;
 	}
 
