@@ -11,6 +11,7 @@ endif
 
 if WITH_SYSTEMD
 systemdsystemunit_DATA = conf/obmc-console@.service \
+			 conf/obmc-console@.socket \
 			 conf/obmc-console-ssh@.service
 
 if ENABLE_CONCURRENT_SERVERS

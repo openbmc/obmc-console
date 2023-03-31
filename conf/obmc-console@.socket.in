@@ -1,0 +1,10 @@
+[Unit]
+Description=Console server domain socket listener
+
+[Socket]
+ListenStream=@obmc-console
+Accept=no
+Service=obmc-console@%i.service
+
+[Install]
+WantedBy=sockets.target
