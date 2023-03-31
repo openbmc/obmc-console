@@ -65,14 +65,13 @@ struct handler {
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
-/* poller API */
-struct poller;
-
 enum poller_ret {
 	POLLER_OK = 0,
 	POLLER_REMOVE,
 	POLLER_EXIT,
 };
+
+typedef char(socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
 
 typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
 					     int revents, void *data);
@@ -89,6 +88,10 @@ struct console {
 	uint16_t tty_lpc_addr;
 	speed_t tty_baud;
 	int tty_fd;
+
+	/* Socket name starts with null character hence we need length */
+	socket_path_t socket_name;
+	ssize_t socket_name_len;
 
 	struct ringbuffer *rb;
 
@@ -111,6 +114,7 @@ struct poller {
 	struct timeval timeout;
 	bool remove;
 };
+
 /* we have two extra entry in the pollfds array for the VUART tty */
 enum internal_pollfds {
 	POLLFD_HOSTTTY = 0,
@@ -197,9 +201,7 @@ speed_t parse_int_to_baud(uint32_t baud);
 int config_parse_logsize(const char *size_str, size_t *size);
 
 /* socket paths */
-ssize_t console_socket_path(struct sockaddr_un *addr, const char *id);
-
-typedef char(socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
+ssize_t console_socket_path(socket_path_t path, const char *id);
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path);
 
