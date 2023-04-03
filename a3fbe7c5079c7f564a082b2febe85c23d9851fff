@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b88a3a76_805f4dea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-03T19:59:14Z",
+      "side": 1,
+      "message": "Yes this is exactly our desired use case for Intel platforms. By default, the host console is routed straight through the BMC (UART1-\u003eIO1) so that no BMC FW is required to interact with the host console. Only when a SOL is activated is the routing dynamically changed to go through UART1-\u003eUART3-\u003eobmc-console@ttyS2-\u003eUART4-\u003eIO1. This was done to minimize the dynamic routing changes because we found that it occasionally introduced garbage into the data stream. But then obmc-console@ttyS2 is sitting around doing nothing most of the time.\n\nBy adding unix socket activation, we avoid running obmc-console when it\u0027s not doing anything, and can add the UART routing logic into the obmc-console service file to make the whole thing cleaner.",
+      "parentUuid": "af3499f8_917e80b7",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e54dca0_cbdfc5f2",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-04-03T01:21:14Z",
       "side": 1,
       "message": "This needs to be templated as well in accordance with the code defining the socket name. The current pattern in the implementation is `@obmc-console.${socket-id}`. Maybe it\u0027s best if we fix the logic in [1] so that there\u0027s always a socket-id (e.g. set it to \"default\" by default) rather than conditionally appending the `.${socket-id}`.",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2861143b_03e8d21b",
+        "filename": "conf/obmc-console@.socket.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-03T19:59:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure how we would template the socket name. Do you have a specific suggestion?\n\nOur Intel platforms support three different SOL options, and they all only support a hardcoded \"obmc-console\" socket name at this time:\n* bmcweb: https://github.com/openbmc/bmcweb/blob/a1cbc1920833ae7f7cf9c2e7df06e37dc7f9f530/include/obmc_console.hpp#L133\n* IPMI: https://github.com/openbmc/phosphor-net-ipmid/blob/6d206811c91cd13d75d110ad173202ebef1dc731/sol/sol_manager.hpp#L23\n* Socket-activated SSH: https://github.com/openbmc/obmc-console/blob/397fd035e3adda2f3d36bfc5f2268372847778e7/conf/obmc-console-ssh%40.service.d/use-socket.conf.in#L3\n\nNone of them have any way to differentiate or request a specific console. So at least from my perspective there is no use case for templating the socket name.\n\nI think it would be up to the specific yocto platform layer to override the ListenStream with template-instance-specific drop-in files.",
+      "parentUuid": "4e54dca0_cbdfc5f2",
       "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
