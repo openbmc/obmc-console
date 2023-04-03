@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af3499f8_917e80b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-04-03T01:40:21Z",
+      "side": 1,
+      "message": "I\u0027m okay with this change, but keep in mind that the proposed setup (only starting the console service on connect) will break two things:\n\n* logging: console logs will only generated when there is a client attached, which sorta defeats the purpose of the log buffer\n* local (physical) serial ports: no mirroring to local serial ports (specified by `local-tty`) will occur where no SoL or Redfish console is attached.\n\nIs that OK for your use-case?",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e54dca0_cbdfc5f2",
