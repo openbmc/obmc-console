@@ -86,6 +86,24 @@
       "parentUuid": "4e54dca0_cbdfc5f2",
       "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a294dbd6_354d8343",
+        "filename": "conf/obmc-console@.socket.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-04T01:02:43Z",
+      "side": 1,
+      "message": "Ninad is looking at fixing bmcweb at the moment. phosphor-net-ipmid will also need to be fixed I guess, but I doubt Ninad has looked at that. Socket-activated SSH is a restricted case of the general applicability of the supplied units.\n\nThis blog post covers the capability in more depth:\n\nhttps://amboar.github.io/notes/2023/03/31/exploiting-obmc-console-service-units-for-multiple-host-consoles.html",
+      "parentUuid": "2861143b_03e8d21b",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
