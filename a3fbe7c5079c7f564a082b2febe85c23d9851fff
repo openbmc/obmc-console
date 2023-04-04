@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18109cd3_9552879b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-04-04T01:20:52Z",
+      "side": 1,
+      "message": "OK, all good.\n\nJust a clarification though:\n\n\u003e This was done to minimize the dynamic routing changes\n\nunless I\u0027m missing something: this has *more* dynamic routing changes than the existing (always-running) behaviour, no?\n\nThe originally-intended usage model is to not change any  routing at runtime, but just have obmc-console directly perform the mirroring to the physical UART.\n\nAlso, should we add a warning when using the systemd-provided socket in conjunction with `local-tty` or `logfile`? I suspect we\u0027re going to get some difficult support requests otherwise.",
+      "parentUuid": "b88a3a76_805f4dea",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e54dca0_cbdfc5f2",
