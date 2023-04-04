@@ -71,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed91b814_9b207894",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-04T21:52:54Z",
+      "side": 1,
+      "message": "\u003e unless I\u0027m missing something: this has *more* dynamic routing changes than the existing (always-running) behaviour, no?\n\nWell, no. Assuming the routing change is done as an ExecStartPre in obmc-console@.service, then it\u0027s the same, just possibly delayed. Once the service is started, it stays running.\n\nTo give more context, the problematic test case we found involved repeated AC power cycles where the BMC and host are booting in parallel. When obmc-console@.service is started during every boot, then the routing will get switched every time while the host is potentially dumping tons of text. So if we delay the routing change until it\u0027s needed, then there are no routing changes at all in this test case and no garbage text.\n\n\u003e The originally-intended usage model is to not change any  routing at runtime, but just have obmc-console directly perform the mirroring to the physical UART.\n\nAs stated, this model doesn\u0027t work for us because we need to see the host UART before the BMC can be fully booted. So we have to rely on the default ASPEED UART1-\u003eIO1 routing and then switch it at runtime to use obmc-console.\n\n\n\u003e Also, should we add a warning when using the systemd-provided socket in conjunction with `local-tty` or `logfile`? I suspect we\u0027re going to get some difficult support requests otherwise.\n\nI can add such a warning if you\u0027d like. But this new obmc-console@.socket is not going to be enabled by default. If someone chooses to enable it on their platform (and disable the corresponding obmc-console@.service), then presumably they\u0027ll be aware of the consequences. It should be easy to check \"is obmc-console@ttySX.service running?\"",
+      "parentUuid": "18109cd3_9552879b",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e54dca0_cbdfc5f2",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "Ninad is looking at fixing bmcweb at the moment. phosphor-net-ipmid will also need to be fixed I guess, but I doubt Ninad has looked at that. Socket-activated SSH is a restricted case of the general applicability of the supplied units.\n\nThis blog post covers the capability in more depth:\n\nhttps://amboar.github.io/notes/2023/03/31/exploiting-obmc-console-service-units-for-multiple-host-consoles.html",
       "parentUuid": "2861143b_03e8d21b",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb29036_cf66e913",
+        "filename": "conf/obmc-console@.socket.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-04T21:52:54Z",
+      "side": 1,
+      "message": "Changed to `ListenStream\u003d@obmc-console.%i` in PS 2 - does that work?\nWe\u0027ll have to override it back to @obmc-console in the meantime for our platforms, but that\u0027s OK I guess.",
+      "parentUuid": "a294dbd6_354d8343",
       "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
