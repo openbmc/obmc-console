@@ -89,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ac1f70_84759345",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-04-11T04:26:58Z",
+      "side": 1,
+      "message": "Hi Jonathan,\n\n\u003e To give more context, the problematic test case we found involved repeated AC power cycles where the BMC and host are booting in parallel. When obmc-console@.service is started during every boot, then the routing will get switched every time while the host is potentially dumping tons of text. So if we delay the routing change until it\u0027s needed, then there are no routing changes at all in this test case and no garbage text.\n\nAh, gotchya - you\u0027re covering the reboot case here, sounds good.\n\n\u003e \u003e Also, should we add a warning when using the systemd-provided socket in conjunction with `local-tty` or `logfile`? I suspect we\u0027re going to get some difficult support requests otherwise.\n\u003e \n\u003e I can add such a warning if you\u0027d like.\n\nNo, I think you\u0027re fine as-is. As you say, it\u0027s not a default configuration, so requires an explicit change to enable (and at that point, hopfully disabling logging and local-tty).",
+      "parentUuid": "ed91b814_9b207894",
+      "revId": "a3fbe7c5079c7f564a082b2febe85c23d9851fff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e54dca0_cbdfc5f2",
