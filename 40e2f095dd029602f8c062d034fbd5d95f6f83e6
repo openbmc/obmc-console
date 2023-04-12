@@ -105,6 +105,24 @@
       "parentUuid": "5919d312_438b419e",
       "revId": "40e2f095dd029602f8c062d034fbd5d95f6f83e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5e4e7c_e0760043",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-12T00:06:41Z",
+      "side": 1,
+      "message": "To be clear, my intent in that discussion was that we should make the fix here to drop `EnvironmentFile\u003d/etc/default/dropbear` from the unit and let Ampere fix themselves whenever they get around to it.",
+      "parentUuid": "98c2b6bd_e2770294",
+      "revId": "40e2f095dd029602f8c062d034fbd5d95f6f83e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
