@@ -1,0 +1,7 @@
+Code-Review+2: Jeremy Kerr <jk@ozlabs.org>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Jonathan Doman <jonathan.doman@intel.com>
+Submitted-at: Fri, 14 Apr 2023 18:33:43 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/62102
+Project: openbmc/obmc-console
+Branch: refs/heads/master
