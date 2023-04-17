@@ -3,8 +3,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#ifndef SYSCONFDIR
 // Bypass compilation error due to -DSYSCONFDIR not provided
 #define SYSCONFDIR
+#endif
 
 #include "config.c"
 
