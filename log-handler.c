@@ -31,17 +31,16 @@
 #include "console-server.h"
 
 struct log_handler {
-	struct handler			handler;
-	struct console			*console;
-	struct ringbuffer_consumer	*rbc;
-	int				fd;
-	size_t				size;
-	size_t				maxsize;
-	size_t				pagesize;
-	char				*log_filename;
-	char				*rotate_filename;
+	struct handler handler;
+	struct console *console;
+	struct ringbuffer_consumer *rbc;
+	int fd;
+	size_t size;
+	size_t maxsize;
+	size_t pagesize;
+	char *log_filename;
+	char *rotate_filename;
 };
-
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
 static const size_t default_logsize = 16 * 1024;
@@ -59,7 +58,8 @@ static int log_trim(struct log_handler *lh)
 	close(lh->fd);
 	rc = rename(lh->log_filename, lh->rotate_filename);
 	if (rc) {
-		warn("Failed to rename %s to %s", lh->log_filename, lh->rotate_filename);
+		warn("Failed to rename %s to %s", lh->log_filename,
+		     lh->rotate_filename);
 		/* don't return, as we need to re-open the logfile */
 	}
 
@@ -98,8 +98,8 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 	return 0;
 }
 
-static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
-		size_t force_len __attribute__((unused)))
+static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg, size_t force_len
+						    __attribute__((unused)))
 {
 	struct log_handler *lh = arg;
 	uint8_t *buf;
@@ -124,7 +124,7 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg,
 }
 
 static int log_init(struct handler *handler, struct console *console,
-		struct config *config)
+		    struct config *config)
 {
 	struct log_handler *lh = to_log_handler(handler);
 	const char *filename, *logsize_str;
@@ -142,7 +142,7 @@ static int log_init(struct handler *handler, struct console *console,
 	if (logsize_str != NULL && rc) {
 		logsize = default_logsize;
 		warn("Invalid logsize. Default to %ukB",
-                     (unsigned int)(logsize >> 10));
+		     (unsigned int)(logsize >> 10));
 	}
 	lh->maxsize = logsize <= lh->pagesize ? lh->pagesize + 1 : logsize;
 
@@ -165,7 +165,7 @@ static int log_init(struct handler *handler, struct console *console,
 	}
 
 	lh->rbc = console_ringbuffer_consumer_register(console,
-			log_ringbuffer_poll, lh);
+						       log_ringbuffer_poll, lh);
 
 	return 0;
 }
@@ -188,4 +188,3 @@ static struct log_handler log_handler = {
 };
 
 console_handler_register(&log_handler.handler);
-

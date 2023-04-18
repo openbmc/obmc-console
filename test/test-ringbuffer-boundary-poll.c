@@ -17,8 +17,8 @@ void test_boundary_poll(void)
 
 	rb = ringbuffer_init(10);
 
-	ctx->rbc = ringbuffer_consumer_register(rb,
-			ringbuffer_poll_append_all, ctx);
+	ctx->rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_append_all,
+						ctx);
 
 	/* don't consume initial data in the poll callback */
 	ctx->ignore_poll = true;

@@ -27,127 +27,126 @@
 #undef main
 
 struct test {
-	enum esc_type	esc_type;
+	enum esc_type esc_type;
 	union {
 		struct ssh_esc_state ssh;
 		struct str_esc_state str;
 	} esc_state;
-	const char	*in[4];
-	size_t		n_in;
-	const char	*exp_out;
-	int		exp_rc;
+	const char *in[4];
+	size_t n_in;
+	const char *exp_out;
+	int exp_rc;
 };
 
 struct test_ctx {
-	struct console_client	client;
-	struct test		*test;
-	uint8_t			out[4096];
-	size_t			cur_in;
-	size_t			cur_out;
+	struct console_client client;
+	struct test *test;
+	uint8_t out[4096];
+	size_t cur_in;
+	size_t cur_out;
 };
-
 
 struct test tests[] = {
 	{
 		/* no escape code */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a"},
-		.n_in		= 1,
-		.exp_out	= "a",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a" },
+		.n_in = 1,
+		.exp_out = "a",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* no escape code, multiple reads */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a", "b"},
-		.n_in		= 2,
-		.exp_out	= "ab",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a", "b" },
+		.n_in = 2,
+		.exp_out = "ab",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* ssh escape in one read */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a\r~."},
-		.n_in		= 1,
-		.exp_out	= "a\r",
-		.exp_rc		= PROCESS_ESC,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a\r~." },
+		.n_in = 1,
+		.exp_out = "a\r",
+		.exp_rc = PROCESS_ESC,
 	},
 	{
 		/* ssh escape, partial ~ is not output. */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a\r~"},
-		.n_in		= 1,
-		.exp_out	= "a\r",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a\r~" },
+		.n_in = 1,
+		.exp_out = "a\r",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* ssh escape split into individual reads */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a", "\r", "~", "."},
-		.n_in		= 4,
-		.exp_out	= "a\r",
-		.exp_rc		= PROCESS_ESC,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a", "\r", "~", "." },
+		.n_in = 4,
+		.exp_out = "a\r",
+		.exp_rc = PROCESS_ESC,
 	},
 	{
 		/* ssh escape, escaped. */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a\r~~."},
-		.n_in		= 1,
-		.exp_out	= "a\r~.",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a\r~~." },
+		.n_in = 1,
+		.exp_out = "a\r~.",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* ssh escape, escaped ~, and not completed. */
-		.esc_type	= ESC_TYPE_SSH,
-		.in		= {"a\r~~"},
-		.n_in		= 1,
-		.exp_out	= "a\r~",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_SSH,
+		.in = { "a\r~~" },
+		.n_in = 1,
+		.exp_out = "a\r~",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* str escape, no match */
-		.esc_type	= ESC_TYPE_STR,
-		.esc_state	= { .str = { .str = (const uint8_t *)"c" } },
-		.in		= {"ab"},
-		.n_in		= 1,
-		.exp_out	= "ab",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_STR,
+		.esc_state = { .str = { .str = (const uint8_t *)"c" } },
+		.in = { "ab" },
+		.n_in = 1,
+		.exp_out = "ab",
+		.exp_rc = PROCESS_EXIT,
 	},
 	{
 		/* str escape, one byte, as one read */
-		.esc_type	= ESC_TYPE_STR,
-		.esc_state	= { .str = { .str = (const uint8_t *)"b" } },
-		.in		= {"abc"},
-		.n_in		= 1,
-		.exp_out	= "ab",
-		.exp_rc		= PROCESS_ESC,
+		.esc_type = ESC_TYPE_STR,
+		.esc_state = { .str = { .str = (const uint8_t *)"b" } },
+		.in = { "abc" },
+		.n_in = 1,
+		.exp_out = "ab",
+		.exp_rc = PROCESS_ESC,
 	},
 	{
 		/* str escape, multiple bytes, as one read */
-		.esc_type	= ESC_TYPE_STR,
-		.esc_state	= { .str = { .str = (const uint8_t *)"bc" } },
-		.in		= {"abcd"},
-		.n_in		= 1,
-		.exp_out	= "abc",
-		.exp_rc		= PROCESS_ESC,
+		.esc_type = ESC_TYPE_STR,
+		.esc_state = { .str = { .str = (const uint8_t *)"bc" } },
+		.in = { "abcd" },
+		.n_in = 1,
+		.exp_out = "abc",
+		.exp_rc = PROCESS_ESC,
 	},
 	{
 		/* str escape, multiple bytes, split over reads */
-		.esc_type	= ESC_TYPE_STR,
-		.esc_state	= { .str = { .str = (const uint8_t *)"bc" } },
-		.in		= {"ab", "cd"},
-		.n_in		= 2,
-		.exp_out	= "abc",
-		.exp_rc		= PROCESS_ESC,
+		.esc_type = ESC_TYPE_STR,
+		.esc_state = { .str = { .str = (const uint8_t *)"bc" } },
+		.in = { "ab", "cd" },
+		.n_in = 2,
+		.exp_out = "abc",
+		.exp_rc = PROCESS_ESC,
 	},
 	{
 		/* str escape, not matched due to intermediate data */
-		.esc_type	= ESC_TYPE_STR,
-		.esc_state	= { .str = { .str = (const uint8_t *)"ab" } },
-		.in		= {"acb"},
-		.n_in		= 1,
-		.exp_out	= "acb",
-		.exp_rc		= PROCESS_EXIT,
+		.esc_type = ESC_TYPE_STR,
+		.esc_state = { .str = { .str = (const uint8_t *)"ab" } },
+		.in = { "acb" },
+		.n_in = 1,
+		.exp_out = "acb",
+		.exp_rc = PROCESS_EXIT,
 	},
 };
 
@@ -195,7 +194,7 @@ void run_one_test(int idx, struct test *test, struct test_ctx *ctx)
 	ctx->client.fd_in = idx;
 	ctx->client.esc_type = test->esc_type;
 	memcpy(&ctx->client.esc_state, &test->esc_state,
-			sizeof(test->esc_state));
+	       sizeof(test->esc_state));
 	ctx->test = test;
 
 	for (;;) {
@@ -207,9 +206,8 @@ void run_one_test(int idx, struct test *test, struct test_ctx *ctx)
 	exp_out_len = strlen(test->exp_out);
 
 #ifdef DEBUG
-	printf("got: rc %d %s(%d), exp: rc %d %s(%ld)\n",
-			rc, ctx->out, ctx->cur_out,
-			test->exp_rc, test->exp_out, exp_out_len);
+	printf("got: rc %d %s(%d), exp: rc %d %s(%ld)\n", rc, ctx->out,
+	       ctx->cur_out, test->exp_rc, test->exp_out, exp_out_len);
 	fflush(stdout);
 #endif
 	assert(rc == test->exp_rc);

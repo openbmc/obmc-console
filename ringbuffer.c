@@ -29,18 +29,18 @@ static inline size_t min(size_t a, size_t b)
 }
 
 struct ringbuffer {
-	uint8_t				*buf;
-	size_t				size;
-	size_t				tail;
-	struct ringbuffer_consumer	**consumers;
-	int				n_consumers;
+	uint8_t *buf;
+	size_t size;
+	size_t tail;
+	struct ringbuffer_consumer **consumers;
+	int n_consumers;
 };
 
 struct ringbuffer_consumer {
-	struct ringbuffer		*rb;
-	ringbuffer_poll_fn_t		poll_fn;
-	void				*poll_data;
-	size_t				pos;
+	struct ringbuffer *rb;
+	ringbuffer_poll_fn_t poll_fn;
+	void *poll_data;
+	size_t pos;
 };
 
 struct ringbuffer *ringbuffer_init(size_t size)
@@ -65,8 +65,9 @@ void ringbuffer_fini(struct ringbuffer *rb)
 	free(rb);
 }
 
-struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
-		ringbuffer_poll_fn_t fn, void *data)
+struct ringbuffer_consumer *
+ringbuffer_consumer_register(struct ringbuffer *rb, ringbuffer_poll_fn_t fn,
+			     void *data)
 {
 	struct ringbuffer_consumer *rbc;
 	int n;
@@ -79,7 +80,7 @@ struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
 
 	n = rb->n_consumers++;
 	rb->consumers = realloc(rb->consumers,
-			sizeof(*rb->consumers) * rb->n_consumers);
+				sizeof(*rb->consumers) * rb->n_consumers);
 	rb->consumers[n] = rbc;
 
 	return rbc;
@@ -98,11 +99,11 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 
 	rb->n_consumers--;
 
-	memmove(&rb->consumers[i], &rb->consumers[i+1],
-			sizeof(*rb->consumers)	* (rb->n_consumers - i));
+	memmove(&rb->consumers[i], &rb->consumers[i + 1],
+		sizeof(*rb->consumers) * (rb->n_consumers - i));
 
 	rb->consumers = realloc(rb->consumers,
-			sizeof(*rb->consumers) * rb->n_consumers);
+				sizeof(*rb->consumers) * rb->n_consumers);
 
 	free(rbc);
 }
@@ -120,8 +121,8 @@ static size_t ringbuffer_space(struct ringbuffer_consumer *rbc)
 	return rbc->rb->size - ringbuffer_len(rbc) - 1;
 }
 
-static int ringbuffer_consumer_ensure_space(
-		struct ringbuffer_consumer *rbc, size_t len)
+static int ringbuffer_consumer_ensure_space(struct ringbuffer_consumer *rbc,
+					    size_t len)
 {
 	enum ringbuffer_poll_ret prc;
 	int force_len;
@@ -178,7 +179,6 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	memcpy(rb->buf, data, len);
 	rb->tail += len;
 
-
 	/* Inform consumers of new data in non-blocking mode, by calling
 	 * ->poll_fn with 0 force_len */
 	for (i = 0; i < rb->n_consumers; i++) {
@@ -196,7 +196,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 }
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data)
+			       uint8_t **data)
 {
 	struct ringbuffer *rb = rbc->rb;
 	size_t pos;

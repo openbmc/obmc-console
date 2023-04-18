@@ -45,24 +45,21 @@ struct config;
  * poller API, through console_poller_register().
  */
 struct handler {
-	const char	*name;
-	int		(*init)(struct handler *handler,
-				struct console *console,
-				struct config *config);
-	void		(*fini)(struct handler *handler);
-	int		(*baudrate)(struct handler *handler,
-				    speed_t baudrate);
-	bool		active;
+	const char *name;
+	int (*init)(struct handler *handler, struct console *console,
+		    struct config *config);
+	void (*fini)(struct handler *handler);
+	int (*baudrate)(struct handler *handler, speed_t baudrate);
+	bool active;
 };
 
-#define __handler_name(n) __handler_  ## n
-#define  _handler_name(n) __handler_name(n)
+#define __handler_name(n) __handler_##n
+#define _handler_name(n)  __handler_name(n)
 
-#define console_handler_register(h) \
-	static const \
-		__attribute__((section("handlers"))) \
-		__attribute__((used)) \
-		struct handler * _handler_name(__COUNTER__) = h
+#define console_handler_register(h)                                            \
+	static const __attribute__((section("handlers")))                      \
+	__attribute__((used)) struct handler *                                 \
+	_handler_name(__COUNTER__) = h
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
@@ -76,19 +73,20 @@ enum poller_ret {
 };
 
 typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
-					int revents, void *data);
+					     int revents, void *data);
 typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
-					void *data);
+					       void *data);
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_event_fn_t event_fn,
-		poller_timeout_fn_t timeout_fn, int fd, int events,
-		void *data);
+				       struct handler *handler,
+				       poller_event_fn_t event_fn,
+				       poller_timeout_fn_t timeout_fn, int fd,
+				       int events, void *data);
 
 void console_poller_unregister(struct console *console, struct poller *poller);
 
 void console_poller_set_events(struct console *console, struct poller *poller,
-		int events);
+			       int events);
 
 void console_poller_set_timeout(struct console *console, struct poller *poller,
 				const struct timeval *interval);
@@ -100,7 +98,7 @@ enum ringbuffer_poll_ret {
 };
 
 typedef enum ringbuffer_poll_ret (*ringbuffer_poll_fn_t)(void *data,
-		size_t force_len);
+							 size_t force_len);
 
 struct ringbuffer;
 struct ringbuffer_consumer;
@@ -108,24 +106,25 @@ struct ringbuffer_consumer;
 struct ringbuffer *ringbuffer_init(size_t size);
 void ringbuffer_fini(struct ringbuffer *rb);
 
-struct ringbuffer_consumer *ringbuffer_consumer_register(struct ringbuffer *rb,
-		ringbuffer_poll_fn_t poll_fn, void *data);
+struct ringbuffer_consumer *
+ringbuffer_consumer_register(struct ringbuffer *rb,
+			     ringbuffer_poll_fn_t poll_fn, void *data);
 
 void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc);
 
 int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len);
 
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
-		uint8_t **data);
+			       uint8_t **data);
 
 int ringbuffer_dequeue_commit(struct ringbuffer_consumer *rbc, size_t len);
 
 size_t ringbuffer_len(struct ringbuffer_consumer *rbc);
 
 /* console wrapper around ringbuffer consumer registration */
-struct ringbuffer_consumer *console_ringbuffer_consumer_register(
-		struct console *console,
-		ringbuffer_poll_fn_t poll_fn, void *data);
+struct ringbuffer_consumer *
+console_ringbuffer_consumer_register(struct console *console,
+				     ringbuffer_poll_fn_t poll_fn, void *data);
 
 /* config API */
 struct config;
@@ -141,7 +140,7 @@ int config_parse_logsize(const char *size_str, size_t *size);
 /* socket paths */
 ssize_t console_socket_path(struct sockaddr_un *addr, const char *id);
 
-typedef char (socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
+typedef char(socket_path_t)[sizeof(((struct sockaddr_un *)NULL)->sun_path)];
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path);
 
@@ -151,14 +150,13 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
 #ifndef offsetof
-#define offsetof(type, member) \
-	((unsigned long)&((type *)NULL)->member)
+#define offsetof(type, member) ((unsigned long)&((type *)NULL)->member)
 #endif
 
-#define container_of(ptr, type, member) \
-	((type *)((void *)((ptr) - offsetof(type, member))))
+#define container_of(ptr, type, member)                                        \
+	((type *)((void *)((ptr)-offsetof(type, member))))
 
-#define BUILD_ASSERT(c) \
-	do { \
-		char __c[(c)?1:-1] __attribute__((unused)); \
+#define BUILD_ASSERT(c)                                                        \
+	do {                                                                   \
+		char __c[(c) ? 1 : -1] __attribute__((unused));                \
 	} while (0)

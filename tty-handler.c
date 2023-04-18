@@ -29,13 +29,13 @@
 #include "console-server.h"
 
 struct tty_handler {
-	struct handler			handler;
-	struct console			*console;
-	struct ringbuffer_consumer	*rbc;
-	struct poller			*poller;
-	int				fd;
-	int				fd_flags;
-	bool				blocked;
+	struct handler handler;
+	struct console *console;
+	struct ringbuffer_consumer *rbc;
+	struct poller *poller;
+	int fd;
+	int fd_flags;
+	bool blocked;
 };
 
 static struct tty_handler *to_tty_handler(struct handler *handler)
@@ -111,8 +111,8 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 		if (wlen < 0) {
 			if (errno == EINTR)
 				continue;
-			if ((errno == EAGAIN || errno == EWOULDBLOCK)
-					&& !force_len) {
+			if ((errno == EAGAIN || errno == EWOULDBLOCK) &&
+			    !force_len) {
 				tty_set_blocked(th, true);
 				break;
 			}
@@ -148,8 +148,8 @@ static enum ringbuffer_poll_ret tty_ringbuffer_poll(void *arg, size_t force_len)
 	return RINGBUFFER_POLL_OK;
 }
 
-static enum poller_ret tty_poll(struct handler *handler,
-		int events, void __attribute__((unused)) *data)
+static enum poller_ret tty_poll(struct handler *handler, int events,
+				void __attribute__((unused)) * data)
 {
 	struct tty_handler *th = to_tty_handler(handler);
 	uint8_t buf[4096];
@@ -181,7 +181,8 @@ err:
 }
 
 static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
-		speed_t speed) {
+			     speed_t speed)
+{
 	struct termios term_options;
 
 	if (tcgetattr(th->fd, &term_options) < 0) {
@@ -202,7 +203,8 @@ static int set_terminal_baud(struct tty_handler *th, const char *tty_name,
 	return 0;
 }
 
-static int make_terminal_raw(struct tty_handler *th, const char *tty_name) {
+static int make_terminal_raw(struct tty_handler *th, const char *tty_name)
+{
 	struct termios term_options;
 
 	if (tcgetattr(th->fd, &term_options) < 0) {
@@ -225,7 +227,7 @@ static int make_terminal_raw(struct tty_handler *th, const char *tty_name) {
 }
 
 static int tty_init(struct handler *handler, struct console *console,
-		struct config *config __attribute__((unused)))
+		    struct config *config __attribute__((unused)))
 {
 	struct tty_handler *th = to_tty_handler(handler);
 	speed_t desired_speed;
@@ -261,7 +263,8 @@ static int tty_init(struct handler *handler, struct console *console,
 		} else {
 			rc = set_terminal_baud(th, tty_name, desired_speed);
 			if (rc)
-				fprintf(stderr, "Couldn't set baud rate for %s to %s\n",
+				fprintf(stderr,
+					"Couldn't set baud rate for %s to %s\n",
 					tty_name, tty_baud);
 		}
 	}
@@ -270,10 +273,10 @@ static int tty_init(struct handler *handler, struct console *console,
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
 
 	th->poller = console_poller_register(console, handler, tty_poll, NULL,
-			th->fd, POLLIN, NULL);
+					     th->fd, POLLIN, NULL);
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
-			tty_ringbuffer_poll, th);
+						       tty_ringbuffer_poll, th);
 
 	return 0;
 }
@@ -313,4 +316,3 @@ static struct tty_handler tty_handler = {
 };
 
 console_handler_register(&tty_handler.handler);
-
