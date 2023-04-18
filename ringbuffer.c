@@ -23,11 +23,10 @@
 
 #include "console-server.h"
 
-#define min(a,b) ({				\
-		const typeof(a) _a = (a);	\
-		const typeof(b) _b = (b);	\
-		_a < _b ? _a : _b;		\
-	})
+static inline size_t min(size_t a, size_t b)
+{
+	return a < b ? a : b;
+}
 
 struct ringbuffer {
 	uint8_t				*buf;
