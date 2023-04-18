@@ -16,6 +16,7 @@
 
 #include <ctype.h>
 #include <err.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdint.h>
@@ -58,10 +59,10 @@ static void config_parse(struct config *config, char *buf)
 	struct config_item *item;
 	char *name, *value;
 	char *p, *line;
-	int rc;
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
 			line = strtok_r(NULL, "\n", &p)) {
+		int rc;
 
 		/* trim leading space */
 		for (;*line == ' ' || *line == '\t'; line++)
@@ -71,10 +72,15 @@ static void config_parse(struct config *config, char *buf)
 		if (*line == '#')
 			continue;
 
-		name = value = NULL;
+		name = malloc(strlen(line));
+		value = malloc(strlen(line));
+		if (name && value) {
+			rc = sscanf(line, "%[^ =] = %s ", name, value);
+		} else {
+			rc = -ENOMEM;
+		}
 
-		rc = sscanf(line, "%m[^ =] = %ms ", &name, &value);
-		if (rc != 2 || !strlen(name) || !strlen(value)) {
+		if (rc != 2) {
 			free(name);
 			free(value);
 			continue;
