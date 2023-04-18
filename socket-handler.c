@@ -122,7 +122,7 @@ static ssize_t send_all(struct client *client, void *buf,
 		flags |= MSG_DONTWAIT;
 
 	for (pos = 0; pos < len; pos += rc) {
-		rc = send(fd, buf + pos, len - pos, flags);
+		rc = send(fd, (char *)buf + pos, len - pos, flags);
 		if (rc < 0) {
 			if (!block && (errno == EAGAIN ||
 						errno == EWOULDBLOCK)) {
