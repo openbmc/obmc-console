@@ -82,7 +82,7 @@ enum internal_pollfds {
 };
 
 /* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128 * 1024;
+const size_t buffer_size = 128ul * 1024ul;
 
 /* state shared with the signal handler */
 static bool sigint;

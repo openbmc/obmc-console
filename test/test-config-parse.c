@@ -11,7 +11,8 @@
 
 #include "config.c"
 
-static void execute_test(const char *input, const char *key, const char *expected)
+static void execute_test(const char *input, const char *key,
+			 const char *expected)
 {
 	struct config *ctx;
 	const char *found;

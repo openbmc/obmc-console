@@ -43,7 +43,7 @@ struct log_handler {
 };
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
-static const size_t default_logsize = 16 * 1024;
+static const size_t default_logsize = 16ul * 1024ul;
 
 static struct log_handler *to_log_handler(struct handler *handler)
 {
