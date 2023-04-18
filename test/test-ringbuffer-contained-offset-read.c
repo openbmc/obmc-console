@@ -12,7 +12,8 @@ void test_contained_offset_read(void)
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
 	size_t len;
-	int rc, i;
+	size_t i;
+	int rc;
 
 	rb = ringbuffer_init(10);
 	rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_nop, NULL);

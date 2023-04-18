@@ -40,14 +40,15 @@ void test_config_parse_logsize(void)
 	const size_t num_tests = sizeof(test_data) /
 		sizeof(struct test_parse_size_unit);
 	size_t size;
-	int i, rc;
+	size_t i;
+	int rc;
 
 	for (i = 0; i < num_tests; i++) {
 		rc = config_parse_logsize(test_data[i].test_str, &size);
 
 		if ((rc == -1 && rc != test_data[i].expected_rc) ||
 		    (rc == 0 && test_data[i].expected_size != size)) {
-			warn("[%d] Str %s expected size %lu rc %d,"
+			warn("[%zu] Str %s expected size %lu rc %d,"
                              " got size %lu rc %d\n",
 			     i,
 			     test_data[i].test_str,

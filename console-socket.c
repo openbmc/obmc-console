@@ -43,7 +43,7 @@ ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
 	if (rc < 0)
 		return rc;
 
-	if (rc > (sizeof(addr->sun_path) - 1)) {
+	if ((size_t)rc > (sizeof(addr->sun_path) - 1)) {
 		errno = 0;
 		return -1;
 	}
