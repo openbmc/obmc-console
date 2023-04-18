@@ -58,7 +58,6 @@ static void config_parse(struct config *config, char *buf)
 	struct config_item *item;
 	char *name, *value;
 	char *p, *line;
-	int rc;
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
 			line = strtok_r(NULL, "\n", &p)) {
@@ -73,17 +72,29 @@ static void config_parse(struct config *config, char *buf)
 
 		name = value = NULL;
 
-		rc = sscanf(line, "%m[^ =] = %ms ", &name, &value);
-		if (rc != 2 || !strlen(name) || !strlen(value)) {
-			free(name);
-			free(value);
+		/* Extract key */
+		name = strsep(&line, " =");
+		if (!name || !strlen(name)) {
+			continue;
+		}
+
+		/* Ensure we have the assignment operator */
+		line = strchr(line, '=');
+		if (!line) {
+			continue;
+		}
+
+		/* Extract value, trimming trailing space */
+		line += strspn(line, "= ");
+		value = strsep(&line, " ");
+		if (!value || !strlen(value)) {
 			continue;
 		}
 
 		/* create a new item and add to our list */
 		item = malloc(sizeof(*item));
-		item->name = name;
-		item->value = value;
+		item->name = strdup(name);
+		item->value = strdup(value);
 		item->next = config->items;
 		config->items = item;
 	}
