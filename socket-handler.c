@@ -211,7 +211,7 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 	return RINGBUFFER_POLL_OK;
 }
 
-static enum poller_ret client_timeout(struct handler *handler, void *data)
+static enum poller_ret client_timeout(struct handler *handler __attribute__((unused)), void *data)
 {
 	struct client *client = data;
 	int rc = 0;
