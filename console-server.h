@@ -62,7 +62,7 @@ struct handler {
 	static const \
 		__attribute__((section("handlers"))) \
 		__attribute__((used)) \
-		struct handler * _handler_name(__COUNTER__) = h;
+		struct handler * _handler_name(__COUNTER__) = h
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
