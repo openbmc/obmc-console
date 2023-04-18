@@ -48,16 +48,18 @@ void test_config_parse_logsize(void)
 	for (i = 0; i < num_tests; i++) {
 		rc = config_parse_logsize(test_data[i].test_str, &size);
 
-		if ((rc == -1 && rc != test_data[i].expected_rc) ||
-		    (rc == 0 && test_data[i].expected_size != size)) {
-			warn("[%zu] Str %s expected size %lu rc %d,"
-                             " got size %lu rc %d\n",
+		if (rc == -1 && rc != test_data[i].expected_rc) {
+			warn("[%zu] Str %s expected rc %d, got rc %d\n",
+			     i,
+			     test_data[i].test_str,
+			     test_data[i].expected_rc,
+			     rc);
+		} else if (rc == 0 && test_data[i].expected_size != size) {
+			warn("[%zu] Str %s expected size %lu, got size %lu\n",
 			     i,
 			     test_data[i].test_str,
 			     test_data[i].expected_size,
-			     test_data[i].expected_rc,
-			     size,
-			     rc);
+			     size);
 		}
 		assert(rc == test_data[i].expected_rc);
 		if (rc == 0)
