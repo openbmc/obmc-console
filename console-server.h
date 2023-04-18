@@ -147,7 +147,7 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #ifndef offsetof
 #define offsetof(type, member) ((unsigned long)&((type *)NULL)->member)
