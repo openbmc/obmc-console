@@ -37,7 +37,7 @@ struct log_handler {
 	int				fd;
 	size_t				size;
 	size_t				maxsize;
-	int				pagesize;
+	size_t				pagesize;
 	char				*log_filename;
 	char				*rotate_filename;
 };

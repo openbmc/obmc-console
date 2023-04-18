@@ -69,7 +69,8 @@ enum ringbuffer_poll_ret ringbuffer_poll_append_all(void *data,
 void ringbuffer_dump(struct ringbuffer *rb)
 {
 	struct ringbuffer_consumer *rbc;
-	int i, j;
+	size_t i;
+	int j;
 
 	printf("---- ringbuffer (%d consumer%s)\n", rb->n_consumers,
 			rb->n_consumers == 1 ? "" : "s");

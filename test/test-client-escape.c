@@ -33,7 +33,7 @@ struct test {
 		struct str_esc_state str;
 	} esc_state;
 	const char	*in[4];
-	int		n_in;
+	size_t		n_in;
 	const char	*exp_out;
 	int		exp_rc;
 };
@@ -42,8 +42,8 @@ struct test_ctx {
 	struct console_client	client;
 	struct test		*test;
 	uint8_t			out[4096];
-	int			cur_in;
-	int			cur_out;
+	size_t			cur_in;
+	size_t			cur_out;
 };
 
 
@@ -219,7 +219,7 @@ void run_one_test(int idx, struct test *test, struct test_ctx *ctx)
 
 int main(void)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < ARRAY_SIZE(tests); i++)
 		run_one_test(i, &tests[i], &ctxs[i]);
