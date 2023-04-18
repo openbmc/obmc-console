@@ -51,7 +51,7 @@ static struct log_handler *to_log_handler(struct handler *handler)
 	return container_of(handler, struct log_handler, handler);
 }
 
-static int log_trim(struct log_handler *lh, size_t space)
+static int log_trim(struct log_handler *lh)
 {
 	int rc;
 
@@ -84,7 +84,7 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 	}
 
 	if (lh->size + len > lh->maxsize) {
-		rc = log_trim(lh, len);
+		rc = log_trim(lh);
 		if (rc)
 			return rc;
 	}

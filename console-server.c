@@ -357,9 +357,12 @@ static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
 	return sd_bus_reply_method_return(msg, "x", r);
 }
 
-static int get_handler(sd_bus *bus, const char *path, const char *interface,
-		       const char *property, sd_bus_message *reply, void *userdata,
-		       sd_bus_error *error) {
+static int get_handler(sd_bus *bus __attribute__((unused)),
+		       const char *path __attribute__((unused)),
+		       const char *interface __attribute__((unused)),
+		       const char *property __attribute__((unused)),
+		       sd_bus_message *reply, void *userdata,
+		       sd_bus_error *error __attribute__((unused))) {
 	struct console *console = userdata;
 	uint32_t baudrate;
 	int r;
@@ -380,7 +383,7 @@ static const sd_bus_vtable console_vtable[] = {
 	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
 	SD_BUS_VTABLE_END,};
 
-static void dbus_init(struct console *console, struct config *config)
+static void dbus_init(struct console *console, struct config *config __attribute__((unused)))
 {
 	int dbus_poller = 0;
 	int fd, r;
@@ -573,8 +576,8 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 	console->pollfds[i].events = events;
 }
 
-void console_poller_set_timeout(struct console *console, struct poller *poller,
-		const struct timeval *tv)
+void console_poller_set_timeout(struct console *console __attribute__((unused)),
+		struct poller *poller, const struct timeval *tv)
 {
 	struct timeval now;
 	int rc;
