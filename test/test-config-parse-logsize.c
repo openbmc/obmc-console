@@ -21,15 +21,15 @@ void test_config_parse_logsize(void)
 	const struct test_parse_size_unit test_data[] = {
 		{ "0", 0, -1 },
 		{ "1", 1, 0 },
-		{ "4k", 4 * 1024, 0 },
+		{ "4k", 4ul * 1024ul, 0 },
 		{ "6M", (6ul << 20), 0 },
 		{ "4095M", (4095ul << 20), 0 },
 		{ "2G", (2ul << 30), 0 },
 		{ "8M\n", (8ul << 20), 0 }, /* Suffix ignored */
-		{ " 10k", 10 * 1024, 0 }, /* Leading spaces trimmed */
-		{ "10k ", 10 * 1024, 0 }, /* Trailing spaces trimmed */
-		{ "\r\t10k \r\t", 10 * 1024, 0 }, /* Spaces trimmed */
-		{ " 10 kB ", 10 * 1024, 0 }, /* Spaces trimmed */
+		{ " 10k", 10ul * 1024ul, 0 }, /* Leading spaces trimmed */
+		{ "10k ", 10ul * 1024ul, 0 }, /* Trailing spaces trimmed */
+		{ "\r\t10k \r\t", 10ul * 1024ul, 0 }, /* Spaces trimmed */
+		{ " 10 kB ", 10ul * 1024ul, 0 }, /* Spaces trimmed */
 		{ "11G", 0, -1 }, /* Overflow */
 		{ "4294967296", 0, -1 }, /* Overflow */
 		{ "4096M", 0, -1 }, /* Overflow */
