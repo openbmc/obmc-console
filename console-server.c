@@ -49,7 +49,7 @@ struct console {
 	char *tty_sysfs_devnode;
 	char *tty_dev;
 	int tty_sirq;
-	int tty_lpc_addr;
+	uint16_t tty_lpc_addr;
 	speed_t tty_baud;
 	int tty_fd;
 
@@ -281,13 +281,27 @@ static int tty_init_io(struct console *console)
 
 static int tty_init(struct console *console, struct config *config)
 {
+	unsigned long parsed;
 	const char *val;
 	char *endp;
 	int rc;
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
-		console->tty_lpc_addr = strtoul(val, &endp, 0);
+		errno = 0;
+		parsed = strtoul(val, &endp, 0);
+		if (parsed == ULONG_MAX && errno == ERANGE) {
+			warn("Cannot interpret 'lpc-address' value as an unsigned long: '%s'",
+			     val);
+			return -1;
+		}
+
+		if (parsed > UINT16_MAX) {
+			warn("Invalid LPC address '%s'", val);
+			return -1;
+		}
+
+		console->tty_lpc_addr = (uint16_t)parsed;
 		if (endp == optarg) {
 			warn("Invalid LPC address: '%s'", val);
 			return -1;
@@ -296,7 +310,17 @@ static int tty_init(struct console *console, struct config *config)
 
 	val = config_get_value(config, "sirq");
 	if (val) {
-		console->tty_sirq = strtoul(val, &endp, 0);
+		errno = 0;
+		parsed = strtoul(val, &endp, 0);
+		if (parsed == ULONG_MAX && errno == ERANGE) {
+			warn("Cannot interpret 'sirq' value as an unsigned long: '%s'",
+			     val);
+		}
+
+		if (parsed > 16)
+			warn("Invalid LPC SERIRQ: '%s'", val);
+
+		console->tty_sirq = (int)parsed;
 		if (endp == optarg)
 			warn("Invalid sirq: '%s'", val);
 	}
