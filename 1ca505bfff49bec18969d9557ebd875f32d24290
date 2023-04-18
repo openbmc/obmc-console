@@ -22,6 +22,30 @@
       },
       "revId": "1ca505bfff49bec18969d9557ebd875f32d24290",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f73f8d0_f082567d",
+        "filename": "config.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-18T23:53:31Z",
+      "side": 1,
+      "message": "Ugh, good catch! String parsing in C is the worst.",
+      "parentUuid": "e0d86068_954c5972",
+      "range": {
+        "startLine": 76,
+        "startChar": 25,
+        "endLine": 76,
+        "endChar": 26
+      },
+      "revId": "1ca505bfff49bec18969d9557ebd875f32d24290",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
