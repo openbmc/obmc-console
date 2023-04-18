@@ -8,7 +8,9 @@
 
 void test_poll_force(void)
 {
-	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f', };
+	uint8_t in_buf[] = {
+		'a', 'b', 'c', 'd', 'e', 'f',
+	};
 	struct rb_test_ctx _ctx, *ctx = &_ctx;
 	struct ringbuffer *rb;
 	int rc;
@@ -17,8 +19,8 @@ void test_poll_force(void)
 
 	rb = ringbuffer_init(5);
 
-	ctx->rbc = ringbuffer_consumer_register(rb,
-			ringbuffer_poll_append_all, ctx);
+	ctx->rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_append_all,
+						ctx);
 
 	ctx->force_only = true;
 

@@ -40,38 +40,38 @@
 
 #include "console-server.h"
 
-#define DBUS_ERR "org.openbmc.error"
+#define DBUS_ERR  "org.openbmc.error"
 #define DBUS_NAME "xyz.openbmc_project.console"
-#define OBJ_NAME "/xyz/openbmc_project/console"
+#define OBJ_NAME  "/xyz/openbmc_project/console"
 
 struct console {
-	const char	*tty_kname;
-	char		*tty_sysfs_devnode;
-	char		*tty_dev;
-	int		tty_sirq;
-	int		tty_lpc_addr;
-	speed_t		tty_baud;
-	int		tty_fd;
+	const char *tty_kname;
+	char *tty_sysfs_devnode;
+	char *tty_dev;
+	int tty_sirq;
+	int tty_lpc_addr;
+	speed_t tty_baud;
+	int tty_fd;
 
-	struct ringbuffer	*rb;
+	struct ringbuffer *rb;
 
-	struct handler	**handlers;
-	int		n_handlers;
+	struct handler **handlers;
+	int n_handlers;
 
-	struct poller	**pollers;
-	int		n_pollers;
+	struct poller **pollers;
+	int n_pollers;
 
-	struct pollfd	*pollfds;
-	struct sd_bus	*bus;
+	struct pollfd *pollfds;
+	struct sd_bus *bus;
 };
 
 struct poller {
-	struct handler	*handler;
-	void		*data;
-	poller_event_fn_t	event_fn;
-	poller_timeout_fn_t	timeout_fn;
-	struct timeval	timeout;
-	bool		remove;
+	struct handler *handler;
+	void *data;
+	poller_event_fn_t event_fn;
+	poller_timeout_fn_t timeout_fn;
+	struct timeval timeout;
+	bool remove;
 };
 
 /* we have two extra entry in the pollfds array for the VUART tty */
@@ -90,11 +90,11 @@ static bool sigint;
 static void usage(const char *progname)
 {
 	fprintf(stderr,
-"usage: %s [options] <DEVICE>\n"
-"\n"
-"Options:\n"
-"  --config <FILE>  Use FILE for configuration\n"
-"",
+		"usage: %s [options] <DEVICE>\n"
+		"\n"
+		"Options:\n"
+		"  --config <FILE>  Use FILE for configuration\n"
+		"",
 		progname);
 }
 
@@ -135,8 +135,8 @@ static int tty_find_device(struct console *console)
 		goto out_free;
 	}
 
-	rc = asprintf(&tty_class_device_link,
-			"/sys/class/tty/%s", tty_kname_real);
+	rc = asprintf(&tty_class_device_link, "/sys/class/tty/%s",
+		      tty_kname_real);
 	if (rc < 0)
 		goto out_free;
 
@@ -171,7 +171,7 @@ out_free:
 }
 
 static int tty_set_sysfs_attr(struct console *console, const char *name,
-		int value)
+			      int value)
 {
 	char *path;
 	FILE *fp;
@@ -183,8 +183,8 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 
 	fp = fopen(path, "w");
 	if (!fp) {
-		warn("Can't access attribute %s on device %s",
-				name, console->tty_kname);
+		warn("Can't access attribute %s on device %s", name,
+		     console->tty_kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -192,11 +192,9 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 
 	rc = fprintf(fp, "0x%x", value);
 	if (rc < 0)
-		warn("Error writing to %s attribute of device %s",
-				name, console->tty_kname);
+		warn("Error writing to %s attribute of device %s", name,
+		     console->tty_kname);
 	fclose(fp);
-
-
 
 out_free:
 	free(path);
@@ -232,7 +230,6 @@ static void tty_init_termios(struct console *console)
 		warn("Can't set terminal options for %s", console->tty_kname);
 }
 
-
 static void tty_change_baudrate(struct console *console)
 {
 	struct handler *handler;
@@ -248,7 +245,7 @@ static void tty_change_baudrate(struct console *console)
 		rc = handler->baudrate(handler, console->tty_baud);
 		if (rc)
 			warnx("Can't set terminal baudrate for handler %s",
-			     handler->name);
+			      handler->name);
 	}
 }
 
@@ -261,7 +258,7 @@ static int tty_init_io(struct console *console)
 		tty_set_sysfs_attr(console, "sirq", console->tty_sirq);
 	if (console->tty_lpc_addr)
 		tty_set_sysfs_attr(console, "lpc_address",
-				console->tty_lpc_addr);
+				   console->tty_lpc_addr);
 
 	console->tty_fd = open(console->tty_dev, O_RDWR);
 	if (console->tty_fd <= 0) {
@@ -323,14 +320,13 @@ static int tty_init(struct console *console, struct config *config)
 	return rc;
 }
 
-
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
 {
 	return write_buf_to_fd(console->tty_fd, data, len);
 }
 
 static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
-			 sd_bus_error *err)
+				sd_bus_error *err)
 {
 	struct console *console = userdata;
 	uint32_t baudrate;
@@ -365,7 +361,8 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 		       const char *interface __attribute__((unused)),
 		       const char *property __attribute__((unused)),
 		       sd_bus_message *reply, void *userdata,
-		       sd_bus_error *error __attribute__((unused))) {
+		       sd_bus_error *error __attribute__((unused)))
+{
 	struct console *console = userdata;
 	uint32_t baudrate;
 	int r;
@@ -384,9 +381,11 @@ static const sd_bus_vtable console_vtable[] = {
 	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
 		      SD_BUS_VTABLE_UNPRIVILEGED),
 	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
-	SD_BUS_VTABLE_END,};
+	SD_BUS_VTABLE_END,
+};
 
-static void dbus_init(struct console *console, struct config *config __attribute__((unused)))
+static void dbus_init(struct console *console,
+		      struct config *config __attribute__((unused)))
 {
 	int dbus_poller = 0;
 	int fd, r;
@@ -409,8 +408,9 @@ static void dbus_init(struct console *console, struct config *config __attribute
 		return;
 	}
 
-	r = sd_bus_request_name(console->bus, DBUS_NAME, SD_BUS_NAME_ALLOW_REPLACEMENT
-				|SD_BUS_NAME_REPLACE_EXISTING);
+	r = sd_bus_request_name(console->bus, DBUS_NAME,
+				SD_BUS_NAME_ALLOW_REPLACEMENT |
+					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
 		warnx("Failed to acquire service name: %s", strerror(-r));
 		return;
@@ -438,7 +438,7 @@ static void handlers_init(struct console *console, struct config *config)
 	console->handlers = &__start_handlers;
 
 	printf("%d handler%s\n", console->n_handlers,
-			console->n_handlers == 1 ? "" : "s");
+	       console->n_handlers == 1 ? "" : "s");
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
@@ -450,7 +450,7 @@ static void handlers_init(struct console *console, struct config *config)
 		handler->active = rc == 0;
 
 		printf("  %s [%sactive]\n", handler->name,
-				handler->active ? "" : "in");
+		       handler->active ? "" : "in");
 	}
 }
 
@@ -486,17 +486,18 @@ static int get_current_time(struct timeval *tv)
 	return 0;
 }
 
-struct ringbuffer_consumer *console_ringbuffer_consumer_register(
-		struct console *console,
-		ringbuffer_poll_fn_t poll_fn, void *data)
+struct ringbuffer_consumer *
+console_ringbuffer_consumer_register(struct console *console,
+				     ringbuffer_poll_fn_t poll_fn, void *data)
 {
 	return ringbuffer_consumer_register(console->rb, poll_fn, data);
 }
 
 struct poller *console_poller_register(struct console *console,
-		struct handler *handler, poller_event_fn_t poller_fn,
-		poller_timeout_fn_t timeout_fn, int fd,
-		int events, void *data)
+				       struct handler *handler,
+				       poller_event_fn_t poller_fn,
+				       poller_timeout_fn_t timeout_fn, int fd,
+				       int events, void *data)
 {
 	struct poller *poller;
 	int n;
@@ -510,20 +511,21 @@ struct poller *console_poller_register(struct console *console,
 
 	/* add one to our pollers array */
 	n = console->n_pollers++;
-	console->pollers = realloc(console->pollers,
+	console->pollers =
+		realloc(console->pollers,
 			sizeof(*console->pollers) * console->n_pollers);
 
 	console->pollers[n] = poller;
 
 	/* increase pollfds array too  */
-	console->pollfds = realloc(console->pollfds,
+	console->pollfds =
+		realloc(console->pollfds,
 			sizeof(*console->pollfds) *
 				(MAX_INTERNAL_POLLFD + console->n_pollers));
 
 	/* shift the end pollfds up by one */
-	memcpy(&console->pollfds[n+1],
-		&console->pollfds[n],
-		sizeof(*console->pollfds) * MAX_INTERNAL_POLLFD);
+	memcpy(&console->pollfds[n + 1], &console->pollfds[n],
+	       sizeof(*console->pollfds) * MAX_INTERNAL_POLLFD);
 
 	console->pollfds[n].fd = fd;
 	console->pollfds[n].events = events;
@@ -531,8 +533,7 @@ struct poller *console_poller_register(struct console *console,
 	return poller;
 }
 
-void console_poller_unregister(struct console *console,
-		struct poller *poller)
+void console_poller_unregister(struct console *console, struct poller *poller)
 {
 	int i;
 
@@ -546,28 +547,28 @@ void console_poller_unregister(struct console *console,
 	console->n_pollers--;
 
 	/* remove the item from the pollers array... */
-	memmove(&console->pollers[i], &console->pollers[i+1],
-			sizeof(*console->pollers)
-				* (console->n_pollers - i));
+	memmove(&console->pollers[i], &console->pollers[i + 1],
+		sizeof(*console->pollers) * (console->n_pollers - i));
 
-	console->pollers = realloc(console->pollers,
+	console->pollers =
+		realloc(console->pollers,
 			sizeof(*console->pollers) * console->n_pollers);
 
 	/* ... and the pollfds array */
-	memmove(&console->pollfds[i], &console->pollfds[i+1],
-			sizeof(*console->pollfds) *
-				(MAX_INTERNAL_POLLFD + console->n_pollers - i));
+	memmove(&console->pollfds[i], &console->pollfds[i + 1],
+		sizeof(*console->pollfds) *
+			(MAX_INTERNAL_POLLFD + console->n_pollers - i));
 
-	console->pollfds = realloc(console->pollfds,
+	console->pollfds =
+		realloc(console->pollfds,
 			sizeof(*console->pollfds) *
 				(MAX_INTERNAL_POLLFD + console->n_pollers));
-
 
 	free(poller);
 }
 
 void console_poller_set_events(struct console *console, struct poller *poller,
-		int events)
+			       int events)
 {
 	int i;
 
@@ -580,7 +581,7 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 }
 
 void console_poller_set_timeout(struct console *console __attribute__((unused)),
-		struct poller *poller, const struct timeval *tv)
+				struct poller *poller, const struct timeval *tv)
 {
 	struct timeval now;
 	int rc;
@@ -605,7 +606,7 @@ static int get_poll_timeout(struct console *console, struct timeval *cur_time)
 
 		if (poller->timeout_fn && timerisset(&poller->timeout) &&
 		    (!earliest ||
-		     (earliest && timercmp(&poller->timeout, earliest, <)))){
+		     (earliest && timercmp(&poller->timeout, earliest, <)))) {
 			// poller is buffering data and needs the poll
 			// function to timeout.
 			earliest = &poller->timeout;
@@ -650,7 +651,7 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 		/* process pending events... */
 		if (pollfd->revents) {
 			prc = poller->event_fn(poller->handler, pollfd->revents,
-					poller->data);
+					       poller->data);
 			if (prc == POLLER_EXIT)
 				rc = -1;
 			else if (prc == POLLER_REMOVE)
@@ -731,8 +732,7 @@ int run_console(struct console *console)
 		timeout = get_poll_timeout(console, &tv);
 
 		rc = poll(console->pollfds,
-				console->n_pollers + MAX_INTERNAL_POLLFD,
-				timeout);
+			  console->n_pollers + MAX_INTERNAL_POLLFD, timeout);
 
 		if (rc < 0) {
 			if (errno == EINTR) {
@@ -772,8 +772,8 @@ int run_console(struct console *console)
 	return rc ? -1 : 0;
 }
 static const struct option options[] = {
-	{ "config",	required_argument,	0, 'c'},
-	{ 0,  0, 0, 0},
+	{ "config", required_argument, 0, 'c' },
+	{ 0, 0, 0, 0 },
 };
 
 int main(int argc, char **argv)
@@ -809,8 +809,8 @@ int main(int argc, char **argv)
 
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
-	console->pollfds = calloc(MAX_INTERNAL_POLLFD,
-			sizeof(*console->pollfds));
+	console->pollfds =
+		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
 	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);

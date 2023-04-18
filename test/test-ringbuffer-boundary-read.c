@@ -36,7 +36,7 @@ void test_boundary_read(void)
 		len = ringbuffer_dequeue_peek(rbc, pos, &out_buf);
 		if (len == 0)
 			break;
-		assert(!memcmp(in_buf+pos, out_buf, len));
+		assert(!memcmp(in_buf + pos, out_buf, len));
 		pos += len;
 	}
 	assert(pos == sizeof(in_buf));

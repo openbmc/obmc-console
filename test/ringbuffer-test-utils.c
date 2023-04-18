@@ -1,11 +1,11 @@
 
 struct rb_test_ctx {
-	struct ringbuffer_consumer	*rbc;
-	bool	ignore_poll;
-	bool	force_only;
-	int	count;
-	uint8_t	*data;
-	int	len;
+	struct ringbuffer_consumer *rbc;
+	bool ignore_poll;
+	bool force_only;
+	int count;
+	uint8_t *data;
+	int len;
 };
 
 void ringbuffer_test_context_init(struct rb_test_ctx *ctx)
@@ -22,15 +22,15 @@ void ringbuffer_test_context_fini(struct rb_test_ctx *ctx)
 	free(ctx->data);
 }
 
-enum ringbuffer_poll_ret ringbuffer_poll_nop(
-		void *data __attribute__((unused)),
-		size_t force_len __attribute__((unused)))
+enum ringbuffer_poll_ret ringbuffer_poll_nop(void *data __attribute__((unused)),
+					     size_t force_len
+					     __attribute__((unused)))
 {
 	return RINGBUFFER_POLL_OK;
 }
 
 enum ringbuffer_poll_ret ringbuffer_poll_append_all(void *data,
-		size_t force_len)
+						    size_t force_len)
 {
 	struct rb_test_ctx *ctx = data;
 	size_t len, total_len;
@@ -73,7 +73,7 @@ void ringbuffer_dump(struct ringbuffer *rb)
 	int j;
 
 	printf("---- ringbuffer (%d consumer%s)\n", rb->n_consumers,
-			rb->n_consumers == 1 ? "" : "s");
+	       rb->n_consumers == 1 ? "" : "s");
 
 	for (i = 0; i < rb->size; i++) {
 		bool has_consumer = false;
@@ -95,4 +95,3 @@ void ringbuffer_dump(struct ringbuffer *rb)
 		printf("\n");
 	}
 }
-

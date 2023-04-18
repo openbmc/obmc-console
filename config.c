@@ -34,13 +34,13 @@
 static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 struct config_item {
-	char			*name;
-	char			*value;
-	struct config_item	*next;
+	char *name;
+	char *value;
+	struct config_item *next;
 };
 
 struct config {
-	struct config_item	*items;
+	struct config_item *items;
 };
 
 const char *config_get_value(struct config *config, const char *name)
@@ -61,11 +61,11 @@ static void config_parse(struct config *config, char *buf)
 	char *p, *line;
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
-			line = strtok_r(NULL, "\n", &p)) {
+	     line = strtok_r(NULL, "\n", &p)) {
 		int rc;
 
 		/* trim leading space */
-		for (;*line == ' ' || *line == '\t'; line++)
+		for (; *line == ' ' || *line == '\t'; line++)
 			;
 
 		/* skip comments */
@@ -121,7 +121,6 @@ static struct config *config_init_fd(int fd, const char *filename)
 			size <<= 1;
 			buf = realloc(buf, size + 1);
 		}
-
 	}
 	buf[len] = '\0';
 
@@ -171,13 +170,17 @@ void config_fini(struct config *config)
 }
 
 struct terminal_speed_name {
-	speed_t		speed;
-	uint32_t	baud;
-	const char	*name;
+	speed_t speed;
+	uint32_t baud;
+	const char *name;
 };
 
-#define TERM_SPEED(x) { B##x, x, #x}
+#define TERM_SPEED(x)                                                          \
+	{                                                                      \
+		B##x, x, #x                                                    \
+	}
 
+// clang-format off
 static const struct terminal_speed_name terminal_speeds[] = {
 	TERM_SPEED(50),
 	TERM_SPEED(75),
@@ -210,6 +213,7 @@ static const struct terminal_speed_name terminal_speeds[] = {
 	TERM_SPEED(3500000),
 	TERM_SPEED(4000000),
 };
+// clang-format on
 
 int config_parse_baud(speed_t *speed, const char *baud_string)
 {
@@ -252,8 +256,8 @@ int config_parse_logsize(const char *size_str, size_t *size)
 {
 	struct size_suffix_shift {
 		/* Left shiftwidth corresponding to the suffix. */
-		size_t	shiftwidth;
-		int	unit;
+		size_t shiftwidth;
+		int unit;
 	};
 
 	const struct size_suffix_shift suffixes[] = {
@@ -261,8 +265,8 @@ int config_parse_logsize(const char *size_str, size_t *size)
 		{ 20, 'M' },
 		{ 30, 'G' },
 	};
-	const size_t num_suffixes = sizeof(suffixes) /
-				    sizeof(struct size_suffix_shift);
+	const size_t num_suffixes =
+		sizeof(suffixes) / sizeof(struct size_suffix_shift);
 	size_t logsize;
 	char *suffix;
 	size_t i;
@@ -322,6 +326,5 @@ int main(void)
 	config_fini(config);
 
 	return EXIT_SUCCESS;
-
 }
 #endif

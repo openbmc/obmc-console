@@ -38,21 +38,21 @@
 #define SOCKET_HANDLER_PKT_US_TIMEOUT 4000
 
 struct client {
-	struct socket_handler		*sh;
-	struct poller			*poller;
-	struct ringbuffer_consumer	*rbc;
-	int				fd;
-	bool				blocked;
+	struct socket_handler *sh;
+	struct poller *poller;
+	struct ringbuffer_consumer *rbc;
+	int fd;
+	bool blocked;
 };
 
 struct socket_handler {
-	struct handler		handler;
-	struct console		*console;
-	struct poller		*poller;
-	int			sd;
+	struct handler handler;
+	struct console *console;
+	struct poller *poller;
+	int sd;
 
-	struct client		**clients;
-	int			n_clients;
+	struct client **clients;
+	int n_clients;
 };
 
 static struct timeval const socket_handler_timeout = {
@@ -87,10 +87,10 @@ static void client_close(struct client *client)
 	client = NULL;
 
 	sh->n_clients--;
-	memmove(&sh->clients[idx], &sh->clients[idx+1],
-			sizeof(*sh->clients) * (sh->n_clients - idx));
-	sh->clients = realloc(sh->clients,
-			sizeof(*sh->clients) * sh->n_clients);
+	memmove(&sh->clients[idx], &sh->clients[idx + 1],
+		sizeof(*sh->clients) * (sh->n_clients - idx));
+	sh->clients =
+		realloc(sh->clients, sizeof(*sh->clients) * sh->n_clients);
 }
 
 static void client_set_blocked(struct client *client, bool blocked)
@@ -109,8 +109,8 @@ static void client_set_blocked(struct client *client, bool blocked)
 	console_poller_set_events(client->sh->console, client->poller, events);
 }
 
-static ssize_t send_all(struct client *client, void *buf,
-		size_t len, bool block)
+static ssize_t send_all(struct client *client, void *buf, size_t len,
+			bool block)
 {
 	int fd, rc, flags;
 	size_t pos;
@@ -124,8 +124,8 @@ static ssize_t send_all(struct client *client, void *buf,
 	for (pos = 0; pos < len; pos += rc) {
 		rc = send(fd, (char *)buf + pos, len - pos, flags);
 		if (rc < 0) {
-			if (!block && (errno == EAGAIN ||
-						errno == EWOULDBLOCK)) {
+			if (!block &&
+			    (errno == EAGAIN || errno == EWOULDBLOCK)) {
 				client_set_blocked(client, true);
 				break;
 			}
@@ -186,7 +186,7 @@ static int client_drain_queue(struct client *client, size_t force_len)
 }
 
 static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
-		size_t force_len)
+						       size_t force_len)
 {
 	struct client *client = arg;
 	int rc, len;
@@ -211,7 +211,8 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 	return RINGBUFFER_POLL_OK;
 }
 
-static enum poller_ret client_timeout(struct handler *handler __attribute__((unused)), void *data)
+static enum poller_ret
+client_timeout(struct handler *handler __attribute__((unused)), void *data)
 {
 	struct client *client = data;
 	int rc = 0;
@@ -231,8 +232,8 @@ static enum poller_ret client_timeout(struct handler *handler __attribute__((unu
 	return POLLER_OK;
 }
 
-static enum poller_ret client_poll(struct handler *handler,
-		int events, void *data)
+static enum poller_ret client_poll(struct handler *handler, int events,
+				   void *data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client = data;
@@ -268,8 +269,8 @@ err_close:
 	return POLLER_REMOVE;
 }
 
-static enum poller_ret socket_poll(struct handler *handler,
-		int events, void __attribute__((unused)) *data)
+static enum poller_ret socket_poll(struct handler *handler, int events,
+				   void __attribute__((unused)) * data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client;
@@ -288,22 +289,21 @@ static enum poller_ret socket_poll(struct handler *handler,
 	client->sh = sh;
 	client->fd = fd;
 	client->poller = console_poller_register(sh->console, handler,
-			client_poll, client_timeout, client->fd, POLLIN,
-			client);
-	client->rbc = console_ringbuffer_consumer_register(sh->console,
-			client_ringbuffer_poll, client);
+						 client_poll, client_timeout,
+						 client->fd, POLLIN, client);
+	client->rbc = console_ringbuffer_consumer_register(
+		sh->console, client_ringbuffer_poll, client);
 
 	n = sh->n_clients++;
-	sh->clients = realloc(sh->clients,
-			sizeof(*sh->clients) * sh->n_clients);
+	sh->clients =
+		realloc(sh->clients, sizeof(*sh->clients) * sh->n_clients);
 	sh->clients[n] = client;
 
 	return POLLER_OK;
-
 }
 
 static int socket_init(struct handler *handler, struct console *console,
-		struct config *config)
+		       struct config *config)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct sockaddr_un addr;
@@ -328,11 +328,12 @@ static int socket_init(struct handler *handler, struct console *console,
 
 	/* Try to take a socket from systemd first */
 	if (sd_listen_fds(0) == 1 &&
-		sd_is_socket_unix(SD_LISTEN_FDS_START, SOCK_STREAM, 1, addr.sun_path, len) > 0) {
+	    sd_is_socket_unix(SD_LISTEN_FDS_START, SOCK_STREAM, 1,
+			      addr.sun_path, len) > 0) {
 		sh->sd = SD_LISTEN_FDS_START;
 	} else {
 		sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
-		if(sh->sd < 0) {
+		if (sh->sd < 0) {
 			warn("Can't create socket");
 			return -1;
 		}
@@ -344,7 +345,7 @@ static int socket_init(struct handler *handler, struct console *console,
 			socket_path_t name;
 			console_socket_path_readable(&addr, addrlen, name);
 			warn("Can't bind to socket path %s (terminated at first null)",
-					name);
+			     name);
 			goto cleanup;
 		}
 
@@ -356,7 +357,7 @@ static int socket_init(struct handler *handler, struct console *console,
 	}
 
 	sh->poller = console_poller_register(console, handler, socket_poll,
-			NULL, sh->sd, POLLIN, NULL);
+					     NULL, sh->sd, POLLIN, NULL);
 
 	return 0;
 cleanup:
@@ -386,4 +387,3 @@ static struct socket_handler socket_handler = {
 };
 
 console_handler_register(&socket_handler.handler);
-

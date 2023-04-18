@@ -34,4 +34,3 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 
 	return 0;
 }
-

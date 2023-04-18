@@ -54,28 +54,27 @@ struct str_esc_state {
 };
 
 struct console_client {
-	int		console_sd;
-	int		fd_in;
-	int		fd_out;
-	bool		is_tty;
-	struct termios	orig_termios;
-	enum esc_type	esc_type;
+	int console_sd;
+	int fd_in;
+	int fd_out;
+	bool is_tty;
+	struct termios orig_termios;
+	enum esc_type esc_type;
 	union {
 		struct ssh_esc_state ssh;
 		struct str_esc_state str;
 	} esc_state;
 };
 
-static enum process_rc process_ssh_tty(
-		struct console_client *client, const uint8_t *buf, size_t len)
+static enum process_rc process_ssh_tty(struct console_client *client,
+				       const uint8_t *buf, size_t len)
 {
 	struct ssh_esc_state *esc_state = &client->esc_state.ssh;
 	const uint8_t *out_buf = buf;
 	int rc;
 
 	for (size_t i = 0; i < len; ++i) {
-		switch (buf[i])
-		{
+		switch (buf[i]) {
 		case '.':
 			if (esc_state->state != '~') {
 				esc_state->state = '\0';
@@ -89,11 +88,11 @@ static enum process_rc process_ssh_tty(
 			}
 			esc_state->state = '~';
 			/* We need to print everything to skip the tilde */
-			rc = write_buf_to_fd(
-				client->console_sd, out_buf, i-(out_buf-buf));
+			rc = write_buf_to_fd(client->console_sd, out_buf,
+					     i - (out_buf - buf));
 			if (rc < 0)
 				return PROCESS_ERR;
-			out_buf = &buf[i+1];
+			out_buf = &buf[i + 1];
 			break;
 		case '\r':
 			esc_state->state = '\r';
@@ -103,12 +102,13 @@ static enum process_rc process_ssh_tty(
 		}
 	}
 
-	rc = write_buf_to_fd(client->console_sd, out_buf, len-(out_buf-buf));
+	rc = write_buf_to_fd(client->console_sd, out_buf,
+			     len - (out_buf - buf));
 	return rc < 0 ? PROCESS_ERR : PROCESS_OK;
 }
 
-static enum process_rc process_str_tty(
-		struct console_client *client, const uint8_t *buf, size_t len)
+static enum process_rc process_str_tty(struct console_client *client,
+				       const uint8_t *buf, size_t len)
 {
 	struct str_esc_state *esc_state = &client->esc_state.str;
 	enum process_rc prc = PROCESS_OK;
@@ -143,8 +143,7 @@ static enum process_rc process_tty(struct console_client *client)
 	if (len == 0)
 		return PROCESS_EXIT;
 
-	switch (client->esc_type)
-	{
+	switch (client->esc_type) {
 	case ESC_TYPE_SSH:
 		return process_ssh_tty(client, buf, len);
 	case ESC_TYPE_STR:
@@ -153,7 +152,6 @@ static enum process_rc process_tty(struct console_client *client)
 		return PROCESS_ERR;
 	}
 }
-
 
 static int process_console(struct console_client *client)
 {
@@ -232,7 +230,7 @@ static int client_init(struct console_client *client, const char *socket_id)
 	}
 
 	rc = connect(client->console_sd, (struct sockaddr *)&addr,
-			sizeof(addr) - sizeof(addr.sun_path) + len);
+		     sizeof(addr) - sizeof(addr.sun_path) + len);
 	if (!rc)
 		return 0;
 
@@ -283,11 +281,12 @@ int main(int argc, char *argv[])
 				fprintf(stderr, "Escape str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
-			esc = (const uint8_t*)optarg;
+			esc = (const uint8_t *)optarg;
 			break;
 		case 'i':
 			if (optarg[0] == '\0') {
-				fprintf(stderr, "Socket ID str cannot be empty\n");
+				fprintf(stderr,
+					"Socket ID str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
 			socket_id = optarg;
@@ -311,7 +310,8 @@ int main(int argc, char *argv[])
 		}
 
 		if (!esc)
-			esc = (const uint8_t *)config_get_value(config, "escape-sequence");
+			esc = (const uint8_t *)config_get_value(
+				config, "escape-sequence");
 
 		if (!socket_id)
 			socket_id = config_get_value(config, "socket-id");
@@ -364,4 +364,3 @@ out_config_fini:
 		return EXIT_ESCAPE;
 	return rc ? EXIT_FAILURE : EXIT_SUCCESS;
 }
-
