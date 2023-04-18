@@ -99,8 +99,8 @@ static struct config *config_init_fd(int fd, const char *filename)
 {
 	struct config *config;
 	size_t size, len;
+	ssize_t rc;
 	char *buf;
-	int rc;
 
 	size = 4096;
 	len = 0;

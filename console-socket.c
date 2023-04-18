@@ -17,11 +17,13 @@
 #include "console-server.h"
 
 #include <errno.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #define CONSOLE_SOCKET_PREFIX "obmc-console"
 
@@ -57,10 +59,14 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path)
 {
 	const char *src = (const char *)addr;
-	const size_t len = addrlen - sizeof(addr->sun_family) - 1;
+	size_t len;
 
+	if (addrlen > SSIZE_MAX)
+		return -EINVAL;
+
+	len = addrlen - sizeof(addr->sun_family) - 1;
 	memcpy(path, src + sizeof(addr->sun_family) + 1, len);
 	path[len] = '\0';
 
-	return len; /* strlen() style */
+	return (ssize_t)len; /* strlen() style */
 }

@@ -56,10 +56,10 @@ struct console {
 	struct ringbuffer *rb;
 
 	struct handler **handlers;
-	int n_handlers;
+	long n_handlers;
 
 	struct poller **pollers;
-	int n_pollers;
+	long n_pollers;
 
 	struct pollfd *pollfds;
 	struct sd_bus *bus;
@@ -461,7 +461,7 @@ static void handlers_init(struct console *console, struct config *config)
 	console->n_handlers = &__stop_handlers - &__start_handlers;
 	console->handlers = &__start_handlers;
 
-	printf("%d handler%s\n", console->n_handlers,
+	printf("%ld handler%s\n", console->n_handlers,
 	       console->n_handlers == 1 ? "" : "s");
 
 	for (i = 0; i < console->n_handlers; i++) {
@@ -524,7 +524,7 @@ struct poller *console_poller_register(struct console *console,
 				       int events, void *data)
 {
 	struct poller *poller;
-	int n;
+	long n;
 
 	poller = malloc(sizeof(*poller));
 	poller->remove = false;
@@ -552,7 +552,7 @@ struct poller *console_poller_register(struct console *console,
 	       sizeof(*console->pollfds) * MAX_INTERNAL_POLLFD);
 
 	console->pollfds[n].fd = fd;
-	console->pollfds[n].events = events;
+	console->pollfds[n].events = (short)(events & 0x7fff);
 
 	return poller;
 }
@@ -601,7 +601,7 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 		if (console->pollers[i] == poller)
 			break;
 
-	console->pollfds[i].events = events;
+	console->pollfds[i].events = (short)(events & 0x7fff);
 }
 
 void console_poller_set_timeout(struct console *console __attribute__((unused)),
@@ -617,7 +617,7 @@ void console_poller_set_timeout(struct console *console __attribute__((unused)),
 	timeradd(&now, tv, &poller->timeout);
 }
 
-static int get_poll_timeout(struct console *console, struct timeval *cur_time)
+static long get_poll_timeout(struct console *console, struct timeval *cur_time)
 {
 	struct timeval *earliest, interval;
 	struct poller *poller;
@@ -729,11 +729,10 @@ static void sighandler(int signal)
 
 int run_console(struct console *console)
 {
-	sighandler_t sighandler_save;
+	sighandler_t sighandler_save = signal(SIGINT, sighandler);
 	struct timeval tv;
-	int rc, timeout;
-
-	sighandler_save = signal(SIGINT, sighandler);
+	long timeout;
+	ssize_t rc;
 
 	rc = 0;
 
@@ -756,7 +755,8 @@ int run_console(struct console *console)
 		timeout = get_poll_timeout(console, &tv);
 
 		rc = poll(console->pollfds,
-			  console->n_pollers + MAX_INTERNAL_POLLFD, timeout);
+			  console->n_pollers + MAX_INTERNAL_POLLFD,
+			  (int)timeout);
 
 		if (rc < 0) {
 			if (errno == EINTR) {

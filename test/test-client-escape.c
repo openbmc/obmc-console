@@ -15,9 +15,13 @@
  */
 
 #include <assert.h>
+#include <errno.h>
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <unistd.h>
 
+static ssize_t __read(int fd, void *buf, size_t len);
 #define read __read
 #include "config.c"
 #include "console-socket.c"
@@ -165,11 +169,16 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 	return 0;
 }
 
-ssize_t __read(int fd, void *buf, size_t len)
+static ssize_t __read(int fd, void *buf, size_t len)
 {
 	struct test_ctx *ctx = &ctxs[fd];
 	const char *inbuf;
 	size_t inlen;
+
+	if (len > SSIZE_MAX) {
+		errno = EINVAL;
+		return -1;
+	}
 
 	if (ctx->cur_in >= ctx->test->n_in)
 		return 0;
@@ -179,10 +188,10 @@ ssize_t __read(int fd, void *buf, size_t len)
 	assert(inlen <= len);
 	memcpy(buf, inbuf, inlen);
 	ctx->cur_in++;
-	return inlen;
+	return (ssize_t)inlen;
 }
 
-void run_one_test(int idx, struct test *test, struct test_ctx *ctx)
+void run_one_test(size_t idx, struct test *test, struct test_ctx *ctx)
 {
 	size_t exp_out_len;
 	int rc;
@@ -190,8 +199,9 @@ void run_one_test(int idx, struct test *test, struct test_ctx *ctx)
 	/* we store the index into the context array as a FD, so we
 	 * can refer to it through the read & write callbacks.
 	 */
-	ctx->client.console_sd = idx;
-	ctx->client.fd_in = idx;
+	assert(idx < INT_MAX);
+	ctx->client.console_sd = (int)idx;
+	ctx->client.fd_in = (int)idx;
 	ctx->client.esc_type = test->esc_type;
 	memcpy(&ctx->client.esc_state, &test->esc_state,
 	       sizeof(test->esc_state));

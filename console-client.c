@@ -156,7 +156,8 @@ static enum process_rc process_tty(struct console_client *client)
 static int process_console(struct console_client *client)
 {
 	uint8_t buf[4096];
-	int len, rc;
+	ssize_t len;
+	int rc;
 
 	len = read(client->console_sd, buf, sizeof(buf));
 	if (len < 0) {
