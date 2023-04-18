@@ -5,7 +5,7 @@ struct rb_test_ctx {
 	bool force_only;
 	int count;
 	uint8_t *data;
-	int len;
+	size_t len;
 };
 
 void ringbuffer_test_context_init(struct rb_test_ctx *ctx)

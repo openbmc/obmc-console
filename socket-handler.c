@@ -112,8 +112,17 @@ static void client_set_blocked(struct client *client, bool blocked)
 static ssize_t send_all(struct client *client, void *buf, size_t len,
 			bool block)
 {
-	int fd, rc, flags;
+	long ssize_max;
+	int fd, flags;
+	ssize_t rc;
 	size_t pos;
+
+	ssize_max = sysconf(_SC_SSIZE_MAX);
+	if (ssize_max < 0)
+		return -errno;
+
+	if (len > (size_t)ssize_max)
+		return -EINVAL;
 
 	fd = client->fd;
 
@@ -139,7 +148,7 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,
 			return -1;
 	}
 
-	return pos;
+	return (ssize_t)pos;
 }
 
 /* Drain the queue to the socket and update the queue buffer. If force_len is
@@ -189,7 +198,8 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 						       size_t force_len)
 {
 	struct client *client = arg;
-	int rc, len;
+	size_t len;
+	int rc;
 
 	len = ringbuffer_len(client->rbc);
 	if (!force_len && (len < SOCKET_HANDLER_PKT_SIZE)) {
@@ -238,7 +248,7 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client = data;
 	uint8_t buf[4096];
-	int rc;
+	ssize_t rc;
 
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
