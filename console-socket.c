@@ -22,6 +22,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #define CONSOLE_SOCKET_PREFIX "obmc-console"
 
@@ -57,10 +58,19 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path)
 {
 	const char *src = (const char *)addr;
-	const size_t len = addrlen - sizeof(addr->sun_family) - 1;
+	long ssize_max;
+	size_t len;
 
+	ssize_max = sysconf(_SC_SSIZE_MAX);
+	if (ssize_max < 0)
+		return -errno;
+
+	if (addrlen > (size_t)ssize_max)
+		return -EINVAL;
+
+	len = addrlen - sizeof(addr->sun_family) - 1;
 	memcpy(path, src + sizeof(addr->sun_family) + 1, len);
 	path[len] = '\0';
 
-	return len; /* strlen() style */
+	return (ssize_t)len; /* strlen() style */
 }

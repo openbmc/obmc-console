@@ -125,7 +125,7 @@ static int ringbuffer_consumer_ensure_space(struct ringbuffer_consumer *rbc,
 					    size_t len)
 {
 	enum ringbuffer_poll_ret prc;
-	int force_len;
+	size_t force_len;
 
 	if (ringbuffer_space(rbc) >= len)
 		return 0;
