@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e541ef06_6fbde350",
+        "filename": "log-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-19T15:56:43Z",
+      "side": 1,
+      "message": "Perhaps I\u0027m missing something, but would `open(O_RWDR | O_CREAT | O_APPEND)` be a simpler way to achieve pretty much the same thing?",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 144,
+        "endChar": 2
+      },
+      "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
