@@ -34,8 +34,9 @@ void test_boundary_read(void)
 	pos = 0;
 	for (;;) {
 		len = ringbuffer_dequeue_peek(rbc, pos, &out_buf);
-		if (len == 0)
+		if (len == 0) {
 			break;
+		}
 		assert(!memcmp(in_buf + pos, out_buf, len));
 		pos += len;
 	}

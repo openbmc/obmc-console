@@ -25,8 +25,9 @@ void test_contained_offset_read(void)
 	for (i = 0; i <= sizeof(in_buf); i++) {
 		len = ringbuffer_dequeue_peek(rbc, i, &out_buf);
 		assert(len == sizeof(in_buf) - i);
-		if (len)
+		if (len) {
 			assert(!memcmp(in_buf + i, out_buf, len));
+		}
 	}
 
 	ringbuffer_fini(rb);
