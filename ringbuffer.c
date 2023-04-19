@@ -126,9 +126,8 @@ size_t ringbuffer_len(struct ringbuffer_consumer *rbc)
 {
 	if (rbc->pos <= rbc->rb->tail) {
 		return rbc->rb->tail - rbc->pos;
-	} else {
-		return rbc->rb->tail + rbc->rb->size - rbc->pos;
 	}
+	return rbc->rb->tail + rbc->rb->size - rbc->pos;
 }
 
 static size_t ringbuffer_space(struct ringbuffer_consumer *rbc)
