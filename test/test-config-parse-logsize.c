@@ -58,8 +58,9 @@ void test_config_parse_logsize(void)
 			     test_data[i].expected_size, size);
 		}
 		assert(rc == test_data[i].expected_rc);
-		if (rc == 0)
+		if (rc == 0) {
 			assert(size == test_data[i].expected_size);
+		}
 	}
 }
 

@@ -47,9 +47,11 @@ const char *config_get_value(struct config *config, const char *name)
 {
 	struct config_item *item;
 
-	for (item = config->items; item; item = item->next)
-		if (!strcasecmp(item->name, name))
+	for (item = config->items; item; item = item->next) {
+		if (!strcasecmp(item->name, name)) {
 			return item->value;
+		}
+	}
 
 	return NULL;
 }
@@ -65,12 +67,14 @@ static void config_parse(struct config *config, char *buf)
 		int rc;
 
 		/* trim leading space */
-		for (; *line == ' ' || *line == '\t'; line++)
+		for (; *line == ' ' || *line == '\t'; line++) {
 			;
+		}
 
 		/* skip comments */
-		if (*line == '#')
+		if (*line == '#') {
 			continue;
+		}
 
 		name = malloc(strlen(line));
 		value = malloc(strlen(line));
@@ -139,8 +143,9 @@ struct config *config_init(const char *filename)
 	struct config *config;
 	int fd;
 
-	if (!filename)
+	if (!filename) {
 		filename = config_default_filename;
+	}
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0) {
@@ -271,16 +276,19 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	char *suffix;
 	size_t i;
 
-	if (!size_str)
+	if (!size_str) {
 		return -1;
+	}
 
 	logsize = strtoul(size_str, &suffix, 0);
-	if (logsize == 0 || logsize >= UINT32_MAX || suffix == size_str)
+	if (logsize == 0 || logsize >= UINT32_MAX || suffix == size_str) {
 		return -1;
+	}
 
 	/* Ignore spaces between number and suffix */
-	while (*suffix && isspace(*suffix))
+	while (*suffix && isspace(*suffix)) {
 		suffix++;
+	}
 
 	for (i = 0; i < num_suffixes; i++) {
 		if (*suffix == suffixes[i].unit) {
@@ -288,8 +296,9 @@ int config_parse_logsize(const char *size_str, size_t *size)
 			 * If logsize overflows, probably something was wrong.
 			 * Return instead of clamping to an arbitrary value.
 			 */
-			if (logsize > (UINT32_MAX >> suffixes[i].shiftwidth))
+			if (logsize > (UINT32_MAX >> suffixes[i].shiftwidth)) {
 				return -1;
+			}
 
 			logsize <<= suffixes[i].shiftwidth;
 			suffix++;
@@ -298,8 +307,9 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	}
 
 	/* Allow suffix like 'kB' */
-	while (*suffix && (tolower(*suffix) == 'b' || isspace(*suffix)))
+	while (*suffix && (tolower(*suffix) == 'b' || isspace(*suffix))) {
 		suffix++;
+	}
 
 	if (*suffix) {
 		warn("Invalid suffix!");

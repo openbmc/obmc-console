@@ -84,13 +84,15 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 
 	if (lh->size + len > lh->maxsize) {
 		rc = log_trim(lh);
-		if (rc)
+		if (rc) {
 			return rc;
+		}
 	}
 
 	rc = write_buf_to_fd(lh->fd, buf, len);
-	if (rc)
+	if (rc) {
 		return rc;
+	}
 
 	lh->size += len;
 
@@ -109,12 +111,14 @@ static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg, size_t force_len
 	 * commit straight away. */
 	for (;;) {
 		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf);
-		if (!len)
+		if (!len) {
 			break;
+		}
 
 		rc = log_data(lh, buf, len);
-		if (rc)
+		if (rc) {
 			return RINGBUFFER_POLL_REMOVE;
+		}
 
 		ringbuffer_dequeue_commit(lh->rbc, len);
 	}
@@ -146,8 +150,9 @@ static int log_init(struct handler *handler, struct console *console,
 	lh->maxsize = logsize <= lh->pagesize ? lh->pagesize + 1 : logsize;
 
 	filename = config_get_value(config, "logfile");
-	if (!filename)
+	if (!filename) {
 		filename = default_filename;
+	}
 
 	lh->fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (lh->fd < 0) {

@@ -69,15 +69,19 @@ static void client_close(struct client *client)
 	int idx;
 
 	close(client->fd);
-	if (client->poller)
+	if (client->poller) {
 		console_poller_unregister(sh->console, client->poller);
+	}
 
-	if (client->rbc)
+	if (client->rbc) {
 		ringbuffer_consumer_unregister(client->rbc);
+	}
 
-	for (idx = 0; idx < sh->n_clients; idx++)
-		if (sh->clients[idx] == client)
+	for (idx = 0; idx < sh->n_clients; idx++) {
+		if (sh->clients[idx] == client) {
 			break;
+		}
+	}
 
 	assert(idx < sh->n_clients);
 
@@ -101,14 +105,16 @@ static void client_set_blocked(struct client *client, bool blocked)
 {
 	int events;
 
-	if (client->blocked == blocked)
+	if (client->blocked == blocked) {
 		return;
+	}
 
 	client->blocked = blocked;
 
 	events = POLLIN;
-	if (client->blocked)
+	if (client->blocked) {
 		events |= POLLOUT;
+	}
 
 	console_poller_set_events(client->sh->console, client->poller, events);
 }
@@ -122,17 +128,20 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,
 	size_t pos;
 
 	ssize_max = sysconf(_SC_SSIZE_MAX);
-	if (ssize_max < 0)
+	if (ssize_max < 0) {
 		return -errno;
+	}
 
-	if (len > (size_t)ssize_max)
+	if (len > (size_t)ssize_max) {
 		return -EINVAL;
+	}
 
 	fd = client->fd;
 
 	flags = MSG_NOSIGNAL;
-	if (!block)
+	if (!block) {
 		flags |= MSG_DONTWAIT;
+	}
 
 	for (pos = 0; pos < len; pos += rc) {
 		rc = send(fd, (char *)buf + pos, len - pos, flags);
@@ -143,13 +152,15 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,
 				break;
 			}
 
-			if (errno == EINTR)
+			if (errno == EINTR) {
 				continue;
+			}
 
 			return -1;
 		}
-		if (rc == 0)
+		if (rc == 0) {
 			return -1;
+		}
 	}
 
 	return (ssize_t)pos;
@@ -170,29 +181,35 @@ static int client_drain_queue(struct client *client, size_t force_len)
 	block = !!force_len;
 
 	/* if we're already blocked, no need for the write */
-	if (!block && client->blocked)
+	if (!block && client->blocked) {
 		return 0;
+	}
 
 	for (;;) {
 		len = ringbuffer_dequeue_peek(client->rbc, total_len, &buf);
-		if (!len)
+		if (!len) {
 			break;
+		}
 
 		wlen = send_all(client, buf, len, block);
-		if (wlen <= 0)
+		if (wlen <= 0) {
 			break;
+		}
 
 		total_len += wlen;
 
-		if (force_len && total_len >= force_len)
+		if (force_len && total_len >= force_len) {
 			break;
+		}
 	}
 
-	if (wlen < 0)
+	if (wlen < 0) {
 		return -1;
+	}
 
-	if (force_len && total_len < force_len)
+	if (force_len && total_len < force_len) {
 		return -1;
+	}
 
 	ringbuffer_dequeue_commit(client->rbc, total_len);
 	return 0;
@@ -257,13 +274,15 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
 		if (rc < 0) {
-			if (errno == EAGAIN || errno == EWOULDBLOCK)
+			if (errno == EAGAIN || errno == EWOULDBLOCK) {
 				return POLLER_OK;
-			else
+			} else {
 				goto err_close;
+			}
 		}
-		if (rc == 0)
+		if (rc == 0) {
 			goto err_close;
+		}
 
 		console_data_out(sh->console, buf, rc);
 	}
@@ -271,8 +290,9 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 	if (events & POLLOUT) {
 		client_set_blocked(client, false);
 		rc = client_drain_queue(client, 0);
-		if (rc)
+		if (rc) {
 			goto err_close;
+		}
 	}
 
 	return POLLER_OK;
@@ -290,12 +310,14 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	struct client *client;
 	int fd, n;
 
-	if (!(events & POLLIN))
+	if (!(events & POLLIN)) {
 		return POLLER_OK;
+	}
 
 	fd = accept(sh->sd, NULL, NULL);
-	if (fd < 0)
+	if (fd < 0) {
 		return POLLER_OK;
+	}
 
 	client = malloc(sizeof(*client));
 	memset(client, 0, sizeof(*client));
@@ -339,10 +361,11 @@ static int socket_init(struct handler *handler, struct console *console,
 	addr.sun_family = AF_UNIX;
 	len = console_socket_path(&addr, config_get_value(config, "socket-id"));
 	if (len < 0) {
-		if (errno)
+		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
-		else
+		} else {
 			warn("Socket name length exceeds buffer limits");
+		}
 		return -1;
 	}
 
@@ -389,11 +412,13 @@ static void socket_fini(struct handler *handler)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 
-	while (sh->n_clients)
+	while (sh->n_clients) {
 		client_close(sh->clients[0]);
+	}
 
-	if (sh->poller)
+	if (sh->poller) {
 		console_poller_unregister(sh->console, sh->poller);
+	}
 
 	close(sh->sd);
 }

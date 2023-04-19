@@ -46,8 +46,9 @@ static void tty_set_fd_blocking(struct tty_handler *th, bool fd_blocking)
 	int flags;
 
 	flags = th->fd_flags & ~O_NONBLOCK;
-	if (!fd_blocking)
+	if (!fd_blocking) {
 		flags |= O_NONBLOCK;
+	}
 
 	if (flags != th->fd_flags) {
 		fcntl(th->fd, F_SETFL, flags);
@@ -68,14 +69,16 @@ static void tty_set_blocked(struct tty_handler *th, bool blocked)
 {
 	int events;
 
-	if (blocked == th->blocked)
+	if (blocked == th->blocked) {
 		return;
+	}
 
 	th->blocked = blocked;
 	events = POLLIN;
 
-	if (th->blocked)
+	if (th->blocked) {
 		events |= POLLOUT;
+	}
 
 	console_poller_set_events(th->console, th->poller, events);
 }
@@ -87,28 +90,32 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 	uint8_t *buf;
 
 	/* if we're forcing data, we need to clear non-blocking mode */
-	if (force_len)
+	if (force_len) {
 		tty_set_fd_blocking(th, true);
 
-	/* no point writing, we'll just see -EAGAIN */
-	else if (th->blocked)
+		/* no point writing, we'll just see -EAGAIN */
+	} else if (th->blocked) {
 		return 0;
+	}
 
 	total_len = 0;
 
 	for (;;) {
 		len = ringbuffer_dequeue_peek(th->rbc, total_len, &buf);
-		if (!len)
+		if (!len) {
 			break;
+		}
 
 		/* write as little as possible while blocking */
-		if (force_len && force_len < total_len + len)
+		if (force_len && force_len < total_len + len) {
 			len = force_len - total_len;
+		}
 
 		wlen = write(th->fd, buf, len);
 		if (wlen < 0) {
-			if (errno == EINTR)
+			if (errno == EINTR) {
 				continue;
+			}
 			if ((errno == EAGAIN || errno == EWOULDBLOCK) &&
 			    !force_len) {
 				tty_set_blocked(th, true);
@@ -120,14 +127,16 @@ static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 
 		total_len += wlen;
 
-		if (force_len && total_len >= force_len)
+		if (force_len && total_len >= force_len) {
 			break;
+		}
 	}
 
 	ringbuffer_dequeue_commit(th->rbc, total_len);
 
-	if (force_len)
+	if (force_len) {
 		tty_set_fd_blocking(th, false);
+	}
 
 	return 0;
 }
@@ -156,8 +165,9 @@ static enum poller_ret tty_poll(struct handler *handler, int events,
 
 	if (events & POLLIN) {
 		len = read(th->fd, buf, sizeof(buf));
-		if (len <= 0)
+		if (len <= 0) {
 			goto err;
+		}
 
 		console_data_out(th->console, buf, len);
 	}
@@ -165,8 +175,9 @@ static enum poller_ret tty_poll(struct handler *handler, int events,
 	if (events & POLLOUT) {
 		tty_set_blocked(th, false);
 		rc = tty_drain_queue(th, 0);
-		if (rc)
+		if (rc) {
 			goto err;
+		}
 	}
 
 	return POLLER_OK;
@@ -235,12 +246,14 @@ static int tty_init(struct handler *handler, struct console *console,
 	int rc;
 
 	tty_name = config_get_value(config, "local-tty");
-	if (!tty_name)
+	if (!tty_name) {
 		return -1;
+	}
 
 	rc = asprintf(&tty_path, "/dev/%s", tty_name);
-	if (!rc)
+	if (!rc) {
 		return -1;
+	}
 
 	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
 	if (th->fd < 0) {
@@ -260,15 +273,17 @@ static int tty_init(struct handler *handler, struct console *console,
 				tty_baud);
 		} else {
 			rc = set_terminal_baud(th, tty_name, desired_speed);
-			if (rc)
+			if (rc) {
 				fprintf(stderr,
 					"Couldn't set baud rate for %s to %s\n",
 					tty_name, tty_baud);
+			}
 		}
 	}
 
-	if (make_terminal_raw(th, tty_name) != 0)
+	if (make_terminal_raw(th, tty_name) != 0) {
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
+	}
 
 	th->poller = console_poller_register(console, handler, tty_poll, NULL,
 					     th->fd, POLLIN, NULL);
@@ -282,8 +297,9 @@ static int tty_init(struct handler *handler, struct console *console,
 static void tty_fini(struct handler *handler)
 {
 	struct tty_handler *th = to_tty_handler(handler);
-	if (th->poller)
+	if (th->poller) {
 		console_poller_unregister(th->console, th->poller);
+	}
 	close(th->fd);
 }
 
