@@ -53,6 +53,7 @@ struct handler {
 	bool active;
 };
 
+/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 #define __handler_name(n) __handler_##n
 #define _handler_name(n)  __handler_name(n)
 
@@ -60,6 +61,7 @@ struct handler {
 	static const __attribute__((section("handlers")))                      \
 	__attribute__((used)) struct handler *                                 \
 	_handler_name(__COUNTER__) = h
+/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
