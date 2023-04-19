@@ -159,7 +159,8 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 {
 	struct ringbuffer_consumer *rbc;
 	size_t wlen;
-	int i, rc;
+	int i;
+	int rc;
 
 	if (len >= rb->size) {
 		return -1;
