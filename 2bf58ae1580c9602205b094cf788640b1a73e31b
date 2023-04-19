@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00f0c27_5bf23ce1",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-19T01:30:33Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "27341b24_a6ffc547",
+      "revId": "2bf58ae1580c9602205b094cf788640b1a73e31b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9661dbd1_3d4559f6",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-18T19:51:30Z",
       "side": 1,
       "message": "Seems weird to have to mess with `sockaddr_un` just to construct the socket name. Can we refactor the `console_socket_path` to output into a `socket_path_t` without the leading \\0,  instead of filling out a `sockaddr_un`? Then there would be no need for `console_socket_path_readable` nor `console_socket_get_path`.\n\nAnd either way, I think we should just allocate the socket name in the `console` so we only do this work once instead of on every D-Bus property read.",
+      "range": {
+        "startLine": 393,
+        "startChar": 4,
+        "endLine": 400,
+        "endChar": 5
+      },
+      "revId": "2bf58ae1580c9602205b094cf788640b1a73e31b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "476cd0a1_5564af2f",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-19T01:30:33Z",
+      "side": 1,
+      "message": "I like your idea of saving socket_name in the console. I added that. I have removed my new function called console_socket_get_path. I did not change existing console_socket* functions as those are called in client code too.",
+      "parentUuid": "9661dbd1_3d4559f6",
       "range": {
         "startLine": 393,
         "startChar": 4,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fcfa2b6_9cfb47df",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-19T01:30:33Z",
+      "side": 1,
+      "message": "good catch on length check. Added the check.\nNow changed the logic and console_id can not be null.",
+      "parentUuid": "d398457b_72128e4b",
+      "range": {
+        "startLine": 456,
+        "startChar": 1,
+        "endLine": 456,
+        "endChar": 8
+      },
+      "revId": "2bf58ae1580c9602205b094cf788640b1a73e31b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f9ceef9_29b8ef73",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-04-18T19:51:30Z",
       "side": 1,
       "message": "Was this duplicated by accident?",
+      "range": {
+        "startLine": 482,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 5
+      },
+      "revId": "2bf58ae1580c9602205b094cf788640b1a73e31b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a618fcce_7055acea",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-19T01:30:33Z",
+      "side": 1,
+      "message": "yes, Sorry about that. Removed.",
+      "parentUuid": "1f9ceef9_29b8ef73",
       "range": {
         "startLine": 482,
         "startChar": 0,
