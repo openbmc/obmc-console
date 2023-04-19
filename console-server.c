@@ -680,14 +680,11 @@ static long get_poll_timeout(struct console *console, struct timeval *cur_time)
 			timersub(earliest, cur_time, &interval);
 			return ((interval.tv_sec * 1000) +
 				(interval.tv_usec / 1000));
-		} else {
-			/* return from poll immediately */
-			return 0;
-		}
-	} else {
-		/* poll indefinitely */
-		return -1;
-	}
+		} /* return from poll immediately */
+		return 0;
+
+	} /* poll indefinitely */
+	return -1;
 }
 
 static int call_pollers(struct console *console, struct timeval *cur_time)
@@ -800,10 +797,9 @@ int run_console(struct console *console)
 		if (rc < 0) {
 			if (errno == EINTR) {
 				continue;
-			} else {
-				warn("poll error");
-				break;
 			}
+			warn("poll error");
+			break;
 		}
 
 		/* process internal fd first */

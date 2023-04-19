@@ -271,9 +271,8 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 		if (rc < 0) {
 			if (errno == EAGAIN || errno == EWOULDBLOCK) {
 				return POLLER_OK;
-			} else {
-				goto err_close;
 			}
+			goto err_close;
 		}
 		if (rc == 0) {
 			goto err_close;
