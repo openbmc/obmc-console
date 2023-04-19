@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f34b874_8cefe370",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-19T21:10:56Z",
+      "side": 1,
+      "message": "Replicating a comment from some related discussion on discord: if we do really want to eliminate the use of %m, I think I\u0027d be in favor of pre-allocating two strings of size `strlen(line)+1` to ensure fitment and then just using the same scanf-based approach minus the `m` modifiers.  (So as to avoid all the bug-prone, difficult-to-read manual string parsing.)",
+      "revId": "db2e7373a0227cb0311e53af0ebc8cb94a7ae9cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
