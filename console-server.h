@@ -81,7 +81,7 @@ typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
 
 struct poller *console_poller_register(struct console *console,
 				       struct handler *handler,
-				       poller_event_fn_t event_fn,
+				       poller_event_fn_t poller_fn,
 				       poller_timeout_fn_t timeout_fn, int fd,
 				       int events, void *data);
 
@@ -91,7 +91,7 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 			       int events);
 
 void console_poller_set_timeout(struct console *console, struct poller *poller,
-				const struct timeval *interval);
+				const struct timeval *tv);
 
 /* ringbuffer API */
 enum ringbuffer_poll_ret {
