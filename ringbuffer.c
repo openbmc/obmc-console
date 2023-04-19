@@ -26,21 +26,6 @@ static inline size_t min(size_t a, size_t b)
 	return a < b ? a : b;
 }
 
-struct ringbuffer {
-	uint8_t *buf;
-	size_t size;
-	size_t tail;
-	struct ringbuffer_consumer **consumers;
-	int n_consumers;
-};
-
-struct ringbuffer_consumer {
-	struct ringbuffer *rb;
-	ringbuffer_poll_fn_t poll_fn;
-	void *poll_data;
-	size_t pos;
-};
-
 struct ringbuffer *ringbuffer_init(size_t size)
 {
 	struct ringbuffer *rb;
