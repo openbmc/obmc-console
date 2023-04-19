@@ -14,7 +14,7 @@ void test_boundary_read(void)
 	size_t len, pos;
 	int rc;
 
-	assert(sizeof(in_buf) * 2 > 10);
+	static_assert(sizeof(in_buf) * 2 > 10, "");
 
 	rb = ringbuffer_init(10);
 	rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_nop, NULL);
