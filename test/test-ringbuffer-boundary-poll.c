@@ -9,7 +9,8 @@
 void test_boundary_poll(void)
 {
 	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
-	struct rb_test_ctx _ctx, *ctx = &_ctx;
+	struct rb_test_ctx _ctx;
+	struct rb_test_ctx *ctx = &_ctx;
 	struct ringbuffer *rb;
 	int rc;
 

@@ -33,7 +33,8 @@ enum ringbuffer_poll_ret ringbuffer_poll_append_all(void *data,
 						    size_t force_len)
 {
 	struct rb_test_ctx *ctx = data;
-	size_t len, total_len;
+	size_t len;
+	size_t total_len;
 	uint8_t *buf;
 
 	if (ctx->ignore_poll) {

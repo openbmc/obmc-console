@@ -9,7 +9,8 @@
 void test_simple_poll(void)
 {
 	uint8_t in_buf[] = { 'a', 'b', 'c' };
-	struct rb_test_ctx _ctx, *ctx;
+	struct rb_test_ctx _ctx;
+	struct rb_test_ctx *ctx;
 	struct ringbuffer *rb;
 	int rc;
 

@@ -8,7 +8,8 @@
 
 void test_read_commit(void)
 {
-	uint8_t *out_buf, in_buf[] = {
+	uint8_t *out_buf;
+	uint8_t in_buf[] = {
 		'a',
 		'b',
 		'c',
