@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-#define _GNU_SOURCE
-
 #include <assert.h>
 #include <err.h>
 #include <errno.h>

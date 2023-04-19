@@ -19,7 +19,7 @@ PKG_CHECK_MODULES([SYSTEMD], [libsystemd > 221])
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
-AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CFLAGS])
+AX_APPEND_COMPILE_FLAGS([-Wall -Werror -D_GNU_SOURCE], [CFLAGS])
 
 # Checks for library functions.
 LT_INIT # Removes 'unrecognized options: --with-libtool-sysroot'

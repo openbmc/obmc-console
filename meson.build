@@ -10,6 +10,8 @@ project('obmc-console', 'c',
     meson_version: '>=0.63.0',
 )
 
+add_project_arguments('-D_GNU_SOURCE', language: 'c')
+
 systemdsystemunitdir = dependency('systemd').get_variable('systemdsystemunitdir')
 install_data('conf/obmc-console@.service.in',
              'conf/obmc-console@.socket.in',
