@@ -94,6 +94,7 @@ void console_poller_set_timeout(struct console *console, struct poller *poller,
 				const struct timeval *tv);
 
 /* ringbuffer API */
+
 enum ringbuffer_poll_ret {
 	RINGBUFFER_POLL_OK = 0,
 	RINGBUFFER_POLL_REMOVE,
@@ -102,8 +103,22 @@ enum ringbuffer_poll_ret {
 typedef enum ringbuffer_poll_ret (*ringbuffer_poll_fn_t)(void *data,
 							 size_t force_len);
 
-struct ringbuffer;
 struct ringbuffer_consumer;
+
+struct ringbuffer {
+	uint8_t *buf;
+	size_t size;
+	size_t tail;
+	struct ringbuffer_consumer **consumers;
+	int n_consumers;
+};
+
+struct ringbuffer_consumer {
+	struct ringbuffer *rb;
+	ringbuffer_poll_fn_t poll_fn;
+	void *poll_data;
+	size_t pos;
+};
 
 struct ringbuffer *ringbuffer_init(size_t size);
 void ringbuffer_fini(struct ringbuffer *rb);
