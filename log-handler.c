@@ -130,7 +130,8 @@ static int log_init(struct handler *handler, struct console *console,
 		    struct config *config)
 {
 	struct log_handler *lh = to_log_handler(handler);
-	const char *filename, *logsize_str;
+	const char *filename;
+	const char *logsize_str;
 	size_t logsize = default_logsize;
 	int rc;
 

@@ -8,7 +8,8 @@
 
 void test_contained_read(void)
 {
-	uint8_t *out_buf, in_buf[] = { 'a', 'b', 'c' };
+	uint8_t *out_buf;
+	uint8_t in_buf[] = { 'a', 'b', 'c' };
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
 	size_t len;

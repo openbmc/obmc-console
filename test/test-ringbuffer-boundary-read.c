@@ -8,10 +8,12 @@
 
 void test_boundary_read(void)
 {
-	uint8_t *out_buf, in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	uint8_t *out_buf;
+	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
-	size_t len, pos;
+	size_t len;
+	size_t pos;
 	int rc;
 
 	static_assert(sizeof(in_buf) * 2 > 10, "");
