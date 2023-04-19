@@ -46,8 +46,9 @@ struct ringbuffer *ringbuffer_init(size_t size)
 	struct ringbuffer *rb;
 
 	rb = malloc(sizeof(*rb) + size);
-	if (!rb)
+	if (!rb) {
 		return NULL;
+	}
 
 	memset(rb, 0, sizeof(*rb));
 	rb->size = size;
@@ -58,8 +59,9 @@ struct ringbuffer *ringbuffer_init(size_t size)
 
 void ringbuffer_fini(struct ringbuffer *rb)
 {
-	while (rb->n_consumers)
+	while (rb->n_consumers) {
 		ringbuffer_consumer_unregister(rb->consumers[0]);
+	}
 	free(rb);
 }
 
@@ -95,9 +97,11 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	struct ringbuffer *rb = rbc->rb;
 	int i;
 
-	for (i = 0; i < rb->n_consumers; i++)
-		if (rb->consumers[i] == rbc)
+	for (i = 0; i < rb->n_consumers; i++) {
+		if (rb->consumers[i] == rbc) {
 			break;
+		}
+	}
 
 	assert(i < rb->n_consumers);
 
@@ -120,10 +124,11 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 
 size_t ringbuffer_len(struct ringbuffer_consumer *rbc)
 {
-	if (rbc->pos <= rbc->rb->tail)
+	if (rbc->pos <= rbc->rb->tail) {
 		return rbc->rb->tail - rbc->pos;
-	else
+	} else {
 		return rbc->rb->tail + rbc->rb->size - rbc->pos;
+	}
 }
 
 static size_t ringbuffer_space(struct ringbuffer_consumer *rbc)
@@ -137,14 +142,16 @@ static int ringbuffer_consumer_ensure_space(struct ringbuffer_consumer *rbc,
 	enum ringbuffer_poll_ret prc;
 	size_t force_len;
 
-	if (ringbuffer_space(rbc) >= len)
+	if (ringbuffer_space(rbc) >= len) {
 		return 0;
+	}
 
 	force_len = len - ringbuffer_space(rbc);
 
 	prc = rbc->poll_fn(rbc->poll_data, force_len);
-	if (prc != RINGBUFFER_POLL_OK)
+	if (prc != RINGBUFFER_POLL_OK) {
 		return -1;
+	}
 
 	return 0;
 }
@@ -155,11 +162,13 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	size_t wlen;
 	int i, rc;
 
-	if (len >= rb->size)
+	if (len >= rb->size) {
 		return -1;
+	}
 
-	if (len == 0)
+	if (len == 0) {
 		return 0;
+	}
 
 	/* Ensure there is at least len bytes of space available.
 	 *
@@ -212,14 +221,16 @@ size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 	size_t pos;
 	size_t len;
 
-	if (offset >= ringbuffer_len(rbc))
+	if (offset >= ringbuffer_len(rbc)) {
 		return 0;
+	}
 
 	pos = (rbc->pos + offset) % rb->size;
-	if (pos <= rb->tail)
+	if (pos <= rb->tail) {
 		len = rb->tail - pos;
-	else
+	} else {
 		len = rb->size - pos;
+	}
 
 	*data = rb->buf + pos;
 	return len;

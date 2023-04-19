@@ -23,10 +23,12 @@ static void execute_test(const char *input, const char *key,
 	config_parse(ctx, buf);
 	free(buf);
 	found = config_get_value(ctx, key);
-	if (!expected)
+	if (!expected) {
 		assert(!found);
-	if (expected)
+	}
+	if (expected) {
 		assert(!strcmp(expected, found));
+	}
 	config_fini(ctx);
 }
 

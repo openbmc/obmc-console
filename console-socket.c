@@ -41,8 +41,9 @@ ssize_t console_socket_path(struct sockaddr_un *addr, const char *id)
 			      CONSOLE_SOCKET_PREFIX);
 	}
 
-	if (rc < 0)
+	if (rc < 0) {
 		return rc;
+	}
 
 	if ((size_t)rc > (sizeof(addr->sun_path) - 1)) {
 		errno = 0;
@@ -62,11 +63,13 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 	size_t len;
 
 	ssize_max = sysconf(_SC_SSIZE_MAX);
-	if (ssize_max < 0)
+	if (ssize_max < 0) {
 		return -errno;
+	}
 
-	if (addrlen > (size_t)ssize_max)
+	if (addrlen > (size_t)ssize_max) {
 		return -EINVAL;
+	}
 
 	len = addrlen - sizeof(addr->sun_family) - 1;
 	memcpy(path, src + sizeof(addr->sun_family) + 1, len);

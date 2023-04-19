@@ -90,8 +90,9 @@ static enum process_rc process_ssh_tty(struct console_client *client,
 			/* We need to print everything to skip the tilde */
 			rc = write_buf_to_fd(client->console_sd, out_buf,
 					     i - (out_buf - buf));
-			if (rc < 0)
+			if (rc < 0) {
 				return PROCESS_ERR;
+			}
 			out_buf = &buf[i + 1];
 			break;
 		case '\r':
@@ -115,10 +116,11 @@ static enum process_rc process_str_tty(struct console_client *client,
 	size_t i;
 
 	for (i = 0; i < len; ++i) {
-		if (buf[i] == esc_state->str[esc_state->pos])
+		if (buf[i] == esc_state->str[esc_state->pos]) {
 			esc_state->pos++;
-		else
+		} else {
 			esc_state->pos = 0;
+		}
 
 		if (esc_state->str[esc_state->pos] == '\0') {
 			prc = PROCESS_ESC;
@@ -127,8 +129,9 @@ static enum process_rc process_str_tty(struct console_client *client,
 		}
 	}
 
-	if (write_buf_to_fd(client->console_sd, buf, i) < 0)
+	if (write_buf_to_fd(client->console_sd, buf, i) < 0) {
 		return PROCESS_ERR;
+	}
 	return prc;
 }
 
@@ -138,10 +141,12 @@ static enum process_rc process_tty(struct console_client *client)
 	ssize_t len;
 
 	len = read(client->fd_in, buf, sizeof(buf));
-	if (len < 0)
+	if (len < 0) {
 		return PROCESS_ERR;
-	if (len == 0)
+	}
+	if (len == 0) {
 		return PROCESS_EXIT;
+	}
 
 	switch (client->esc_type) {
 	case ESC_TYPE_SSH:
@@ -186,8 +191,9 @@ static int client_tty_init(struct console_client *client)
 	client->fd_out = STDOUT_FILENO;
 	client->is_tty = isatty(client->fd_in);
 
-	if (!client->is_tty)
+	if (!client->is_tty) {
 		return 0;
+	}
 
 	rc = tcgetattr(client->fd_in, &termios);
 	if (rc) {
@@ -223,17 +229,19 @@ static int client_init(struct console_client *client, const char *socket_id)
 	addr.sun_family = AF_UNIX;
 	len = console_socket_path(&addr, socket_id);
 	if (len < 0) {
-		if (errno)
+		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
-		else
+		} else {
 			warn("Socket name length exceeds buffer limits");
+		}
 		goto cleanup;
 	}
 
 	rc = connect(client->console_sd, (struct sockaddr *)&addr,
 		     sizeof(addr) - sizeof(addr.sun_path) + len);
-	if (!rc)
+	if (!rc) {
 		return 0;
+	}
 
 	console_socket_path_readable(&addr, len, path);
 	warn("Can't connect to console server '@%s'", path);
@@ -244,8 +252,9 @@ cleanup:
 
 static void client_fini(struct console_client *client)
 {
-	if (client->is_tty)
+	if (client->is_tty) {
 		tcsetattr(client->fd_in, TCSANOW, &client->orig_termios);
+	}
 	close(client->console_sd);
 }
 
@@ -266,8 +275,9 @@ int main(int argc, char *argv[])
 
 	for (;;) {
 		rc = getopt(argc, argv, "c:e:i:");
-		if (rc == -1)
+		if (rc == -1) {
 			break;
+		}
 
 		switch (rc) {
 		case 'c':
@@ -310,12 +320,14 @@ int main(int argc, char *argv[])
 			return EXIT_FAILURE;
 		}
 
-		if (!esc)
+		if (!esc) {
 			esc = (const uint8_t *)config_get_value(
 				config, "escape-sequence");
+		}
 
-		if (!socket_id)
+		if (!socket_id) {
 			socket_id = config_get_value(config, "socket-id");
+		}
 	}
 
 	if (esc) {
@@ -324,12 +336,14 @@ int main(int argc, char *argv[])
 	}
 
 	rc = client_init(client, socket_id);
-	if (rc)
+	if (rc) {
 		goto out_config_fini;
+	}
 
 	rc = client_tty_init(client);
-	if (rc)
+	if (rc) {
 		goto out_client_fini;
+	}
 
 	for (;;) {
 		pollfds[0].fd = client->fd_in;
@@ -343,25 +357,30 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		if (pollfds[0].revents)
+		if (pollfds[0].revents) {
 			prc = process_tty(client);
+		}
 
-		if (prc == PROCESS_OK && pollfds[1].revents)
+		if (prc == PROCESS_OK && pollfds[1].revents) {
 			prc = process_console(client);
+		}
 
 		rc = (prc == PROCESS_ERR) ? -1 : 0;
-		if (prc != PROCESS_OK)
+		if (prc != PROCESS_OK) {
 			break;
+		}
 	}
 
 out_client_fini:
 	client_fini(client);
 
 out_config_fini:
-	if (config_path)
+	if (config_path) {
 		config_fini(config);
+	}
 
-	if (prc == PROCESS_ESC)
+	if (prc == PROCESS_ESC) {
 		return EXIT_ESCAPE;
+	}
 	return rc ? EXIT_FAILURE : EXIT_SUCCESS;
 }

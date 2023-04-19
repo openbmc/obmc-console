@@ -176,16 +176,18 @@ static ssize_t __read(int fd, void *buf, size_t len)
 	size_t inlen;
 
 	ssize_max = sysconf(_SC_SSIZE_MAX);
-	if (ssize_max < 0)
+	if (ssize_max < 0) {
 		return ssize_max;
+	}
 
 	if (len > (size_t)ssize_max) {
 		errno = EINVAL;
 		return -1;
 	}
 
-	if (ctx->cur_in >= ctx->test->n_in)
+	if (ctx->cur_in >= ctx->test->n_in) {
 		return 0;
+	}
 
 	inbuf = ctx->test->in[ctx->cur_in];
 	inlen = strlen(inbuf);
@@ -213,8 +215,9 @@ void run_one_test(size_t idx, struct test *test, struct test_ctx *ctx)
 
 	for (;;) {
 		rc = process_tty(&ctx->client);
-		if (rc != PROCESS_OK)
+		if (rc != PROCESS_OK) {
 			break;
+		}
 	}
 
 	exp_out_len = strlen(test->exp_out);
@@ -233,8 +236,9 @@ int main(void)
 {
 	size_t i;
 
-	for (i = 0; i < ARRAY_SIZE(tests); i++)
+	for (i = 0; i < ARRAY_SIZE(tests); i++) {
 		run_one_test(i, &tests[i], &ctxs[i]);
+	}
 
 	return EXIT_SUCCESS;
 }
