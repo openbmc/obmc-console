@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a1e075_7a23efdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-19T00:59:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "931b52b3_ba018c1e",
+      "revId": "6f5ebe2b20529d78a1543674a2d2336381ce368a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f6691_da0b2a2e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-18T08:22:01Z",
       "side": 1,
       "message": "Hmmm...given the degree of repetition I was about to suggest creating a macro for it, but now I see there might not be any one real convenient place to put it to have it seen by all the `*.c` files...so meh, maybe not worth it.",
+      "revId": "6f5ebe2b20529d78a1543674a2d2336381ce368a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28005442_fa0ae202",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-19T00:59:06Z",
+      "side": 1,
+      "message": "Yeah, typically we use something like `__unused` or something as well, but that stomps on reserved namespace, so I figured I\u0027d just leave as is. I don\u0027t think we\u0027re going to use compilers that don\u0027t support it.",
+      "parentUuid": "470f6691_da0b2a2e",
       "revId": "6f5ebe2b20529d78a1543674a2d2336381ce368a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
