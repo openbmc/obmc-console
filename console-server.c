@@ -452,6 +452,7 @@ static void dbus_init(struct console *console,
 
 static void handlers_init(struct console *console, struct config *config)
 {
+	/* NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 	extern struct handler *__start_handlers, *__stop_handlers;
 	struct handler *handler;
 	int i, rc;
