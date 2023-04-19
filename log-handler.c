@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#define _GNU_SOURCE
 #include <endian.h>
 #include <err.h>
 #include <fcntl.h>
