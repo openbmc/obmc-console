@@ -1,3 +1,6 @@
+#include <stdbool.h>
+
+#include "console-server.h"
 
 struct rb_test_ctx {
 	struct ringbuffer_consumer *rbc;
