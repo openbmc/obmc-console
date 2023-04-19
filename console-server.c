@@ -534,17 +534,22 @@ struct poller *console_poller_register(struct console *console,
 
 	/* add one to our pollers array */
 	n = console->n_pollers++;
-	console->pollers =
-		realloc(console->pollers,
-			sizeof(*console->pollers) * console->n_pollers);
+	/*
+	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
+	 * pointer type.
+	 */
+	/* NOLINTBEGIN(bugprone-sizeof-expression) */
+	console->pollers = reallocarray(console->pollers, console->n_pollers,
+					sizeof(*console->pollers));
+	/* NOLINTEND(bugprone-sizeof-expression) */
 
 	console->pollers[n] = poller;
 
 	/* increase pollfds array too  */
 	console->pollfds =
-		realloc(console->pollfds,
-			sizeof(*console->pollfds) *
-				(MAX_INTERNAL_POLLFD + console->n_pollers));
+		reallocarray(console->pollfds,
+			     (MAX_INTERNAL_POLLFD + console->n_pollers),
+			     sizeof(*console->pollfds));
 
 	/* shift the end pollfds up by one */
 	memcpy(&console->pollfds[n + 1], &console->pollfds[n],
@@ -569,13 +574,19 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 
 	console->n_pollers--;
 
-	/* remove the item from the pollers array... */
+	/*
+	 * Remove the item from the pollers array...
+	 *
+	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
+	 * pointer type.
+	 */
+	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&console->pollers[i], &console->pollers[i + 1],
 		sizeof(*console->pollers) * (console->n_pollers - i));
 
-	console->pollers =
-		realloc(console->pollers,
-			sizeof(*console->pollers) * console->n_pollers);
+	console->pollers = reallocarray(console->pollers, console->n_pollers,
+					sizeof(*console->pollers));
+	/* NOLINTEND(bugprone-sizeof-expression) */
 
 	/* ... and the pollfds array */
 	memmove(&console->pollfds[i], &console->pollfds[i + 1],
@@ -583,9 +594,9 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 			(MAX_INTERNAL_POLLFD + console->n_pollers - i));
 
 	console->pollfds =
-		realloc(console->pollfds,
-			sizeof(*console->pollfds) *
-				(MAX_INTERNAL_POLLFD + console->n_pollers));
+		reallocarray(console->pollfds,
+			     (MAX_INTERNAL_POLLFD + console->n_pollers),
+			     sizeof(*console->pollfds));
 
 	free(poller);
 }
