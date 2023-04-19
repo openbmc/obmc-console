@@ -86,10 +86,16 @@ static void client_close(struct client *client)
 	client = NULL;
 
 	sh->n_clients--;
+	/*
+	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
+	 * pointer type.
+	 */
+	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&sh->clients[idx], &sh->clients[idx + 1],
 		sizeof(*sh->clients) * (sh->n_clients - idx));
 	sh->clients =
-		realloc(sh->clients, sizeof(*sh->clients) * sh->n_clients);
+		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	/* NOLINTEND(bugprone-sizeof-expression) */
 }
 
 static void client_set_blocked(struct client *client, bool blocked)
@@ -299,8 +305,14 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 		sh->console, client_ringbuffer_poll, client);
 
 	n = sh->n_clients++;
+	/*
+	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
+	 * pointer type.
+	 */
+	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	sh->clients =
-		realloc(sh->clients, sizeof(*sh->clients) * sh->n_clients);
+		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	/* NOLINTEND(bugprone-sizeof-expression) */
 	sh->clients[n] = client;
 
 	return POLLER_OK;
