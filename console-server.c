@@ -116,8 +116,9 @@ static int tty_find_device(struct console *console)
 
 	/* udev may rename the tty name with a symbol link, try to resolve */
 	rc = asprintf(&tty_path_input, "/dev/%s", console->tty_kname);
-	if (rc < 0)
+	if (rc < 0) {
 		return -1;
+	}
 
 	tty_path_input_real = realpath(tty_path_input, NULL);
 	if (!tty_path_input_real) {
@@ -135,8 +136,9 @@ static int tty_find_device(struct console *console)
 
 	rc = asprintf(&tty_class_device_link, "/sys/class/tty/%s",
 		      tty_kname_real);
-	if (rc < 0)
+	if (rc < 0) {
 		goto out_free;
+	}
 
 	tty_device_tty_dir = realpath(tty_class_device_link, NULL);
 	if (!tty_device_tty_dir) {
@@ -146,16 +148,19 @@ static int tty_find_device(struct console *console)
 	}
 
 	rc = asprintf(&tty_device_reldir, "%s/../../", tty_device_tty_dir);
-	if (rc < 0)
+	if (rc < 0) {
 		goto out_free;
+	}
 
 	console->tty_sysfs_devnode = realpath(tty_device_reldir, NULL);
-	if (!console->tty_sysfs_devnode)
+	if (!console->tty_sysfs_devnode) {
 		warn("Can't find parent device for %s", tty_kname_real);
+	}
 
 	rc = asprintf(&console->tty_dev, "/dev/%s", tty_kname_real);
-	if (rc < 0)
+	if (rc < 0) {
 		goto out_free;
+	}
 
 	rc = 0;
 
@@ -176,8 +181,9 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	int rc;
 
 	rc = asprintf(&path, "%s/%s", console->tty_sysfs_devnode, name);
-	if (rc < 0)
+	if (rc < 0) {
 		return -1;
+	}
 
 	fp = fopen(path, "w");
 	if (!fp) {
@@ -189,9 +195,10 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	setvbuf(fp, NULL, _IONBF, 0);
 
 	rc = fprintf(fp, "0x%x", value);
-	if (rc < 0)
+	if (rc < 0) {
 		warn("Error writing to %s attribute of device %s", name,
 		     console->tty_kname);
+	}
 	fclose(fp);
 
 out_free:
@@ -214,8 +221,9 @@ static void tty_init_termios(struct console *console)
 	}
 
 	if (console->tty_baud) {
-		if (cfsetspeed(&termios, console->tty_baud) < 0)
+		if (cfsetspeed(&termios, console->tty_baud) < 0) {
 			warn("Couldn't set speeds for %s", console->tty_kname);
+		}
 	}
 
 	/* Set console to raw mode: we don't want any processing to occur on
@@ -224,8 +232,9 @@ static void tty_init_termios(struct console *console)
 	cfmakeraw(&termios);
 
 	rc = tcsetattr(console->tty_fd, TCSANOW, &termios);
-	if (rc)
+	if (rc) {
 		warn("Can't set terminal options for %s", console->tty_kname);
+	}
 }
 
 static void tty_change_baudrate(struct console *console)
@@ -237,13 +246,15 @@ static void tty_change_baudrate(struct console *console)
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
-		if (!handler->baudrate)
+		if (!handler->baudrate) {
 			continue;
+		}
 
 		rc = handler->baudrate(handler, console->tty_baud);
-		if (rc)
+		if (rc) {
 			warnx("Can't set terminal baudrate for handler %s",
 			      handler->name);
+		}
 	}
 }
 
@@ -252,11 +263,13 @@ static void tty_change_baudrate(struct console *console)
  */
 static int tty_init_io(struct console *console)
 {
-	if (console->tty_sirq)
+	if (console->tty_sirq) {
 		tty_set_sysfs_attr(console, "sirq", console->tty_sirq);
-	if (console->tty_lpc_addr)
+	}
+	if (console->tty_lpc_addr) {
 		tty_set_sysfs_attr(console, "lpc_address",
 				   console->tty_lpc_addr);
+	}
 
 	console->tty_fd = open(console->tty_dev, O_RDWR);
 	if (console->tty_fd <= 0) {
@@ -315,18 +328,21 @@ static int tty_init(struct console *console, struct config *config)
 			     val);
 		}
 
-		if (parsed > 16)
+		if (parsed > 16) {
 			warn("Invalid LPC SERIRQ: '%s'", val);
+		}
 
 		console->tty_sirq = (int)parsed;
-		if (endp == optarg)
+		if (endp == optarg) {
 			warn("Invalid sirq: '%s'", val);
+		}
 	}
 
 	val = config_get_value(config, "baud");
 	if (val) {
-		if (config_parse_baud(&console->tty_baud, val))
+		if (config_parse_baud(&console->tty_baud, val)) {
 			warnx("Invalid baud rate: '%s'", val);
+		}
 	}
 
 	if (!console->tty_kname) {
@@ -335,8 +351,9 @@ static int tty_init(struct console *console, struct config *config)
 	}
 
 	rc = tty_find_device(console);
-	if (rc)
+	if (rc) {
 		return rc;
+	}
 
 	rc = tty_init_io(console);
 	return rc;
@@ -390,8 +407,9 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 	int r;
 
 	baudrate = parse_baud_to_int(console->tty_baud);
-	if (!baudrate)
+	if (!baudrate) {
 		warnx("Invalid baud rate: '%d'", console->tty_baud);
+	}
 
 	r = sd_bus_message_append(reply, "u", baudrate);
 
@@ -467,8 +485,9 @@ static void handlers_init(struct console *console, struct config *config)
 		handler = console->handlers[i];
 
 		rc = 0;
-		if (handler->init)
+		if (handler->init) {
 			rc = handler->init(handler, console, config);
+		}
 
 		handler->active = rc == 0;
 
@@ -484,8 +503,9 @@ static void handlers_fini(struct console *console)
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
-		if (handler->fini && handler->active)
+		if (handler->fini && handler->active) {
 			handler->fini(handler);
+		}
 	}
 }
 
@@ -500,8 +520,9 @@ static int get_current_time(struct timeval *tv)
 	 * convenient for calculations, so convert to that.
 	 */
 	rc = clock_gettime(CLOCK_MONOTONIC, &t);
-	if (rc)
+	if (rc) {
 		return rc;
+	}
 
 	tv->tv_sec = t.tv_sec;
 	tv->tv_usec = t.tv_nsec / 1000;
@@ -566,9 +587,11 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 	int i;
 
 	/* find the entry in our pollers array */
-	for (i = 0; i < console->n_pollers; i++)
-		if (console->pollers[i] == poller)
+	for (i = 0; i < console->n_pollers; i++) {
+		if (console->pollers[i] == poller) {
 			break;
+		}
+	}
 
 	assert(i < console->n_pollers);
 
@@ -607,9 +630,11 @@ void console_poller_set_events(struct console *console, struct poller *poller,
 	int i;
 
 	/* find the entry in our pollers array */
-	for (i = 0; i < console->n_pollers; i++)
-		if (console->pollers[i] == poller)
+	for (i = 0; i < console->n_pollers; i++) {
+		if (console->pollers[i] == poller) {
 			break;
+		}
+	}
 
 	console->pollfds[i].events = (short)(events & 0x7fff);
 }
@@ -621,8 +646,9 @@ void console_poller_set_timeout(struct console *console __attribute__((unused)),
 	int rc;
 
 	rc = get_current_time(&now);
-	if (rc)
+	if (rc) {
 		return;
+	}
 
 	timeradd(&now, tv, &poller->timeout);
 }
@@ -686,10 +712,11 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 		if (pollfd->revents) {
 			prc = poller->event_fn(poller->handler, pollfd->revents,
 					       poller->data);
-			if (prc == POLLER_EXIT)
+			if (prc == POLLER_EXIT) {
 				rc = -1;
-			else if (prc == POLLER_REMOVE)
+			} else if (prc == POLLER_REMOVE) {
 				poller->remove = true;
+			}
 		}
 
 		if ((prc == POLLER_OK) && poller->timeout_fn &&
@@ -724,8 +751,9 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 				break;
 			}
 		}
-		if (!removed)
+		if (!removed) {
 			break;
+		}
 	}
 
 	return rc;
@@ -733,8 +761,9 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 
 static void sighandler(int signal)
 {
-	if (signal == SIGINT)
+	if (signal == SIGINT) {
 		sigint = true;
+	}
 }
 
 int run_console(struct console *console)
@@ -786,8 +815,9 @@ int run_console(struct console *console)
 				break;
 			}
 			rc = ringbuffer_queue(console->rb, buf, rc);
-			if (rc)
+			if (rc) {
 				break;
+			}
 		}
 
 		if (console->pollfds[console->n_pollers + 1].revents) {
@@ -796,8 +826,9 @@ int run_console(struct console *console)
 
 		/* ... and then the pollers */
 		rc = call_pollers(console, &tv);
-		if (rc)
+		if (rc) {
 			break;
+		}
 	}
 
 	signal(SIGINT, sighandler_save);
@@ -824,8 +855,9 @@ int main(int argc, char **argv)
 		int c, idx;
 
 		c = getopt_long(argc, argv, "c:", options, &idx);
-		if (c == -1)
+		if (c == -1) {
 			break;
+		}
 
 		switch (c) {
 		case 'c':
@@ -838,8 +870,9 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (optind < argc)
+	if (optind < argc) {
 		config_tty_kname = argv[optind];
+	}
 
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
@@ -853,8 +886,9 @@ int main(int argc, char **argv)
 		goto out_free;
 	}
 
-	if (!config_tty_kname)
+	if (!config_tty_kname) {
 		config_tty_kname = config_get_value(config, "upstream-tty");
+	}
 
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
@@ -865,8 +899,9 @@ int main(int argc, char **argv)
 	console->tty_kname = config_tty_kname;
 
 	rc = tty_init(console, config);
-	if (rc)
+	if (rc) {
 		goto out_config_fini;
+	}
 
 	dbus_init(console, config);
 
