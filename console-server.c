@@ -240,7 +240,8 @@ static void tty_init_termios(struct console *console)
 static void tty_change_baudrate(struct console *console)
 {
 	struct handler *handler;
-	int i, rc;
+	int i;
+	int rc;
 
 	tty_init_termios(console);
 
@@ -428,7 +429,8 @@ static void dbus_init(struct console *console,
 		      struct config *config __attribute__((unused)))
 {
 	int dbus_poller = 0;
-	int fd, r;
+	int fd;
+	int r;
 
 	if (!console) {
 		warnx("Couldn't get valid console");
@@ -470,10 +472,13 @@ static void dbus_init(struct console *console,
 
 static void handlers_init(struct console *console, struct config *config)
 {
-	/* NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-	extern struct handler *__start_handlers, *__stop_handlers;
+	/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
+	extern struct handler *__start_handlers;
+	extern struct handler *__stop_handlers;
+	/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 	struct handler *handler;
-	int i, rc;
+	int i;
+	int rc;
 
 	console->n_handlers = &__stop_handlers - &__start_handlers;
 	console->handlers = &__start_handlers;
@@ -655,7 +660,8 @@ void console_poller_set_timeout(struct console *console __attribute__((unused)),
 
 static long get_poll_timeout(struct console *console, struct timeval *cur_time)
 {
-	struct timeval *earliest, interval;
+	struct timeval *earliest;
+	struct timeval interval;
 	struct poller *poller;
 	int i;
 
@@ -692,7 +698,8 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 	struct poller *poller;
 	struct pollfd *pollfd;
 	enum poller_ret prc;
-	int i, rc;
+	int i;
+	int rc;
 
 	rc = 0;
 
@@ -848,7 +855,8 @@ int main(int argc, char **argv)
 	rc = -1;
 
 	for (;;) {
-		int c, idx;
+		int c;
+		int idx;
 
 		c = getopt_long(argc, argv, "c:", options, &idx);
 		if (c == -1) {

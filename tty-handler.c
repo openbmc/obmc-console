@@ -85,7 +85,8 @@ static void tty_set_blocked(struct tty_handler *th, bool blocked)
 
 static int tty_drain_queue(struct tty_handler *th, size_t force_len)
 {
-	size_t len, total_len;
+	size_t len;
+	size_t total_len;
 	ssize_t wlen;
 	uint8_t *buf;
 

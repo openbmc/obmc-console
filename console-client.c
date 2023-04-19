@@ -260,7 +260,8 @@ static void client_fini(struct console_client *client)
 
 int main(int argc, char *argv[])
 {
-	struct console_client _client, *client;
+	struct console_client _client;
+	struct console_client *client;
 	struct pollfd pollfds[2];
 	enum process_rc prc = PROCESS_OK;
 	const char *config_path = NULL;

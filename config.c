@@ -59,8 +59,10 @@ const char *config_get_value(struct config *config, const char *name)
 static void config_parse(struct config *config, char *buf)
 {
 	struct config_item *item;
-	char *name, *value;
-	char *p, *line;
+	char *name;
+	char *value;
+	char *p;
+	char *line;
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
 	     line = strtok_r(NULL, "\n", &p)) {
@@ -102,7 +104,8 @@ static void config_parse(struct config *config, char *buf)
 static struct config *config_init_fd(int fd, const char *filename)
 {
 	struct config *config;
-	size_t size, len;
+	size_t size;
+	size_t len;
 	ssize_t rc;
 	char *buf;
 
@@ -162,7 +165,8 @@ struct config *config_init(const char *filename)
 
 void config_fini(struct config *config)
 {
-	struct config_item *item, *next;
+	struct config_item *item;
+	struct config_item *next;
 
 	for (item = config->items; item; item = next) {
 		next = item->next;

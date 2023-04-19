@@ -123,7 +123,8 @@ static void client_set_blocked(struct client *client, bool blocked)
 static ssize_t send_all(struct client *client, void *buf, size_t len,
 			bool block)
 {
-	int fd, flags;
+	int fd;
+	int flags;
 	ssize_t rc;
 	size_t pos;
 
@@ -168,7 +169,8 @@ static int client_drain_queue(struct client *client, size_t force_len)
 {
 	uint8_t *buf;
 	ssize_t wlen;
-	size_t len, total_len;
+	size_t len;
+	size_t total_len;
 	bool block;
 
 	total_len = 0;
@@ -302,7 +304,8 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client;
-	int fd, n;
+	int fd;
+	int n;
 
 	if (!(events & POLLIN)) {
 		return POLLER_OK;
