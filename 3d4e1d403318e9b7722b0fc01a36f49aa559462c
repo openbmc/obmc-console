@@ -46,6 +46,30 @@
       },
       "revId": "3d4e1d403318e9b7722b0fc01a36f49aa559462c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e129b2e9_9352b86d",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-20T05:00:29Z",
+      "side": 1,
+      "message": "I mean, it\u0027s not something I actually care deeply about, I was more just wondering if the linter had actually complained about this case.",
+      "parentUuid": "917f4a55_2c06a226",
+      "range": {
+        "startLine": 242,
+        "startChar": 25,
+        "endLine": 244,
+        "endChar": 8
+      },
+      "revId": "3d4e1d403318e9b7722b0fc01a36f49aa559462c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
