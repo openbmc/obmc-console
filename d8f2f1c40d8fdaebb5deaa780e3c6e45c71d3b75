@@ -16,6 +16,24 @@
       "message": "Oog...is there some awful trap for the unwary that makes limits.h/SSIZE_MAX not an option here?",
       "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3151fce6_2413dcd9",
+        "filename": "console-socket.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T03:58:28Z",
+      "side": 1,
+      "message": "Well, not an awful trap, but as far as I can tell it\u0027s thanks to `-pedantic` 😊",
+      "parentUuid": "784fea45_97a8b928",
+      "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
