@@ -70,6 +70,24 @@
       "parentUuid": "9065b4da_85658d1e",
       "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b1916bb_ccc30f87",
+        "filename": "console-socket.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T05:25:43Z",
+      "side": 1,
+      "message": "Ugh, copied the wrong chunk out of my terminal.\n\n```\n3 14:53:57 andrew@fedora:~/src/openbmc/obmc-console (meson) $ \\\n\u003e gcc -Wall -Werror -std\u003dc17 -o ssizemax -x c - \\\n\u003e \u003c\u003c\u003c \u0027#include \u003climits.h\u003e^Mint main(void) { return 0 \u003d\u003d SSIZE_MAX; }\u0027\n\u003cstdin\u003e: In function ‘main’:\n\u003cstdin\u003e:2:30: error: ‘SSIZE_MAX’ undeclared (first use in this function)\n\u003cstdin\u003e:2:30: note: each undeclared identifier is reported only once for each function it appears in\n```",
+      "parentUuid": "01d553c9_368e4422",
+      "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
