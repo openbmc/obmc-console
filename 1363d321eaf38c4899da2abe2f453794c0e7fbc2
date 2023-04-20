@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dfc08ca_c57e4e1b",
+        "filename": "test/test-config-parse-logsize.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T03:56:26Z",
+      "side": 1,
+      "message": "Uh, I didn\u0027t even look hard enough to notice 😄 Maybe that can be a separate cleanup?",
+      "parentUuid": "1dc4cfb2_29cbaf9b",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 55
+      },
+      "revId": "1363d321eaf38c4899da2abe2f453794c0e7fbc2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99158dba_f605b517",
         "filename": "test/test-config-parse.c",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2023-04-19T07:43:17Z",
       "side": 1,
       "message": "Was this intentionally included as part of the same commit?",
+      "revId": "1363d321eaf38c4899da2abe2f453794c0e7fbc2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d219c5d_154030c4",
+        "filename": "test/test-config-parse.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T03:56:26Z",
+      "side": 1,
+      "message": "Uh yeah, not sure what\u0027s happened there.",
+      "parentUuid": "99158dba_f605b517",
       "revId": "1363d321eaf38c4899da2abe2f453794c0e7fbc2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
