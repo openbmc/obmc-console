@@ -16,6 +16,24 @@
       "message": "maybe add a comment about why this is needed? I guess for special GNU functions?",
       "revId": "7bded9254f139835665af6965c75c998500726ba",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d2659c_b3f03699",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T23:57:59Z",
+      "side": 1,
+      "message": "It was already present and already lacking a comment, and I don\u0027t have the information at the top of mind to exhaustively list exactly why it was defined in those files. However it\u0027s a pretty well established macro in terms of glibc so I don\u0027t feel we should need to explain it in generalities. Its behaviour is defined here:\n\nhttps://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html#index-_005fGNU_005fSOURCE",
+      "parentUuid": "5181f662_846d0115",
+      "revId": "7bded9254f139835665af6965c75c998500726ba",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
