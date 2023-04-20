@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec39788_ea68c047",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-20T22:24:12Z",
+      "side": 1,
+      "message": "The interesting part is truncated. Perhaps just show a get-property on this one prop instead of the whole introspect.",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 100
+      },
+      "revId": "2b10ed32841d4543856d2376d54552e6acf0e19d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a7963f5_75de8f32",
+        "filename": "console-server.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-20T22:24:12Z",
+      "side": 1,
+      "message": "should be `\u003e\u003d`",
+      "range": {
+        "startLine": 451,
+        "startChar": 10,
+        "endLine": 451,
+        "endChar": 13
+      },
+      "revId": "2b10ed32841d4543856d2376d54552e6acf0e19d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79d9681b_b1c1b139",
+        "filename": "console-server.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-20T22:24:12Z",
+      "side": 1,
+      "message": "Should be `\u003e\u003d`",
+      "range": {
+        "startLine": 465,
+        "startChar": 11,
+        "endLine": 465,
+        "endChar": 13
+      },
+      "revId": "2b10ed32841d4543856d2376d54552e6acf0e19d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
