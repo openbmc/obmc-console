@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f82a7db_13fa8698",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-20T11:44:26Z",
+      "side": 1,
+      "message": "_[Gazes longingly at https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/functions/sscanf.html, sighing wistfully...]_\n\nAdding test coverage is good though (if orthogonal).",
+      "revId": "d30d7573adc3753503a56944e980e21c934d013b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d67970f_a6d7ab50",
+        "filename": "config.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-20T11:44:26Z",
+      "side": 1,
+      "message": "Dunno if it\u0027s really worth worrying about, but this path is leaky if (exactly) one of the allocations succeeds.",
+      "revId": "d30d7573adc3753503a56944e980e21c934d013b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
