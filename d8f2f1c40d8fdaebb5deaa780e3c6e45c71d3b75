@@ -52,6 +52,24 @@
       "parentUuid": "3151fce6_2413dcd9",
       "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01d553c9_368e4422",
+        "filename": "console-socket.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-20T05:24:12Z",
+      "side": 1,
+      "message": "```\n3 14:51:57 andrew@fedora:~/src/openbmc/obmc-console (meson) $ \\\n\u003e gcc -pedantic -Wall -Werror -std\u003dc17 -o ssizemax -x c - \\\n\u003e \u003c\u003c\u003c \u0027#include \u003climits.h\u003e^Mint main(void) { return 0 \u003d\u003d SSIZE_MAX; }\u0027\n\u003cstdin\u003e:1:20: error: extra tokens at end of #include directive [-Werror]\n\u003cstdin\u003e:3: error: ISO C forbids an empty translation unit [-Werror\u003dpedantic]\ncc1: all warnings being treated as errors\n3 14:52:10 andrew@fedora:~/src/openbmc/obmc-console (meson) $ \n```\n\nBut I wonder why it\u0027s not using `-std\u003dgnu17`, which works.",
+      "parentUuid": "9065b4da_85658d1e",
+      "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
