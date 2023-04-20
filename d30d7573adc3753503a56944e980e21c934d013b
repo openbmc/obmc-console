@@ -51,6 +51,24 @@
       "parentUuid": "2d67970f_a6d7ab50",
       "revId": "d30d7573adc3753503a56944e980e21c934d013b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c70eca_66e8a977",
+        "filename": "config.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-20T17:58:21Z",
+      "side": 1,
+      "message": "Oh, nevermind -- sorry, I had for some reason been reading this as an immediate `return` instead of a variable assignment.  Disregard.",
+      "parentUuid": "8a13dd73_3b3e9386",
+      "revId": "d30d7573adc3753503a56944e980e21c934d013b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
