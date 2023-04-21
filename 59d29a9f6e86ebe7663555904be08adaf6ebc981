@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "038d5fbd_33e81160",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-21T01:31:19Z",
+      "side": 1,
+      "message": "I\u0027m going to assert if we\u0027ve agreed to all the earlier patches that by extension we\u0027ve agreed to the clang-tidy configuration.",
+      "revId": "59d29a9f6e86ebe7663555904be08adaf6ebc981",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
