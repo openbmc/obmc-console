@@ -53,7 +53,7 @@ void test_config_parse_logsize(void)
 			     test_data[i].test_str, test_data[i].expected_rc,
 			     rc);
 		} else if (rc == 0 && test_data[i].expected_size != size) {
-			warn("[%zu] Str %s expected size %lu, got size %lu\n",
+			warn("[%zu] Str %s expected size %zu, got size %zu\n",
 			     i, test_data[i].test_str,
 			     test_data[i].expected_size, size);
 		}
