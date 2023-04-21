@@ -88,6 +88,24 @@
       "parentUuid": "01d553c9_368e4422",
       "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2865c8db_f5af7861",
+        "filename": "console-socket.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-21T00:13:19Z",
+      "side": 1,
+      "message": "I\u0027ve fixed this up, I got myself into a confused state. I wrote the meson build with `c_std\u003dc17` originally and then later switched to `c_std\u003dgnu17`, which resolves the problem above _after_ also adding `#include \u003climits.h\u003e`.",
+      "parentUuid": "7b1916bb_ccc30f87",
+      "revId": "d8f2f1c40d8fdaebb5deaa780e3c6e45c71d3b75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
