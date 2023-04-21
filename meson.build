@@ -61,6 +61,7 @@ executable('obmc-console-server',
              dependency('libsystemd'),
              meson.get_compiler('c').find_library('rt')
            ],
+           install_dir: get_option('sbindir'),
            install: true)
 
 executable('obmc-console-client',
