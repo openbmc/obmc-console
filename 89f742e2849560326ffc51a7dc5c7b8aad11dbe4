@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fe87ff1_f5bae12c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-04-21T19:23:54Z",
+      "side": 1,
+      "message": "looks OK assuming the d-bus interface is approved",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
