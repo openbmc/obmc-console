@@ -22,6 +22,30 @@
       },
       "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cdd37ba_4e1377c3",
+        "filename": "log-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2023-04-23T02:14:35Z",
+      "side": 1,
+      "message": "log_create is used to get the fd/size of the log file\n\nIt uses stat function to check if log file exists, and if doesn\u0027t, create a new one.\n\nif it does, open the file with O_APPEND flag",
+      "parentUuid": "e541ef06_6fbde350",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 144,
+        "endChar": 2
+      },
+      "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
