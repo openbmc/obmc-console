@@ -34,6 +34,63 @@
       "parentUuid": "3fe87ff1_f5bae12c",
       "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14e249fa_4a3ef35c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-24T07:02:36Z",
+      "side": 1,
+      "message": "DBus is starting to become more tightly integrated into the obmc-console implementation. I think it should probably still be easy to disable it. I feel that we should probably start isolate the DBus related code into its own file which can be compiled in or out as required by the build configuration.",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc013585_4be44329",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-24T07:02:36Z",
+      "side": 1,
+      "message": "Please let\u0027s not register multiple well-known bus names for the one connection.\n\nWe already have a bus name registered at line 490.\n\nHaving said that, there can be multiple instances of `obmc-console-server`, and the currently registered bus name does not incorporate anything to distinguish it from any other instance. So the current behaviour is broken. I recognise this is not your fault. However, we do need to fix it, and I think the time has come.\n\nFurther, the bus name request should happen only after we\u0027ve initialised all objects to be presented on the connection - this is a requirement if we are to interact sensibly with the rest of the DBus components in the system.\n\nThus, IMO the request on 490 should be deleted in favour of this new request on 521. However, this is likely a breaking change on systems with only a single console. We need to put some effort in to determine whether any other applications in the OpenBMC ecosystem is accessing the obmc-console-server instance through this existing bus name (the `DBUS_NAME` constant). If there are, then these applications will need to be fixed. The fix is probably best done by having any dependent applications look up the connection through the mapper.\n\nA stretch goal is to get the interface that allows configuration of the TTY (such as baud rate) defined in phosphor-dbus-interfaces.",
+      "range": {
+        "startLine": 521,
+        "startChar": 1,
+        "endLine": 527,
+        "endChar": 2
+      },
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a200d3_ab311f64",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-24T07:02:36Z",
+      "side": 1,
+      "message": "This is a bit of a maze, and I think it would be improved by refactoring `console_socket_path()` take a pointer to a `socket_path_t` into which it renders the socket name.",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
