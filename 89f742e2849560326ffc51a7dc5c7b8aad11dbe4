@@ -70,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3660204e_9d037619",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-26T17:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14e249fa_4a3ef35c",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc013585_4be44329",
@@ -93,6 +111,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00fd426_89862f9b",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-26T17:41:47Z",
+      "side": 1,
+      "message": "Removed original BUS name and moved buadrate and setBaudRate under new BUS name.\nThe old property is not used by anyone.\n\nI will update phosphor-dbus-interface once you are ok with this.",
+      "parentUuid": "dc013585_4be44329",
+      "range": {
+        "startLine": 521,
+        "startChar": 1,
+        "endLine": 527,
+        "endChar": 2
+      },
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89a200d3_ab311f64",
@@ -106,6 +148,24 @@
       "writtenOn": "2023-04-24T07:02:36Z",
       "side": 1,
       "message": "This is a bit of a maze, and I think it would be improved by refactoring `console_socket_path()` take a pointer to a `socket_path_t` into which it renders the socket name.",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ec2e71_1211e04d",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-26T17:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a200d3_ab311f64",
       "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
