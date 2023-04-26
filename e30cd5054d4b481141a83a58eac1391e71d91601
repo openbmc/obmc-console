@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860745aa_dee074e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-26T22:37:58Z",
+      "side": 1,
+      "message": "Hi Ninad,\n\nSorry about not being as explicit as I maybe should have on the previous review. I\u0027ve left some comments that hopefully clear things up.",
+      "revId": "e30cd5054d4b481141a83a58eac1391e71d91601",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94403b0c_c369213c",
+        "filename": "console-dbus.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-26T22:37:58Z",
+      "side": 1,
+      "message": "This changes the interface under which the baud rate was hosted as well, which is something we should avoid for now. The baud rate controls need to stay defined on the old interface, but on the new object.\n\nThe old interface name was `xyz.openbmc_project.console`. The old code was terrible and conflated the bus name and the interface name in the `DBUS_NAME` macro. We need them to be separate now.\n\nSpecifically, for the baud rate, this change nees:\n\n1. Bus name of `xyz.openbmc_project.Console.\u003csocket-id\u003e`\n2. Object name of `/xyz/openbmc_project/Console/\u003csocket-id\u003e`\n3. Interface name of `xyz.openbmc_project.console` (the old interface name).\n\n(A DBus object implementing multiple DBus interfaces is normal practice)",
+      "revId": "e30cd5054d4b481141a83a58eac1391e71d91601",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33311f70_97c02619",
+        "filename": "console-server.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-26T22:37:58Z",
+      "side": 1,
+      "message": "I probably should have been more explicit here also.\n\nThis change makes the API harder to use correctly. I don\u0027t think this is what we want. For instance, you\u0027re now having to pass `NULL` at some call-sites, which is an indication we\u0027ve got something wrong.\n\nRusty\u0027s API scale is a great reference:\n\n1. [How Do I Make This Hard to Misuse?](https://ozlabs.org/~rusty/index.cgi/tech/2008-03-30.html)\n2. [What If I Don\u0027t Actually Like My Users?](https://ozlabs.org/~rusty/index.cgi/tech/2008-04-01.html)\n\nIn terms of what we\u0027re doing here, I think a better prototype might be:\n\n```\nssize_t console_socket_path(socket_path_t path, const char *id);\n```\n\nThen, when populating the `struct sockaddr_un` we can call it like:\n\n```\nrc \u003d console_socket_path(addr.sun_path, config_get_value(config, \"socket-id\"));\n```\n\nor if we\u0027re populating the field in the `struct console` instance:\n\n```\nrc \u003d console_socket_path(console-\u003esocket_name, config_get_value(config, \"socket-id\"));\n```",
+      "revId": "e30cd5054d4b481141a83a58eac1391e71d91601",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

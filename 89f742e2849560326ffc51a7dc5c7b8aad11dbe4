@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "402853ee_975e0640",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-26T22:37:58Z",
+      "side": 1,
+      "message": "I probably should have been more explicit here. Moving code to a separate file and changing the code\u0027s behaviour in the one patch makes the work very difficult to review.\n\nI would like to see this as two patches:\n\n1. Move the code out to a separate file (`console-dbus.c` as you\u0027ve used here is fine).\n2. Rework the code to change the DBus behaviour at runtime\n\nThis allows others to better inspect how the behaviour has changed in the diff of 2.\n\nThe trick to getting things merged is to make it hard for a maintainer to say no, rather than merely making it possible for a maintainer to say yes. Patches that are more difficult to review than is necessary are an easy \"no\" 😊",
+      "parentUuid": "3660204e_9d037619",
+      "revId": "89f742e2849560326ffc51a7dc5c7b8aad11dbe4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc013585_4be44329",
         "filename": "console-server.c",
         "patchSetId": 8
