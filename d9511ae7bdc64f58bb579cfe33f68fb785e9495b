@@ -46,6 +46,30 @@
       },
       "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d091f79e_f929f236",
+        "filename": "log-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-04-27T19:39:14Z",
+      "side": 1,
+      "message": "But what does that manual sequence achieve that a single `open(O_RDWR | O_CREAT | O_APPEND)` wouldn\u0027t?\n\nAnd actually on a separate note, I see the `O_RDWR` is in the existing code and not introduced in this patch, but it\u0027s not clear to me why we even need `O_RDWR` instead of `O_WRONLY`...",
+      "parentUuid": "3cdd37ba_4e1377c3",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 144,
+        "endChar": 2
+      },
+      "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
