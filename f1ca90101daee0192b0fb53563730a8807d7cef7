@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f54cae_112eb146",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "Do these examples need an update given some of the other discussion about bus connection names and object paths?",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74f4c192_966f2214",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "This is easier to agree with, thanks for splitting the changes up! However, a few remaining comments.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b51f9c8_140d208f",
+        "filename": "conf/server.ttyVUART0.conf.in",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "I think whether we do this is still pending on the discussion with the bmcweb maintainers, given it was their choice to expose the endpoint this way. I think the onus on maintaining that backwards compatibility should be with bmcweb.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b83c7b_9260761c",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "Surely we can use a name more informative than `INTF_NAME2`. How about `ACCESS_INTF`? We could rename `INTF_NAME` to `TTY_INTF` as well to help differentiate.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faa4f8ef_d5495fe8",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "Again, let\u0027s not just tack a `2` on the end. Name the variables in line with the changes to the macros above.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e6fe2b_0a3c6d1e",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "s/second/access/",
+      "range": {
+        "startLine": 173,
+        "startChar": 13,
+        "endLine": 173,
+        "endChar": 19
+      },
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65bb5ec3_74ed542f",
+        "filename": "console-server.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "Did this need to be moved?",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8adc9b90_bec6f709",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "this is just `sizeof(sun_path)`, right?",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60b7a179_a14d91c9",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T05:03:41Z",
+      "side": 1,
+      "message": "i.e. we just do `sizeof(sun_path) - 1` here rather than `path_len - 1`.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
