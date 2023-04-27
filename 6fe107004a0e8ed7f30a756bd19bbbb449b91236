@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed09c0b4_e83abda9",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-27T04:57:21Z",
+      "side": 1,
+      "message": "This changes the interface name, which was what I was trying to avoid. I\u0027d rather be explicit about that change after we get a definition into phosphor-dbus-interfaces.",
+      "revId": "6fe107004a0e8ed7f30a756bd19bbbb449b91236",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71ce6e15_ab3d2362",
         "filename": "console-server.c",
         "patchSetId": 1
