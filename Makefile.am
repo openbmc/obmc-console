@@ -36,7 +36,8 @@ obmc_console_server_SOURCES = \
 	 log-handler.c \
 	 socket-handler.c \
 	 tty-handler.c \
-	 console-socket.c
+	 console-socket.c \
+	 console-dbus.c
 
 obmc_console_server_LDFLAGS = $(SYSTEMD_LIBS) -lrt
 obmc_console_server_CFLAGS = $(SYSTEMD_CFLAGS)
