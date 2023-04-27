@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fa702255_d6ec75d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "No, the interface for new stuff is same. I modified comment in the other commit where interface was changed.",
+      "parentUuid": "38f54cae_112eb146",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "74f4c192_966f2214",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 13
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18465041_18f82e57",
+        "filename": "conf/server.ttyVUART0.conf.in",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "Yes, that is a next step but right now it is required as we enforce the value.",
+      "parentUuid": "8b51f9c8_140d208f",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8b83c7b_9260761c",
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f0812c4_72fa1456",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "yep, done.",
+      "parentUuid": "b8b83c7b_9260761c",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faa4f8ef_d5495fe8",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-04-27T05:03:41Z",
       "side": 1,
       "message": "Again, let\u0027s not just tack a `2` on the end. Name the variables in line with the changes to the macros above.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a95741_b2b7de0b",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faa4f8ef_d5495fe8",
       "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -109,6 +181,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dae00c67_d3733691",
+        "filename": "console-dbus.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74e6fe2b_0a3c6d1e",
+      "range": {
+        "startLine": 173,
+        "startChar": 13,
+        "endLine": 173,
+        "endChar": 19
+      },
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65bb5ec3_74ed542f",
@@ -122,6 +218,24 @@
       "writtenOn": "2023-04-27T05:03:41Z",
       "side": 1,
       "message": "Did this need to be moved?",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f18b8f69_2e209e1f",
+        "filename": "console-server.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "no, fixed it.",
+      "parentUuid": "65bb5ec3_74ed542f",
       "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -143,6 +257,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08438251_ef872346",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "Thats what I had but it was giving compilation error as it treat it as char *.\n\n| In file included from ../../../../../../../../../obmc-console/test/test-client-escape.c:27:\n| ../../../../../../../../../obmc-console/console-socket.c: In function \u0027console_socket_path\u0027:\n| ../../../../../../../../../obmc-console/console-socket.c:48:33: error: \u0027sizeof\u0027 on array function parameter \u0027sun_path\u0027 will return size of \u0027char *\u0027 [-Werror\u003dsizeof-array-argument]\n|    48 |         if ((size_t)rc \u003e (sizeof(sun_path) - 1)) {\n|       |                                 ^\n| ../../../../../../../../../obmc-console/console-socket.c:31:43: note: declared here\n|    31 | ssize_t console_socket_path(socket_path_t sun_path, const char *id)\n|       |                             ~~~~~~~~~~~~~~^~~~~~~~",
+      "parentUuid": "8adc9b90_bec6f709",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60b7a179_a14d91c9",
@@ -156,6 +288,24 @@
       "writtenOn": "2023-04-27T05:03:41Z",
       "side": 1,
       "message": "i.e. we just do `sizeof(sun_path) - 1` here rather than `path_len - 1`.",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae2f30b7_23b787b3",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-27T15:54:12Z",
+      "side": 1,
+      "message": "Thats what I had but it was giving compilation error as it treat it as char *.\n\n| In file included from ../../../../../../../../../obmc-console/test/test-client-escape.c:27:\n| ../../../../../../../../../obmc-console/console-socket.c: In function \u0027console_socket_path\u0027:\n| ../../../../../../../../../obmc-console/console-socket.c:48:33: error: \u0027sizeof\u0027 on array function parameter \u0027sun_path\u0027 will return size of \u0027char \u0027 [-Werror\u003dsizeof-array-argument]\n| 48 | if ((size_t)rc \u003e (sizeof(sun_path) - 1)) {\n| | ^\n| ../../../../../../../../../obmc-console/console-socket.c:31:43: note: declared here\n| 31 | ssize_t console_socket_path(socket_path_t sun_path, const char id)",
+      "parentUuid": "60b7a179_a14d91c9",
       "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
