@@ -38,14 +38,19 @@
 
 #include "console-server.h"
 
+/* size of the dbus object path length */
+const size_t dbus_obj_path_len = 1024;
+
 #define DBUS_ERR  "org.openbmc.error"
-#define DBUS_NAME "xyz.openbmc_project.console"
-#define OBJ_NAME  "/xyz/openbmc_project/console"
+#define INTF_NAME "xyz.openbmc_project.console"
+#define DBUS_NAME "xyz.openbmc_project.Console.%s"
+#define OBJ_NAME  "/xyz/openbmc_project/console/%s"
 
 struct console {
 	const char *tty_kname;
 	char *tty_sysfs_devnode;
 	char *tty_dev;
+	const char *console_id;
 	int tty_sirq;
 	uint16_t tty_lpc_addr;
 	speed_t tty_baud;
@@ -428,9 +433,12 @@ static const sd_bus_vtable console_vtable[] = {
 static void dbus_init(struct console *console,
 		      struct config *config __attribute__((unused)))
 {
+	char obj_name[dbus_obj_path_len];
+	char dbus_name[dbus_obj_path_len];
 	int dbus_poller = 0;
 	int fd;
 	int r;
+	size_t bytes;
 
 	if (!console) {
 		warnx("Couldn't get valid console");
@@ -443,14 +451,31 @@ static void dbus_init(struct console *console,
 		return;
 	}
 
-	r = sd_bus_add_object_vtable(console->bus, NULL, OBJ_NAME, DBUS_NAME,
+	/* Register support console interface */
+	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
+			 console->console_id);
+	if (bytes >= dbus_obj_path_len) {
+		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+		      console->console_id);
+		return;
+	}
+
+	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, INTF_NAME,
 				     console_vtable, console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
 		return;
 	}
 
-	r = sd_bus_request_name(console->bus, DBUS_NAME,
+	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
+			 console->console_id);
+	if (bytes >= dbus_obj_path_len) {
+		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+		      console->console_id);
+		return;
+	}
+
+	r = sd_bus_request_name(console->bus, dbus_name,
 				SD_BUS_NAME_ALLOW_REPLACEMENT |
 					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
@@ -901,6 +926,12 @@ int main(int argc, char **argv)
 	}
 
 	console->tty_kname = config_tty_kname;
+
+	console->console_id = config_get_value(config, "socket-id");
+	if (!console->console_id) {
+		warnx("Error: The socket-id is not set in the config file");
+		return EXIT_FAILURE;
+	}
 
 	rc = tty_init(console, config);
 	if (rc) {
