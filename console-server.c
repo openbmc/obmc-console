@@ -38,52 +38,6 @@
 
 #include "console-server.h"
 
-/* size of the dbus object path length */
-const size_t dbus_obj_path_len = 1024;
-
-#define DBUS_ERR  "org.openbmc.error"
-#define INTF_NAME "xyz.openbmc_project.console"
-#define DBUS_NAME "xyz.openbmc_project.Console.%s"
-#define OBJ_NAME  "/xyz/openbmc_project/console/%s"
-
-struct console {
-	const char *tty_kname;
-	char *tty_sysfs_devnode;
-	char *tty_dev;
-	const char *console_id;
-	int tty_sirq;
-	uint16_t tty_lpc_addr;
-	speed_t tty_baud;
-	int tty_fd;
-
-	struct ringbuffer *rb;
-
-	struct handler **handlers;
-	long n_handlers;
-
-	struct poller **pollers;
-	long n_pollers;
-
-	struct pollfd *pollfds;
-	struct sd_bus *bus;
-};
-
-struct poller {
-	struct handler *handler;
-	void *data;
-	poller_event_fn_t event_fn;
-	poller_timeout_fn_t timeout_fn;
-	struct timeval timeout;
-	bool remove;
-};
-
-/* we have two extra entry in the pollfds array for the VUART tty */
-enum internal_pollfds {
-	POLLFD_HOSTTTY = 0,
-	POLLFD_DBUS = 1,
-	MAX_INTERNAL_POLLFD = 2,
-};
-
 /* size of the shared backlog ringbuffer */
 const size_t buffer_size = 128ul * 1024ul;
 
@@ -214,7 +168,7 @@ out_free:
 /**
  * Set termios attributes on the console tty.
  */
-static void tty_init_termios(struct console *console)
+void tty_init_termios(struct console *console)
 {
 	struct termios termios;
 	int rc;
@@ -239,28 +193,6 @@ static void tty_init_termios(struct console *console)
 	rc = tcsetattr(console->tty_fd, TCSANOW, &termios);
 	if (rc) {
 		warn("Can't set terminal options for %s", console->tty_kname);
-	}
-}
-
-static void tty_change_baudrate(struct console *console)
-{
-	struct handler *handler;
-	int i;
-	int rc;
-
-	tty_init_termios(console);
-
-	for (i = 0; i < console->n_handlers; i++) {
-		handler = console->handlers[i];
-		if (!handler->baudrate) {
-			continue;
-		}
-
-		rc = handler->baudrate(handler, console->tty_baud);
-		if (rc) {
-			warnx("Can't set terminal baudrate for handler %s",
-			      handler->name);
-		}
 	}
 }
 
@@ -368,131 +300,6 @@ static int tty_init(struct console *console, struct config *config)
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
 {
 	return write_buf_to_fd(console->tty_fd, data, len);
-}
-
-static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
-				sd_bus_error *err)
-{
-	struct console *console = userdata;
-	uint32_t baudrate;
-	speed_t speed;
-	int r;
-
-	if (!console) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
-		return sd_bus_reply_method_return(msg, "x", 0);
-	}
-
-	r = sd_bus_message_read(msg, "u", &baudrate);
-	if (r < 0) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Bad message");
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
-	}
-
-	speed = parse_int_to_baud(baudrate);
-	if (!speed) {
-		warnx("Invalid baud rate: '%u'", baudrate);
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
-	}
-
-	console->tty_baud = speed;
-	tty_change_baudrate(console);
-
-	return sd_bus_reply_method_return(msg, "x", r);
-}
-
-static int get_handler(sd_bus *bus __attribute__((unused)),
-		       const char *path __attribute__((unused)),
-		       const char *interface __attribute__((unused)),
-		       const char *property __attribute__((unused)),
-		       sd_bus_message *reply, void *userdata,
-		       sd_bus_error *error __attribute__((unused)))
-{
-	struct console *console = userdata;
-	uint32_t baudrate;
-	int r;
-
-	baudrate = parse_baud_to_int(console->tty_baud);
-	if (!baudrate) {
-		warnx("Invalid baud rate: '%d'", console->tty_baud);
-	}
-
-	r = sd_bus_message_append(reply, "u", baudrate);
-
-	return r;
-}
-
-static const sd_bus_vtable console_vtable[] = {
-	SD_BUS_VTABLE_START(0),
-	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
-		      SD_BUS_VTABLE_UNPRIVILEGED),
-	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
-	SD_BUS_VTABLE_END,
-};
-
-static void dbus_init(struct console *console,
-		      struct config *config __attribute__((unused)))
-{
-	char obj_name[dbus_obj_path_len];
-	char dbus_name[dbus_obj_path_len];
-	int dbus_poller = 0;
-	int fd;
-	int r;
-	size_t bytes;
-
-	if (!console) {
-		warnx("Couldn't get valid console");
-		return;
-	}
-
-	r = sd_bus_default_system(&console->bus);
-	if (r < 0) {
-		warnx("Failed to connect to system bus: %s", strerror(-r));
-		return;
-	}
-
-	/* Register support console interface */
-	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
-			 console->console_id);
-	if (bytes >= dbus_obj_path_len) {
-		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
-		      console->console_id);
-		return;
-	}
-
-	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, INTF_NAME,
-				     console_vtable, console);
-	if (r < 0) {
-		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
-	}
-
-	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
-			 console->console_id);
-	if (bytes >= dbus_obj_path_len) {
-		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
-		      console->console_id);
-		return;
-	}
-
-	r = sd_bus_request_name(console->bus, dbus_name,
-				SD_BUS_NAME_ALLOW_REPLACEMENT |
-					SD_BUS_NAME_REPLACE_EXISTING);
-	if (r < 0) {
-		warnx("Failed to acquire service name: %s", strerror(-r));
-		return;
-	}
-
-	fd = sd_bus_get_fd(console->bus);
-	if (fd < 0) {
-		warnx("Couldn't get the bus file descriptor");
-		return;
-	}
-
-	dbus_poller = POLLFD_DBUS;
-
-	console->pollfds[dbus_poller].fd = fd;
-	console->pollfds[dbus_poller].events = POLLIN;
 }
 
 static void handlers_init(struct console *console, struct config *config)
