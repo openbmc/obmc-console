@@ -33,6 +33,24 @@
       "message": "The open flags need to be the same here as below. Perhaps use a macro or add a flags member to `struct log_handler` so we can\u0027t make them inconsistent.",
       "revId": "418653119e2bd623baa18bc4118a499363f5a618",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e133c979_821ad2a5",
+        "filename": "log-handler.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2023-04-28T04:43:05Z",
+      "side": 1,
+      "message": "Maybe\n\nopen(lh-\u003elog_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644); ？truncate log file（creat a new file） and set the lh-\u003esize \u003d 0. \n\nO_APPEND and set lh-\u003esize \u003d 0, looks a bit weird",
+      "parentUuid": "02ead890_a8f1f062",
+      "revId": "418653119e2bd623baa18bc4118a499363f5a618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
