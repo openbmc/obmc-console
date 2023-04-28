@@ -106,6 +106,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc977308_2ee22e40",
+        "filename": "conf/server.ttyVUART0.conf.in",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-28T01:50:41Z",
+      "side": 1,
+      "message": "Yes, We enforce that socket-id is specified.",
+      "parentUuid": "fe41d680_2da53e34",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8b83c7b_9260761c",
@@ -311,6 +329,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81743601_460fe082",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-28T01:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c71fe63b_ebed6a37",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60b7a179_a14d91c9",
@@ -360,6 +396,24 @@
       "side": 1,
       "message": "By the godbolt link above we can use `sizeof(socket_path_t) - 1` instead.",
       "parentUuid": "ae2f30b7_23b787b3",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "625b70cd_12eb742d",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-04-28T01:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e0f321_725f3ee5",
       "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
