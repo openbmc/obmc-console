@@ -37,6 +37,7 @@ owners:
 - joel@jms.id.au
 
 reviewers:
+- ninadpalsule@us.ibm.com
 
 matchers:
 
@@ -50,3 +51,6 @@ openbmc:
 - name: Joel Stanley
   email: joel@jms.id.au
   discord: joel
+- name: Ninad Palsule
+  email: ninadpalsule@us.ibm.com
+  discord: ninadpalsule
