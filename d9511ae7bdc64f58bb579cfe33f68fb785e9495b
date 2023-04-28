@@ -70,6 +70,30 @@
       },
       "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d5d95b_59183505",
+        "filename": "log-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-28T02:48:13Z",
+      "side": 1,
+      "message": "Prior to `93fd8a39d8d2 (\"log_trim: Rotate log instead of truncate\")` the algorithm for maintaining the log `mmap()`ed the log file storage to implement a ring-buffer. The referenced patch changed that to the rename approach we now use, which is closer to logrotate. `O_RDWR` is a hangover from the `mmap()` days.\n\nI agree with @zev the implementation should now use `open(..., O_WRONLY | O_CREAT | O_APPEND)` and save on the complexity proposed here.",
+      "parentUuid": "d091f79e_f929f236",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 144,
+        "endChar": 2
+      },
+      "revId": "d9511ae7bdc64f58bb579cfe33f68fb785e9495b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
