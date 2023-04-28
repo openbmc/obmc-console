@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe41d680_2da53e34",
+        "filename": "conf/server.ttyVUART0.conf.in",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-28T01:19:50Z",
+      "side": 1,
+      "message": "What do you mean by \"enforce the value\"? We enforce that `socket-id` is specified, but not its value.",
+      "parentUuid": "18465041_18f82e57",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8b83c7b_9260761c",
         "filename": "console-dbus.c",
         "patchSetId": 13
@@ -277,6 +295,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c71fe63b_ebed6a37",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-28T01:19:50Z",
+      "side": 1,
+      "message": "Yeah, okay, that\u0027s ... frustrating. But we can still improve it:\n\nhttps://godbolt.org/z/7jvGa5onr",
+      "parentUuid": "08438251_ef872346",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60b7a179_a14d91c9",
         "filename": "console-socket.c",
         "patchSetId": 13
@@ -306,6 +342,24 @@
       "side": 1,
       "message": "Thats what I had but it was giving compilation error as it treat it as char *.\n\n| In file included from ../../../../../../../../../obmc-console/test/test-client-escape.c:27:\n| ../../../../../../../../../obmc-console/console-socket.c: In function \u0027console_socket_path\u0027:\n| ../../../../../../../../../obmc-console/console-socket.c:48:33: error: \u0027sizeof\u0027 on array function parameter \u0027sun_path\u0027 will return size of \u0027char \u0027 [-Werror\u003dsizeof-array-argument]\n| 48 | if ((size_t)rc \u003e (sizeof(sun_path) - 1)) {\n| | ^\n| ../../../../../../../../../obmc-console/console-socket.c:31:43: note: declared here\n| 31 | ssize_t console_socket_path(socket_path_t sun_path, const char id)",
       "parentUuid": "60b7a179_a14d91c9",
+      "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e0f321_725f3ee5",
+        "filename": "console-socket.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-04-28T01:19:50Z",
+      "side": 1,
+      "message": "By the godbolt link above we can use `sizeof(socket_path_t) - 1` instead.",
+      "parentUuid": "ae2f30b7_23b787b3",
       "revId": "f1ca90101daee0192b0fb53563730a8807d7cef7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
