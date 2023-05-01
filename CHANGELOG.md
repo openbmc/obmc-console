@@ -16,3 +16,7 @@ Change categories:
 - Security
 
 ## [Unreleased]
+
+### Added
+
+1. console-server: Use /dev TTY heuristic only for non-absolute names
