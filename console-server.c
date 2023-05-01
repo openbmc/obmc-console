@@ -67,6 +67,11 @@ static int tty_find_device(struct console *console)
 	char *tty_kname_real;
 	int rc;
 
+	if (console->tty_kname[0] == '/') {
+		console->tty_dev = strdup(console->tty_kname);
+		return 0;
+	}
+
 	tty_class_device_link = NULL;
 	tty_device_tty_dir = NULL;
 	tty_device_reldir = NULL;
@@ -139,6 +144,10 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	char *path;
 	FILE *fp;
 	int rc;
+
+	if (!console->tty_sysfs_devnode) {
+		return -1;
+	}
 
 	rc = asprintf(&path, "%s/%s", console->tty_sysfs_devnode, name);
 	if (rc < 0) {
