@@ -78,16 +78,25 @@ typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
 typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
 					       void *data);
 
+enum tty_device {
+	TTY_DEVICE_UNDEFINED,
+	TTY_DEVICE_UART,
+	TTY_DEVICE_PTY,
+};
+
 /* Console server structure */
 struct console {
 	struct {
 		const char *kname;
-		char *sysfs_devnode;
 		char *dev;
-		int sirq;
-		uint16_t lpc_addr;
 		speed_t baud;
 		int fd;
+		enum tty_device type;
+		struct {
+			char *sysfs_devnode;
+			int sirq;
+			uint16_t lpc_addr;
+		} uart;
 	} tty;
 	const char *console_id;
 

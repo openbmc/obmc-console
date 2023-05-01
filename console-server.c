@@ -39,6 +39,8 @@
 
 #include "console-server.h"
 
+#define DEV_PTS_PATH "/dev/pts"
+
 /* size of the shared backlog ringbuffer */
 const size_t buffer_size = 128ul * 1024ul;
 
@@ -67,22 +69,48 @@ static int tty_find_device(struct console *console)
 	char *tty_kname_real = NULL;
 	int rc;
 
-	/* udev may rename the tty name with a symbol link, try to resolve */
-	rc = asprintf(&tty_path_input, "/dev/%s", console->tty.kname);
-	if (rc < 0) {
-		return -1;
-	}
+	assert(console->tty.kname);
 
-	tty_path_input_real = realpath(tty_path_input, NULL);
-	if (!tty_path_input_real) {
-		warn("Can't find realpath for /dev/%s", console->tty.kname);
+	if (!strlen(console->tty.kname)) {
+		warnx("TTY kname must not be empty");
 		rc = -1;
 		goto out_free;
 	}
 
+	if (console->tty.kname[0] == '/') {
+		tty_path_input = strdup(console->tty.kname);
+	} else {
+		/* udev may rename the tty name with a symbol link, try to resolve */
+		rc = asprintf(&tty_path_input, "/dev/%s", console->tty.kname);
+		if (rc < 0) {
+			goto out_free;
+		}
+	}
+
+	tty_path_input_real = realpath(tty_path_input, NULL);
+	if (!tty_path_input_real) {
+		warn("Can't find realpath for %s", tty_path_input);
+		rc = -1;
+		goto out_free;
+	}
+
+	/*
+	 * Allow hooking obmc-console-server up to PTYs for testing
+	 *
+	 * https://amboar.github.io/notes/2023/05/02/testing-obmc-console-with-socat.html
+	 */
+	if (!strncmp(DEV_PTS_PATH, tty_path_input_real, strlen(DEV_PTS_PATH))) {
+		console->tty.type = TTY_DEVICE_PTY;
+		console->tty.dev = strdup(console->tty.kname);
+		rc = 0;
+		goto out_free;
+	}
+
+	console->tty.type = TTY_DEVICE_UART;
+
 	tty_kname_real = basename(tty_path_input_real);
 	if (!tty_kname_real) {
-		warn("Can't find real name for /dev/%s", console->tty.kname);
+		warn("Can't find real name for %s", console->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -105,8 +133,8 @@ static int tty_find_device(struct console *console)
 		goto out_free;
 	}
 
-	console->tty.sysfs_devnode = realpath(tty_device_reldir, NULL);
-	if (!console->tty.sysfs_devnode) {
+	console->tty.uart.sysfs_devnode = realpath(tty_device_reldir, NULL);
+	if (!console->tty.uart.sysfs_devnode) {
 		warn("Can't find parent device for %s", tty_kname_real);
 	}
 
@@ -133,7 +161,11 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	FILE *fp;
 	int rc;
 
-	rc = asprintf(&path, "%s/%s", console->tty.sysfs_devnode, name);
+	if (!console->tty.uart.sysfs_devnode) {
+		return -1;
+	}
+
+	rc = asprintf(&path, "%s/%s", console->tty.uart.sysfs_devnode, name);
 	if (rc < 0) {
 		return -1;
 	}
@@ -193,16 +225,22 @@ void tty_init_termios(struct console *console)
 /**
  * Open and initialise the serial device
  */
-static int tty_init_io(struct console *console)
+static void tty_init_uart_io(struct console *console)
 {
-	if (console->tty.sirq) {
-		tty_set_sysfs_attr(console, "sirq", console->tty.sirq);
-	}
-	if (console->tty.lpc_addr) {
-		tty_set_sysfs_attr(console, "lpc_address",
-				   console->tty.lpc_addr);
+	assert(console->tty.type == TTY_DEVICE_UART);
+
+	if (console->tty.uart.sirq) {
+		tty_set_sysfs_attr(console, "sirq", console->tty.uart.sirq);
 	}
 
+	if (console->tty.uart.lpc_addr) {
+		tty_set_sysfs_attr(console, "lpc_address",
+				   console->tty.uart.lpc_addr);
+	}
+}
+
+static int tty_init_io(struct console *console)
+{
 	console->tty.fd = open(console->tty.dev, O_RDWR);
 	if (console->tty.fd <= 0) {
 		warn("Can't open tty %s", console->tty.dev);
@@ -222,13 +260,13 @@ static int tty_init_io(struct console *console)
 	return 0;
 }
 
-static int tty_init(struct console *console, struct config *config,
-		    const char *tty_arg)
+static int tty_init_uart(struct console *console, struct config *config)
 {
 	unsigned long parsed;
 	const char *val;
 	char *endp;
-	int rc;
+
+	assert(console->tty.type == TTY_DEVICE_UART);
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
@@ -245,7 +283,7 @@ static int tty_init(struct console *console, struct config *config,
 			return -1;
 		}
 
-		console->tty.lpc_addr = (uint16_t)parsed;
+		console->tty.uart.lpc_addr = (uint16_t)parsed;
 		if (endp == optarg) {
 			warn("Invalid LPC address: '%s'", val);
 			return -1;
@@ -265,18 +303,20 @@ static int tty_init(struct console *console, struct config *config,
 			warn("Invalid LPC SERIRQ: '%s'", val);
 		}
 
-		console->tty.sirq = (int)parsed;
+		console->tty.uart.sirq = (int)parsed;
 		if (endp == optarg) {
 			warn("Invalid sirq: '%s'", val);
 		}
 	}
 
-	val = config_get_value(config, "baud");
-	if (val) {
-		if (config_parse_baud(&console->tty.baud, val)) {
-			warnx("Invalid baud rate: '%s'", val);
-		}
-	}
+	return 0;
+}
+
+static int tty_init(struct console *console, struct config *config,
+		    const char *tty_arg)
+{
+	const char *val;
+	int rc;
 
 	if (tty_arg) {
 		console->tty.kname = tty_arg;
@@ -292,8 +332,29 @@ static int tty_init(struct console *console, struct config *config,
 		return rc;
 	}
 
-	rc = tty_init_io(console);
-	return rc;
+	val = config_get_value(config, "baud");
+	if (val) {
+		if (config_parse_baud(&console->tty.baud, val)) {
+			warnx("Invalid baud rate: '%s'", val);
+		}
+	}
+
+	switch (console->tty.type) {
+	case TTY_DEVICE_UART:
+		rc = tty_init_uart(console, config);
+		if (rc) {
+			return rc;
+		}
+
+		tty_init_uart_io(console);
+		break;
+	case TTY_DEVICE_UNDEFINED:
+	case TTY_DEVICE_PTY:
+	default:
+		break;
+	}
+
+	return tty_init_io(console);
 }
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
@@ -768,7 +829,7 @@ out_config_fini:
 out_free:
 	free(console->pollers);
 	free(console->pollfds);
-	free(console->tty.sysfs_devnode);
+	free(console->tty.uart.sysfs_devnode);
 	free(console->tty.dev);
 	free(console);
 

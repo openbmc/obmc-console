@@ -16,3 +16,7 @@ Change categories:
 - Security
 
 ## [Unreleased]
+
+### Added
+
+1. console-server: Allow absolute path for TTY kname argument
