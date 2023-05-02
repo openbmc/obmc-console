@@ -756,12 +756,6 @@ int main(int argc, char **argv)
 
 	console->tty_kname = config_tty_kname;
 
-	console->console_id = config_get_value(config, "socket-id");
-	if (!console->console_id) {
-		warnx("Error: The socket-id is not set in the config file");
-		return EXIT_FAILURE;
-	}
-
 	rc = tty_init(console, config);
 	if (rc) {
 		goto out_config_fini;
