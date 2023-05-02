@@ -357,7 +357,7 @@ static int socket_init(struct handler *handler, struct console *console,
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
 	len = console_socket_path(addr.sun_path,
-				  config_get_value(config, "socket-id"));
+				  config_get_value(config, "console-id"));
 	if (len < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
