@@ -735,8 +735,6 @@ int main(int argc, char **argv)
 	struct config *config;
 	int rc;
 
-	rc = -1;
-
 	for (;;) {
 		int c;
 		int idx;
@@ -771,10 +769,6 @@ int main(int argc, char **argv)
 	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);
-	if (!config) {
-		warnx("Can't read configuration, exiting.");
-		goto out_free;
-	}
 
 	if (!config_tty_kname) {
 		config_tty_kname = config_get_value(config, "upstream-tty");
@@ -813,7 +807,6 @@ out_console_id:
 out_config_fini:
 	config_fini(config);
 
-out_free:
 	free(console->pollers);
 	free(console->pollfds);
 	free(console->tty_sysfs_devnode);
