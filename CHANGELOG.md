@@ -19,6 +19,7 @@ Change categories:
 ### Added
 
 1. console-server: Use /dev TTY heuristic only for non-absolute names
+2. console-server: Add --console-id option
 
 ### Deprecated
 
