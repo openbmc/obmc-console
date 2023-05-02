@@ -22,6 +22,13 @@ Change categories:
 1. console-server: Allow absolute path for TTY kname argument
 2. console-server: Add --console-id option
 
+### Changed
+
+1. console-server: Don't require a configuration file
+
+   Passing the `--config` option is no longer required when invoking
+   `obmc-console-server`.
+
 ### Deprecated
 
 1. obmc-console: Introduce console-id, deprecate socket-id

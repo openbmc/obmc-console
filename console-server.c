@@ -819,11 +819,6 @@ int main(int argc, char **argv)
 	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);
-	if (!config) {
-		warnx("Can't read configuration, exiting.");
-		rc = EXIT_FAILURE;
-		goto out_free;
-	}
 
 	if (set_socket_info(console, config, console_id)) {
 		rc = EXIT_FAILURE;
@@ -846,7 +841,6 @@ int main(int argc, char **argv)
 out_config_fini:
 	config_fini(config);
 
-out_free:
 	free(console->pollers);
 	free(console->pollfds);
 	free(console->tty.uart.sysfs_devnode);
