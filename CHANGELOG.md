@@ -28,6 +28,11 @@ Change categories:
    underlying TTY device is a UART and not a VUART nor PTY (where baud is not
    applicable)
 
+2. console-server: Don't require a configuration file
+
+   Passing the `--config` option is no longer required when invoking
+   `obmc-console-server`.
+
 ### Deprecated
 
 1. obmc-console: Introduce console-id, deprecate socket-id
