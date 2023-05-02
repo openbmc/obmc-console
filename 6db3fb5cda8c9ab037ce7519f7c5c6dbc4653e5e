@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03748872_f2a81581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-02T08:07:24Z",
+      "side": 1,
+      "message": "Since all but a handful of lines in this patch are just s/socket/console/, I think it might be helpful to (at least briefly) more explicitly describe the few bits that aren\u0027t.",
+      "revId": "6db3fb5cda8c9ab037ce7519f7c5c6dbc4653e5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
