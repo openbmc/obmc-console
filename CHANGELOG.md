@@ -20,3 +20,10 @@ Change categories:
 ### Added
 
 1. console-server: Use /dev TTY heuristic only for non-absolute names
+
+### Deprecated
+
+1. obmc-console: Introduce console-id, deprecate socket-id
+
+   Deprecate the `socket-id` key in the configuration schema. Uses of
+   `socket-id` should be directly replaced with `console-id`.
