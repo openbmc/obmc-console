@@ -1,20 +1,16 @@
 ## To Build
 
-Note: In addition to a toolchain and autoconf tools, this requires
-`autotools-archive` to be installed.
-
 To build this project, run the following shell commands:
 
 ```
-./bootstrap.sh
-./configure ${CONFIGURE_FLAGS}
-make
+meson setup build
+meson compile -C build
 ```
 
-To fully clean the repository, run:
+To test:
 
 ```
-./bootstrap.sh clean
+meson test -C build
 ```
 
 ## To Run Server
