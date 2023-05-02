@@ -22,6 +22,30 @@
       },
       "revId": "060a275138c0591868fc9d8c06f5d70e7b254073",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbe46845_88beec74",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-02T23:22:28Z",
+      "side": 1,
+      "message": "Good catch, let me think about whether we can restructure it to make which state we\u0027re in more obvious and maybe even improve robustness.",
+      "parentUuid": "e0cc647d_27f40a19",
+      "range": {
+        "startLine": 59,
+        "startChar": 21,
+        "endLine": 59,
+        "endChar": 42
+      },
+      "revId": "060a275138c0591868fc9d8c06f5d70e7b254073",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
