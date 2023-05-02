@@ -51,7 +51,8 @@ static void usage(const char *progname)
 		"usage: %s [options] <DEVICE>\n"
 		"\n"
 		"Options:\n"
-		"  --config <FILE>  Use FILE for configuration\n"
+		"  --config <FILE>\tUse FILE for configuration\n"
+		"  --console-id <NAME>\tUse NAME in the UNIX domain socket address\n"
 		"",
 		progname);
 }
@@ -313,24 +314,29 @@ int console_data_out(struct console *console, const uint8_t *data, size_t len)
 }
 
 /* Read console if from config and prepare a socket name */
-static int set_socket_info(struct console *console, struct config *config)
+static int set_socket_info(struct console *console, struct config *config, const char *console_id)
 {
+	const char *resolved_id;
 	ssize_t len;
 
-	console->console_id = config_get_value(config, "console-id");
+	if (console_id) {
+		resolved_id = console_id;
+	} else {
+		resolved_id = config_get_value(config, "console-id");
 
-	/* socket-id is deprecated */
-	if (!console->console_id) {
-		console->console_id = config_get_value(config, "socket-id");
+		/* socket-id is deprecated */
+		if (!resolved_id) {
+			resolved_id = config_get_value(config, "socket-id");
+		}
 	}
 
-	if (!console->console_id) {
-		warnx("Error: The console-id is not set in the config file");
+	if (!resolved_id) {
+		warnx("console-id was not specified");
 		return EXIT_FAILURE;
 	}
 
 	/* Get the socket name/path */
-	len = console_socket_path(console->socket_name, console->console_id);
+	len = console_socket_path(console->socket_name, resolved_id);
 	if (len < 0) {
 		warn("Failed to set socket path: %s", strerror(errno));
 		return EXIT_FAILURE;
@@ -338,6 +344,8 @@ static int set_socket_info(struct console *console, struct config *config)
 
 	/* Socket name is not a null terminated string hence save the length */
 	console->socket_name_len = len;
+
+	console->console_id = strdup(resolved_id);
 
 	return 0;
 }
@@ -713,6 +721,7 @@ int run_console(struct console *console)
 }
 static const struct option options[] = {
 	{ "config", required_argument, 0, 'c' },
+	{ "console-id", required_argument, 0, 'i' },
 	{ 0, 0, 0, 0 },
 };
 
@@ -720,6 +729,7 @@ int main(int argc, char **argv)
 {
 	const char *config_filename = NULL;
 	const char *config_tty_kname = NULL;
+	const char *console_id = NULL;
 	struct console *console;
 	struct config *config;
 	int rc;
@@ -730,7 +740,7 @@ int main(int argc, char **argv)
 		int c;
 		int idx;
 
-		c = getopt_long(argc, argv, "c:", options, &idx);
+		c = getopt_long(argc, argv, "c:i:", options, &idx);
 		if (c == -1) {
 			break;
 		}
@@ -738,6 +748,9 @@ int main(int argc, char **argv)
 		switch (c) {
 		case 'c':
 			config_filename = optarg;
+			break;
+		case 'i':
+			console_id = optarg;
 			break;
 		case 'h':
 		case '?':
@@ -769,18 +782,20 @@ int main(int argc, char **argv)
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
 		usage(argv[0]);
-		return EXIT_FAILURE;
+		rc = EXIT_FAILURE;
+		goto out_config_fini;
 	}
 
-	if (set_socket_info(console, config)) {
-		return EXIT_FAILURE;
+	if (set_socket_info(console, config, console_id)) {
+		rc = EXIT_FAILURE;
+		goto out_config_fini;
 	}
 
 	console->tty_kname = config_tty_kname;
 
 	rc = tty_init(console, config);
 	if (rc) {
-		goto out_config_fini;
+		goto out_console_id;
 	}
 
 	dbus_init(console, config);
@@ -790,6 +805,9 @@ int main(int argc, char **argv)
 	rc = run_console(console);
 
 	handlers_fini(console);
+
+out_console_id:
+	free(console->console_id);
 
 out_config_fini:
 	config_fini(config);
