@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf72b369_4da12f71",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-02T08:16:39Z",
+      "side": 1,
+      "message": "Most of this (other than adding the `console_id` arg to the `set_socket_info()` call) is an unrelated minor bugfix, correct?\n\nFWIW, I mean this less as a complaint that it should be a separate patch (though I wouldn\u0027t be opposed to that) and more just as a point of clarification in case I\u0027m misunderstanding something...",
+      "range": {
+        "startLine": 785,
+        "startChar": 17,
+        "endLine": 792,
+        "endChar": 23
+      },
+      "revId": "038c92f5bd2037b51d9053f5bdcc1d5f58c2c657",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
