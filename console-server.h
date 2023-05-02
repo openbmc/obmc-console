@@ -83,7 +83,7 @@ struct console {
 	const char *tty_kname;
 	char *tty_sysfs_devnode;
 	char *tty_dev;
-	const char *console_id;
+	char *console_id;
 	int tty_sirq;
 	uint16_t tty_lpc_addr;
 	speed_t tty_baud;
