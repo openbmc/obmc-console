@@ -47,6 +47,10 @@ const char *config_get_value(struct config *config, const char *name)
 {
 	struct config_item *item;
 
+	if (!config) {
+		return NULL;
+	}
+
 	for (item = config->items; item; item = item->next) {
 		if (!strcasecmp(item->name, name)) {
 			return item->value;
@@ -167,6 +171,10 @@ void config_fini(struct config *config)
 {
 	struct config_item *item;
 	struct config_item *next;
+
+	if (!config) {
+		return;
+	}
 
 	for (item = config->items; item; item = next) {
 		next = item->next;
