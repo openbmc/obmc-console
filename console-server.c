@@ -395,9 +395,15 @@ static int set_socket_info(struct console *console, struct config *config)
 {
 	ssize_t len;
 
-	console->console_id = config_get_value(config, "socket-id");
+	console->console_id = config_get_value(config, "console-id");
+
+	/* socket-id is deprecated */
 	if (!console->console_id) {
-		warnx("Error: The socket-id is not set in the config file");
+		console->console_id = config_get_value(config, "socket-id");
+	}
+
+	if (!console->console_id) {
+		warnx("Error: The console-id is not set in the config file");
 		return EXIT_FAILURE;
 	}
 

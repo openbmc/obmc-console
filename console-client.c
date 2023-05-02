@@ -212,7 +212,7 @@ static int client_tty_init(struct console_client *client)
 	return 0;
 }
 
-static int client_init(struct console_client *client, const char *socket_id)
+static int client_init(struct console_client *client, const char *console_id)
 {
 	struct sockaddr_un addr;
 	socket_path_t path;
@@ -227,7 +227,7 @@ static int client_init(struct console_client *client, const char *socket_id)
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(addr.sun_path, socket_id);
+	len = console_socket_path(addr.sun_path, console_id);
 	if (len < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 	enum process_rc prc = PROCESS_OK;
 	const char *config_path = NULL;
 	struct config *config = NULL;
-	const char *socket_id = NULL;
+	const char *console_id = NULL;
 	const uint8_t *esc = NULL;
 	int rc;
 
@@ -301,13 +301,13 @@ int main(int argc, char *argv[])
 					"Socket ID str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
-			socket_id = optarg;
+			console_id = optarg;
 			break;
 		default:
 			fprintf(stderr,
 				"Usage: %s "
 				"[-e <escape sequence>]"
-				"[-i <socket ID>]"
+				"[-i <console ID>]"
 				"[-c <config>]\n",
 				argv[0]);
 			return EXIT_FAILURE;
@@ -326,8 +326,13 @@ int main(int argc, char *argv[])
 				config, "escape-sequence");
 		}
 
-		if (!socket_id) {
-			socket_id = config_get_value(config, "socket-id");
+		if (!console_id) {
+			console_id = config_get_value(config, "console-id");
+		}
+
+		/* socket-id is deprecated */
+		if (!console_id) {
+			console_id = config_get_value(config, "socket-id");
 		}
 	}
 
@@ -336,7 +341,7 @@ int main(int argc, char *argv[])
 		client->esc_state.str.str = esc;
 	}
 
-	rc = client_init(client, socket_id);
+	rc = client_init(client, console_id);
 	if (rc) {
 		goto out_config_fini;
 	}
