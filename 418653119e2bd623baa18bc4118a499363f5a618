@@ -69,6 +69,24 @@
       "parentUuid": "e133c979_821ad2a5",
       "revId": "418653119e2bd623baa18bc4118a499363f5a618",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd83716_ad161fbd",
+        "filename": "log-handler.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-03T01:45:50Z",
+      "side": 1,
+      "message": "I think what Andrew meant was just that we should ensure we always use the same set of flags when we open the log file.  Because there are two places that call `open()` to do that, we need to make sure that both places pass the same flags.  One option for a clean way of achieving that would be to do something like:\n\n```\n#define LOGFILE_O_FLAGS (O_WRONLY | O_CREAT | O_TRUNC)\n```\n\nand then just pass `LOGFILE_O_FLAGS` to `open()` in both places.",
+      "parentUuid": "7329863a_62913e9b",
+      "revId": "418653119e2bd623baa18bc4118a499363f5a618",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
