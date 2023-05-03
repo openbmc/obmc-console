@@ -68,21 +68,21 @@ static int tty_find_device(struct console *console)
 	int rc;
 
 	/* udev may rename the tty name with a symbol link, try to resolve */
-	rc = asprintf(&tty_path_input, "/dev/%s", console->tty_kname);
+	rc = asprintf(&tty_path_input, "/dev/%s", console->tty.kname);
 	if (rc < 0) {
 		return -1;
 	}
 
 	tty_path_input_real = realpath(tty_path_input, NULL);
 	if (!tty_path_input_real) {
-		warn("Can't find realpath for /dev/%s", console->tty_kname);
+		warn("Can't find realpath for /dev/%s", console->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
 
 	tty_kname_real = basename(tty_path_input_real);
 	if (!tty_kname_real) {
-		warn("Can't find real name for /dev/%s", console->tty_kname);
+		warn("Can't find real name for /dev/%s", console->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -105,12 +105,12 @@ static int tty_find_device(struct console *console)
 		goto out_free;
 	}
 
-	console->tty_sysfs_devnode = realpath(tty_device_reldir, NULL);
-	if (!console->tty_sysfs_devnode) {
+	console->tty.sysfs_devnode = realpath(tty_device_reldir, NULL);
+	if (!console->tty.sysfs_devnode) {
 		warn("Can't find parent device for %s", tty_kname_real);
 	}
 
-	rc = asprintf(&console->tty_dev, "/dev/%s", tty_kname_real);
+	rc = asprintf(&console->tty.dev, "/dev/%s", tty_kname_real);
 	if (rc < 0) {
 		goto out_free;
 	}
@@ -133,7 +133,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	FILE *fp;
 	int rc;
 
-	rc = asprintf(&path, "%s/%s", console->tty_sysfs_devnode, name);
+	rc = asprintf(&path, "%s/%s", console->tty.sysfs_devnode, name);
 	if (rc < 0) {
 		return -1;
 	}
@@ -141,7 +141,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	fp = fopen(path, "w");
 	if (!fp) {
 		warn("Can't access attribute %s on device %s", name,
-		     console->tty_kname);
+		     console->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -150,7 +150,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	rc = fprintf(fp, "0x%x", value);
 	if (rc < 0) {
 		warn("Error writing to %s attribute of device %s", name,
-		     console->tty_kname);
+		     console->tty.kname);
 	}
 	fclose(fp);
 
@@ -167,15 +167,15 @@ void tty_init_termios(struct console *console)
 	struct termios termios;
 	int rc;
 
-	rc = tcgetattr(console->tty_fd, &termios);
+	rc = tcgetattr(console->tty.fd, &termios);
 	if (rc) {
 		warn("Can't read tty termios");
 		return;
 	}
 
-	if (console->tty_baud) {
-		if (cfsetspeed(&termios, console->tty_baud) < 0) {
-			warn("Couldn't set speeds for %s", console->tty_kname);
+	if (console->tty.baud) {
+		if (cfsetspeed(&termios, console->tty.baud) < 0) {
+			warn("Couldn't set speeds for %s", console->tty.kname);
 		}
 	}
 
@@ -184,9 +184,9 @@ void tty_init_termios(struct console *console)
 	 */
 	cfmakeraw(&termios);
 
-	rc = tcsetattr(console->tty_fd, TCSANOW, &termios);
+	rc = tcsetattr(console->tty.fd, TCSANOW, &termios);
 	if (rc) {
-		warn("Can't set terminal options for %s", console->tty_kname);
+		warn("Can't set terminal options for %s", console->tty.kname);
 	}
 }
 
@@ -195,28 +195,28 @@ void tty_init_termios(struct console *console)
  */
 static int tty_init_io(struct console *console)
 {
-	if (console->tty_sirq) {
-		tty_set_sysfs_attr(console, "sirq", console->tty_sirq);
+	if (console->tty.sirq) {
+		tty_set_sysfs_attr(console, "sirq", console->tty.sirq);
 	}
-	if (console->tty_lpc_addr) {
+	if (console->tty.lpc_addr) {
 		tty_set_sysfs_attr(console, "lpc_address",
-				   console->tty_lpc_addr);
+				   console->tty.lpc_addr);
 	}
 
-	console->tty_fd = open(console->tty_dev, O_RDWR);
-	if (console->tty_fd <= 0) {
-		warn("Can't open tty %s", console->tty_dev);
+	console->tty.fd = open(console->tty.dev, O_RDWR);
+	if (console->tty.fd <= 0) {
+		warn("Can't open tty %s", console->tty.dev);
 		return -1;
 	}
 
 	/* Disable character delay. We may want to later enable this when
 	 * we detect larger amounts of data
 	 */
-	fcntl(console->tty_fd, F_SETFL, FNDELAY);
+	fcntl(console->tty.fd, F_SETFL, FNDELAY);
 
 	tty_init_termios(console);
 
-	console->pollfds[console->n_pollers].fd = console->tty_fd;
+	console->pollfds[console->n_pollers].fd = console->tty.fd;
 	console->pollfds[console->n_pollers].events = POLLIN;
 
 	return 0;
@@ -244,7 +244,7 @@ static int tty_init(struct console *console, struct config *config)
 			return -1;
 		}
 
-		console->tty_lpc_addr = (uint16_t)parsed;
+		console->tty.lpc_addr = (uint16_t)parsed;
 		if (endp == optarg) {
 			warn("Invalid LPC address: '%s'", val);
 			return -1;
@@ -264,7 +264,7 @@ static int tty_init(struct console *console, struct config *config)
 			warn("Invalid LPC SERIRQ: '%s'", val);
 		}
 
-		console->tty_sirq = (int)parsed;
+		console->tty.sirq = (int)parsed;
 		if (endp == optarg) {
 			warn("Invalid sirq: '%s'", val);
 		}
@@ -272,12 +272,12 @@ static int tty_init(struct console *console, struct config *config)
 
 	val = config_get_value(config, "baud");
 	if (val) {
-		if (config_parse_baud(&console->tty_baud, val)) {
+		if (config_parse_baud(&console->tty.baud, val)) {
 			warnx("Invalid baud rate: '%s'", val);
 		}
 	}
 
-	if (!console->tty_kname) {
+	if (!console->tty.kname) {
 		warnx("Error: No TTY device specified");
 		return -1;
 	}
@@ -293,7 +293,7 @@ static int tty_init(struct console *console, struct config *config)
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
 {
-	return write_buf_to_fd(console->tty_fd, data, len);
+	return write_buf_to_fd(console->tty.fd, data, len);
 }
 
 /* Read console if from config and prepare a socket name */
@@ -661,7 +661,7 @@ int run_console(struct console *console)
 
 		/* process internal fd first */
 		if (console->pollfds[console->n_pollers].revents) {
-			rc = read(console->tty_fd, buf, sizeof(buf));
+			rc = read(console->tty.fd, buf, sizeof(buf));
 			if (rc <= 0) {
 				warn("Error reading from tty device");
 				rc = -1;
@@ -755,7 +755,7 @@ int main(int argc, char **argv)
 		goto out_config_fini;
 	}
 
-	console->tty_kname = config_tty_kname;
+	console->tty.kname = config_tty_kname;
 
 	rc = tty_init(console, config);
 	if (rc) {
@@ -776,8 +776,8 @@ out_config_fini:
 out_free:
 	free(console->pollers);
 	free(console->pollfds);
-	free(console->tty_sysfs_devnode);
-	free(console->tty_dev);
+	free(console->tty.sysfs_devnode);
+	free(console->tty.dev);
 	free(console);
 
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;

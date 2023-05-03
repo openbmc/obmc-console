@@ -42,7 +42,7 @@ static void tty_change_baudrate(struct console *console)
 			continue;
 		}
 
-		rc = handler->baudrate(handler, console->tty_baud);
+		rc = handler->baudrate(handler, console->tty.baud);
 		if (rc) {
 			warnx("Can't set terminal baudrate for handler %s",
 			      handler->name);
@@ -75,7 +75,7 @@ static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
 		return sd_bus_reply_method_return(msg, "x", -EINVAL);
 	}
 
-	console->tty_baud = speed;
+	console->tty.baud = speed;
 	tty_change_baudrate(console);
 
 	return sd_bus_reply_method_return(msg, "x", r);
@@ -92,9 +92,9 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 	uint32_t baudrate;
 	int r;
 
-	baudrate = parse_baud_to_int(console->tty_baud);
+	baudrate = parse_baud_to_int(console->tty.baud);
 	if (!baudrate) {
-		warnx("Invalid baud rate: '%d'", console->tty_baud);
+		warnx("Invalid baud rate: '%d'", console->tty.baud);
 	}
 
 	r = sd_bus_message_append(reply, "u", baudrate);

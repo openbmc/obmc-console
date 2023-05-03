@@ -80,14 +80,16 @@ typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
 
 /* Console server structure */
 struct console {
-	const char *tty_kname;
-	char *tty_sysfs_devnode;
-	char *tty_dev;
+	struct {
+		const char *kname;
+		char *sysfs_devnode;
+		char *dev;
+		int sirq;
+		uint16_t lpc_addr;
+		speed_t baud;
+		int fd;
+	} tty;
 	const char *console_id;
-	int tty_sirq;
-	uint16_t tty_lpc_addr;
-	speed_t tty_baud;
-	int tty_fd;
 
 	/* Socket name starts with null character hence we need length */
 	socket_path_t socket_name;
