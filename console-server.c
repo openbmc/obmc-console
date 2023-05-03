@@ -59,20 +59,13 @@ static void usage(const char *progname)
 /* populates tty_dev and tty_sysfs_devnode, using the tty kernel name */
 static int tty_find_device(struct console *console)
 {
-	char *tty_class_device_link;
-	char *tty_device_tty_dir;
-	char *tty_device_reldir;
-	char *tty_path_input;
-	char *tty_path_input_real;
-	char *tty_kname_real;
+	char *tty_class_device_link = NULL;
+	char *tty_path_input_real = NULL;
+	char *tty_device_tty_dir = NULL;
+	char *tty_device_reldir = NULL;
+	char *tty_path_input = NULL;
+	char *tty_kname_real = NULL;
 	int rc;
-
-	tty_class_device_link = NULL;
-	tty_device_tty_dir = NULL;
-	tty_device_reldir = NULL;
-	tty_path_input = NULL;
-	tty_path_input_real = NULL;
-	tty_kname_real = NULL;
 
 	/* udev may rename the tty name with a symbol link, try to resolve */
 	rc = asprintf(&tty_path_input, "/dev/%s", console->tty_kname);
