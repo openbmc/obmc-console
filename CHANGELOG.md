@@ -20,6 +20,7 @@ Change categories:
 ### Added
 
 1. console-server: Allow absolute path for TTY kname argument
+2. console-server: Add --console-id option
 
 ### Deprecated
 
