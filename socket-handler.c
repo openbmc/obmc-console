@@ -342,7 +342,7 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 }
 
 static int socket_init(struct handler *handler, struct console *console,
-		       struct config *config)
+		       struct config *config __attribute__((unused)))
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct sockaddr_un addr;
@@ -356,8 +356,7 @@ static int socket_init(struct handler *handler, struct console *console,
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(addr.sun_path,
-				  config_get_value(config, "console-id"));
+	len = console_socket_path(addr.sun_path, console->console_id);
 	if (len < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
