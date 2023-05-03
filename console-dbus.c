@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <assert.h>
 #include <errno.h>
 #include <err.h>
 
@@ -42,7 +43,7 @@ static void tty_change_baudrate(struct console *console)
 			continue;
 		}
 
-		rc = handler->baudrate(handler, console->tty_baud);
+		rc = handler->baudrate(handler, console->tty.uart.baud);
 		if (rc) {
 			warnx("Can't set terminal baudrate for handler %s",
 			      handler->name);
@@ -75,7 +76,8 @@ static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
 		return sd_bus_reply_method_return(msg, "x", -EINVAL);
 	}
 
-	console->tty_baud = speed;
+	assert(console->tty.type == TTY_DEVICE_UART);
+	console->tty.uart.baud = speed;
 	tty_change_baudrate(console);
 
 	return sd_bus_reply_method_return(msg, "x", r);
@@ -92,9 +94,10 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 	uint32_t baudrate;
 	int r;
 
-	baudrate = parse_baud_to_int(console->tty_baud);
+	assert(console->tty.type == TTY_DEVICE_UART);
+	baudrate = parse_baud_to_int(console->tty.uart.baud);
 	if (!baudrate) {
-		warnx("Invalid baud rate: '%d'", console->tty_baud);
+		warnx("Invalid baud rate: '%d'", console->tty.uart.baud);
 	}
 
 	r = sd_bus_message_append(reply, "u", baudrate);
@@ -162,12 +165,15 @@ void dbus_init(struct console *console,
 		return;
 	}
 
-	/* Register tty interface */
-	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, TTY_INTF,
-				     console_tty_vtable, console);
-	if (r < 0) {
-		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
+	if (console->tty.type == TTY_DEVICE_UART) {
+		/* Register tty interface */
+		r = sd_bus_add_object_vtable(console->bus, NULL, obj_name,
+					     TTY_INTF, console_tty_vtable,
+					     console);
+		if (r < 0) {
+			warnx("Failed to issue method call: %s", strerror(-r));
+			return;
+		}
 	}
 
 	/* Register access interface */

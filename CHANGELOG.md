@@ -16,3 +16,13 @@ Change categories:
 - Security
 
 ## [Unreleased]
+
+### Added
+
+1. console-server: Add PTY support for testing purposes
+
+### Changed
+
+1. The `xyz.openbmc_project.console` interface is only published if the
+   underlying TTY device is a UART and not a VUART nor PTY (where baud is not
+   applicable)
