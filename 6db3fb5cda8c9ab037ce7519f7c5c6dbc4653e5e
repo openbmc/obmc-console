@@ -34,6 +34,24 @@
       "parentUuid": "03748872_f2a81581",
       "revId": "6db3fb5cda8c9ab037ce7519f7c5c6dbc4653e5e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9315c552_bef1be7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-03T00:46:16Z",
+      "side": 1,
+      "message": "I mean, it\u0027s largely just laziness in reviewing on my part TBH...the `socket-id` back-compat bits are pretty self-explanatory, but the changes in socket-handler.c were less obvious IMO -- was the `config_get_value()` call there redundant work-repetition to start with?",
+      "parentUuid": "b6b2face_d459378c",
+      "revId": "6db3fb5cda8c9ab037ce7519f7c5c6dbc4653e5e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
