@@ -702,8 +702,6 @@ int main(int argc, char **argv)
 	struct config *config;
 	int rc;
 
-	rc = -1;
-
 	for (;;) {
 		int c;
 		int idx;
@@ -737,6 +735,7 @@ int main(int argc, char **argv)
 	config = config_init(config_filename);
 	if (!config) {
 		warnx("Can't read configuration, exiting.");
+		rc = -1;
 		goto out_free;
 	}
 
@@ -747,11 +746,13 @@ int main(int argc, char **argv)
 	if (!config_tty_kname) {
 		warnx("No TTY device specified");
 		usage(argv[0]);
-		return EXIT_FAILURE;
+		rc = -1;
+		goto out_config_fini;
 	}
 
 	if (set_socket_info(console, config)) {
-		return EXIT_FAILURE;
+		rc = -1;
+		goto out_config_fini;
 	}
 
 	console->tty_kname = config_tty_kname;
