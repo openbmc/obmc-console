@@ -20,6 +20,7 @@ Change categories:
 ### Added
 
 1. console-server: Add PTY support for testing purposes
+2. console-server: Add --console-id option
 
 ### Changed
 
