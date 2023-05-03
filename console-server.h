@@ -78,16 +78,32 @@ typedef enum poller_ret (*poller_event_fn_t)(struct handler *handler,
 typedef enum poller_ret (*poller_timeout_fn_t)(struct handler *handler,
 					       void *data);
 
+enum tty_device {
+	TTY_DEVICE_UNDEFINED = 0,
+	TTY_DEVICE_VUART,
+	TTY_DEVICE_UART,
+	TTY_DEVICE_PTY,
+};
+
 /* Console server structure */
 struct console {
-	const char *tty_kname;
-	char *tty_sysfs_devnode;
-	char *tty_dev;
+	struct {
+		const char *kname;
+		char *dev;
+		int fd;
+		enum tty_device type;
+		union {
+			struct {
+				char *sysfs_devnode;
+				int sirq;
+				uint16_t lpc_addr;
+			} vuart;
+			struct {
+				speed_t baud;
+			} uart;
+		};
+	} tty;
 	const char *console_id;
-	int tty_sirq;
-	uint16_t tty_lpc_addr;
-	speed_t tty_baud;
-	int tty_fd;
 
 	/* Socket name starts with null character hence we need length */
 	socket_path_t socket_name;
