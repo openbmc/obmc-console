@@ -222,7 +222,8 @@ static int tty_init_io(struct console *console)
 	return 0;
 }
 
-static int tty_init(struct console *console, struct config *config)
+static int tty_init(struct console *console, struct config *config,
+		    const char *tty_arg)
 {
 	unsigned long parsed;
 	const char *val;
@@ -277,7 +278,11 @@ static int tty_init(struct console *console, struct config *config)
 		}
 	}
 
-	if (!console->tty_kname) {
+	if (tty_arg) {
+		console->tty_kname = tty_arg;
+	} else if ((val = config_get_value(config, "upstream-tty"))) {
+		console->tty_kname = val;
+	} else {
 		warnx("Error: No TTY device specified");
 		return -1;
 	}
@@ -739,25 +744,12 @@ int main(int argc, char **argv)
 		goto out_free;
 	}
 
-	if (!config_tty_kname) {
-		config_tty_kname = config_get_value(config, "upstream-tty");
-	}
-
-	if (!config_tty_kname) {
-		warnx("No TTY device specified");
-		usage(argv[0]);
-		rc = -1;
-		goto out_config_fini;
-	}
-
 	if (set_socket_info(console, config)) {
 		rc = -1;
 		goto out_config_fini;
 	}
 
-	console->tty_kname = config_tty_kname;
-
-	rc = tty_init(console, config);
+	rc = tty_init(console, config, config_tty_kname);
 	if (rc) {
 		goto out_config_fini;
 	}
