@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8a0047_7e161814",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-04T09:18:29Z",
+      "side": 1,
+      "message": "Given that there\u0027s a return-value check on the `asprintf()` call below, do we want to check `strdup()` as well?  (Here and at line 104.)",
+      "revId": "4412b5b37ef8969c987979e4522ee15a9fb36aa2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d530189_374aa9c7",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-04T09:18:29Z",
+      "side": 1,
+      "message": "Is this comment at this particular location for some reason I\u0027m not seeing?  I would have expected it to be a few lines later at the `realpath()` call, since I assume that\u0027s what \"try to resolve\" is referring to...\n\nAlso, s/symbol/symbolic/ as a small nit (or just \"symlink\" of course).",
+      "revId": "4412b5b37ef8969c987979e4522ee15a9fb36aa2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc60d89_ede8e9ca",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-04T09:18:29Z",
+      "side": 1,
+      "message": "This seems like a slightly odd error message, but from what I can see in its man page `basename(3)`\u0027s return value doesn\u0027t actually have any error conditions to check for, so perhaps this whole `if` block could just be removed entirely.  (Tangential to this patch though of course.)",
+      "revId": "4412b5b37ef8969c987979e4522ee15a9fb36aa2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
