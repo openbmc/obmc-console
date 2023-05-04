@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df4979a5_dc5bec1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-04T07:15:23Z",
+      "side": 1,
+      "message": "+1, but one possible thing to review below.",
+      "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e5ab16b_66e6f966",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-04T07:15:23Z",
+      "side": 1,
+      "message": "Minor nit, but I\u0027m not a huge fan of using `EXIT_FAILURE` here, as it\u0027s not a return value from `main()`.\n\n[My approach is that `EXIT_FAILURE` is only for the exit status of the process, rather than a generic success/failure value.]\n\nIn which case: I\u0027d suggest either `return rc` below, or use 0 / -1 here.",
+      "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
