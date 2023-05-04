@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d781f8f_bf6c46f9",
+        "filename": "console-server.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-04T07:27:03Z",
+      "side": 1,
+      "message": "Not entirely sure what the intention here is, but might be worthwhile taking this to the logical extension of the host console either being:\n\n * A VUART (sirq + addr, but no baud)\n * A regular UART (baud, no sirq/addr)\n * A PTY (nothing)\n \n... and I *think* we\u0027d only need the sysfs path for VUARTs (where we need to reference the `sirq` and `lpc_address` pseudo-files)",
+      "revId": "22b604137be9cd838248dea17dff390569f5136d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
