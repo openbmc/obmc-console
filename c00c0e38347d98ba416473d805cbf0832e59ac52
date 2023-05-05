@@ -87,6 +87,24 @@
       "parentUuid": "3c7690b2_0bcd9a0a",
       "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40b8f2bc_0640b6ed",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-05T01:01:11Z",
+      "side": 1,
+      "message": "\u003e Or is it that you\u0027re arguing that the translation should only be done on that final return?\n\nYes, exactly.\n\n[or use \u0027rc\u0027 as the actual return value, rather than doing that final translation. But then as Zev says, we would be mixing that up with the 0/-1 earlier]\n\nAs a purely theoretical standpoint - what if we compiled this on some wacky platform where `EXIT_FAILURE \u003d\u003d 0`.\n\nHowever, I\u0027m well aware that we\u0027re now discussing what specific batch number of the tins of blue paint we should buy to paint the bikeshed.",
+      "parentUuid": "70dd6049_fcf2d951",
+      "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
