@@ -103,6 +103,24 @@
       "message": "This needs to address Jeremy\u0027s feedback here from here:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/63056/comment/2d781f8f_bf6c46f9/",
       "revId": "4412b5b37ef8969c987979e4522ee15a9fb36aa2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77c5815b_31ea5355",
+        "filename": "console-server.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-05T02:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e79a22f_fde8666f",
+      "revId": "4412b5b37ef8969c987979e4522ee15a9fb36aa2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
