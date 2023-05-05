@@ -69,6 +69,24 @@
       "parentUuid": "2f584c47_efb5d6e2",
       "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70dd6049_fcf2d951",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-05T00:10:32Z",
+      "side": 1,
+      "message": "\u003e Minor nit, but I\u0027m not a huge fan of using EXIT_FAILURE here, as it\u0027s not a return value from `main()`.\n\nDespite going with the 0/-1 consistency, I\u0027m still trying to resolve this quote with the existing code on line 783. Or is it that you\u0027re arguing that the translation should only be done on that final return?",
+      "parentUuid": "3c7690b2_0bcd9a0a",
+      "revId": "c00c0e38347d98ba416473d805cbf0832e59ac52",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
