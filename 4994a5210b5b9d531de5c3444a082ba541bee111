@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2e4f419_c308b15f",
+        "filename": "console-server.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-09T08:08:15Z",
+      "side": 1,
+      "message": "Hah! I did. See the next line. However, this arrangement might be slightly more hygienic, but it looks uglier:\n\n```\nconsole-\u003etty.dev \u003d strdup(console-\u003etty.kname);\nif (console-\u003etty.dev) {\n    console-\u003etty.type \u003d TTY_DEVICE_PTY;\n    rc \u003d 0;\n} else {\n    rc \u003d -1;\n}\ngoto out_free;\n```\n\nWhat do you think?",
+      "parentUuid": "de1f749d_67c640b4",
+      "range": {
+        "startLine": 111,
+        "startChar": 21,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "4994a5210b5b9d531de5c3444a082ba541bee111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49f06b43_6e8d4dd6",
         "filename": "console-server.c",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-09T07:58:20Z",
       "side": 1,
       "message": "Is this an expected case that can legitimately arise, or should `console-\u003etty.type` always be set to something specific at this point?",
+      "range": {
+        "startLine": 369,
+        "startChar": 6,
+        "endLine": 369,
+        "endChar": 26
+      },
+      "revId": "4994a5210b5b9d531de5c3444a082ba541bee111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d15ff8d_50156b81",
+        "filename": "console-server.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-09T08:08:15Z",
+      "side": 1,
+      "message": "Hmm, we should probably bail out with an error. I don\u0027t think we can do anything sensible in this case. Let me fix that.",
+      "parentUuid": "49f06b43_6e8d4dd6",
       "range": {
         "startLine": 369,
         "startChar": 6,
