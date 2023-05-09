@@ -409,11 +409,6 @@ static int set_socket_info(struct console *console, struct config *config,
 		}
 	}
 
-	if (!resolved_id) {
-		warnx("console-id was not specified");
-		return EXIT_FAILURE;
-	}
-
 	console->console_id = resolved_id;
 
 	/* Get the socket name/path */

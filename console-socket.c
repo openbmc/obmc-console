@@ -16,6 +16,7 @@
 
 #include "console-server.h"
 
+#include <err.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -32,14 +33,12 @@ ssize_t console_socket_path(socket_path_t sun_path, const char *id)
 {
 	ssize_t rc;
 
-	if (id) {
-		rc = snprintf(sun_path + 1, sizeof(socket_path_t) - 1,
-			      CONSOLE_SOCKET_PREFIX ".%s", id);
-	} else {
-		rc = snprintf(sun_path + 1, sizeof(socket_path_t) - 1,
-			      CONSOLE_SOCKET_PREFIX);
+	if (!id) {
+		id = "default";
 	}
 
+	rc = snprintf(sun_path + 1, sizeof(socket_path_t) - 1,
+		      CONSOLE_SOCKET_PREFIX ".%s", id);
 	if (rc < 0) {
 		return rc;
 	}
