@@ -16,6 +16,8 @@
 
 #include <errno.h>
 #include <err.h>
+#include <string.h>
+#include <sys/socket.h>
 
 #include "console-server.h"
 
@@ -102,6 +104,31 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 	return r;
 }
 
+static int method_connect(sd_bus_message *msg, void *userdata,
+                sd_bus_error *err)
+{
+    struct console *console = userdata;
+    int rc;
+    int socket_fd = -1;
+
+    if (!console) {
+        sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
+        return sd_bus_reply_method_return(msg, "x", 0);
+    }
+
+    /* Register the consumer. */
+    rc = dbus_create_socket_consumer(console, &socket_fd);
+    if (rc < 0) {
+        rc = errno;
+        warn("Failed to create socket consumer: %s", strerror(rc));
+        return sd_bus_reply_method_return(msg, "h", -rc);
+    }
+
+    warnx("NINAD: console fd: %d\n", socket_fd);
+
+    return sd_bus_reply_method_return(msg, "h", socket_fd);
+}
+
 static int get_socket_name(sd_bus *bus __attribute__((unused)),
 			   const char *path __attribute__((unused)),
 			   const char *interface __attribute__((unused)),
@@ -129,6 +156,8 @@ static const sd_bus_vtable console_tty_vtable[] = {
 static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_START(0),
 	SD_BUS_PROPERTY("SocketName", "ay", get_socket_name, 0, 0),
+	SD_BUS_METHOD("Connect", SD_BUS_NO_ARGS, "h", method_connect,
+		      SD_BUS_VTABLE_UNPRIVILEGED),
 	SD_BUS_VTABLE_END,
 };
 
