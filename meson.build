@@ -24,18 +24,19 @@ install_data('conf/obmc-console@.service.in',
              install_dir: systemdsystemunitdir,
            )
 
-if get_option('concurrent-servers')
-  install_data('conf/client.2200.conf.in',
-               rename: [ 'client.2200.conf' ],
-               install_dir: systemdsystemunitdir)
-else
-  install_data('conf/obmc-console-ssh.socket.in',
-               rename: [ 'obmc-console-ssh.socket' ],
-               install_dir: systemdsystemunitdir)
-  install_data('conf/obmc-console-ssh@.service.d/use-socket.conf.in',
-               rename: [ 'use-socket.conf' ],
-               install_dir: systemdsystemunitdir / 'obmc-console-ssh@.service.d')
-endif
+#if get_option('concurrent-servers')
+#  install_data('conf/client.2200.conf.in',
+#               rename: [ 'client.2200.conf' ],
+#               install_dir: systemdsystemunitdir)
+#else
+#if !get_option('concurrent-servers')
+#  install_data('conf/obmc-console-ssh.socket.in',
+#               rename: [ 'obmc-console-ssh.socket' ],
+#               install_dir: systemdsystemunitdir)
+#  install_data('conf/obmc-console-ssh@.service.d/use-socket.conf.in',
+#               rename: [ 'use-socket.conf' ],
+#               install_dir: systemdsystemunitdir / 'obmc-console-ssh@.service.d')
+#endif
 
 udev = dependency('udev', required: get_option('udev'))
 if udev.found()
@@ -49,6 +50,7 @@ executable('obmc-console-server',
            'console-dbus.c',
            'console-server.c',
            'console-socket.c',
+           'dbus-handler.c',
            'log-handler.c',
            'ringbuffer.c',
            'socket-handler.c',

@@ -36,14 +36,6 @@
 /* Set poll() timeout to 4000 uS, or 4 mS */
 #define SOCKET_HANDLER_PKT_US_TIMEOUT 4000
 
-struct client {
-	struct socket_handler *sh;
-	struct poller *poller;
-	struct ringbuffer_consumer *rbc;
-	int fd;
-	bool blocked;
-};
-
 struct socket_handler {
 	struct handler handler;
 	struct console *console;
@@ -66,7 +58,7 @@ static struct socket_handler *to_socket_handler(struct handler *handler)
 
 static void client_close(struct client *client)
 {
-	struct socket_handler *sh = client->sh;
+	struct socket_handler *sh = (struct socket_handler *)client->private;
 	int idx;
 
 	close(client->fd);
@@ -102,7 +94,7 @@ static void client_close(struct client *client)
 	/* NOLINTEND(bugprone-sizeof-expression) */
 }
 
-static void client_set_blocked(struct client *client, bool blocked)
+void client_set_blocked(struct client *client, bool blocked)
 {
 	int events;
 
@@ -117,16 +109,19 @@ static void client_set_blocked(struct client *client, bool blocked)
 		events |= POLLOUT;
 	}
 
-	console_poller_set_events(client->sh->console, client->poller, events);
+	console_poller_set_events(client->console, client->poller, events);
 }
 
-static ssize_t send_all(struct client *client, void *buf, size_t len,
+ssize_t send_all(struct client *client, void *buf, size_t len,
 			bool block)
 {
 	int fd;
 	int flags;
 	ssize_t rc;
 	size_t pos;
+
+    warnx("send_all: enter. len=%d block=%d fd=%d\n",
+          len, block, client->fd);
 
 	if (len > SSIZE_MAX) {
 		return -EINVAL;
@@ -159,13 +154,15 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,
 		}
 	}
 
+    warnx("send_all: enter. len=%d block=%d fd=%d pos=%d\n",
+          len, block, client->fd, pos);
 	return (ssize_t)pos;
 }
 
 /* Drain the queue to the socket and update the queue buffer. If force_len is
  * set, send at least that many bytes from the queue, possibly while blocking
  */
-static int client_drain_queue(struct client *client, size_t force_len)
+int client_drain_queue(struct client *client, size_t force_len)
 {
 	uint8_t *buf;
 	ssize_t wlen;
@@ -212,7 +209,7 @@ static int client_drain_queue(struct client *client, size_t force_len)
 	return 0;
 }
 
-static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
+enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 						       size_t force_len)
 {
 	struct client *client = arg;
@@ -224,7 +221,7 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 		/* Do nothing until many small requests have accumulated, or
 		 * the UART is idle for awhile (as determined by the timeout
 		 * value supplied to the poll function call in console_server.c. */
-		console_poller_set_timeout(client->sh->console, client->poller,
+		console_poller_set_timeout(client->console, client->poller,
 					   &socket_handler_timeout);
 		return RINGBUFFER_POLL_OK;
 	}
@@ -232,14 +229,15 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 	rc = client_drain_queue(client, force_len);
 	if (rc) {
 		client->rbc = NULL;
-		client_close(client);
+		client->close(client);
+        warnx("Client closed: line=%d\n", __LINE__);
 		return RINGBUFFER_POLL_REMOVE;
 	}
 
 	return RINGBUFFER_POLL_OK;
 }
 
-static enum poller_ret
+enum poller_ret
 client_timeout(struct handler *handler __attribute__((unused)), void *data)
 {
 	struct client *client = data;
@@ -253,20 +251,23 @@ client_timeout(struct handler *handler __attribute__((unused)), void *data)
 
 	rc = client_drain_queue(client, 0);
 	if (rc) {
-		client_close(client);
+		client->close(client);
+        warnx("Client closed: line=%d\n", __LINE__);
 		return POLLER_REMOVE;
 	}
 
 	return POLLER_OK;
 }
 
-static enum poller_ret client_poll(struct handler *handler, int events,
+enum poller_ret client_poll(struct handler *handler, int events,
 				   void *data)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
 	struct client *client = data;
 	uint8_t buf[4096];
 	ssize_t rc;
+
+    warnx("client_poll: Enter. Events: 0x%X\n", events);
 
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
@@ -295,7 +296,8 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 
 err_close:
 	client->poller = NULL;
-	client_close(client);
+	client->close(client);
+        warnx("Client closed: rc=%d line=%d\n", rc, __LINE__);
 	return POLLER_REMOVE;
 }
 
@@ -319,8 +321,10 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	client = malloc(sizeof(*client));
 	memset(client, 0, sizeof(*client));
 
-	client->sh = sh;
+	client->private = sh;
 	client->fd = fd;
+	client->console = sh->console;
+	client->close = client_close;
 	client->poller = console_poller_register(sh->console, handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);

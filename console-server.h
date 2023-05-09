@@ -228,6 +228,30 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 void dbus_init(struct console *console,
 	       struct config *config __attribute__((unused)));
 
+/* dbus-handler API */
+int dbus_create_socket_consumer(struct console *console, int *FD);
+
+/* Client handler structure */
+struct client {
+    void *private;
+    struct console *console;
+    struct poller *poller;
+    struct ringbuffer_consumer *rbc;
+    int fd;
+    bool blocked;
+    void (*close)(struct client *client);
+};
+
+/* The API shared between socket-handler and dbus-handler */
+void client_set_blocked(struct client *client, bool blocked);
+ssize_t send_all(struct client *client, void *buf, size_t len, bool block);
+int client_drain_queue(struct client *client, size_t force_len);
+enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg, size_t force_len);
+enum poller_ret client_timeout(struct handler *handler __attribute__((unused)), void *data);
+enum poller_ret client_poll(struct handler *handler, int events, void *data);
+
+
+
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #ifndef offsetof
