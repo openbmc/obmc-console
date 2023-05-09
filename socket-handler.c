@@ -341,6 +341,88 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	return POLLER_OK;
 }
 
+/* Create socket pair and register one end as poller/consumer and return
+ * the other end to the caller.
+ * Return zero on sucess and return socket FD through the FD parameter and
+ * on error return the error code.
+ */
+int dbus_create_socket_consumer(struct console *console, int *FD)
+{
+	struct socket_handler *sh = NULL;
+	struct client *client;
+	int fds[2];
+	int i;
+	int rc = 0;
+	int n;
+
+	*FD = -1;
+
+	for (i = 0; i < console->n_handlers; i++) {
+		if (strcmp(console->handlers[i]->name, "socket") == 0) {
+			sh = to_socket_handler(console->handlers[i]);
+			break;
+		}
+	}
+
+	if (!sh) {
+		return ENOSYS;
+	}
+
+	/* Create a socketpair */
+	rc = socketpair(AF_UNIX, SOCK_STREAM, 0, fds);
+	if (rc < 0) {
+		rc = errno;
+		warnx("Failed to create socket pair: %s", strerror(rc));
+		return rc;
+	}
+
+	client = malloc(sizeof(*client));
+	if (client == NULL) {
+		warnx("Failed to allocate client structure.\n");
+		rc = ENOMEM;
+		goto close_fds;
+	}
+	memset(client, 0, sizeof(*client));
+
+	client->sh = sh;
+	client->fd = fds[0];
+	client->poller = console_poller_register(sh->console, &sh->handler,
+						 client_poll, client_timeout,
+						 client->fd, POLLIN, client);
+	client->rbc = console_ringbuffer_consumer_register(
+		sh->console, client_ringbuffer_poll, client);
+	if (client->rbc == NULL) {
+		warnx("Failed to register a consumer.\n");
+		rc = ENOMEM;
+		goto free_client;
+	}
+
+	n = sh->n_clients++;
+
+	/*
+     * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
+     * pointer type.
+     */
+	/* NOLINTBEGIN(bugprone-sizeof-expression) */
+	sh->clients =
+		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	/* NOLINTEND(bugprone-sizeof-expression) */
+	sh->clients[n] = client;
+
+	/* Return the second FD to caller. */
+	*FD = fds[1];
+
+	return 0;
+
+free_client:
+	free(client);
+	client = NULL;
+close_fds:
+	close(fds[0]);
+	close(fds[1]);
+	return rc;
+}
+
 static int socket_init(struct handler *handler, struct console *console,
 		       struct config *config __attribute__((unused)))
 {
