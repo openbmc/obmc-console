@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76cffeb7_2744d474",
+        "filename": "console-server.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-05-09T09:22:02Z",
+      "side": 1,
+      "message": "Ah, indeed you did, I just wasn\u0027t reading carefully enough and wasn\u0027t expecting anything other than an `if` block.  Fine to leave as is IMO.",
+      "parentUuid": "b2e4f419_c308b15f",
+      "range": {
+        "startLine": 111,
+        "startChar": 21,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "4994a5210b5b9d531de5c3444a082ba541bee111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f06b43_6e8d4dd6",
