@@ -230,6 +230,9 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 void dbus_init(struct console *console,
 	       struct config *config __attribute__((unused)));
 
+/* socket-handler API */
+int dbus_create_socket_consumer(struct console *console);
+
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 #ifndef offsetof
