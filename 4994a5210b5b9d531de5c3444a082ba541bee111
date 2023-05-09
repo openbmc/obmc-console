@@ -117,6 +117,30 @@
       },
       "revId": "4994a5210b5b9d531de5c3444a082ba541bee111",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "423af6b8_edcbdd11",
+        "filename": "console-server.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-09T13:02:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d15ff8d_50156b81",
+      "range": {
+        "startLine": 369,
+        "startChar": 6,
+        "endLine": 369,
+        "endChar": 26
+      },
+      "revId": "4994a5210b5b9d531de5c3444a082ba541bee111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
