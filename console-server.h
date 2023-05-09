@@ -228,6 +228,9 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 void dbus_init(struct console *console,
 	       struct config *config __attribute__((unused)));
 
+/* dbus-handler API */
+int dbus_create_socket_consumer(struct console *console, int *FD);
+
 /* Client handler structure */
 struct client {
 	void *private;
