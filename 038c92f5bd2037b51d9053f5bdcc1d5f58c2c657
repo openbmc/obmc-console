@@ -70,6 +70,52 @@
       },
       "revId": "038c92f5bd2037b51d9053f5bdcc1d5f58c2c657",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f1131f_1042cc9d",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-09T23:09:15Z",
+      "side": 1,
+      "message": "good catch.",
+      "range": {
+        "startLine": 811,
+        "startChar": 25,
+        "endLine": 811,
+        "endChar": 27
+      },
+      "revId": "038c92f5bd2037b51d9053f5bdcc1d5f58c2c657",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4db459c_6159a580",
+        "filename": "console-server.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-09T23:09:15Z",
+      "side": 1,
+      "message": "I was following similar to tty_kname.",
+      "range": {
+        "startLine": 86,
+        "startChar": 7,
+        "endLine": 86,
+        "endChar": 17
+      },
+      "revId": "038c92f5bd2037b51d9053f5bdcc1d5f58c2c657",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
