@@ -21,6 +21,7 @@ Change categories:
 
 1. console-server: Add PTY support for testing purposes
 2. console-server: Add --console-id option
+3. console-server: Add DBUS interface to find console unix socket FD.
 
 ### Changed
 
