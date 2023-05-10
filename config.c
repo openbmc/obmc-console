@@ -27,9 +27,9 @@
 #include <termios.h> /* for speed_t */
 #include <unistd.h>
 
+#include "console-server.h"
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include "console-server.h"
 
 static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
@@ -278,12 +278,12 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	};
 
 	const struct size_suffix_shift suffixes[] = {
-		{ 10, 'k' },
-		{ 20, 'M' },
-		{ 30, 'G' },
+	    {10, 'k'},
+	    {20, 'M'},
+	    {30, 'G'},
 	};
 	const size_t num_suffixes =
-		sizeof(suffixes) / sizeof(struct size_suffix_shift);
+	    sizeof(suffixes) / sizeof(struct size_suffix_shift);
 	size_t logsize;
 	char *suffix;
 	size_t i;

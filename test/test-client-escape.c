@@ -51,107 +51,107 @@ struct test_ctx {
 };
 
 struct test tests[] = {
-	{
-		/* no escape code */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a" },
-		.n_in = 1,
-		.exp_out = "a",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* no escape code, multiple reads */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a", "b" },
-		.n_in = 2,
-		.exp_out = "ab",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* ssh escape in one read */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a\r~." },
-		.n_in = 1,
-		.exp_out = "a\r",
-		.exp_rc = PROCESS_ESC,
-	},
-	{
-		/* ssh escape, partial ~ is not output. */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a\r~" },
-		.n_in = 1,
-		.exp_out = "a\r",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* ssh escape split into individual reads */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a", "\r", "~", "." },
-		.n_in = 4,
-		.exp_out = "a\r",
-		.exp_rc = PROCESS_ESC,
-	},
-	{
-		/* ssh escape, escaped. */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a\r~~." },
-		.n_in = 1,
-		.exp_out = "a\r~.",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* ssh escape, escaped ~, and not completed. */
-		.esc_type = ESC_TYPE_SSH,
-		.in = { "a\r~~" },
-		.n_in = 1,
-		.exp_out = "a\r~",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* str escape, no match */
-		.esc_type = ESC_TYPE_STR,
-		.esc_state = { .str = { .str = (const uint8_t *)"c" } },
-		.in = { "ab" },
-		.n_in = 1,
-		.exp_out = "ab",
-		.exp_rc = PROCESS_EXIT,
-	},
-	{
-		/* str escape, one byte, as one read */
-		.esc_type = ESC_TYPE_STR,
-		.esc_state = { .str = { .str = (const uint8_t *)"b" } },
-		.in = { "abc" },
-		.n_in = 1,
-		.exp_out = "ab",
-		.exp_rc = PROCESS_ESC,
-	},
-	{
-		/* str escape, multiple bytes, as one read */
-		.esc_type = ESC_TYPE_STR,
-		.esc_state = { .str = { .str = (const uint8_t *)"bc" } },
-		.in = { "abcd" },
-		.n_in = 1,
-		.exp_out = "abc",
-		.exp_rc = PROCESS_ESC,
-	},
-	{
-		/* str escape, multiple bytes, split over reads */
-		.esc_type = ESC_TYPE_STR,
-		.esc_state = { .str = { .str = (const uint8_t *)"bc" } },
-		.in = { "ab", "cd" },
-		.n_in = 2,
-		.exp_out = "abc",
-		.exp_rc = PROCESS_ESC,
-	},
-	{
-		/* str escape, not matched due to intermediate data */
-		.esc_type = ESC_TYPE_STR,
-		.esc_state = { .str = { .str = (const uint8_t *)"ab" } },
-		.in = { "acb" },
-		.n_in = 1,
-		.exp_out = "acb",
-		.exp_rc = PROCESS_EXIT,
-	},
+    {
+	/* no escape code */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a"},
+	.n_in = 1,
+	.exp_out = "a",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* no escape code, multiple reads */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a", "b"},
+	.n_in = 2,
+	.exp_out = "ab",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* ssh escape in one read */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a\r~."},
+	.n_in = 1,
+	.exp_out = "a\r",
+	.exp_rc = PROCESS_ESC,
+    },
+    {
+	/* ssh escape, partial ~ is not output. */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a\r~"},
+	.n_in = 1,
+	.exp_out = "a\r",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* ssh escape split into individual reads */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a", "\r", "~", "."},
+	.n_in = 4,
+	.exp_out = "a\r",
+	.exp_rc = PROCESS_ESC,
+    },
+    {
+	/* ssh escape, escaped. */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a\r~~."},
+	.n_in = 1,
+	.exp_out = "a\r~.",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* ssh escape, escaped ~, and not completed. */
+	.esc_type = ESC_TYPE_SSH,
+	.in = {"a\r~~"},
+	.n_in = 1,
+	.exp_out = "a\r~",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* str escape, no match */
+	.esc_type = ESC_TYPE_STR,
+	.esc_state = {.str = {.str = (const uint8_t *)"c"}},
+	.in = {"ab"},
+	.n_in = 1,
+	.exp_out = "ab",
+	.exp_rc = PROCESS_EXIT,
+    },
+    {
+	/* str escape, one byte, as one read */
+	.esc_type = ESC_TYPE_STR,
+	.esc_state = {.str = {.str = (const uint8_t *)"b"}},
+	.in = {"abc"},
+	.n_in = 1,
+	.exp_out = "ab",
+	.exp_rc = PROCESS_ESC,
+    },
+    {
+	/* str escape, multiple bytes, as one read */
+	.esc_type = ESC_TYPE_STR,
+	.esc_state = {.str = {.str = (const uint8_t *)"bc"}},
+	.in = {"abcd"},
+	.n_in = 1,
+	.exp_out = "abc",
+	.exp_rc = PROCESS_ESC,
+    },
+    {
+	/* str escape, multiple bytes, split over reads */
+	.esc_type = ESC_TYPE_STR,
+	.esc_state = {.str = {.str = (const uint8_t *)"bc"}},
+	.in = {"ab", "cd"},
+	.n_in = 2,
+	.exp_out = "abc",
+	.exp_rc = PROCESS_ESC,
+    },
+    {
+	/* str escape, not matched due to intermediate data */
+	.esc_type = ESC_TYPE_STR,
+	.esc_state = {.str = {.str = (const uint8_t *)"ab"}},
+	.in = {"acb"},
+	.n_in = 1,
+	.exp_out = "acb",
+	.exp_rc = PROCESS_EXIT,
+    },
 };
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))

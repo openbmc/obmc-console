@@ -19,11 +19,11 @@
 #include <poll.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <termios.h> /* for speed_t */
-#include <time.h>
-#include <systemd/sd-bus.h>
 #include <sys/time.h>
 #include <sys/un.h>
+#include <systemd/sd-bus.h>
+#include <termios.h> /* for speed_t */
+#include <time.h>
 
 struct console;
 struct config;
@@ -55,7 +55,7 @@ struct handler {
 
 /* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 #define __handler_name(n) __handler_##n
-#define _handler_name(n)  __handler_name(n)
+#define _handler_name(n) __handler_name(n)
 
 #define console_handler_register(h)                                            \
 	static const __attribute__((section("handlers")))                      \

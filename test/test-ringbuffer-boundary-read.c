@@ -1,15 +1,15 @@
 
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "ringbuffer.c"
 #include "ringbuffer-test-utils.c"
+#include "ringbuffer.c"
 
 void test_boundary_read(void)
 {
 	uint8_t *out_buf;
-	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	uint8_t in_buf[] = {'a', 'b', 'c', 'd', 'e', 'f'};
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;
 	size_t len;

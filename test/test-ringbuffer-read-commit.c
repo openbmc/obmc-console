@@ -1,18 +1,18 @@
 
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "ringbuffer.c"
 #include "ringbuffer-test-utils.c"
+#include "ringbuffer.c"
 
 void test_read_commit(void)
 {
 	uint8_t *out_buf;
 	uint8_t in_buf[] = {
-		'a',
-		'b',
-		'c',
+	    'a',
+	    'b',
+	    'c',
 	};
 	struct ringbuffer_consumer *rbc;
 	struct ringbuffer *rb;

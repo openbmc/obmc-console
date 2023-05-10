@@ -185,10 +185,11 @@ static void log_fini(struct handler *handler)
 }
 
 static struct log_handler log_handler = {
-	.handler = {
-		.name		= "log",
-		.init		= log_init,
-		.fini		= log_fini,
+    .handler =
+	{
+	    .name = "log",
+	    .init = log_init,
+	    .fini = log_fini,
 	},
 };
 

@@ -22,8 +22,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
-#include <sys/un.h>
 #include <sys/types.h>
+#include <sys/un.h>
 #include <unistd.h>
 
 #define CONSOLE_SOCKET_PREFIX "obmc-console"

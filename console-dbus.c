@@ -15,18 +15,18 @@
  */
 
 #include <assert.h>
-#include <errno.h>
 #include <err.h>
+#include <errno.h>
 
 #include "console-server.h"
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;
 
-#define DBUS_ERR    "org.openbmc.error"
-#define DBUS_NAME   "xyz.openbmc_project.Console.%s"
-#define OBJ_NAME    "/xyz/openbmc_project/console/%s"
-#define TTY_INTF    "xyz.openbmc_project.console"
+#define DBUS_ERR "org.openbmc.error"
+#define DBUS_NAME "xyz.openbmc_project.Console.%s"
+#define OBJ_NAME "/xyz/openbmc_project/console/%s"
+#define TTY_INTF "xyz.openbmc_project.console"
 #define ACCESS_INTF "xyz.openbmc_project.Console.Access"
 
 static void tty_change_baudrate(struct console *console)
@@ -122,17 +122,17 @@ static int get_socket_name(sd_bus *bus __attribute__((unused)),
 }
 
 static const sd_bus_vtable console_tty_vtable[] = {
-	SD_BUS_VTABLE_START(0),
-	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
-		      SD_BUS_VTABLE_UNPRIVILEGED),
-	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
-	SD_BUS_VTABLE_END,
+    SD_BUS_VTABLE_START(0),
+    SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
+		  SD_BUS_VTABLE_UNPRIVILEGED),
+    SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
+    SD_BUS_VTABLE_END,
 };
 
 static const sd_bus_vtable console_access_vtable[] = {
-	SD_BUS_VTABLE_START(0),
-	SD_BUS_PROPERTY("SocketName", "ay", get_socket_name, 0, 0),
-	SD_BUS_VTABLE_END,
+    SD_BUS_VTABLE_START(0),
+    SD_BUS_PROPERTY("SocketName", "ay", get_socket_name, 0, 0),
+    SD_BUS_VTABLE_END,
 };
 
 void dbus_init(struct console *console,
@@ -160,7 +160,8 @@ void dbus_init(struct console *console,
 	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
 			 console->console_id);
 	if (bytes >= dbus_obj_path_len) {
-		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+		warnx("Console id '%s' is too long. There is no enough space "
+		      "in the buffer.",
 		      console->console_id);
 		return;
 	}
@@ -187,7 +188,8 @@ void dbus_init(struct console *console,
 	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
 			 console->console_id);
 	if (bytes >= dbus_obj_path_len) {
-		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
+		warnx("Console id '%s' is too long. There is no enough space "
+		      "in the buffer.",
 		      console->console_id);
 		return;
 	}
@@ -195,7 +197,7 @@ void dbus_init(struct console *console,
 	/* Finally register the bus name */
 	r = sd_bus_request_name(console->bus, dbus_name,
 				SD_BUS_NAME_ALLOW_REPLACEMENT |
-					SD_BUS_NAME_REPLACE_EXISTING);
+				    SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
 		warnx("Failed to acquire service name: %s", strerror(-r));
 		return;

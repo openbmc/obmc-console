@@ -103,8 +103,8 @@ static enum process_rc process_ssh_tty(struct console_client *client,
 		}
 	}
 
-	rc = write_buf_to_fd(client->console_sd, out_buf,
-			     len - (out_buf - buf));
+	rc =
+	    write_buf_to_fd(client->console_sd, out_buf, len - (out_buf - buf));
 	return rc < 0 ? PROCESS_ERR : PROCESS_OK;
 }
 
@@ -323,7 +323,7 @@ int main(int argc, char *argv[])
 
 		if (!esc) {
 			esc = (const uint8_t *)config_get_value(
-				config, "escape-sequence");
+			    config, "escape-sequence");
 		}
 
 		if (!console_id) {
