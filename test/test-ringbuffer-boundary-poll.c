@@ -1,14 +1,14 @@
 
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "ringbuffer.c"
 #include "ringbuffer-test-utils.c"
+#include "ringbuffer.c"
 
 void test_boundary_poll(void)
 {
-	uint8_t in_buf[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	uint8_t in_buf[] = {'a', 'b', 'c', 'd', 'e', 'f'};
 	struct rb_test_ctx _ctx;
 	struct rb_test_ctx *ctx = &_ctx;
 	struct ringbuffer *rb;
@@ -18,8 +18,8 @@ void test_boundary_poll(void)
 
 	rb = ringbuffer_init(10);
 
-	ctx->rbc = ringbuffer_consumer_register(rb, ringbuffer_poll_append_all,
-						ctx);
+	ctx->rbc =
+	    ringbuffer_consumer_register(rb, ringbuffer_poll_append_all, ctx);
 
 	/* don't consume initial data in the poll callback */
 	ctx->ignore_poll = true;

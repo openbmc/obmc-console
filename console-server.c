@@ -17,25 +17,25 @@
  */
 
 #include <assert.h>
-#include <errno.h>
-#include <signal.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <err.h>
-#include <string.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <getopt.h>
 #include <limits.h>
-#include <time.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <termios.h>
+#include <time.h>
+#include <unistd.h>
 
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/socket.h>
 #include <poll.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/types.h>
 
 #include "console-server.h"
 
@@ -234,7 +234,8 @@ static int tty_init(struct console *console, struct config *config)
 		errno = 0;
 		parsed = strtoul(val, &endp, 0);
 		if (parsed == ULONG_MAX && errno == ERANGE) {
-			warn("Cannot interpret 'lpc-address' value as an unsigned long: '%s'",
+			warn("Cannot interpret 'lpc-address' value as an "
+			     "unsigned long: '%s'",
 			     val);
 			return -1;
 		}
@@ -256,7 +257,8 @@ static int tty_init(struct console *console, struct config *config)
 		errno = 0;
 		parsed = strtoul(val, &endp, 0);
 		if (parsed == ULONG_MAX && errno == ERANGE) {
-			warn("Cannot interpret 'sirq' value as an unsigned long: '%s'",
+			warn("Cannot interpret 'sirq' value as an unsigned "
+			     "long: '%s'",
 			     val);
 		}
 
@@ -322,10 +324,12 @@ static int set_socket_info(struct console *console, struct config *config)
 
 static void handlers_init(struct console *console, struct config *config)
 {
-	/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
+	/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
+	 */
 	extern struct handler *__start_handlers;
 	extern struct handler *__stop_handlers;
-	/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
+	/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
+	 */
 	struct handler *handler;
 	int i;
 	int rc;
@@ -411,8 +415,8 @@ struct poller *console_poller_register(struct console *console,
 	/* add one to our pollers array */
 	n = console->n_pollers++;
 	/*
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	console->pollers = reallocarray(console->pollers, console->n_pollers,
@@ -422,10 +426,9 @@ struct poller *console_poller_register(struct console *console,
 	console->pollers[n] = poller;
 
 	/* increase pollfds array too  */
-	console->pollfds =
-		reallocarray(console->pollfds,
-			     (MAX_INTERNAL_POLLFD + console->n_pollers),
-			     sizeof(*console->pollfds));
+	console->pollfds = reallocarray(
+	    console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
+	    sizeof(*console->pollfds));
 
 	/* shift the end pollfds up by one */
 	memcpy(&console->pollfds[n + 1], &console->pollfds[n],
@@ -455,8 +458,8 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 	/*
 	 * Remove the item from the pollers array...
 	 *
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&console->pollers[i], &console->pollers[i + 1],
@@ -469,12 +472,11 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 	/* ... and the pollfds array */
 	memmove(&console->pollfds[i], &console->pollfds[i + 1],
 		sizeof(*console->pollfds) *
-			(MAX_INTERNAL_POLLFD + console->n_pollers - i));
+		    (MAX_INTERNAL_POLLFD + console->n_pollers - i));
 
-	console->pollfds =
-		reallocarray(console->pollfds,
-			     (MAX_INTERNAL_POLLFD + console->n_pollers),
-			     sizeof(*console->pollfds));
+	console->pollfds = reallocarray(
+	    console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
+	    sizeof(*console->pollfds));
 
 	free(poller);
 }
@@ -690,8 +692,8 @@ int run_console(struct console *console)
 	return rc ? -1 : 0;
 }
 static const struct option options[] = {
-	{ "config", required_argument, 0, 'c' },
-	{ 0, 0, 0, 0 },
+    {"config", required_argument, 0, 'c'},
+    {0, 0, 0, 0},
 };
 
 int main(int argc, char **argv)
@@ -731,7 +733,7 @@ int main(int argc, char **argv)
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
 	console->pollfds =
-		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
+	    calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
 	console->rb = ringbuffer_init(buffer_size);
 
 	config = config_init(config_filename);

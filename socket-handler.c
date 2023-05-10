@@ -15,6 +15,7 @@
  */
 
 #include <assert.h>
+#include <endian.h>
 #include <err.h>
 #include <errno.h>
 #include <limits.h>
@@ -24,7 +25,6 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-#include <endian.h>
 
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -55,9 +55,7 @@ struct socket_handler {
 };
 
 static struct timeval const socket_handler_timeout = {
-	.tv_sec = 0,
-	.tv_usec = SOCKET_HANDLER_PKT_US_TIMEOUT
-};
+    .tv_sec = 0, .tv_usec = SOCKET_HANDLER_PKT_US_TIMEOUT};
 
 static struct socket_handler *to_socket_handler(struct handler *handler)
 {
@@ -91,14 +89,14 @@ static void client_close(struct client *client)
 
 	sh->n_clients--;
 	/*
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&sh->clients[idx], &sh->clients[idx + 1],
 		sizeof(*sh->clients) * (sh->n_clients - idx));
 	sh->clients =
-		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	    reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
 	/* NOLINTEND(bugprone-sizeof-expression) */
 }
 
@@ -223,7 +221,8 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 	if (!force_len && (len < SOCKET_HANDLER_PKT_SIZE)) {
 		/* Do nothing until many small requests have accumulated, or
 		 * the UART is idle for awhile (as determined by the timeout
-		 * value supplied to the poll function call in console_server.c. */
+		 * value supplied to the poll function call in console_server.c.
+		 */
 		console_poller_set_timeout(client->sh->console, client->poller,
 					   &socket_handler_timeout);
 		return RINGBUFFER_POLL_OK;
@@ -321,20 +320,20 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 
 	client->sh = sh;
 	client->fd = fd;
-	client->poller = console_poller_register(sh->console, handler,
-						 client_poll, client_timeout,
-						 client->fd, POLLIN, client);
+	client->poller =
+	    console_poller_register(sh->console, handler, client_poll,
+				    client_timeout, client->fd, POLLIN, client);
 	client->rbc = console_ringbuffer_consumer_register(
-		sh->console, client_ringbuffer_poll, client);
+	    sh->console, client_ringbuffer_poll, client);
 
 	n = sh->n_clients++;
 	/*
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	sh->clients =
-		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	    reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
 	/* NOLINTEND(bugprone-sizeof-expression) */
 	sh->clients[n] = client;
 
@@ -385,7 +384,8 @@ static int socket_init(struct handler *handler, struct console *console,
 		if (rc) {
 			socket_path_t name;
 			console_socket_path_readable(&addr, addrlen, name);
-			warn("Can't bind to socket path %s (terminated at first null)",
+			warn("Can't bind to socket path %s (terminated at "
+			     "first null)",
 			     name);
 			goto cleanup;
 		}
@@ -422,10 +422,11 @@ static void socket_fini(struct handler *handler)
 }
 
 static struct socket_handler socket_handler = {
-	.handler = {
-		.name		= "socket",
-		.init		= socket_init,
-		.fini		= socket_fini,
+    .handler =
+	{
+	    .name = "socket",
+	    .init = socket_init,
+	    .fini = socket_fini,
 	},
 };
 

@@ -21,8 +21,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <termios.h>
+#include <unistd.h>
 
 #include "console-server.h"
 
@@ -223,8 +223,8 @@ static int make_terminal_raw(struct tty_handler *th, const char *tty_name)
 	}
 
 	/* Disable various input and output processing including character
-	 * translation, line edit (canonical) mode, flow control, and special signal
-	 * generating characters. */
+	 * translation, line edit (canonical) mode, flow control, and special
+	 * signal generating characters. */
 	cfmakeraw(&term_options);
 
 	if (tcsetattr(th->fd, TCSAFLUSH, &term_options) < 0) {
@@ -322,11 +322,12 @@ static int tty_baudrate(struct handler *handler, speed_t baudrate)
 }
 
 static struct tty_handler tty_handler = {
-	.handler = {
-		.name		= "tty",
-		.init		= tty_init,
-		.fini		= tty_fini,
-		.baudrate	= tty_baudrate,
+    .handler =
+	{
+	    .name = "tty",
+	    .init = tty_init,
+	    .fini = tty_fini,
+	    .baudrate = tty_baudrate,
 	},
 };
 

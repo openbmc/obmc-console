@@ -1,8 +1,8 @@
 
 #include <assert.h>
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifndef SYSCONFDIR
 // Bypass compilation error due to -DSYSCONFDIR not provided

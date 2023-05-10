@@ -65,8 +65,8 @@ ringbuffer_consumer_register(struct ringbuffer *rb, ringbuffer_poll_fn_t fn,
 
 	n = rb->n_consumers++;
 	/*
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
@@ -93,8 +93,8 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	rb->n_consumers--;
 
 	/*
-	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
-	 * pointer type.
+	 * We're managing an array of pointers to aggregates, so don't warn
+	 * about sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&rb->consumers[i], &rb->consumers[i + 1],
