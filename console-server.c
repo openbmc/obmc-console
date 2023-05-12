@@ -391,28 +391,17 @@ int console_data_out(struct console *console, const uint8_t *data, size_t len)
 	return write_buf_to_fd(console->tty.fd, data, len);
 }
 
-/* Read console if from config and prepare a socket name */
+/* Prepare a socket name */
 static int set_socket_info(struct console *console, struct config *config,
 			   const char *console_id)
 {
-	const char *resolved_id;
 	ssize_t len;
 
-	if (console_id) {
-		resolved_id = console_id;
-	} else {
-		resolved_id = config_get_value(config, "console-id");
-
-		/* socket-id is deprecated */
-		if (!resolved_id) {
-			resolved_id = config_get_value(config, "socket-id");
-		}
-	}
-
-	console->console_id = resolved_id;
+	/* Get console id */
+	console->console_id = config_resolve_console_id(config, console_id);
 
 	/* Get the socket name/path */
-	len = console_socket_path(console->socket_name, resolved_id);
+	len = console_socket_path(console->socket_name, console->console_id);
 	if (len < 0) {
 		warn("Failed to set socket path: %s", strerror(errno));
 		return EXIT_FAILURE;
