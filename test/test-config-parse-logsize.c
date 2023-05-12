@@ -25,19 +25,19 @@ void test_config_parse_logsize(void)
 		{ "6M", (6ul << 20), 0 },
 		{ "4095M", (4095ul << 20), 0 },
 		{ "2G", (2ul << 30), 0 },
-		{ "8M\n", (8ul << 20), 0 }, /* Suffix ignored */
+		{ "8M\n", (8ul << 20), 0 },   /* Suffix ignored */
 		{ " 10k", 10ul * 1024ul, 0 }, /* Leading spaces trimmed */
 		{ "10k ", 10ul * 1024ul, 0 }, /* Trailing spaces trimmed */
 		{ "\r\t10k \r\t", 10ul * 1024ul, 0 }, /* Spaces trimmed */
-		{ " 10 kB ", 10ul * 1024ul, 0 }, /* Spaces trimmed */
-		{ "11G", 0, -1 }, /* Overflow */
-		{ "4294967296", 0, -1 }, /* Overflow */
-		{ "4096M", 0, -1 }, /* Overflow */
-		{ "65535G", 0, -1 }, /* Overflow */
-		{ "xyz", 0, -1 }, /* Invalid */
-		{ "000", 0, -1 }, /* Invalid */
-		{ "0.1", 0, -1 }, /* Invalid */
-		{ "9T", 0, -1 }, /* Invalid suffix */
+		{ " 10 kB ", 10ul * 1024ul, 0 },      /* Spaces trimmed */
+		{ "11G", 0, -1 },		      /* Overflow */
+		{ "4294967296", 0, -1 },	      /* Overflow */
+		{ "4096M", 0, -1 },		      /* Overflow */
+		{ "65535G", 0, -1 },		      /* Overflow */
+		{ "xyz", 0, -1 },		      /* Invalid */
+		{ "000", 0, -1 },		      /* Invalid */
+		{ "0.1", 0, -1 },		      /* Invalid */
+		{ "9T", 0, -1 },		      /* Invalid suffix */
 	};
 	const size_t num_tests =
 		sizeof(test_data) / sizeof(struct test_parse_size_unit);

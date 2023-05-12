@@ -526,10 +526,9 @@ struct poller *console_poller_register(struct console *console,
 	console->pollers[n] = poller;
 
 	/* increase pollfds array too  */
-	console->pollfds =
-		reallocarray(console->pollfds,
-			     (MAX_INTERNAL_POLLFD + console->n_pollers),
-			     sizeof(*console->pollfds));
+	console->pollfds = reallocarray(
+		console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
+		sizeof(*console->pollfds));
 
 	/* shift the end pollfds up by one */
 	memcpy(&console->pollfds[n + 1], &console->pollfds[n],
@@ -575,10 +574,9 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 		sizeof(*console->pollfds) *
 			(MAX_INTERNAL_POLLFD + console->n_pollers - i));
 
-	console->pollfds =
-		reallocarray(console->pollfds,
-			     (MAX_INTERNAL_POLLFD + console->n_pollers),
-			     sizeof(*console->pollfds));
+	console->pollfds = reallocarray(
+		console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
+		sizeof(*console->pollfds));
 
 	free(poller);
 }
