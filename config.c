@@ -332,6 +332,29 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	return 0;
 }
 
+/* Default console id if not specified on command line or in config */
+#define DEFAULT_CONSOLE_ID "default"
+
+/* Get the console id */
+const char *config_resolve_console_id(struct config *config, const char *id_arg)
+{
+	const char *configured;
+
+	if (id_arg) {
+		return id_arg;
+	}
+
+	if ((configured = config_get_value(config, "console-id"))) {
+		return configured;
+	}
+
+	if ((configured = config_get_value(config, "socket-id"))) {
+		return configured;
+	}
+
+	return DEFAULT_CONSOLE_ID;
+}
+
 #ifdef CONFIG_TEST
 int main(void)
 {

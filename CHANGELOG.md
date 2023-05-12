@@ -39,3 +39,7 @@ Change categories:
 
    Deprecate the `socket-id` key in the configuration schema. Uses of
    `socket-id` should be directly replaced with `console-id`.
+
+### Fixed
+
+1. obmc-console: Consolidate handling of default socket-id
