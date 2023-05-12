@@ -28,6 +28,9 @@
 struct console;
 struct config;
 
+/* Default console id if not specified on command line or in config */
+#define DEFAULT_CONSOLE_ID "default"
+
 /* Handler API.
  *
  * Console data handlers: these implement the functions that process
@@ -210,6 +213,7 @@ struct config;
 const char *config_get_value(struct config *config, const char *name);
 struct config *config_init(const char *filename);
 void config_fini(struct config *config);
+const char *console_resolve_id(struct config *config, const char *id_arg);
 
 int config_parse_baud(speed_t *speed, const char *baud_string);
 uint32_t parse_baud_to_int(speed_t speed);
