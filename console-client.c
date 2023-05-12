@@ -212,12 +212,14 @@ static int client_tty_init(struct console_client *client)
 	return 0;
 }
 
-static int client_init(struct console_client *client, const char *console_id)
+static int client_init(struct console_client *client, struct config *config,
+			const char *console_id)
 {
 	struct sockaddr_un addr;
 	socket_path_t path;
 	ssize_t len;
 	int rc;
+	const char *resolve_id = NULL;
 
 	client->console_sd = socket(AF_UNIX, SOCK_STREAM, 0);
 	if (!client->console_sd) {
@@ -225,9 +227,12 @@ static int client_init(struct console_client *client, const char *console_id)
 		return -1;
 	}
 
+	/* Get the console id */
+	resolve_id = console_resolve_id(config, console_id);
+
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(addr.sun_path, console_id);
+	len = console_socket_path(addr.sun_path, resolve_id);
 	if (len < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
@@ -325,15 +330,6 @@ int main(int argc, char *argv[])
 			esc = (const uint8_t *)config_get_value(
 				config, "escape-sequence");
 		}
-
-		if (!console_id) {
-			console_id = config_get_value(config, "console-id");
-		}
-
-		/* socket-id is deprecated */
-		if (!console_id) {
-			console_id = config_get_value(config, "socket-id");
-		}
 	}
 
 	if (esc) {
@@ -341,7 +337,7 @@ int main(int argc, char *argv[])
 		client->esc_state.str.str = esc;
 	}
 
-	rc = client_init(client, console_id);
+	rc = client_init(client, config, console_id);
 	if (rc) {
 		goto out_config_fini;
 	}
