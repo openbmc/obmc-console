@@ -2,6 +2,7 @@ tests = [
 	'test-client-escape',
 	'test-config-parse',
 	'test-config-parse-logsize',
+	'test-config-resolve-console-id',
 	'test-ringbuffer-boundary-poll',
 	'test-ringbuffer-boundary-read',
 	'test-ringbuffer-contained-offset-read',
