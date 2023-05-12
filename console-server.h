@@ -28,6 +28,9 @@
 struct console;
 struct config;
 
+/* Default console id if not specified on command line or in config */
+#define DEFAULT_CONSOLE_ID "default"
+
 /* Handler API.
  *
  * Console data handlers: these implement the functions that process

@@ -407,6 +407,10 @@ static int set_socket_info(struct console *console, struct config *config,
 		if (!resolved_id) {
 			resolved_id = config_get_value(config, "socket-id");
 		}
+		/* Console id not specified so use the default */
+		if (!resolved_id) {
+			resolved_id = DEFAULT_CONSOLE_ID;
+		}
 	}
 
 	console->console_id = resolved_id;

@@ -34,7 +34,7 @@ ssize_t console_socket_path(socket_path_t sun_path, const char *id)
 	ssize_t rc;
 
 	if (!id) {
-		id = "default";
+		id = DEFAULT_CONSOLE_ID;
 	}
 
 	rc = snprintf(sun_path + 1, sizeof(socket_path_t) - 1,
