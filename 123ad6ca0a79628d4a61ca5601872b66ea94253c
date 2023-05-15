@@ -34,6 +34,24 @@
       "parentUuid": "a4e5c1f1_01daff36",
       "revId": "123ad6ca0a79628d4a61ca5601872b66ea94253c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c760e88_75315879",
+        "filename": "console-server.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-15T22:45:03Z",
+      "side": 1,
+      "message": "Ah yeah, it\u0027s not the first time I\u0027ve forgotten about the log handler :) However, it also does not share any code with e.g. socket-handler.c, so I think my reasoning still stands.",
+      "parentUuid": "1d0c4159_8e4d1722",
+      "revId": "123ad6ca0a79628d4a61ca5601872b66ea94253c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
