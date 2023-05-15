@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce336f91_0723c692",
+        "filename": "console-dbus.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-15T20:08:47Z",
+      "side": 1,
+      "message": "Ack\n\nI tried using sd_event_add_defer() but it did not fire.",
+      "parentUuid": "ea942aa6_767879e0",
+      "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3a9f783_387c2d90",
@@ -49,6 +67,24 @@
       "writtenOn": "2023-05-15T03:01:35Z",
       "side": 1,
       "message": "what happens if `NDEBUG` is defined?",
+      "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9865e099_595a419d",
+        "filename": "dbus-handler.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-15T20:08:47Z",
+      "side": 1,
+      "message": "If idx is greater than n_clients then it will write beyond the array size. I used the same logic as socket-handler.c",
+      "parentUuid": "f3a9f783_387c2d90",
       "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
