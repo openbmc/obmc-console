@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62af4fec_10b04dc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-15T00:18:06Z",
+      "side": 1,
+      "message": "Ah, whoops. Looks like I got fixated on unbreaking SSH consoles and failed to exercise this functionality.\n\nMove fast and break things, apparently.\n\nIt\u0027s probably a good trigger for me to reflect on what we can do to automate more of the integration testing going forward. Let me have a think about that.",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373c4e20_131f402e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-15T00:18:06Z",
+      "side": 1,
+      "message": "Please add a `Fixes: ` tag as well. See:\n\nhttps://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes\n\nand \n\nhttps://docs.kernel.org/process/submitting-patches.html#describe-changes\n\n```\nandrew@fedora:~ $ git config --global -l | grep fixes\nalias.fixes\u003dlog -1 --pretty\u003dfixes\npretty.fixes\u003dFixes: %h (\"%s\")\n```",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de9c56a_f2933e56",
+        "filename": "console-socket.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-15T00:18:06Z",
+      "side": 1,
+      "message": "How about we take a different tack entirely to avoid any similar problems in the future?\n\nInstead of assigning a default value here we should return an error if `!id` holds. That ensures the caller must pass a populated value for `id`. From there, that forces a rework of the fallback logic in both the client and the server to distill the correct console ID prior to invoking `console_socket_path()`. Given that logic is similar for both cases, we can refactor that in to a helper function as well. For example:\n\n```\nconst char *console_resolve_id(const struct config *config, const char *id_arg)\n{\n    const char *configured;\n    \n    if (id_arg) {\n        return id_arg;\n    }\n    \n    if ((configured \u003d config_get_value(config, \"console-id\"))) {\n        return configured;\n    }\n    \n    return DEFAULT_CONSOLE_ID;\n}\n```\n\nThen the calling code looks something like:\n\n```\n...\nid_arg \u003d optarg;\n...\n\nconsole-\u003econsole_id \u003d console_resolve_id(config, id_arg);\n\nlen \u003d console_socket_path(console-\u003esocket_name, console-\u003econsole_id);\n...\n```",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
