@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6150b63c_3b039da8",
+        "filename": "console-dbus.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-15T02:19:38Z",
+      "side": 1,
+      "message": "the message isn\u0027t guaranteed to be sent at this point. If it hasn\u0027t been, this will be close()-ing the FD before the message was sent, and you\u0027d be sending an invalid fd.\n\nThis *should* be handled by the reply being free-ed internally by sd_bus; the free will close any FDs marshalled in the message. If that\u0027s not happening, we should work out why.",
+      "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
