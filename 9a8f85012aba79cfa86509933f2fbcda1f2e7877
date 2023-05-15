@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd435d1_f004b9bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-15T15:40:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62af4fec_10b04dc3",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "373c4e20_131f402e",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1832cc64_201981ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-15T15:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "373c4e20_131f402e",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9de9c56a_f2933e56",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-15T00:18:06Z",
       "side": 1,
       "message": "How about we take a different tack entirely to avoid any similar problems in the future?\n\nInstead of assigning a default value here we should return an error if `!id` holds. That ensures the caller must pass a populated value for `id`. From there, that forces a rework of the fallback logic in both the client and the server to distill the correct console ID prior to invoking `console_socket_path()`. Given that logic is similar for both cases, we can refactor that in to a helper function as well. For example:\n\n```\nconst char *console_resolve_id(const struct config *config, const char *id_arg)\n{\n    const char *configured;\n    \n    if (id_arg) {\n        return id_arg;\n    }\n    \n    if ((configured \u003d config_get_value(config, \"console-id\"))) {\n        return configured;\n    }\n    \n    return DEFAULT_CONSOLE_ID;\n}\n```\n\nThen the calling code looks something like:\n\n```\n...\nid_arg \u003d optarg;\n...\n\nconsole-\u003econsole_id \u003d console_resolve_id(config, id_arg);\n\nlen \u003d console_socket_path(console-\u003esocket_name, console-\u003econsole_id);\n...\n```",
+      "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdce1f0f_8bf7e77a",
+        "filename": "console-socket.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-15T15:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9de9c56a_f2933e56",
       "revId": "9a8f85012aba79cfa86509933f2fbcda1f2e7877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
