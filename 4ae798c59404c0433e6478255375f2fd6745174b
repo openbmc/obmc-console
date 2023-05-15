@@ -16,6 +16,41 @@
       "message": "the message isn\u0027t guaranteed to be sent at this point. If it hasn\u0027t been, this will be close()-ing the FD before the message was sent, and you\u0027d be sending an invalid fd.\n\nThis *should* be handled by the reply being free-ed internally by sd_bus; the free will close any FDs marshalled in the message. If that\u0027s not happening, we should work out why.",
       "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea942aa6_767879e0",
+        "filename": "console-dbus.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-15T03:01:35Z",
+      "side": 1,
+      "message": "Ah! sd_bus\u0027s `message_push_fd` will dup the fd internally, and that\u0027s the one that gets closed.\n\nSo, all good here. The new fd will stay open long enough for the message to be sent.",
+      "parentUuid": "6150b63c_3b039da8",
+      "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a9f783_387c2d90",
+        "filename": "dbus-handler.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2023-05-15T03:01:35Z",
+      "side": 1,
+      "message": "what happens if `NDEBUG` is defined?",
+      "revId": "4ae798c59404c0433e6478255375f2fd6745174b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
