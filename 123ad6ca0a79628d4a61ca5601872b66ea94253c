@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e5c1f1_01daff36",
+        "filename": "console-server.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-15T04:14:54Z",
+      "side": 1,
+      "message": "Having looked this over I think I was a bit hasty with the suggestion of creating a separate `dbus-handler.c`. When I made that suggestion I had oriented my thoughts around the means for the client to connect, rather than how the client\u0027s connection was integrated into the ring-buffer as a poller. Having thought about it some more I now think the latter is the most practical perspective.\n\nPrior to considering DBus as a method to connect to the console we had two handlers:\n\n1. The TTY handler for local-tty mirroring\n2. The abstract unix domain socket handler for client connections\n\nNow we\u0027re planning to add a third method, the DBus `Connect()` method, where the result of `Connect()` also provides a unix domain socket to the caller. In terms of the ring-buffer registration, whether a client connects via the abstract socket or the DBus interface doesn\u0027t matter, the outcome is the same: A new unix domain socket is registered as a ring-buffer poller.\n\nIt feels a bit odd to have this common unix domain socket handling live in `socket-handler.c` while both the rest of the `socket-handler.c` code and `dbus-handler.c` both call through that common infrastructure. The placement of this common code in `socket-handler.c` is just an artifact of history rather than justified by functional requirements and separation of concerns.\n\nInstead, I think we should make the primary concern be how the poller is integrated into the ring-buffer. As the result is the same whether connecting via the abstract listening socket or the DBus `Connect()` method, we should probably put the poller-related details of the `Connect()` implementation into `socket-handler.c` (i.e. shift the code currently in `dbus-handler.c` into `socket-handler.c`). That removes the need to expose the structs and functions above as their use will remain entirely contained in `socket-handler.c`.",
+      "revId": "123ad6ca0a79628d4a61ca5601872b66ea94253c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
