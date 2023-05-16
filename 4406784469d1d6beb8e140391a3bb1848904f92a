@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6bb1e37_5654c605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "Made a few comments.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f76aa4c1_80b991b6",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "nit: I think we should just return the file descriptor directly. Passing a pointer makes the UX a bit of a hassle.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c590e3_a75b781a",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "Generally I try not to assign through pointers unless I know we\u0027ve succeeded with whatever we\u0027re doing. That way we\u0027re not unnecessarily modifying caller-supplied memory.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8871fda1_1d8a6089",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "`method_connect()` in `console-dbus.c` expects the return value to be less than zero on error, so this should be negated.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "563f3212_b9853dbb",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "Just use `warn()` rather than `warnx()` here and the `strerror(errno)` is automatically tacked on:\n\n\u003e The `err()`, `verr()`, `warn()`, and `vwarn()` functions append an error\n\u003e message obtained from `strerror(3)` based on the global variable\n\u003e errno, preceded by another colon and space unless the `fmt`\n\u003e argument is `NULL`.\n\nhttps://man7.org/linux/man-pages/man3/warn.3.html",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0afa500_ebc71276",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "we can avoid the `rc \u003d errno` above entirely - just do `return -errno`.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0027d6a_7ebf33aa",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "Can you please fix up the indentation style here? I\u0027m honestly not sure why clang-format is okay with that, but it certainly looks strange.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4412b9d_01cbe227",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-16T04:49:10Z",
+      "side": 1,
+      "message": "This is a dead store as `client` is stack-local. We can delete this assignment.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
