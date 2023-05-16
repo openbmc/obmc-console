@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a53dd12_008d7557",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f76aa4c1_80b991b6",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22c590e3_a75b781a",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-05-16T04:49:10Z",
       "side": 1,
       "message": "Generally I try not to assign through pointers unless I know we\u0027ve succeeded with whatever we\u0027re doing. That way we\u0027re not unnecessarily modifying caller-supplied memory.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e77fcd5_6c2cf292",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c590e3_a75b781a",
       "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd7fafb_a48021eb",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8871fda1_1d8a6089",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "563f3212_b9853dbb",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-05-16T04:49:10Z",
       "side": 1,
       "message": "Just use `warn()` rather than `warnx()` here and the `strerror(errno)` is automatically tacked on:\n\n\u003e The `err()`, `verr()`, `warn()`, and `vwarn()` functions append an error\n\u003e message obtained from `strerror(3)` based on the global variable\n\u003e errno, preceded by another colon and space unless the `fmt`\n\u003e argument is `NULL`.\n\nhttps://man7.org/linux/man-pages/man3/warn.3.html",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50691164_341550ab",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563f3212_b9853dbb",
       "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +175,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb8a097_55ba63e9",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0afa500_ebc71276",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0027d6a_7ebf33aa",
@@ -120,6 +210,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebc44b85_dcc35052",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0027d6a_7ebf33aa",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4412b9d_01cbe227",
@@ -133,6 +241,24 @@
       "writtenOn": "2023-05-16T04:49:10Z",
       "side": 1,
       "message": "This is a dead store as `client` is stack-local. We can delete this assignment.",
+      "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30eb1b9_f652e4ab",
+        "filename": "socket-handler.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-16T14:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4412b9d_01cbe227",
       "revId": "4406784469d1d6beb8e140391a3bb1848904f92a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
