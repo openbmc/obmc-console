@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33363a9_d65a0d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-17T01:43:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d33bbc7_4200f0ab",
+      "revId": "605072abbd19ac2326c2de152b61a0ae97f87404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d198093_4dd123da",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36181adb_0c65cdd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-17T01:43:47Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "2d198093_4dd123da",
+      "revId": "605072abbd19ac2326c2de152b61a0ae97f87404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c3cb3f2_a24fbbc7",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-17T01:02:17Z",
       "side": 1,
       "message": "One final request is that you update the CHANGELOG.md file to note the addition of this feature. At the moment I\u0027ve just been copying the patch subject line and adding it to the numbered list under the `Added` header.",
+      "revId": "605072abbd19ac2326c2de152b61a0ae97f87404",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e5a647_d5b2e24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-05-17T01:43:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c3cb3f2_a24fbbc7",
       "revId": "605072abbd19ac2326c2de152b61a0ae97f87404",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
