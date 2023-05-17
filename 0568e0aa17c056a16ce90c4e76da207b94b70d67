@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce171352_ea1b483e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-05-17T07:28:38Z",
+      "side": 1,
+      "message": "Tested on a p10bmc build under qemu using [1]. Briefly inspected client and server behaviour with strace\n\n[1] https://gist.github.com/amboar/7bb5b9c457a2bbe042766b6c30cfcf76",
+      "revId": "0568e0aa17c056a16ce90c4e76da207b94b70d67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
