@@ -28,7 +28,7 @@ const size_t dbus_obj_path_len = 1024;
 #define DBUS_ERR    "org.openbmc.error"
 #define DBUS_NAME   "xyz.openbmc_project.Console.%s"
 #define OBJ_NAME    "/xyz/openbmc_project/console/%s"
-#define TTY_INTF    "xyz.openbmc_project.console"
+#define UART_INTF   "xyz.openbmc_project.Console.UART"
 #define ACCESS_INTF "xyz.openbmc_project.Console.Access"
 
 static void tty_change_baudrate(struct console *console)
@@ -53,47 +53,49 @@ static void tty_change_baudrate(struct console *console)
 	}
 }
 
-static int method_set_baud_rate(sd_bus_message *msg, void *userdata,
-				sd_bus_error *err)
+static int set_baud_handler(sd_bus *bus __attribute__((unused)),
+			    const char *path __attribute__((unused)),
+			    const char *interface __attribute__((unused)),
+			    const char *property __attribute__((unused)),
+			    sd_bus_message *msg, void *userdata,
+			    sd_bus_error *err __attribute__((unused)))
 {
 	struct console *console = userdata;
-	uint32_t baudrate;
+	uint64_t baudrate;
 	speed_t speed;
 	int r;
 
 	if (!console) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
-		return sd_bus_reply_method_return(msg, "x", 0);
+		return -ENOENT;
 	}
 
-	r = sd_bus_message_read(msg, "u", &baudrate);
+	r = sd_bus_message_read(msg, "t", &baudrate);
 	if (r < 0) {
-		sd_bus_error_set_const(err, DBUS_ERR, "Bad message");
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
+		return -EINVAL;
 	}
 
-	speed = parse_int_to_baud(baudrate);
+	speed = parse_int_to_baud((uint32_t)baudrate);
 	if (!speed) {
-		warnx("Invalid baud rate: '%u'", baudrate);
-		return sd_bus_reply_method_return(msg, "x", -EINVAL);
+		warnx("Invalid baud rate: '%" PRIu64 "'", baudrate);
+		return -EINVAL;
 	}
 
 	assert(console->tty.type == TTY_DEVICE_UART);
 	console->tty.uart.baud = speed;
 	tty_change_baudrate(console);
 
-	return sd_bus_reply_method_return(msg, "x", r);
+	return 1;
 }
 
-static int get_handler(sd_bus *bus __attribute__((unused)),
-		       const char *path __attribute__((unused)),
-		       const char *interface __attribute__((unused)),
-		       const char *property __attribute__((unused)),
-		       sd_bus_message *reply, void *userdata,
-		       sd_bus_error *error __attribute__((unused)))
+static int get_baud_handler(sd_bus *bus __attribute__((unused)),
+			    const char *path __attribute__((unused)),
+			    const char *interface __attribute__((unused)),
+			    const char *property __attribute__((unused)),
+			    sd_bus_message *reply, void *userdata,
+			    sd_bus_error *error __attribute__((unused)))
 {
 	struct console *console = userdata;
-	uint32_t baudrate;
+	uint64_t baudrate;
 	int r;
 
 	assert(console->tty.type == TTY_DEVICE_UART);
@@ -102,7 +104,7 @@ static int get_handler(sd_bus *bus __attribute__((unused)),
 		warnx("Invalid baud rate: '%d'", console->tty.uart.baud);
 	}
 
-	r = sd_bus_message_append(reply, "u", baudrate);
+	r = sd_bus_message_append(reply, "t", baudrate);
 
 	return r;
 }
@@ -140,9 +142,9 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 
 static const sd_bus_vtable console_tty_vtable[] = {
 	SD_BUS_VTABLE_START(0),
-	SD_BUS_METHOD("setBaudRate", "u", "x", method_set_baud_rate,
-		      SD_BUS_VTABLE_UNPRIVILEGED),
-	SD_BUS_PROPERTY("baudrate", "u", get_handler, 0, 0),
+	SD_BUS_WRITABLE_PROPERTY("Baud", "t", get_baud_handler,
+				 set_baud_handler, 0,
+				 SD_BUS_VTABLE_UNPRIVILEGED),
 	SD_BUS_VTABLE_END,
 };
 
@@ -186,7 +188,7 @@ void dbus_init(struct console *console,
 	if (console->tty.type == TTY_DEVICE_UART) {
 		/* Register tty interface */
 		r = sd_bus_add_object_vtable(console->bus, NULL, obj_name,
-					     TTY_INTF, console_tty_vtable,
+					     UART_INTF, console_tty_vtable,
 					     console);
 		if (r < 0) {
 			warnx("Failed to issue method call: %s", strerror(-r));
