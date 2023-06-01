@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d838175c_66d83b02",
+        "filename": "console-dbus.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-06-01T20:00:38Z",
+      "side": 1,
+      "message": "Should we call sd_bus_reply_method_error()? Same for all return types.",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "ed33a09620a7b46c860e43b89ba809f7cabc013a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
