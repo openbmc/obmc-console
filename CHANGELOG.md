@@ -17,6 +17,12 @@ Change categories:
 
 ## [Unreleased]
 
+### Removed
+
+1. Deprecated D-Bus interface `xyz.openbmc_project.console` is no longer used.
+
+## [X.Y.Z]
+
 ### Added
 
 1. console-server: Add PTY support for testing purposes
