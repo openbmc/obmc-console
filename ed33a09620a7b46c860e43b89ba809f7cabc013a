@@ -22,6 +22,30 @@
       },
       "revId": "ed33a09620a7b46c860e43b89ba809f7cabc013a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d87ddb_0f6abbca",
+        "filename": "console-dbus.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000900
+      },
+      "writtenOn": "2023-06-01T20:18:06Z",
+      "side": 1,
+      "message": "Not necessary, as sd-bus does it for us. And I confirm it works by trying to set an invalid value.\n\n\u003e If a callback was invoked to handle a request that expects a reply and the callback returns a negative value, the value is interpreted as a negative errno-style error code and sent back to the caller as a D-Bus error as if sd_bus_reply_method_errno(3) was called.\n\nhttps://www.freedesktop.org/software/systemd/man/sd_bus_add_object_vtable.html#",
+      "parentUuid": "d838175c_66d83b02",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "ed33a09620a7b46c860e43b89ba809f7cabc013a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
