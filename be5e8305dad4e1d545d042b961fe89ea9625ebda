@@ -52,6 +52,24 @@
       "parentUuid": "fa735e70_7d7bae7e",
       "revId": "be5e8305dad4e1d545d042b961fe89ea9625ebda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ebe55b1_d6e7a00b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-06-01T03:27:32Z",
+      "side": 1,
+      "message": "\u003e Sure, I can do that and I agree with the principle.\n\nThanks 😊",
+      "parentUuid": "e7c00715_03a7dff2",
+      "revId": "be5e8305dad4e1d545d042b961fe89ea9625ebda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
