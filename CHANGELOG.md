@@ -22,6 +22,8 @@ Change categories:
 1. console-server: Add PTY support for testing purposes
 2. console-server: Add --console-id option
 3. console-server: Add DBUS interface to find console unix socket FD.
+4. Implement D-Bus interface `xyz.openbmc_project.Console.UART` for UART TTY
+   devices.
 
 ### Changed
 
@@ -40,6 +42,9 @@ Change categories:
 
    Deprecate the `socket-id` key in the configuration schema. Uses of
    `socket-id` should be directly replaced with `console-id`.
+
+2. Deprecate the `xyz.openbmc_project.console` D-Bus interface in favor of the
+   functionally equivalent `xyz.openbmc_project.Console.UART`.
 
 ### Fixed
 
