@@ -17,7 +17,9 @@ Change categories:
 
 ## [Unreleased]
 
-None.
+### Removed
+
+1. Deprecated D-Bus interface `xyz.openbmc_project.console` is no longer used.
 
 ## [1.1.0] - 2023-06-07
 
