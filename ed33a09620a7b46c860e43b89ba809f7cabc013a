@@ -70,6 +70,23 @@
       },
       "revId": "ed33a09620a7b46c860e43b89ba809f7cabc013a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3d5601_1226fbbd",
+        "filename": "console-dbus.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-06-02T00:19:29Z",
+      "side": 1,
+      "message": "Could be an opportunity to use the `SD_BUS_VTABLE_DEPRECATED` flag.\n\nSee `SD_BUS_VTABLE_START(flags)` in https://www.man7.org/linux/man-pages/man3/SD_BUS_VTABLE_START.3.html#DESCRIPTION\n\nBut I\u0027m not fussed. I\u0027m happy with this patch as is, I\u0027ll just wait for your response.",
+      "revId": "ed33a09620a7b46c860e43b89ba809f7cabc013a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
