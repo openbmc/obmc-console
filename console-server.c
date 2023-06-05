@@ -150,7 +150,7 @@ static int tty_find_device(struct console *console)
 	}
 
 	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
-	rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_addr", tty_sysfs_devnode);
+	rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address", tty_sysfs_devnode);
 	if (rc < 0) {
 		goto out_free;
 	}
