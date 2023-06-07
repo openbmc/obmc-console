@@ -46,7 +46,11 @@ static void test_independence_config_socket_id(void)
 	free(buf);
 	console_id = config_resolve_console_id(ctx, NULL);
 
-	assert(!strcmp(console_id, TEST_CONSOLE_ID));
+	/*
+	 * socket-id is no-longer an alias for console-id, therefore we should observe
+	 * DEFAULT_CONSOLE_ID and not TEST_CONSOLE_ID
+	 */
+	assert(!strcmp(console_id, DEFAULT_CONSOLE_ID));
 
 	config_fini(ctx);
 }
@@ -66,8 +70,7 @@ static void test_independence_default(void)
 
 static void test_precedence_cmdline_optarg(void)
 {
-	static const char *const config = "console-id = console\n"
-					  "socket-id = socket\n";
+	static const char *const config = "console-id = console\n";
 	const char *console_id;
 	struct config *ctx;
 	char *buf;
@@ -79,7 +82,6 @@ static void test_precedence_cmdline_optarg(void)
 	console_id = config_resolve_console_id(ctx, TEST_CONSOLE_ID);
 
 	assert(config_get_value(ctx, "console-id"));
-	assert(config_get_value(ctx, "socket-id"));
 	assert(!strcmp(console_id, TEST_CONSOLE_ID));
 
 	config_fini(ctx);
@@ -87,8 +89,7 @@ static void test_precedence_cmdline_optarg(void)
 
 static void test_precedence_config_console_id(void)
 {
-	static const char *const config = "console-id = console\n"
-					  "socket-id = socket\n";
+	static const char *const config = "console-id = console\n";
 	const char *console_id;
 	struct config *ctx;
 	char *buf;
@@ -100,28 +101,7 @@ static void test_precedence_config_console_id(void)
 	console_id = config_resolve_console_id(ctx, NULL);
 
 	assert(config_get_value(ctx, "console-id"));
-	assert(config_get_value(ctx, "socket-id"));
 	assert(!strcmp(console_id, "console"));
-
-	config_fini(ctx);
-}
-
-static void test_precedence_config_socket_id(void)
-{
-	static const char *const config = "socket-id = socket\n";
-	const char *console_id;
-	struct config *ctx;
-	char *buf;
-
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup(config);
-	config_parse(ctx, buf);
-	free(buf);
-	console_id = config_resolve_console_id(ctx, NULL);
-
-	assert(!config_get_value(ctx, "console-id"));
-	assert(config_get_value(ctx, "socket-id"));
-	assert(!strcmp(console_id, "socket"));
 
 	config_fini(ctx);
 }
@@ -134,7 +114,6 @@ int main(void)
 	test_independence_default();
 	test_precedence_cmdline_optarg();
 	test_precedence_config_console_id();
-	test_precedence_config_socket_id();
 
 	return EXIT_SUCCESS;
 }

@@ -348,10 +348,6 @@ const char *config_resolve_console_id(struct config *config, const char *id_arg)
 		return configured;
 	}
 
-	if ((configured = config_get_value(config, "socket-id"))) {
-		return configured;
-	}
-
 	return DEFAULT_CONSOLE_ID;
 }
 

@@ -20,6 +20,7 @@ Change categories:
 ### Removed
 
 1. Deprecated D-Bus interface `xyz.openbmc_project.console` is no longer used.
+2. config: Drop support for the `socket-id` configuration key
 
 ## [1.1.0] - 2023-06-07
 
