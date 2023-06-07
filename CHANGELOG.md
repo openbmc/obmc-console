@@ -17,6 +17,10 @@ Change categories:
 
 ## [Unreleased]
 
+None.
+
+## [1.1.0] - 2023-06-07
+
 ### Added
 
 1. console-server: Add PTY support for testing purposes
