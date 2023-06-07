@@ -6,7 +6,7 @@ project('obmc-console', 'c',
       'c_std=gnu17',
       'tests=' + (meson.is_subproject() ? 'false' : 'true'),
     ],
-    version: '1.0.0',
+    version: '1.1.0',
     meson_version: '>=0.63.0',
 )
 
