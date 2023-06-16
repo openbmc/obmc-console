@@ -50,6 +50,29 @@
       "message": "Combined with the message below, this reads like you\u0027re actually trying to seek the file (ie, change the file position pointer), rather than query it.\n\nI\u0027m okay with the code, but it might be handy to comment this, and/or change the error message to something like:\n\n    \"Can\u0027t query log position for file %s\".\n\n(or, you could SEEK_END instead, and drop O_APPEND from the file open flags; might be a bit more obvious about what you\u0027re doing).",
       "revId": "4ad6741f99e7fa720053887e0b044dc904b49382",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c56b85c_937eb1a6",
+        "filename": "log-handler.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-06-16T06:23:14Z",
+      "side": 1,
+      "message": "I think these two lines should be swapped so that `warn()` prints the error message from `lseek()` instead of `close()`.",
+      "range": {
+        "startLine": 141,
+        "startChar": 15,
+        "endLine": 143,
+        "endChar": 59
+      },
+      "revId": "4ad6741f99e7fa720053887e0b044dc904b49382",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
