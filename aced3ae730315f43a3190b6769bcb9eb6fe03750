@@ -16,6 +16,24 @@
       "message": "What is `72`? Is this new OOB messaging defined somewhere?",
       "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ce9b45_2614caea",
+        "filename": "socket-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2023-07-04T08:37:00Z",
+      "side": 1,
+      "message": "It\u0027s a good question!\nIt\u0027s not documented yet.\nIn bmcweb we have a patch to `obmc_console.hpp` to handle the `~B` command, and send a OOB package with `72` as the data.\nWe really should have documented this behavior.\nDo you have any suggestion?",
+      "parentUuid": "9758d945_084cc5ae",
+      "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
