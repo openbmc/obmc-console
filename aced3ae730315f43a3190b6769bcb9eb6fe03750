@@ -34,6 +34,24 @@
       "parentUuid": "9758d945_084cc5ae",
       "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be36f133_e6b3390a",
+        "filename": "socket-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000044
+      },
+      "writtenOn": "2023-07-05T02:42:38Z",
+      "side": 1,
+      "message": "And in net-ipmid, the related code is already merged: https://github.com/openbmc/phosphor-net-ipmid/blob/master/sol/sol_context.cpp#L151\n\nWe do need to add a design doc for this...",
+      "parentUuid": "22ce9b45_2614caea",
+      "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
