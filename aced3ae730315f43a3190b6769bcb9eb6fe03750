@@ -52,6 +52,24 @@
       "parentUuid": "22ce9b45_2614caea",
       "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97595199_55ad7b2b",
+        "filename": "socket-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-07-05T03:01:17Z",
+      "side": 1,
+      "message": "Yes, please get a design doc written so we can debate the semantics there and keep discussion on this patch purely to its implementation. We can revert the patch to phosphor-net-ipmid if necessary.",
+      "parentUuid": "be36f133_e6b3390a",
+      "revId": "aced3ae730315f43a3190b6769bcb9eb6fe03750",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
