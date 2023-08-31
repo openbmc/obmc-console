@@ -1,3 +1,4 @@
 option('udev', type: 'feature', description: 'Install console udev rules')
 option('concurrent-servers', type: 'boolean', value: 'false', description: 'Support multiple concurrent obmc-console instances')
+option('ssh', type: 'feature', description: 'Support obmc-console-ssh and obmc-console-ssh-socket')
 option('tests', type: 'boolean', description: 'Enable the test suite')
