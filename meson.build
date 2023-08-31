@@ -29,12 +29,21 @@ if get_option('concurrent-servers')
                rename: [ 'client.2200.conf' ],
                install_dir: systemdsystemunitdir)
 else
-  install_data('conf/obmc-console-ssh.socket.in',
-               rename: [ 'obmc-console-ssh.socket' ],
-               install_dir: systemdsystemunitdir)
-  install_data('conf/obmc-console-ssh@.service.d/use-socket.conf.in',
-               rename: [ 'use-socket.conf' ],
-               install_dir: systemdsystemunitdir / 'obmc-console-ssh@.service.d')
+  if not get_option('obmc-console-ssh').disabled()
+    install_data('conf/obmc-console-ssh@.service.in',
+              rename: [
+                'obmc-console-ssh@.service'
+              ],
+              install_dir: systemdsystemunitdir,
+            )
+
+    install_data('conf/obmc-console-ssh.socket.in',
+                rename: [ 'obmc-console-ssh.socket' ],
+                install_dir: systemdsystemunitdir)
+    install_data('conf/obmc-console-ssh@.service.d/use-socket.conf.in',
+                rename: [ 'use-socket.conf' ],
+                install_dir: systemdsystemunitdir / 'obmc-console-ssh@.service.d')
+  endif
 endif
 
 udev = dependency('udev', required: get_option('udev'))
