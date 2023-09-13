@@ -17,6 +17,10 @@ Change categories:
 
 ## [Unreleased]
 
+### Added
+
+1. config: Added support for the `aspeed-uart-routing` configuration key
+
 ### Removed
 
 1. Deprecated D-Bus interface `xyz.openbmc_project.console` is no longer used.
