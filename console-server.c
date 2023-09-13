@@ -28,6 +28,7 @@
 #include <err.h>
 #include <string.h>
 #include <getopt.h>
+#include <glob.h>
 #include <limits.h>
 #include <time.h>
 #include <termios.h>
@@ -384,6 +385,112 @@ static void tty_fini(struct console *console)
 		free(console->tty.vuart.sysfs_devnode);
 	}
 	free(console->tty.dev);
+}
+
+static int write_to_path(const char *path, const char *data)
+{
+	int rc = 0;
+	FILE *f = fopen(path, "w");
+	if (!f) {
+		return -1;
+	}
+
+	if (fprintf(f, "%s", data) < 0) {
+		rc = -1;
+	}
+
+	if (fclose(f)) {
+		rc = -1;
+	}
+
+	return rc;
+}
+
+#define ASPEED_UART_ROUTING_PATTERN                                            \
+	"/sys/bus/platform/drivers/aspeed-uart-routing/*.uart-routing"
+
+static void uart_routing_init(struct config *config)
+{
+	const char *muxcfg;
+	const char *p;
+	size_t buflen;
+	char *sink;
+	char *source;
+	char *muxdir;
+	char *path;
+	glob_t globbuf;
+
+	muxcfg = config_get_value(config, "aspeed-uart-routing");
+	if (!muxcfg) {
+		return;
+	}
+
+	/* Find the driver's sysfs directory */
+	if (glob(ASPEED_UART_ROUTING_PATTERN, GLOB_ERR | GLOB_NOSORT, NULL,
+		 &globbuf) != 0) {
+		warn("Couldn't find uart-routing driver directory, cannot apply config");
+		return;
+	}
+	if (globbuf.gl_pathc != 1) {
+		warnx("Found %zd uart-routing driver directories, cannot apply config",
+		      globbuf.gl_pathc);
+		goto out_free_glob;
+	}
+	muxdir = globbuf.gl_pathv[0];
+
+	/*
+	 * Rather than faff about tracking a bunch of separate buffer sizes,
+	 * just use one (worst-case) size for all of them -- +2 for a trailing
+	 * NUL and a '/' separator to construct the sysfs file path.
+	 */
+	buflen = strlen(muxdir) + strlen(muxcfg) + 2;
+
+	sink = malloc(buflen);
+	source = malloc(buflen);
+	path = malloc(buflen);
+	if (!path || !sink || !source) {
+		warnx("Out of memory applying uart routing config");
+		goto out_free_bufs;
+	}
+
+	p = muxcfg;
+	while (*p) {
+		ssize_t bytes_scanned;
+
+		if (sscanf(p, " %[^:/ \t]:%[^: \t] %zn", sink, source,
+			   &bytes_scanned) != 2) {
+			warnx("Invalid syntax in aspeed uart config: '%s' not applied",
+			      p);
+			break;
+		}
+		p += bytes_scanned;
+
+		/*
+		 * Check that the sink name looks reasonable before proceeding
+		 * (there are other writable files in the same directory that
+		 * we shouldn't be touching, such as 'driver_override' and
+		 * 'uevent').
+		 */
+		if (strncmp(sink, "io", strlen("io")) != 0 &&
+		    strncmp(sink, "uart", strlen("uart")) != 0) {
+			warnx("Skipping invalid uart routing name '%s' (must be ioN or uartN)",
+			      sink);
+			continue;
+		}
+
+		snprintf(path, buflen, "%s/%s", muxdir, sink);
+		if (write_to_path(path, source)) {
+			warn("Failed to apply uart-routing config '%s:%s'",
+			     sink, source);
+		}
+	}
+
+out_free_bufs:
+	free(path);
+	free(source);
+	free(sink);
+out_free_glob:
+	globfree(&globbuf);
 }
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
@@ -834,6 +941,8 @@ int main(int argc, char **argv)
 		rc = -1;
 		goto out_config_fini;
 	}
+
+	uart_routing_init(config);
 
 	rc = tty_init(console, config, config_tty_kname);
 	if (rc) {
