@@ -70,6 +70,7 @@ static void config_parse(struct config *config, char *buf)
 
 	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
 	     line = strtok_r(NULL, "\n", &p)) {
+		char *end;
 		int rc;
 
 		/* trim leading space */
@@ -85,7 +86,7 @@ static void config_parse(struct config *config, char *buf)
 		name = malloc(strlen(line));
 		value = malloc(strlen(line));
 		if (name && value) {
-			rc = sscanf(line, "%[^ =] = %s ", name, value);
+			rc = sscanf(line, "%[^ =] = %[^#]s", name, value);
 		} else {
 			rc = -ENOMEM;
 		}
@@ -94,6 +95,12 @@ static void config_parse(struct config *config, char *buf)
 			free(name);
 			free(value);
 			continue;
+		}
+
+		/* trim trailing space */
+		end = value + strlen(value) - 1;
+		while (isspace(*end)) {
+			*end-- = '\0';
 		}
 
 		/* create a new item and add to our list */
