@@ -73,8 +73,8 @@ static void config_parse(struct config *config, char *buf)
 		int rc;
 
 		/* trim leading space */
-		for (; *line == ' ' || *line == '\t'; line++) {
-			;
+		while (isspace(*line)) {
+			line++;
 		}
 
 		/* skip comments */
