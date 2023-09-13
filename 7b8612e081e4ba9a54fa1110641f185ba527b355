@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "feb450ba_c32afbdb",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2023-09-13T10:17:40Z",
+      "side": 1,
+      "message": "Actually, maybe we should just enforce that it matches `/^(io|uart)/`, since there are other writable files in that directory (e.g. `uevent` and `driver_override`) that we wouldn\u0027t want it touching either...",
+      "parentUuid": "d5bc20ae_07460fb3",
+      "revId": "7b8612e081e4ba9a54fa1110641f185ba527b355",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2469905f_11e34794",
         "filename": "console-server.c",
         "patchSetId": 2
