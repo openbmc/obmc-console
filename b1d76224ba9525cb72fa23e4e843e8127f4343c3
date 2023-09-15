@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edad8876_d3f0b847",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-15T02:00:30Z",
+      "side": 1,
+      "message": "Thanks Willy. I\u0027ve left a few comments.",
+      "revId": "b1d76224ba9525cb72fa23e4e843e8127f4343c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa3ec92_a7915994",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-15T02:00:30Z",
+      "side": 1,
+      "message": "I think you want to remove this line? And line 22?",
+      "revId": "b1d76224ba9525cb72fa23e4e843e8127f4343c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572065d2_92aa0af0",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-15T02:00:30Z",
+      "side": 1,
+      "message": "I think `if not ....disabled()` is more easily spelled `if ....allowed()`",
+      "revId": "b1d76224ba9525cb72fa23e4e843e8127f4343c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603d2a23_459a6d53",
+        "filename": "meson_options.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-15T02:00:30Z",
+      "side": 1,
+      "message": "Bit of a nit, but my immediate preference is we drop the `obmc-console` prefix and call the feature `ssh`.",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "b1d76224ba9525cb72fa23e4e843e8127f4343c3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
