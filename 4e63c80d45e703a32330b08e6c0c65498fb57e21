@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9efc52c4_5126faab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-28T04:07:10Z",
+      "side": 1,
+      "message": "Ah, good catch. I suspect in my testing the settings I desired were already configured and so it wasn\u0027t obvious that it didn\u0027t work.",
+      "revId": "4e63c80d45e703a32330b08e6c0c65498fb57e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47d683a_fe09f576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-09-28T04:07:10Z",
+      "side": 1,
+      "message": "Can you please add a `Fixes: 30ea6385df2d (\"console-server: Add PTY support for testing purposes\")` tag here in the footer, and also add an entry in `CHANGELOG.md`?",
+      "revId": "4e63c80d45e703a32330b08e6c0c65498fb57e21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
