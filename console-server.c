@@ -157,7 +157,12 @@ static int tty_find_device(struct console *console)
 	}
 
 	rc = access(tty_vuart_lpc_addr, F_OK);
-	console->tty.type = (!rc) ? TTY_DEVICE_VUART : TTY_DEVICE_UART;
+	if (!rc) {
+		console->tty.type = TTY_DEVICE_VUART;
+		console->tty.vuart.sysfs_devnode = strdup(tty_sysfs_devnode);
+	} else {
+		console->tty.type = TTY_DEVICE_UART;
+	}
 
 	rc = 0;
 
