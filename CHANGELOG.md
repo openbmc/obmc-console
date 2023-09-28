@@ -26,6 +26,10 @@ Change categories:
 1. Deprecated D-Bus interface `xyz.openbmc_project.console` is no longer used.
 2. config: Drop support for the `socket-id` configuration key
 
+### Fixed
+
+1. console-server: Fix configuration of lpc_address and sirq sysfs attributes
+
 ## [1.1.0] - 2023-06-07
 
 ### Added
