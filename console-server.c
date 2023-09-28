@@ -150,14 +150,24 @@ static int tty_find_device(struct console *console)
 		goto out_free;
 	}
 
-	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
-	rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address", tty_sysfs_devnode);
-	if (rc < 0) {
-		goto out_free;
-	}
+	// Default to non-VUART
+	console->tty.type = TTY_DEVICE_UART;
 
-	rc = access(tty_vuart_lpc_addr, F_OK);
-	console->tty.type = (!rc) ? TTY_DEVICE_VUART : TTY_DEVICE_UART;
+	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
+	if (tty_sysfs_devnode) {
+		rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address",
+			      tty_sysfs_devnode);
+		if (rc < 0) {
+			goto out_free;
+		}
+
+		rc = access(tty_vuart_lpc_addr, F_OK);
+		if (!rc) {
+			console->tty.type = TTY_DEVICE_VUART;
+			console->tty.vuart.sysfs_devnode =
+				strdup(tty_sysfs_devnode);
+		}
+	}
 
 	rc = 0;
 
