@@ -1,0 +1,9 @@
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Code-Review+1: Andrew Geissler <geissonator@yahoo.com>
+Code-Review+1: Ninad Palsule <ninad@linux.ibm.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Tue, 03 Oct 2023 06:27:45 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/66792
+Project: openbmc/obmc-console
+Branch: refs/heads/master
