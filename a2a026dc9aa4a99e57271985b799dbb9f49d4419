@@ -16,6 +16,23 @@
       "message": "Ah yes, whoops. Sorry for misleading you a little with that suggestion.",
       "revId": "a2a026dc9aa4a99e57271985b799dbb9f49d4419",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9e8ab0_f280d18e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-10-03T06:27:41Z",
+      "side": 1,
+      "message": "I build patch integrated into evb-ast2600 and mtjade locally and it didn\u0027t result in any errors.",
+      "revId": "a2a026dc9aa4a99e57271985b799dbb9f49d4419",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
