@@ -280,7 +280,43 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 			goto err_close;
 		}
 
-		console_data_out(sh->console, buf, rc);
+		for (int i = 0; i < rc; i++) {
+			uint8_t key = buf[i];
+			switch (sh->console->state) {
+			case escape_idle:
+				if (key == '\n' || key == '\r') {
+					sh->console->state = escape_newline;
+				}
+				console_data_out(sh->console, &key, 1);
+				break;
+			case escape_newline:
+				if (key == '~') {
+					sh->console->state = escape_leader;
+					break;
+				}
+				console_data_out(sh->console, &key, 1);
+				if (key != '\n' && key != '\r') {
+					sh->console->state = escape_idle;
+				}
+				break;
+			case escape_leader:
+				if (key == 'B') {
+					tcsendbreak(sh->console->tty.fd, 0);
+				} else {
+					uint8_t tilde = '~';
+					console_data_out(sh->console, &tilde,
+							 1);
+					console_data_out(sh->console, &key, 1);
+				}
+				sh->console->state = escape_idle;
+				break;
+			default:
+				warn("Unknow escape state");
+				console_data_out(sh->console, &key, 1);
+				sh->console->state = escape_idle;
+				break;
+			}
+		}
 	}
 
 	if (events & POLLOUT) {
