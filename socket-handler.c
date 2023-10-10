@@ -263,11 +263,14 @@ client_timeout(struct handler *handler __attribute__((unused)), void *data)
 static enum poller_ret client_poll(struct handler *handler, int events,
 				   void *data)
 {
-	struct socket_handler *sh = to_socket_handler(handler);
-	struct client *client = data;
+	static const uint8_t tilde = '~';
+	struct socket_handler *sh;
+	struct client *client;
 	uint8_t buf[4096];
 	ssize_t rc;
 
+	sh = to_socket_handler(handler);
+	client = data;
 	if (events & POLLIN) {
 		rc = recv(client->fd, buf, sizeof(buf), MSG_DONTWAIT);
 		if (rc < 0) {
@@ -280,7 +283,69 @@ static enum poller_ret client_poll(struct handler *handler, int events,
 			goto err_close;
 		}
 
-		console_data_out(sh->console, buf, rc);
+		assert(rc >= 0 && (size_t)rc < sizeof(buf));
+		uint8_t *end = buf + rc;
+		uint8_t *begin = buf;
+		while (begin < end) {
+			uint8_t *cursor = NULL;
+			switch (sh->console->state) {
+			case escape_idle:
+				if (!cursor) {
+					cursor = memchr(begin, '\n',
+							end - begin);
+				}
+				if (!cursor) {
+					cursor = memchr(begin, '\r',
+							end - begin);
+				}
+				if (cursor) {
+					sh->console->state = escape_newline;
+					/* Include the newline in the output */
+					cursor += 1;
+				}
+				if (!cursor) {
+					cursor = end;
+				}
+				console_data_out(sh->console, begin,
+						 cursor - begin);
+				begin = cursor;
+				break;
+			case escape_newline:
+				assert(begin < end);
+				if (*begin == '~') {
+					sh->console->state = escape_leader;
+					begin++;
+					break;
+				}
+				sh->console->state = escape_idle;
+				break;
+			case escape_leader:
+				/* Either:
+				 *
+				 * 1. It's a known escape and we handle it, then return to the idle state, or
+				 * 2. It's an unknown escape sequence and we pass through the characters, then
+				 *    return to the idle state
+				 *
+				 * Whatever the case, we end up in the idle state. Set that first to avoid
+				 * complexities in the code paths that follow.
+				 */
+				sh->console->state = escape_idle;
+				assert(begin < end);
+				/* Escape sequence for a UART break signal */
+				if (*begin == 'B') {
+					tcsendbreak(sh->console->tty.fd, 0);
+					begin++;
+					break;
+				}
+				/* Escape sequence for emitting a tilde. Use the tilde already in the buffer */
+				if (*begin == '~') {
+					break;
+				}
+				/* Emit the consumed tilde on an unknown break sequence */
+				console_data_out(sh->console, &tilde, 1);
+				break;
+			}
+		}
 	}
 
 	if (events & POLLOUT) {
