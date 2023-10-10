@@ -85,6 +85,13 @@ enum tty_device {
 	TTY_DEVICE_PTY,
 };
 
+enum escape_state {
+	escape_idle = 0,
+	escape_cr,
+	escape_lf,
+	escape_leader,
+};
+
 /* Console server structure */
 struct console {
 	struct {
@@ -119,6 +126,8 @@ struct console {
 
 	struct pollfd *pollfds;
 	struct sd_bus *bus;
+
+	enum escape_state state;
 };
 
 /* poller API */
