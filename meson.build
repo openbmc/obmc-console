@@ -7,7 +7,7 @@ project('obmc-console', 'c',
       'tests=' + (meson.is_subproject() ? 'false' : 'true'),
     ],
     version: '1.1.0',
-    meson_version: '>=0.63.0',
+    meson_version: '>=1.1.0',
 )
 
 add_project_arguments('-D_GNU_SOURCE', language: 'c')
