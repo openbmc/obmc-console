@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c50cf8_d9e4980d",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-12-01T15:02:45Z",
+      "side": 1,
+      "message": "Calling concole data out in every case statement. Should we restructure?",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3dec42f_1a87fe24",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2023-12-01T15:02:45Z",
+      "side": 1,
+      "message": "Should we set console-\u003estate to escape_idle by default otherwise we will miss first escape character?",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 6
+      },
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
