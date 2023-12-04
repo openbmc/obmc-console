@@ -106,6 +106,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de4166b9_3f585d62",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T03:02:37Z",
+      "side": 1,
+      "message": "Alright, I got curious. Here\u0027s an alternative implementation:\n\nhttps://github.com/amboar/obmc-console/commit/e0ea76a72194b6314514a7f0daf897aa74bdf98d\n\nAgain with 100 paragraphs of Lorem Ipsum, `perf stat` reports:\n\n```\n Performance counter stats for \u0027./build/obmc-console-server -i test /dev/pts/4\u0027:\n\n              3.74 msec task-clock                       #    0.000 CPUs utilized\n                24      context-switches                 #    6.415 K/sec\n                 3      cpu-migrations                   #  801.913 /sec\n               140      page-faults                      #   37.423 K/sec\n         4,894,248      cpu_core/cycles/                 #    1.308 G/sec\n     \u003cnot counted\u003e      cpu_atom/cycles/                                              (0.00%)\n         4,634,528      cpu_core/instructions/           #    1.239 G/sec\n     \u003cnot counted\u003e      cpu_atom/instructions/                                        (0.00%)\n           977,756      cpu_core/branches/               #  261.358 M/sec\n     \u003cnot counted\u003e      cpu_atom/branches/                                            (0.00%)\n            30,189      cpu_core/branch-misses/          #    8.070 M/sec\n     \u003cnot counted\u003e      cpu_atom/branch-misses/                                       (0.00%)\n        29,306,724      cpu_core/slots/                  #    7.834 G/sec\n         5,401,631      cpu_core/topdown-retiring/       #     18.0% Retiring\n         3,792,634      cpu_core/topdown-bad-spec/       #     12.6% Bad Speculation\n        13,331,686      cpu_core/topdown-fe-bound/       #     44.4% Frontend Bound\n         7,470,341      cpu_core/topdown-be-bound/       #     24.9% Backend Bound\n         1,034,354      cpu_core/topdown-heavy-ops/      #      3.4% Heavy Operations       #     14.6% Light Operations\n         3,677,706      cpu_core/topdown-br-mispredict/  #     12.3% Branch Mispredict      #      0.4% Machine Clears\n         9,883,836      cpu_core/topdown-fetch-lat/      #     33.0% Fetch Latency          #     11.5% Fetch Bandwidth\n         4,022,491      cpu_core/topdown-mem-bound/      #     13.4% Memory Bound           #     11.5% Core Bound\n\n      23.479433391 seconds time elapsed\n\n       0.000000000 seconds user\n       0.005521000 seconds sys\n```\n\nThat\u0027s a 1.13x increase in the number of instructions over the no-escape-handling case, much better than 47x. I checked the behaviour with `strace`, which appears correct.\n\ninput: `\\r~~B`\nstrace:\n```\n13:19:20.305230 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:19:41.582658 recvfrom(6, \"\\r\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:19:41.582936 write(3, \"\\r\", 1)       \u003d 1\n13:19:41.583240 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:19:42.766728 recvfrom(6, \"~\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:19:42.767120 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:19:43.126912 recvfrom(6, \"B\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:19:43.127185 ioctl(3, TCSBRK, 0)     \u003d 0\n```\n\ninput: `\\r~~~`\nstrace:\n```\n13:20:23.595949 recvfrom(6, \"\\r\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:23.596263 write(3, \"\\r\", 1)       \u003d 1\n13:20:23.596467 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:20:24.587204 recvfrom(6, \"~\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:24.587355 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:20:24.747306 recvfrom(6, \"~\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:24.747548 write(3, \"~\", 1)        \u003d 1\n```\n\ninput: `\\r~~X`\nstrace:\n```\n13:20:36.931463 recvfrom(6, \"\\r\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:36.931824 write(3, \"\\r\", 1)       \u003d 1\n13:20:36.932107 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:20:38.723549 recvfrom(6, \"~\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:38.723919 poll([{fd\u003d5, events\u003dPOLLIN}, {fd\u003d6, events\u003dPOLLIN}, {fd\u003d3, events\u003dPOLLIN}, {fd\u003d0, events\u003d0}], 4, -1) \u003d 1 ([{fd\u003d6, revents\u003dPOLLIN}])\n13:20:39.596082 recvfrom(6, \"X\", 4096, MSG_DONTWAIT, NULL, NULL) \u003d 1\n13:20:39.596474 write(3, \"~\", 1)        \u003d 1\n13:20:39.596688 write(3, \"X\", 1)        \u003d 1\n```",
+      "parentUuid": "33e87b6f_f7369fa3",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3dec42f_1a87fe24",
         "filename": "socket-handler.c",
         "patchSetId": 1
@@ -117,6 +135,30 @@
       "writtenOn": "2023-12-01T15:02:45Z",
       "side": 1,
       "message": "Should we set console-\u003estate to escape_idle by default otherwise we will miss first escape character?",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 6
+      },
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcf989d5_5d5ba296",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T03:02:37Z",
+      "side": 1,
+      "message": "Where are you proposing to set it by default?",
+      "parentUuid": "f3dec42f_1a87fe24",
       "range": {
         "startLine": 316,
         "startChar": 4,
