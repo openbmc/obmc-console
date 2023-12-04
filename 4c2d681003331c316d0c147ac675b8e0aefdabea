@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6f1094f4_d45dfdd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T01:34:06Z",
+      "side": 1,
+      "message": "Hi Michael, thanks for the patch! I have some comments inline about functionality and performance.",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37c50cf8_d9e4980d",
         "filename": "socket-handler.c",
         "patchSetId": 1
@@ -14,6 +31,75 @@
       "writtenOn": "2023-12-01T15:02:45Z",
       "side": 1,
       "message": "Calling concole data out in every case statement. Should we restructure?",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5a03d6f_c200c814",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T01:34:06Z",
+      "side": 1,
+      "message": "That\u0027s not true because it\u0027s conditional on what came before it in the transition handling. Consider the `break` on line 295 below, or `tcsendbreak()` on 304.",
+      "parentUuid": "37c50cf8_d9e4980d",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c53138f1_43db90b6",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T01:34:06Z",
+      "side": 1,
+      "message": "I think we should add the case `} else if (key \u003d\u003d \u0027~\u0027) {` to send through the escaped tilde, which allows further SSH-style escaping to work on the host:\n\n```\n...\n} else if (key \u003d\u003d \u0027~\u0027) {\n    console_data_out(sh-\u003econsole, \u0026tilde, 1);\n} ...\n```",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a40017a_f563a2ba",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T01:34:06Z",
+      "side": 1,
+      "message": "Make this `static const uint8_t tilde \u003d \u0027~\u0027;` and move it out to the scope of the for loop. That way we can use it for the tilde case mentioned in the comment above.",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e87b6f_f7369fa3",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2023-12-04T01:34:06Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned about the performance here. We\u0027re issuing `console_data_out()` one character at a time. To illustrate, I pasted 100 paragraphs of [Lorem Ipsum](https://loremipsum.io/generator/?n\u003d100\u0026t\u003dp) into `obmc-console-client` while running `obmc-console-server` under `perf` on my laptop:\n\n```\n$ grep \u0027^model name\u0027 /proc/cpuinfo | head -n1\nmodel name      : 13th Gen Intel(R) Core(TM) i7-1360P\n```\n\nBefore the change `perf stat` reports:\n\n```\n Performance counter stats for \u0027./build/obmc-console-server -i test /dev/pts/4\u0027:\n\n              3.55 msec task-clock                       #    0.000 CPUs utilized          \n                26      context-switches                 #    7.333 K/sec                  \n                 4      cpu-migrations                   #    1.128 K/sec                  \n               140      page-faults                      #   39.485 K/sec                  \n         3,800,363      cpu_core/cycles/                 #    1.072 G/sec                  \n     \u003cnot counted\u003e      cpu_atom/cycles/                                              (0.00%)\n         4,093,929      cpu_core/instructions/           #    1.155 G/sec                  \n     \u003cnot counted\u003e      cpu_atom/instructions/                                        (0.00%)\n           862,786      cpu_core/branches/               #  243.337 M/sec                  \n     \u003cnot counted\u003e      cpu_atom/branches/                                            (0.00%)\n            22,780      cpu_core/branch-misses/          #    6.425 M/sec                  \n     \u003cnot counted\u003e      cpu_atom/branch-misses/                                       (0.00%)\n        22,760,454      cpu_core/slots/                  #    6.419 G/sec                  \n         4,464,441      cpu_core/topdown-retiring/       #     19.3% Retiring              \n         3,034,727      cpu_core/topdown-bad-spec/       #     13.1% Bad Speculation       \n         9,818,235      cpu_core/topdown-fe-bound/       #     42.5% Frontend Bound        \n         5,801,684      cpu_core/topdown-be-bound/       #     25.1% Backend Bound         \n           892,566      cpu_core/topdown-heavy-ops/      #      3.9% Heavy Operations       #     15.4% Light Operations      \n         2,856,213      cpu_core/topdown-br-mispredict/  #     12.4% Branch Mispredict      #      0.8% Machine Clears        \n         6,694,251      cpu_core/topdown-fetch-lat/      #     29.0% Fetch Latency          #     13.5% Fetch Bandwidth       \n         3,123,983      cpu_core/topdown-mem-bound/      #     13.5% Memory Bound           #     11.6% Core Bound            \n\n      40.072307641 seconds time elapsed\n\n       0.005056000 seconds user\n       0.000000000 seconds sys\n```\n\nAfter the change, `perf stat` reports:\n\n```\n Performance counter stats for \u0027./build/obmc-console-server -i test /dev/pts/4\u0027:\n\n             58.63 msec task-clock                       #    0.008 CPUs utilized          \n                 7      context-switches                 #  119.401 /sec                   \n                 3      cpu-migrations                   #   51.172 /sec                   \n               138      page-faults                      #    2.354 K/sec                  \n       193,516,683      cpu_core/cycles/                 #    3.301 G/sec                  \n     \u003cnot counted\u003e      cpu_atom/cycles/                                              (0.00%)\n       192,645,376      cpu_core/instructions/           #    3.286 G/sec                  \n     \u003cnot counted\u003e      cpu_atom/instructions/                                        (0.00%)\n        42,437,564      cpu_core/branches/               #  723.873 M/sec                  \n     \u003cnot counted\u003e      cpu_atom/branches/                                            (0.00%)\n           141,862      cpu_core/branch-misses/          #    2.420 M/sec                  \n     \u003cnot counted\u003e      cpu_atom/branch-misses/                                       (0.00%)\n     1,160,850,462      cpu_core/slots/                  #   19.801 G/sec                  \n       223,065,382      cpu_core/topdown-retiring/       #     19.3% Retiring              \n        22,761,773      cpu_core/topdown-bad-spec/       #      2.0% Bad Speculation       \n       150,227,706      cpu_core/topdown-fe-bound/       #     13.0% Frontend Bound        \n       760,243,243      cpu_core/topdown-be-bound/       #     65.7% Backend Bound         \n        50,075,902      cpu_core/topdown-heavy-ops/      #      4.3% Heavy Operations       #     15.0% Light Operations      \n        18,209,419      cpu_core/topdown-br-mispredict/  #      1.6% Branch Mispredict      #      0.4% Machine Clears        \n        72,837,676      cpu_core/topdown-fetch-lat/      #      6.3% Fetch Latency          #      6.7% Fetch Bandwidth       \n       500,759,022      cpu_core/topdown-mem-bound/      #     43.3% Memory Bound           #     22.4% Core Bound            \n\n       7.565322564 seconds time elapsed\n\n       0.008474000 seconds user\n       0.050845000 seconds sys\n```\n\nThat\u0027s a 47x increase of instructions executed, which seems pretty unreasonable.\n\nPerhaps we can provide a fast-path.",
       "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
