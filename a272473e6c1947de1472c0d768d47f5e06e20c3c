@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505f2016_c7c18d42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-12T22:15:58Z",
+      "side": 1,
+      "message": "Which are they though? Warnings or errors? Or is there a mix?\n\nIf they\u0027re errors, have the rules not worked in the past?",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3dbfe6_f7e7f6ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-12T22:15:58Z",
+      "side": 1,
+      "message": "Can you provide the udevadm invocation as well?",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d43d9c9_fccf9f8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-12T22:15:58Z",
+      "side": 1,
+      "message": "I assume the rules still behave as they\u0027re intended? Was there any change in behaviour?",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d07ff8a_4248c99a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-12T22:15:58Z",
+      "side": 1,
+      "message": "Hey Andrew, I have a few comments that I think can be resolved by clarifying the commit message.",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
