@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5d19fdf_7a6e92d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-02-13T15:14:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure, it shows the 2 warnings, but then a \"Fail\" at the end there. I haven\u0027t seen any issues with our host consoles but I\u0027m also not all that familiar with this file. As things seem to work fine, I\u0027ll just mention we\u0027re fixing warnings in the commit msg.",
+      "parentUuid": "505f2016_c7c18d42",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e3dbfe6_f7e7f6ea",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef098fb_a24a778f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-02-13T15:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e3dbfe6_f7e7f6ea",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d43d9c9_fccf9f8f",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-02-12T22:15:58Z",
       "side": 1,
       "message": "I assume the rules still behave as they\u0027re intended? Was there any change in behaviour?",
+      "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386f6ffd_bb94b099",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-02-13T15:14:02Z",
+      "side": 1,
+      "message": "I only found this because I\u0027ve been debugging why our core files are broken on p10bmc (udevd is failing, causing systemd to disable core file collection). This did not fix that issue unfortunately but I figured I\u0027d at least throw up a patch. As far as I know, everything in obmc-console is operating as expected on our systems.",
+      "parentUuid": "1d43d9c9_fccf9f8f",
       "revId": "a272473e6c1947de1472c0d768d47f5e06e20c3c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
