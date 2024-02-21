@@ -34,6 +34,115 @@
       "parentUuid": "169b7070_a15ec087",
       "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e5e947_327a9d05",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-21T08:09:01Z",
+      "side": 1,
+      "message": "Might this perhaps be clearer as an `else`?",
+      "range": {
+        "startLine": 305,
+        "startChar": 1,
+        "endLine": 306,
+        "endChar": 18
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ffb94e_2e6af696",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-21T08:09:01Z",
+      "side": 1,
+      "message": "Along vaguely similar lines, I\u0027d find this easier to read as\n\n```\nif (*begin \u003d\u003d \u0027~\u0027) {\n  sh-\u003econsole-\u003estate \u003d escape_leader;\n  begin++;\n} else {\n  sh-\u003econsole-\u003estate \u003d escape_idle;\n}\nbreak;\n```\n\n(which I think is equivalent...)",
+      "range": {
+        "startLine": 315,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 10
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fa977d_b9a52e53",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-21T08:09:01Z",
+      "side": 1,
+      "message": "Nit: s/break/escape/, slightly more generally?",
+      "range": {
+        "startLine": 344,
+        "startChar": 45,
+        "endLine": 344,
+        "endChar": 50
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a14694c_2dfbec03",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-21T08:09:01Z",
+      "side": 1,
+      "message": "IMO a `switch (*begin)` might be more straightforward for readability \u0026 extensibility?",
+      "range": {
+        "startLine": 334,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 45
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "238f164e_ce25a31c",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-21T08:09:01Z",
+      "side": 1,
+      "message": "...and following the tilde emitted here, the unrecognized escape char at `*begin` itself will get emitted by the subsequent iteration of the loop in the `escape_idle` state it appears?  I was sort of expecting to see that handled here since at some intuitive gut level it seemed to me like handling that byte would be part of this block of logic -- letting it fall out naturally like that is fine though, but might be worth a brief mention in the comment (given the thoroughness of the commenting otherwise).",
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
