@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ede4221_c43b945d",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T01:30:13Z",
+      "side": 1,
+      "message": "Yeah that\u0027s probably better.",
+      "parentUuid": "67e5e947_327a9d05",
+      "range": {
+        "startLine": 305,
+        "startChar": 1,
+        "endLine": 306,
+        "endChar": 18
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90ffb94e_2e6af696",
         "filename": "socket-handler.c",
         "patchSetId": 2
@@ -84,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62160d2d_fdff5aeb",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T01:30:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "90ffb94e_2e6af696",
+      "range": {
+        "startLine": 315,
+        "startChar": 1,
+        "endLine": 321,
+        "endChar": 10
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72fa977d_b9a52e53",
         "filename": "socket-handler.c",
         "patchSetId": 2
@@ -95,6 +143,30 @@
       "writtenOn": "2024-02-21T08:09:01Z",
       "side": 1,
       "message": "Nit: s/break/escape/, slightly more generally?",
+      "range": {
+        "startLine": 344,
+        "startChar": 45,
+        "endLine": 344,
+        "endChar": 50
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "288243f5_8b588185",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T01:30:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "72fa977d_b9a52e53",
       "range": {
         "startLine": 344,
         "startChar": 45,
@@ -141,6 +213,48 @@
       "writtenOn": "2024-02-21T08:09:01Z",
       "side": 1,
       "message": "...and following the tilde emitted here, the unrecognized escape char at `*begin` itself will get emitted by the subsequent iteration of the loop in the `escape_idle` state it appears?  I was sort of expecting to see that handled here since at some intuitive gut level it seemed to me like handling that byte would be part of this block of logic -- letting it fall out naturally like that is fine though, but might be worth a brief mention in the comment (given the thoroughness of the commenting otherwise).",
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cdb1909_aba08bcf",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T01:30:13Z",
+      "side": 1,
+      "message": "Let me play with that a little.",
+      "parentUuid": "7a14694c_2dfbec03",
+      "range": {
+        "startLine": 334,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 45
+      },
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ecc8416_af52922e",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T01:30:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "238f164e_ce25a31c",
       "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
