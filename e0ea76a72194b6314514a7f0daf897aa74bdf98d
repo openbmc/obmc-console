@@ -371,6 +371,24 @@
       },
       "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d727ef6_ebca0770",
+        "filename": "socket-handler.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-22T03:35:08Z",
+      "side": 1,
+      "message": "I actually drafted most of a comment about that in reply to [your earlier comment](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/68038/comments/169b7070_a15ec087), but then discarded it after deciding that what you\u0027d written seemed reasonable, though of course now I realize that was an idea that wasn\u0027t currently implemented, merely proposed...thinking about it a bit more now, it seems like there are pros \u0026 cons both ways.\n\nThe \"swallow all escape sequences\" approach is the most self-consistent, and if we do add more escapes later we don\u0027t suddenly start swallowing sequences that we previously weren\u0027t.  For ease-of-use though it seems like it could be sort of irritating to have to double up the tilde every time for commonly-used sequences like \"~/\".\n\nThe \"emit unrecognized escape sequences\" approach has the disadvantage that we might potentially change behavior in the future, but is more consistent with other existing things users might be familiar with like OpenSSH\u0027s ssh client, and both ipmitool and freeipmi\u0027s SOL console client, all of which have similar in-band-signaled escape sequences and all of which pass unrecognized sequences through.  (I\u0027ll note for the record that dropbear\u0027s ssh client, somewhat curiously, passes the subsequent character through but *not* the escape character itself, so typing \"~/\" produces just \"/\", which I think is almost certainly not something we want to emulate, but also probably not a behavior most users are accustomed to, so meh.)  I suppose screen and tmux could also be looked to as \"prior art\" in this space (neither passes unrecognized sequences through), but common usage of those likely involves much heavier use of their escape sequences and general awareness of them so I don\u0027t think it\u0027s as good a comparison.\n\nArguably though changing an unrecognized escape sequence from a (swallowed) no-op to something with some arbitrary other side-effect is a potentially-breaking change in behavior as well it seems (albeit a bit less \"surprising\" perhaps).\n\nOverall I think I\u0027d lean toward keeping the existing behavior (passing through unrecognized sequences instead of swallowing them) for the ease-of-use and external consistency/least-surprise benefits.",
+      "parentUuid": "2758c83f_fe695708",
+      "revId": "e0ea76a72194b6314514a7f0daf897aa74bdf98d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
