@@ -34,6 +34,24 @@
       "parentUuid": "2e928361_1742ea1c",
       "revId": "8c38a1fcfe52f2c1ce1eab6027d29b0b25fbcdaa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "915c7bba_150ac9f0",
+        "filename": "socket-handler.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-02-22T04:29:00Z",
+      "side": 1,
+      "message": "Probably due to the `rawer` option there I\u0027d guess...was that included for a particular reason?",
+      "parentUuid": "288c3352_d4a70ad7",
+      "revId": "8c38a1fcfe52f2c1ce1eab6027d29b0b25fbcdaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
