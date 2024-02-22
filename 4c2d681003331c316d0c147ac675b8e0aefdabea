@@ -89,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59299ee9_ba15a82c",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T03:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a30897c_97e7812e",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c53138f1_43db90b6",
@@ -106,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "596699bb_d60abd2f",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T03:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c53138f1_43db90b6",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a40017a_f563a2ba",
@@ -119,6 +155,24 @@
       "writtenOn": "2023-12-04T01:34:06Z",
       "side": 1,
       "message": "Make this `static const uint8_t tilde \u003d \u0027~\u0027;` and move it out to the scope of the for loop. That way we can use it for the tilde case mentioned in the comment above.",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9eb527_78810002",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T03:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a40017a_f563a2ba",
       "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -190,6 +244,24 @@
       "side": 1,
       "message": "Let me push it for review",
       "parentUuid": "7105b25c_457fc4c0",
+      "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ae8d084_9a15a0be",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T03:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34a277a_eb00fe37",
       "revId": "4c2d681003331c316d0c147ac675b8e0aefdabea",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
