@@ -52,6 +52,24 @@
       "parentUuid": "288c3352_d4a70ad7",
       "revId": "8c38a1fcfe52f2c1ce1eab6027d29b0b25fbcdaa",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e409176_5ff288da",
+        "filename": "socket-handler.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-22T05:07:53Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s the case, rather I suspect it\u0027s the `cfmakeraw()` issued by `obmc-console-client` for the client tty that prevents translation of `\\r` to `\\n` to begin with?. So perhaps it\u0027s really `\\n` that we can ignore, which it turns out is what the client does:\n\nhttps://github.com/openbmc/obmc-console/blob/master/console-client.c#L69-L109",
+      "parentUuid": "915c7bba_150ac9f0",
+      "revId": "8c38a1fcfe52f2c1ce1eab6027d29b0b25fbcdaa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
