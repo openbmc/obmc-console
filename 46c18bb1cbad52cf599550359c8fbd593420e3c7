@@ -16,6 +16,24 @@
       "message": "This is probably more a hypothetical question, but do we want the same behaviour in other handlers? We only have one other read-write instance, `tty-handler`.\n\nOr should tty-handler be catching the OOB breaks instead?",
       "revId": "46c18bb1cbad52cf599550359c8fbd593420e3c7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7ffffc_b2273636",
+        "filename": "socket-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-02-26T04:19:39Z",
+      "side": 1,
+      "message": "We... should probably have equivalent functionality at least. I guess that implies doing _something_ for tty-handler. I feel like relaying the TTY break might be better there, but that would be a little inconsistent?\n\nZev, Xinnan, thoughts?",
+      "parentUuid": "ab5333ed_43182c99",
+      "revId": "46c18bb1cbad52cf599550359c8fbd593420e3c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
