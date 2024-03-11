@@ -20,6 +20,7 @@ Change categories:
 ### Added
 
 1. config: Added support for the `aspeed-uart-routing` configuration key
+2. config: Added support for the `ringbuffer-size` configuration key
 
 ### Removed
 
