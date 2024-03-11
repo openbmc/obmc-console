@@ -42,8 +42,8 @@
 
 #define DEV_PTS_PATH "/dev/pts"
 
-/* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128ul * 1024ul;
+/* default size of the shared backlog ringbuffer */
+const size_t default_buffer_size = 128ul * 1024ul;
 
 /* state shared with the signal handler */
 static bool sigint;
@@ -840,7 +840,7 @@ int run_console(struct console *console)
 	for (;;) {
 		uint8_t buf[4096];
 
-		BUILD_ASSERT(sizeof(buf) <= buffer_size);
+		assert(sizeof(buf) <= console->rb->size);
 
 		if (sigint) {
 			fprintf(stderr, "Received interrupt, exiting\n");
@@ -908,6 +908,8 @@ int main(int argc, char **argv)
 	const char *config_filename = NULL;
 	const char *config_tty_kname = NULL;
 	const char *console_id = NULL;
+	const char *buffer_size_str = NULL;
+	size_t buffer_size = default_buffer_size;
 	struct console *console;
 	struct config *config;
 	int rc;
@@ -939,13 +941,20 @@ int main(int argc, char **argv)
 		config_tty_kname = argv[optind];
 	}
 
+	config = config_init(config_filename);
+
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
 	console->pollfds =
 		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
+	buffer_size_str = config_get_value(config, "ringbuffer-size");
+	rc = config_parse_bytesize(buffer_size_str, &buffer_size);
+	if (buffer_size_str != NULL && rc) {
+		buffer_size = default_buffer_size;
+		warn("Invalid ringbuffer-size. Default to %ukB",
+		     (unsigned int)(buffer_size >> 10));
+	}
 	console->rb = ringbuffer_init(buffer_size);
-
-	config = config_init(config_filename);
 
 	if (set_socket_info(console, config, console_id)) {
 		rc = -1;
