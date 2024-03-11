@@ -276,7 +276,7 @@ speed_t parse_int_to_baud(uint32_t baud)
 	return 0;
 }
 
-int config_parse_logsize(const char *size_str, size_t *size)
+int config_parse_bytesize(const char *size_str, size_t *size)
 {
 	struct size_suffix_shift {
 		/* Left shiftwidth corresponding to the suffix. */
@@ -291,7 +291,7 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	};
 	const size_t num_suffixes =
 		sizeof(suffixes) / sizeof(struct size_suffix_shift);
-	size_t logsize;
+	size_t bytesize;
 	char *suffix;
 	size_t i;
 
@@ -299,8 +299,8 @@ int config_parse_logsize(const char *size_str, size_t *size)
 		return -1;
 	}
 
-	logsize = strtoul(size_str, &suffix, 0);
-	if (logsize == 0 || logsize >= UINT32_MAX || suffix == size_str) {
+	bytesize = strtoul(size_str, &suffix, 0);
+	if (bytesize == 0 || bytesize >= UINT32_MAX || suffix == size_str) {
 		return -1;
 	}
 
@@ -312,14 +312,14 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	for (i = 0; i < num_suffixes; i++) {
 		if (*suffix == suffixes[i].unit) {
 			/*
-			 * If logsize overflows, probably something was wrong.
+			 * If bytesize overflows, probably something was wrong.
 			 * Return instead of clamping to an arbitrary value.
 			 */
-			if (logsize > (UINT32_MAX >> suffixes[i].shiftwidth)) {
+			if (bytesize > (UINT32_MAX >> suffixes[i].shiftwidth)) {
 				return -1;
 			}
 
-			logsize <<= suffixes[i].shiftwidth;
+			bytesize <<= suffixes[i].shiftwidth;
 			suffix++;
 			break;
 		}
@@ -335,7 +335,7 @@ int config_parse_logsize(const char *size_str, size_t *size)
 		return -1;
 	}
 
-	*size = logsize;
+	*size = bytesize;
 	return 0;
 }
 
