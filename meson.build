@@ -64,7 +64,8 @@ executable('obmc-console-server',
            'util.c',
            c_args: [
              '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
-             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
+             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+             '-DRINGBUFFER_SIZE=@0@'.format(get_option('ringbuffer-size'))
            ],
            dependencies: [
              dependency('libsystemd'),

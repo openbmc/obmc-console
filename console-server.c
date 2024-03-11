@@ -43,7 +43,7 @@
 #define DEV_PTS_PATH "/dev/pts"
 
 /* size of the shared backlog ringbuffer */
-const size_t buffer_size = 128ul * 1024ul;
+const size_t buffer_size = RINGBUFFER_SIZE;
 
 /* state shared with the signal handler */
 static bool sigint;
