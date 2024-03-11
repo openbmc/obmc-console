@@ -217,6 +217,7 @@ int config_parse_baud(speed_t *speed, const char *baud_string);
 uint32_t parse_baud_to_int(speed_t speed);
 speed_t parse_int_to_baud(uint32_t baud);
 int config_parse_logsize(const char *size_str, size_t *size);
+int config_parse_ringbuffer_size(const char *size_str, size_t *size);
 
 /* socket paths */
 ssize_t console_socket_path(socket_path_t path, const char *id);

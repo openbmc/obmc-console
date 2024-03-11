@@ -339,6 +339,12 @@ int config_parse_logsize(const char *size_str, size_t *size)
 	return 0;
 }
 
+int config_parse_ringbuffer_size(const char *size_str, size_t *size)
+{
+	// The value format is exactly the same as logsize.
+	return config_parse_logsize(size_str, size);
+}
+
 /* Default console id if not specified on command line or in config */
 #define DEFAULT_CONSOLE_ID "default"
 

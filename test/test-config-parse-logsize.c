@@ -19,6 +19,8 @@ struct test_parse_size_unit {
 void test_config_parse_logsize(void)
 {
 	const struct test_parse_size_unit test_data[] = {
+		{ NULL, 0, -1 },
+		{ "", 0, -1 },
 		{ "0", 0, -1 },
 		{ "1", 1, 0 },
 		{ "4k", 4ul * 1024ul, 0 },
