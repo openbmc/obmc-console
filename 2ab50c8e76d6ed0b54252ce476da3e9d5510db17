@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af6119e_4e98c4f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000733
+      },
+      "writtenOn": "2024-03-11T19:13:07Z",
+      "side": 1,
+      "message": "This isn\u0027t a terribly strongly held opinion, but if we\u0027re aiming to make it more flexible should we maybe just go ahead and make it a runtime option via a command-line flag?  The buffer is dynamically allocated anyway, so it\u0027s not like it would add new potential points of failure, and it wouldn\u0027t be all that much additional code...",
+      "revId": "2ab50c8e76d6ed0b54252ce476da3e9d5510db17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
