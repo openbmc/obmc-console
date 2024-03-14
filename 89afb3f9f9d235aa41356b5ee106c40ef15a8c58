@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8ba38e_2b00979f",
+        "filename": "config.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-14T06:51:32Z",
+      "side": 1,
+      "message": "Done making a separate function so that the pattern is one function entry per-config.",
+      "parentUuid": "6b934bf6_d869dd7a",
+      "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e930635_782283b6",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-03-13T23:09:14Z",
       "side": 1,
       "message": "`buffer_size_str` will be `NULL` if `ringbuffer-size` is not specified in the config. `config_parse_bytesize()` returns `-1` if the provided `buffer_size_str` is `NULL`. If `ringbuffer-size` is unspecified then we want to set `buffer_size \u003d default_buffer_size`, but the condition here appears to prevent that.\n\nHave you tested this path? Can you demonstrate it works correctly?",
+      "range": {
+        "startLine": 952,
+        "startChar": 5,
+        "endLine": 952,
+        "endChar": 28
+      },
+      "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9a719f4_c1ddf5a8",
+        "filename": "console-server.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-14T06:51:32Z",
+      "side": 1,
+      "message": "I followed the pattern of existing codes (log-handler.c:145) and assigned the default value when declaring buffer_size at the top.\n\nThe default value assignment is too far away. It\u0027s not so clear that the default value applies so let me put it down here instead. Note that it\u0027s by design avoiding warning message if a config is not set at all.\n\nI\u0027ve tested it already. Here is demonstration of the output.\n\n```\n$ echo \u0027\u0027 \u003e test.conf \u0026\u0026 ./obmc-console-server --config test.conf /dev/ttyS1\nTEST ONLY: ringbuffer-size: 128kB\n3 handlers\n  log [active]\n  socket [active]\n  tty [inactive]\n^CReceived interrupt, exiting\n$ echo \u0027ringbuffer-size \u003d \u0027 \u003e test.conf \u0026\u0026 ./obmc-console-server --config test.conf /dev/ttyS1\nTEST ONLY: ringbuffer-size: 128kB\n3 handlers\n  log [active]\n  socket [active]\n  tty [inactive]\n^CReceived interrupt, exiting\n$ echo \u0027ringbuffer-size \u003d 1MB\u0027 \u003e test.conf \u0026\u0026 ./obmc-console-server --config test.conf /dev/ttyS1\nTEST ONLY: ringbuffer-size: 1024kB\n3 handlers\n  log [active]\n  socket [active]\n  tty [inactive]\n^CReceived interrupt, exiting\n$ echo \u0027ringbuffer-size \u003d 1MM\u0027 \u003e test.conf \u0026\u0026 ./obmc-console-server --config test.conf /dev/ttyS1\nobmc-console-server: Invalid suffix!: Success\nobmc-console-server: Invalid ringbuffer-size. Default to 128kB: Success\nTEST ONLY: ringbuffer-size: 128kB\n3 handlers\n  log [active]\n  socket [active]\n  tty [inactive]\n^CReceived interrupt, exiting\n$ echo \u0027ringbuffer-size \u003d 1kB\u0027 \u003e test.conf \u0026\u0026 ./obmc-console-server --config test.conf /dev/ttyS1\nTEST ONLY: ringbuffer-size: 1kB\n3 handlers\n  log [active]\n  socket [active]\n  tty [inactive]\nobmc-console-server: /usr/src/debug/obmc-console/1.0+git/console-server.c:843: run_console: Assertion `sizeof(buf) \u003c\u003d console-\u003erb-\u003esize\u0027 failed.\nAborted (core dumped)\n```",
+      "parentUuid": "6e930635_782283b6",
       "range": {
         "startLine": 952,
         "startChar": 5,
@@ -81,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb96e05d_bb634327",
+        "filename": "console-server.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-14T06:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "336f7200_244c25f9",
+      "range": {
+        "startLine": 954,
+        "startChar": 44,
+        "endLine": 954,
+        "endChar": 46
+      },
+      "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "913d8c16_cbee882a",
@@ -104,6 +170,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74b53ccc_e28d9479",
+        "filename": "meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-14T06:51:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "913d8c16_cbee882a",
+      "range": {
+        "startLine": 67,
+        "startChar": 66,
+        "endLine": 67,
+        "endChar": 67
+      },
+      "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2284bb11_a2604b36",
@@ -117,6 +207,24 @@
       "writtenOn": "2024-03-13T23:09:14Z",
       "side": 1,
       "message": "Perhaps adding a `NULL` test would be helpful :)",
+      "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d97daf_7502e76e",
+        "filename": "test/test-config-parse-logsize.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-14T06:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2284bb11_a2604b36",
       "revId": "89afb3f9f9d235aa41356b5ee106c40ef15a8c58",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
