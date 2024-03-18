@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "804a9b59_07705919",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-03-18T04:58:20Z",
+      "side": 1,
+      "message": "Hi Medicine, a couple more comments inline.",
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2b23e9f_785dd7c3",
+        "filename": "config.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-03-18T04:58:20Z",
+      "side": 1,
+      "message": "Hmm. This wasn\u0027t really what I was asking for. You\u0027d already done all the work to rename `config_parse_logsize()` to something more sensible in the previous PS. I think that\u0027s still the right approach, I suggesting it\u0027s my preferences that you do it in a separate, earlier commit to introducing the new config option, as it caused a bit of noise in the patch.\n\nThe latest approach here is papering over the problem rather than fixing it. Given this is an open source project we tend to aim for what\u0027s good rather than what\u0027s easy - can you please include the cleanup in the original style, but in a separate patch?",
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c65066be_2ada8db6",
+        "filename": "console-server.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-03-18T04:58:20Z",
+      "side": 1,
+      "message": "I think it would be less hassle to have a single assignment to the default value. We can drop the one before `config_get_value()`, and also drop this `buffer_size_str !\u003d NULL` test from the error condition, leaving:\n\n```\nbuffer_size_str \u003d config_get_value(config, \"ringbuffer-size\");\nrc \u003d config_parse_ringbuffer_size(buffer_size_str, \u0026buffer_size);\nif (rc) {\n    buffer_size \u003d default_buffer_size;\n    ...\n}\nconsole-\u003erb \u003d ringbuffer_init(buffer_size);\n```",
+      "range": {
+        "startLine": 953,
+        "startChar": 5,
+        "endLine": 953,
+        "endChar": 32
+      },
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
