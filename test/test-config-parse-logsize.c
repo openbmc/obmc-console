@@ -16,7 +16,7 @@ struct test_parse_size_unit {
 	int expected_rc;
 };
 
-void test_config_parse_logsize(void)
+void test_config_parse_bytesize(void)
 {
 	const struct test_parse_size_unit test_data[] = {
 		{ "0", 0, -1 },
@@ -46,7 +46,7 @@ void test_config_parse_logsize(void)
 	int rc;
 
 	for (i = 0; i < num_tests; i++) {
-		rc = config_parse_logsize(test_data[i].test_str, &size);
+		rc = config_parse_bytesize(test_data[i].test_str, &size);
 
 		if (rc == -1 && rc != test_data[i].expected_rc) {
 			warn("[%zu] Str %s expected rc %d, got rc %d\n", i,
@@ -66,6 +66,6 @@ void test_config_parse_logsize(void)
 
 int main(void)
 {
-	test_config_parse_logsize();
+	test_config_parse_bytesize();
 	return EXIT_SUCCESS;
 }
