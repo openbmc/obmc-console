@@ -1,7 +1,7 @@
 tests = [
 	'test-client-escape',
 	'test-config-parse',
-	'test-config-parse-logsize',
+	'test-config-parse-bytesize',
 	'test-config-resolve-console-id',
 	'test-ringbuffer-boundary-poll',
 	'test-ringbuffer-boundary-read',
