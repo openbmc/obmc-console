@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7220733_3eedec66",
+        "filename": "config.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-18T13:54:05Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I\u0027ve fixed that with another commit like you mentioned. I thought you don\u0027t like a common feature name and prefer the per-config function name.",
+      "parentUuid": "b2b23e9f_785dd7c3",
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c65066be_2ada8db6",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-03-18T04:58:20Z",
       "side": 1,
       "message": "I think it would be less hassle to have a single assignment to the default value. We can drop the one before `config_get_value()`, and also drop this `buffer_size_str !\u003d NULL` test from the error condition, leaving:\n\n```\nbuffer_size_str \u003d config_get_value(config, \"ringbuffer-size\");\nrc \u003d config_parse_ringbuffer_size(buffer_size_str, \u0026buffer_size);\nif (rc) {\n    buffer_size \u003d default_buffer_size;\n    ...\n}\nconsole-\u003erb \u003d ringbuffer_init(buffer_size);\n```",
+      "range": {
+        "startLine": 953,
+        "startChar": 5,
+        "endLine": 953,
+        "endChar": 32
+      },
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d2957b1_b52d1cd9",
+        "filename": "console-server.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-18T13:54:05Z",
+      "side": 1,
+      "message": "You\u0027re right, this works fine and is more clear.",
+      "parentUuid": "c65066be_2ada8db6",
       "range": {
         "startLine": 953,
         "startChar": 5,
