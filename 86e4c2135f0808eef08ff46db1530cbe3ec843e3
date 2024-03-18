@@ -98,6 +98,30 @@
       },
       "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aed5e56_99550f3d",
+        "filename": "console-server.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-18T15:35:35Z",
+      "side": 1,
+      "message": "Just to confirm, this will result in showing warning message when this config is not set. I\u0027m don\u0027t think users wants to see that this is not assigned by default since it\u0027s not a required option.\n\nIs this okay to you? or do we want to simply move the default value assignment closer to this if condition.",
+      "parentUuid": "7d2957b1_b52d1cd9",
+      "range": {
+        "startLine": 953,
+        "startChar": 5,
+        "endLine": 953,
+        "endChar": 32
+      },
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
