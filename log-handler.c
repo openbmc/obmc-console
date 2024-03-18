@@ -142,7 +142,7 @@ static int log_init(struct handler *handler, struct console *console,
 	lh->rotate_filename = NULL;
 
 	logsize_str = config_get_value(config, "logsize");
-	rc = config_parse_logsize(logsize_str, &logsize);
+	rc = config_parse_bytesize(logsize_str, &logsize);
 	if (logsize_str != NULL && rc) {
 		logsize = default_logsize;
 		warn("Invalid logsize. Default to %ukB",
