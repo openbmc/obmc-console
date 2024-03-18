@@ -276,7 +276,7 @@ speed_t parse_int_to_baud(uint32_t baud)
 	return 0;
 }
 
-int config_parse_logsize(const char *size_str, size_t *size)
+int config_parse_bytesize(const char *size_str, size_t *size)
 {
 	struct size_suffix_shift {
 		/* Left shiftwidth corresponding to the suffix. */
