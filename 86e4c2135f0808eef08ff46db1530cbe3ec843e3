@@ -122,6 +122,30 @@
       },
       "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1edfd3c_c61dd23e",
+        "filename": "console-server.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-03-18T23:22:16Z",
+      "side": 1,
+      "message": "That\u0027s a fair point, however you could guard the warning with\n\n```\nif (buffer_size_str !\u003d NULL) {\n    warn(...)\n```",
+      "parentUuid": "4aed5e56_99550f3d",
+      "range": {
+        "startLine": 953,
+        "startChar": 5,
+        "endLine": 953,
+        "endChar": 32
+      },
+      "revId": "86e4c2135f0808eef08ff46db1530cbe3ec843e3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
