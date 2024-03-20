@@ -16,6 +16,24 @@
       "message": "Thanks for splitting the change out :)\n\nAn administrative hurdle is that OpenBMC requires contributors to be part of a contributor license agreement. All contributors that have a CLA are added to a Gerrit group that CI consults to figure out whether it should run. CI hasn\u0027t run here, so you must not currently be part of a CLA group.\n\nThere\u0027s more info here:\n\nhttps://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#starting-out\n\nIf you have an employer that has already signed an OpenBMC CLA then we can add you to the appropriate group.",
       "revId": "dd6fc9a77bc1e158835d1c5e6e4ef116974a0e85",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8264b8c_2a9c0346",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-20T03:48:08Z",
+      "side": 1,
+      "message": "Thanks for the info. I\u0027m asking to join our existing group now.",
+      "parentUuid": "ef05b01e_bddc69ce",
+      "revId": "dd6fc9a77bc1e158835d1c5e6e4ef116974a0e85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
