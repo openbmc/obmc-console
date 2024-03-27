@@ -39,6 +39,30 @@
       },
       "revId": "2465992698d983a22cd12a7d4786919828c429ae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0bc0c5_d74830a9",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-03-27T15:59:59Z",
+      "side": 1,
+      "message": "Not really. I copied this code from other `log-handler.c:148`. I thought it\u0027s just preference to this project. Updated to zu instead.",
+      "parentUuid": "652a58ee_911fb4d9",
+      "range": {
+        "startLine": 955,
+        "startChar": 1,
+        "endLine": 956,
+        "endChar": 43
+      },
+      "revId": "2465992698d983a22cd12a7d4786919828c429ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
