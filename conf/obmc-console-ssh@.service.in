@@ -9,7 +9,13 @@ Environment="DROPBEAR_RSAKEY_DIR=/etc/dropbear"
 EnvironmentFile=/etc/obmc-console/dropbear.env
 EnvironmentFile=-/etc/obmc-console/dropbear.%i.env
 EnvironmentFile=-/etc/default/obmc-console-client
-ExecStart=/usr/sbin/dropbear -K 5 -r ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key -c "/usr/bin/obmc-console-client -c /etc/obmc-console/client.%i.conf" -p %i -F $DROPBEAR_EXTRA_ARGS
+ExecStart=/usr/sbin/dropbear -K 5 \
+                             -r ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key \
+                             -r ${DROPBEAR_RSAKEY_DIR}/dropbear_ecdsa_host_key \
+                             -r ${DROPBEAR_RSAKEY_DIR}/dropbear_ed25519_host_key \
+                             -c "/usr/bin/obmc-console-client -c /etc/obmc-console/client.%i.conf" \
+                             -p %i \
+                             -F $DROPBEAR_EXTRA_ARGS
 SyslogIdentifier=console-client-%i
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
