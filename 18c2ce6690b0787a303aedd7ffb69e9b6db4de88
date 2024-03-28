@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36859ff0_977eaddc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-03-28T16:27:24Z",
+      "side": 1,
+      "message": "I wonder if conf/obmc-console-ssh@.service.d/use-socket.conf.in also needs updates? \nI see the env variable is defined out in https://github.com/openbmc/openbmc/blob/eeaa2a1828d14db10755c238d41426c6dec2a0ba/meta-phosphor/recipes-phosphor/console/obmc-console/dropbear.env#L2 so I\u0027d need to change that as well.\n\np10bmc removes that file which is why I\u0027m not noticing it but I assume others use it?",
+      "revId": "18c2ce6690b0787a303aedd7ffb69e9b6db4de88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
