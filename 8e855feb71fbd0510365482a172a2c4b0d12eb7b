@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f435fbfc_60da96b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-03-28T00:38:33Z",
+      "side": 1,
+      "message": "Looks good in general, just a few comments on implementation details.",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abc6504d_0df6e7af",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-03-28T00:38:33Z",
+      "side": 1,
+      "message": "this will disappear on NDEBUG; we probably want this to be checked at configuration time.",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1481c25d_a9a676d8",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-03-28T00:38:33Z",
+      "side": 1,
+      "message": "Super minor, but can you keep the reverse-christmas-tree formatting here?",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e337687_13afe55c",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-03-28T00:38:33Z",
+      "side": 1,
+      "message": "This logic seems a bit backwards; if ringbuffer-size is not specified, you parse anyway, then conditionally ignore the error.\n\nCould you flip this to make the parse conditional instead? Just set the default beforehand.",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
