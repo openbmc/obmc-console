@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fb5a263_239ac139",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-02T02:47:12Z",
+      "side": 1,
+      "message": "As the size can now change at runtime you need to perform the error handling at runtime. You need to convert the `assert()` into an `if (buf \u003e console-\u003erb-\u003esize) { /* handle the error */ }`.\n\nSupplying `-DNDEBUG` to the compiler elides all `assert()` invocations from the source:\n\n\u003e If the macro NDEBUG is defined at the moment \u003cassert.h\u003e was last\n\u003e included, the macro assert() generates no code, and hence does\n\u003e nothing at all.  It is not recommended to define NDEBUG if using\n\u003e assert() to detect error conditions since the software may behave\n\u003e non-deterministically.\n\nhttps://www.man7.org/linux/man-pages/man3/assert.3.html\n\nEssentially, assertions are not a substitution for error handling.",
+      "parentUuid": "75f8073c_d5101c71",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1481c25d_a9a676d8",
         "filename": "console-server.c",
         "patchSetId": 9
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Updated. In order to achieve this. This code will be updated back to its original form. I think we should pick one coding style and not make changes any more. I\u0027m starting to loop the ways of writing these lines of codes.\n\nIn the updated version, assigning the default value again inside the if-condition is necessary because it\u0027s weird to guarantee that the pointer value is not touched when rc returns non-zero errors despite that\u0027s how this is currently implemented. From my understanding, without loss of generality, when rc is non-zero, that pointer value should be undefined behavior.\n\nWhat\u0027s your thoughts?",
       "parentUuid": "3e337687_13afe55c",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91273f2_21839e95",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-02T02:47:12Z",
+      "side": 1,
+      "message": "It can be implemented like this:\n\n```\nsize_t buffer_size \u003d default_buffer_size;\n...\nbuffer_size_str \u003d config_get_value(config, \"ringbuffer-size\");\nif (buffer_size_str) {\n    rc \u003d config_parse_bytesize(buffer_size_str, \u0026buffer_size);\n    if (rc) {\n        warn(\"...\");\n    }\n}```",
+      "parentUuid": "158f58e0_44434da1",
       "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
