@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a4857ee_9b9bc983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-04-03T03:35:29Z",
+      "side": 1,
+      "message": "Sorry to be a bit of a pain, but do you mind adding some discussion of the flip-flop we did on the variable name in https://gerrit.openbmc.org/c/openbmc/obmc-console/+/70276/comments/36859ff0_977eaddc (why we thought to change it, and why it wasn\u0027t necessarily appropriate to change)?",
+      "revId": "e5bd02dce4ad7b107b8efaf6b47759751e2bf66a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
