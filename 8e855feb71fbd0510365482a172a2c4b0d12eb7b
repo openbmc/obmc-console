@@ -71,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72baa04_4c2720f4",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-04-03T14:19:37Z",
+      "side": 1,
+      "message": "Done. Convert that to run time detection.",
+      "parentUuid": "8fb5a263_239ac139",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1481c25d_a9a676d8",
@@ -155,6 +173,24 @@
       "side": 1,
       "message": "It can be implemented like this:\n\n```\nsize_t buffer_size \u003d default_buffer_size;\n...\nbuffer_size_str \u003d config_get_value(config, \"ringbuffer-size\");\nif (buffer_size_str) {\n    rc \u003d config_parse_bytesize(buffer_size_str, \u0026buffer_size);\n    if (rc) {\n        warn(\"...\");\n    }\n}```",
       "parentUuid": "158f58e0_44434da1",
+      "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c17efb0_d39f1627",
+        "filename": "console-server.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-04-03T14:19:37Z",
+      "side": 1,
+      "message": "That looks better. Thanks",
+      "parentUuid": "f91273f2_21839e95",
       "revId": "8e855feb71fbd0510365482a172a2c4b0d12eb7b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
