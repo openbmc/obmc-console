@@ -16,6 +16,24 @@
       "message": "We should probably have `rc \u003d -1` or similar here so that if we actually hit this error path `run_console()` doesn\u0027t spuriously return 0 (success) to its caller.",
       "revId": "2ab3198418ac57801a6efb19c9db9df30ef307f2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df52ea92_5399e3b0",
+        "filename": "console-server.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1001299
+      },
+      "writtenOn": "2024-04-07T08:55:24Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "b09b876a_4a3f2189",
+      "revId": "2ab3198418ac57801a6efb19c9db9df30ef307f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
