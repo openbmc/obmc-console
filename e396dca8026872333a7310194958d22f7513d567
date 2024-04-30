@@ -33,6 +33,40 @@
       "message": "Seems okay, though I\u0027d like one of the other maintainers to +1",
       "revId": "e396dca8026872333a7310194958d22f7513d567",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce47c8e1_6a598101",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T19:54:21Z",
+      "side": 1,
+      "message": "I\u0027m ok with not switching the file and/or truncating it for a simple restart of the daemon, but it seems like the change to `log_trim` is not entirely appropriate.",
+      "revId": "e396dca8026872333a7310194958d22f7513d567",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7db655_94d3ab81",
+        "filename": "log-handler.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-30T19:54:21Z",
+      "side": 1,
+      "message": "Not obvious to me why you switched from O_TRUNC to O_APPEND since line 60 has a rename of the old file, so we should always end up creating, right?\n\nThe function is `log_trim` so if the rename fails, we want to truncate so we don\u0027t overflow the max size of the log, correct?",
+      "revId": "e396dca8026872333a7310194958d22f7513d567",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
