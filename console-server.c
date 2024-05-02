@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+#include "console-gpio.h"
 #include <assert.h>
 #include <errno.h>
 #include <signal.h>
@@ -56,6 +57,8 @@ static void usage(const char *progname)
 		"Options:\n"
 		"  --config <FILE>\tUse FILE for configuration\n"
 		"  --console-id <NAME>\tUse NAME in the UNIX domain socket address\n"
+		"  --verbose \tPrint debug output\n"
+		"  --help \tPrint help\n"
 		"",
 		progname);
 }
@@ -508,6 +511,70 @@ int console_data_out(struct console *console, const uint8_t *data, size_t len)
 	return write_buf_to_fd(console->tty.fd, data, len);
 }
 
+static long count_conflicting_console_ids(struct config *config)
+{
+	const char *value = config_get_value(config, "conflicting-console-ids");
+	if (value == NULL) {
+		return -1;
+	}
+
+	char *ids_count = malloc(strlen(value) + 1);
+	strncpy(ids_count, value, strlen(value));
+
+	long count = 0;
+
+	char *id_count = strtok((char *)ids_count, ",");
+	while (id_count) {
+		count++;
+		id_count = strtok(NULL, ",");
+	}
+
+	free(ids_count);
+
+	return count;
+}
+
+static int set_conflicting_console_ids(struct console *console,
+				       struct config *config)
+{
+	console->n_conflicting_console_ids = 0;
+
+	const char *value = config_get_value(config, "conflicting-console-ids");
+	if (value == NULL) {
+		// no 'conflicting-console-ids' found, no uart muxing will be configured
+		return 0;
+	}
+
+	long count = count_conflicting_console_ids(config);
+	if (count <= 0) {
+		warnx("could not count 'conflicting-console-ids'");
+		return -1;
+	}
+	console->n_conflicting_console_ids = count;
+
+	console->conflicting_console_ids =
+		malloc(sizeof(char *) * console->n_conflicting_console_ids);
+
+	char *ids = malloc(strlen(value) + 1);
+	strncpy(ids, value, strlen(value) + 1);
+
+	size_t index = 0;
+	char *id = strtok((char *)ids, ",");
+	while (id) {
+		char *id_copy = malloc(strlen(id) + 1);
+		strncpy(id_copy, id, strlen(id) + 1);
+		console->conflicting_console_ids[index++] = id_copy;
+		if (console->debug) {
+			printf("adding conflicting console-id: %s\n", id_copy);
+		}
+
+		id = strtok(NULL, ",");
+	}
+
+	free(ids);
+	return 0;
+}
+
 /* Prepare a socket name */
 static int set_socket_info(struct console *console, struct config *config,
 			   const char *console_id)
@@ -873,6 +940,14 @@ int run_console(struct console *console)
 			break;
 		}
 
+		if (console->active == 0 &&
+		    console->n_conflicting_console_ids > 0) {
+			if (console->debug) {
+				printf("skipping read, console is inactive\n");
+			}
+			goto process_dbus;
+		}
+
 		/* process internal fd first */
 		if (console->pollfds[console->n_pollers].revents) {
 			rc = read(console->tty.fd, buf, sizeof(buf));
@@ -881,11 +956,22 @@ int run_console(struct console *console)
 				rc = -1;
 				break;
 			}
+
+			if (console->active == 0 &&
+			    console->n_conflicting_console_ids == 0) {
+				if (console->debug) {
+					printf("performed empty read, console is inactive\n");
+				}
+				goto process_dbus;
+			}
+
 			rc = ringbuffer_queue(console->rb, buf, rc);
 			if (rc) {
 				break;
 			}
 		}
+
+	process_dbus:
 
 		if (console->pollfds[console->n_pollers + 1].revents) {
 			sd_bus_process(console->bus, NULL);
@@ -906,10 +992,13 @@ int run_console(struct console *console)
 static const struct option options[] = {
 	{ "config", required_argument, 0, 'c' },
 	{ "console-id", required_argument, 0, 'i' },
+	{ "inactive", no_argument, 0, 'a' },
+	{ "verbose", no_argument, 0, 'v' },
+	{ "help", no_argument, 0, 'h' },
 	{ 0, 0, 0, 0 },
 };
 
-int main(int argc, char **argv)
+int console_server_main(int argc, char **argv)
 {
 	size_t buffer_size = default_buffer_size;
 	const char *config_filename = NULL;
@@ -918,6 +1007,8 @@ int main(int argc, char **argv)
 	const char *console_id = NULL;
 	struct console *console;
 	struct config *config;
+	bool inactive = false;
+	bool debug = false;
 	int rc;
 
 	for (;;) {
@@ -930,12 +1021,18 @@ int main(int argc, char **argv)
 		}
 
 		switch (c) {
+		case 'a':
+			inactive = true;
+			continue;
 		case 'c':
 			config_filename = optarg;
-			break;
+			continue;
 		case 'i':
 			console_id = optarg;
-			break;
+			continue;
+		case 'v':
+			debug = true;
+			continue;
 		case 'h':
 		case '?':
 			usage(argv[0]);
@@ -951,6 +1048,9 @@ int main(int argc, char **argv)
 
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
+
+	console->debug = debug;
+
 	console->pollfds =
 		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
 	buffer_size_str = config_get_value(config, "ringbuffer-size");
@@ -963,27 +1063,48 @@ int main(int argc, char **argv)
 	}
 	console->rb = ringbuffer_init(buffer_size);
 
+	console->active = (inactive) ? 0 : 1;
+
+	rc = set_conflicting_console_ids(console, config);
+	if (rc) {
+		warn("could not set conflicting console ids, exiting.");
+		goto out_config_fini;
+	}
+
+	rc = mux_gpios_init(console, config);
+	if (rc) {
+		warn("could not set mux gpios from config, exiting.");
+		goto out_mux_fini;
+	}
+
 	if (set_socket_info(console, config, console_id)) {
 		rc = -1;
-		goto out_config_fini;
+		goto out_mux_fini;
 	}
 
 	uart_routing_init(config);
 
 	rc = tty_init(console, config, config_tty_kname);
 	if (rc) {
-		goto out_config_fini;
+		goto out_mux_fini;
 	}
 
 	dbus_init(console, config);
 
 	handlers_init(console, config);
 
+	if (!console->active) {
+		console_print_timestamped(console, "DISCONNECTED");
+	}
+
 	rc = run_console(console);
 
 	handlers_fini(console);
 
 	tty_fini(console);
+
+out_mux_fini:
+	mux_gpios_fini(console);
 
 out_config_fini:
 	config_fini(config);
