@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <bits/pthreadtypes.h>
 #include <poll.h>
+#include <stdatomic.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
@@ -119,6 +121,20 @@ struct console {
 
 	struct pollfd *pollfds;
 	struct sd_bus *bus;
+
+	// see if this console is active
+	// 0 == inactive, 1 == active
+	atomic_int active;
+
+	char **conflicting_console_ids;
+	long n_conflicting_console_ids;
+
+	struct console_gpio **mux_gpios;
+	long n_mux_gpios;
+
+	struct gpiod_chip *gpio_chip;
+
+	bool debug;
 };
 
 /* poller API */
