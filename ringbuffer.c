@@ -100,10 +100,16 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	memmove(&rb->consumers[i], &rb->consumers[i + 1],
 		sizeof(*rb->consumers) * (rb->n_consumers - i));
 
+	if (rb->n_consumers == 0) {
+		free(rb->consumers);
+		goto rbc_free;
+	}
+
 	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
 				     sizeof(*rb->consumers));
 	/* NOLINTEND(bugprone-sizeof-expression) */
 
+rbc_free:
 	free(rbc);
 }
 

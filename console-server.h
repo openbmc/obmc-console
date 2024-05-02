@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <bits/pthreadtypes.h>
 #include <poll.h>
+#include <stdatomic.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
@@ -119,6 +121,20 @@ struct console {
 
 	struct pollfd *pollfds;
 	struct sd_bus *bus;
+
+	// see if this console is active
+	// 0 == inactive, 1 == active
+	atomic_int active;
+
+	char **conflicting_console_ids;
+	long n_conflicting_console_ids;
+
+	struct console_gpio **mux_gpios;
+	long n_mux_gpios;
+
+	struct gpiod_chip *gpio_chip;
+
+	bool debug;
 };
 
 /* poller API */
@@ -228,7 +244,7 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 
 /* console-dbus API */
 void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)));
+	       struct config *config __attribute__((unused)), bool testing);
 
 /* socket-handler API */
 int dbus_create_socket_consumer(struct console *console);
@@ -246,3 +262,5 @@ int dbus_create_socket_consumer(struct console *console);
 	do {                                                                   \
 		char __c[(c) ? 1 : -1] __attribute__((unused));                \
 	} while (0)
+
+int console_server_main(int argc, char **argv, bool testing);
