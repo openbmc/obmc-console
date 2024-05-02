@@ -29,9 +29,13 @@
 
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include "console-server.h"
 
-static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
+#include "config.h"
+//#include "console-server.h"
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 struct config_item {
 	char *name;
