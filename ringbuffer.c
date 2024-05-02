@@ -100,10 +100,16 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	memmove(&rb->consumers[i], &rb->consumers[i + 1],
 		sizeof(*rb->consumers) * (rb->n_consumers - i));
 
+	if (rb->n_consumers == 0) {
+		free(rb->consumers);
+		goto rbc_free;
+	}
+
 	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
 				     sizeof(*rb->consumers));
 	/* NOLINTEND(bugprone-sizeof-expression) */
 
+rbc_free:
 	free(rbc);
 }
 
@@ -145,7 +151,6 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	struct ringbuffer_consumer *rbc;
 	size_t wlen;
 	int i;
-	int rc;
 
 	if (len >= rb->size) {
 		return -1;
@@ -163,7 +168,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 	for (i = 0; i < rb->n_consumers; i++) {
 		rbc = rb->consumers[i];
 
-		rc = ringbuffer_consumer_ensure_space(rbc, len);
+		int rc = ringbuffer_consumer_ensure_space(rbc, len);
 		if (rc) {
 			ringbuffer_consumer_unregister(rbc);
 			i--;
@@ -202,7 +207,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 			       uint8_t **data)
 {
-	struct ringbuffer *rb = rbc->rb;
+	const struct ringbuffer *rb = rbc->rb;
 	size_t pos;
 	size_t len;
 
