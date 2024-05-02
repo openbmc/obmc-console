@@ -60,3 +60,32 @@ portion for the unix domain socket created by the obmc-console-server instance.
 The server needs to know this because it needs to know what to name the pipe;
 the client needs to know it as it needs to form the abstract socket name to
 which to connect.
+
+## Mux Support
+
+In some hardware designs, multiple UARTS may be available behind a Mux,
+which requires obmc-console to select one at a time.
+The kernel will not be aware of this mux and the support can be implemented in userspace.
+
+## Mux Support - Mux Control
+
+The UART with the most first client connection will be chosen.
+As long as the client is still active, this UART will be selected.
+
+## Mux Support - Diagram
+
+```
+obmc-console-server
+                             +------ UART0
+                             | +---- UART1
+                             | | +-- ...
+                             | | |
++-----+  +------------+     +------+
+|     |--| /dev/ttyS1 |-----| Mux  |
+|     |  +------------+     +------+
+|     |                         |
+|     |-------------------------+ n gpios
++-----+
+
+```
+
