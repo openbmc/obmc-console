@@ -57,6 +57,7 @@ executable('obmc-console-server',
            'console-dbus.c',
            'console-server.c',
            'console-socket.c',
+           'console-gpio.c',
            'log-handler.c',
            'ringbuffer.c',
            'socket-handler.c',
@@ -68,6 +69,7 @@ executable('obmc-console-server',
            ],
            dependencies: [
              dependency('libsystemd'),
+             dependency('libgpiod'),
              meson.get_compiler('c').find_library('rt')
            ],
            install_dir: get_option('sbindir'),
@@ -82,5 +84,15 @@ executable('obmc-console-client',
              '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
            ],
            install: true)
+
+executable('obmc-console-ctl',
+          'console-ctl/console-ctl-main.c',
+          'console-ctl/console-ctl.c',
+          'console-ctl/dbus-helper.c',
+          'console-ctl/activate-console.c',
+          dependencies: [
+             dependency('libsystemd'),
+          ],
+          install: true)
 
 subdir('test')
