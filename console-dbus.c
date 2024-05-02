@@ -17,10 +17,14 @@
 #include <assert.h>
 #include <errno.h>
 #include <err.h>
+#include <pthread.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 
 #include "console-server.h"
+#include <systemd/sd-bus-vtable.h>
+#include <systemd/sd-bus.h>
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;
@@ -30,6 +34,7 @@ const size_t dbus_obj_path_len = 1024;
 #define OBJ_NAME    "/xyz/openbmc_project/console/%s"
 #define UART_INTF   "xyz.openbmc_project.Console.UART"
 #define ACCESS_INTF "xyz.openbmc_project.Console.Access"
+#define CONTROL_INTF "xyz.openbmc_project.Console.Control"
 
 static void tty_change_baudrate(struct console *console)
 {
@@ -109,6 +114,34 @@ static int get_baud_handler(sd_bus *bus __attribute__((unused)),
 	return r;
 }
 
+static int get_active_handler(sd_bus *bus __attribute__((unused)),
+			      const char *path __attribute__((unused)),
+			      const char *interface __attribute__((unused)),
+			      const char *property __attribute__((unused)),
+			      sd_bus_message *reply, void *userdata,
+			      sd_bus_error *error __attribute__((unused)))
+{
+	struct console *console = userdata;
+	int active = (console->active) ? 1 : 0;
+	int r = sd_bus_message_append(reply, "b", active);
+
+	return r;
+}
+
+static int get_device_handler(sd_bus *bus __attribute__((unused)),
+			      const char *path __attribute__((unused)),
+			      const char *interface __attribute__((unused)),
+			      const char *property __attribute__((unused)),
+			      sd_bus_message *reply, void *userdata,
+			      sd_bus_error *error __attribute__((unused)))
+{
+	struct console *console = userdata;
+
+	int r = sd_bus_message_append(reply, "s", console->tty.dev);
+
+	return r;
+}
+
 static int method_connect(sd_bus_message *msg, void *userdata,
 			  sd_bus_error *err)
 {
@@ -140,6 +173,44 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 	return rc;
 }
 
+static int method_activate(sd_bus_message *msg, void *userdata,
+			   sd_bus_error *err)
+{
+	struct console *console = userdata;
+	int status;
+
+	if (!console) {
+		warnx("Internal error: Console pointer is null");
+		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
+		return sd_bus_reply_method_error(msg, err);
+	}
+
+	int activate;
+	status = sd_bus_message_read(msg, "b", &activate);
+
+	if (status < 0) {
+		warnx("failure to read 'Activate' parameter");
+		return status;
+	}
+
+	// TODO: remove debug print
+	printf("DEBUG: Activate(%s)\n", (activate == 1) ? "true" : "false");
+
+	//TODO: stop forwarding bytes
+	if (activate) {
+		console->active = 1;
+		//TODO: set the relevant gpios from the config to enable our console
+	} else {
+		console->active = 0;
+	}
+
+	//TODO: print message to all clients who were newly connected / disconnected
+
+	status = sd_bus_reply_method_return(msg, "i", 0);
+
+	return status;
+}
+
 static const sd_bus_vtable console_uart_vtable[] = {
 	SD_BUS_VTABLE_START(0),
 	SD_BUS_WRITABLE_PROPERTY("Baud", "t", get_baud_handler,
@@ -153,6 +224,17 @@ static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_START(0),
 	SD_BUS_METHOD("Connect", SD_BUS_NO_ARGS, "h", method_connect,
 		      SD_BUS_VTABLE_UNPRIVILEGED),
+	SD_BUS_VTABLE_END,
+};
+
+static const sd_bus_vtable console_control_vtable[] = {
+	SD_BUS_VTABLE_START(0),
+	SD_BUS_METHOD_WITH_ARGS("Activate", "b", "i", method_activate,
+				SD_BUS_VTABLE_UNPRIVILEGED),
+	SD_BUS_PROPERTY("Active", "b", get_active_handler, 0,
+			SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
+	SD_BUS_PROPERTY("Device", "s", get_device_handler, 0,
+			SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
 	SD_BUS_VTABLE_END,
 };
 
@@ -201,6 +283,14 @@ void dbus_init(struct console *console,
 	/* Register access interface */
 	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, ACCESS_INTF,
 				     console_access_vtable, console);
+	if (r < 0) {
+		warnx("Failed to issue method call: %s", strerror(-r));
+		return;
+	}
+
+	/* Register control interface */
+	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, CONTROL_INTF,
+				     console_control_vtable, console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
 		return;
