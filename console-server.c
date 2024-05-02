@@ -37,6 +37,7 @@
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <poll.h>
+#include <pthread.h>
 
 #include "console-server.h"
 
@@ -873,6 +874,11 @@ int run_console(struct console *console)
 			break;
 		}
 
+		if (console->active == 0) {
+			//TODO: find a way to block on the re-activation
+			warn("reading despite being active: TODO: fix\n");
+		}
+
 		/* process internal fd first */
 		if (console->pollfds[console->n_pollers].revents) {
 			rc = read(console->tty.fd, buf, sizeof(buf));
@@ -906,6 +912,7 @@ int run_console(struct console *console)
 static const struct option options[] = {
 	{ "config", required_argument, 0, 'c' },
 	{ "console-id", required_argument, 0, 'i' },
+	{ "inactive", no_argument, 0, 'a' },
 	{ 0, 0, 0, 0 },
 };
 
@@ -918,6 +925,7 @@ int main(int argc, char **argv)
 	const char *console_id = NULL;
 	struct console *console;
 	struct config *config;
+	bool inactive = false;
 	int rc;
 
 	for (;;) {
@@ -930,6 +938,9 @@ int main(int argc, char **argv)
 		}
 
 		switch (c) {
+		case 'a':
+			inactive = true;
+			break;
 		case 'c':
 			config_filename = optarg;
 			break;
@@ -962,6 +973,8 @@ int main(int argc, char **argv)
 		}
 	}
 	console->rb = ringbuffer_init(buffer_size);
+
+	console->active = (inactive) ? 0 : 1;
 
 	if (set_socket_info(console, config, console_id)) {
 		rc = -1;
