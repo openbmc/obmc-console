@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f39b2b_79598d56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-05-17T03:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce47c8e1_6a598101",
+      "revId": "e396dca8026872333a7310194958d22f7513d567",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef7db655_94d3ab81",
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "ah, yes.I didn\u0027t realize it had to be truncated here",
       "parentUuid": "ef7db655_94d3ab81",
+      "revId": "e396dca8026872333a7310194958d22f7513d567",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd2d365_a7d63343",
+        "filename": "log-handler.c",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-05-17T03:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efb48b28_98a30a94",
       "revId": "e396dca8026872333a7310194958d22f7513d567",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
