@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258e1c79_9467d210",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-17T17:47:25Z",
+      "side": 1,
+      "message": "Hi all, the implementation is still missing some parts like\ntests and documentation of an example setup,\n\nbut it\u0027s ready for some local testing for anyone that\u0027s interested.",
+      "revId": "496ffff5cd4f4b894167492129d0f42787b23c96",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
