@@ -71,6 +71,7 @@ server = executable(
     'log-handler.c',
     'ringbuffer.c',
     'socket-handler.c',
+           'syslog-handler.c',
     'tty-handler.c',
     'util.c',
     c_args: [
