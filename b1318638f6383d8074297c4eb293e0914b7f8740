@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7363ff_39d025ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-24T10:07:57Z",
+      "side": 1,
+      "message": "Agreed, it\u0027s feasible to achieve in one process, it would require some changes.\n\n- configuration to specify multiple console-ids. Currently there is the\n  \u0027--console-id\u0027 flag which is used, and will be incompatible when configuring\n  multiple consoles behind a mux.\n\n- \u0027logfile\u0027, and other configuration option will be unusable\n  with multiple consoles.\n  The configuration will have to be change into passing multiple \n  configuration files to the obmc-console-server, one for each console.\n\n- There will have to be a new \u0027layer\u0027 in the data structure for the console-server.\n  Multiple \u0027struct console\u0027 may then be part of a \u0027struct console_server\u0027. This\n  may touch large parts of the codebase. Some members of \u0027struct console\u0027 such as \n  the tty device fd may need to go into the new \u0027struct console_server\u0027.\n\n  Alternatively \u0027struct console\u0027 may have a member \u0027struct console_server**\u0027\n  which would then have members for the \u0027char* console_id\u0027 and the  \n  mux configuration.\n\nInside one process, the gpio control will be easier and there will be no need to release the gpios.\n\nAlso there will be no need to explicitly configure the conflicting consoles, since the obmc-console-server will be aware of them all.\n\nSince it seems to me that you prefer to have one server process, i can proceed to implement. (leaving this comment as unresolved until i send the next revision)",
+      "parentUuid": "70fd14eb_5fe9f62b",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "166e5415_74c2289e",
@@ -95,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b0aae5f_b8bdf236",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-24T10:07:57Z",
+      "side": 1,
+      "message": "There is two concerns for a kernel implementation:\n\n- it will be slow to get something merged\n- the actual hardware may not be able to be represented in devicetree form\n\nI don\u0027t have the schematics for the system this is for, but let\u0027s say it\u0027s\na multi-host blade server and blades can be removed. There may be a uart-mux on a blade. So the access to the uart-mux may be cut off.\n\nSince devicetree can only represent the static hardware, it is not suitable for this configuration, and there will be a mismatch with what the kernel thinks there is and what\u0027s actually there.\n\nIf it were a static system with everything fixed in place then something like\na \"uart-mux-gpio\" devicetree node may be appropriate. \n\nBut even then there would be additional concerns about how to handle a change in mux state, and how to notify the processes using the virtual uart of this change.\n\nWhen a userspace implementation is already present, it becomes easier to then later reference that and point to an actual use-case when someone wants to do a kernel based implementation.",
+      "parentUuid": "3f62380c_14c89bed",
+      "range": {
+        "startLine": 4,
+        "startChar": 46,
+        "endLine": 5,
+        "endChar": 57
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c35d364_99ce5cc6",
         "filename": "MUX-SUPPORT.md",
         "patchSetId": 14
@@ -106,6 +148,30 @@
       "writtenOn": "2024-05-24T01:24:18Z",
       "side": 1,
       "message": "This makes me a bit wary. I don\u0027t see any discussion of [userspace TTY locking schemes](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug\u003d734086) in the document - does the proposal use them?",
+      "range": {
+        "startLine": 8,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d334a4d_91bc287b",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-24T10:07:57Z",
+      "side": 1,
+      "message": "Only one obmc-console-server reads from the uart at a time.\n\nThe call to \u0027poll\u0027 in \u0027run_console\u0027 function checks if the uart is ready for reading, the read is skipped by the inactive console-server instances and performed by the active instance.\n\nFor writes from the client, there is currently no locking scheme, i should fix that. An inactive server should not forward anything to the upstream uart.",
+      "parentUuid": "6c35d364_99ce5cc6",
       "range": {
         "startLine": 8,
         "startChar": 54,
@@ -139,6 +205,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6934317c_b8c4f3b1",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-24T10:07:57Z",
+      "side": 1,
+      "message": "Yes the inactive console-server instances will release the gpios and the active console-server will request them.",
+      "parentUuid": "35184bcf_7121737e",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 76
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af6e6c21_3c4bc0b4",
@@ -152,6 +242,24 @@
       "writtenOn": "2024-05-24T01:24:18Z",
       "side": 1,
       "message": "What happens to the clients? Do they remain connected?",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aee1d32_e74ebee3",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-05-24T10:07:57Z",
+      "side": 1,
+      "message": "The clients remain connected but will receive a \"DISCONNECTED\" string with timestamp via the ringbuffer.\n\nSo there will be no disruption to the logging, and it will be transparent to someone reading the logs that there was a time that the console was disconnected.\n\nWhen the console is activated again it will receive a similar \"CONNECTED\" string with timestamp.",
+      "parentUuid": "af6e6c21_3c4bc0b4",
       "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
