@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a5fce9_60c3ad3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "I\u0027m making this comment after reading the updated documentation (and without having yet looked at the implementation).\n\nSo: I don\u0027t yet understand this point. By \"dbus name\" are you referring to the well-known DBus connection name? We can claim multiple well-known names in the one process. This behaviour is explicitly called out in the DBus specification:\n\n\u003e Object paths are often namespaced by starting with a reversed domain name and containing an interface version number, in the same way as interface names and well-known bus names. This makes it possible to implement more than one service, or more than one version of a service, in the same process, even if the services share a connection but cannot otherwise co-operate (for instance, if they are implemented by different plugins). \n\nhttps://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-marshaling-object-path\n\nIt feels to me like we\u0027d remove a lot of complexity by using one server process per (muxed) TTY. For proposed control semantics, perhaps we could do \"most recent client wins\" as a means to switch the mux, with all existing clients then disconnected, the mux switched, and then the new client accepted (whether that meets other non-functional requirements needs discussion).",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "166e5415_74c2289e",
@@ -14,6 +31,109 @@
       "writtenOn": "2024-05-23T14:28:20Z",
       "side": 1,
       "message": "Tests have been added and i would like to invite for code review 😊.",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85be67f_a0ef95a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "Hello! I see that you had proposed a design earlier this month and made some iterations, but received no feedback. I\u0027m not sure why this change didn\u0027t appear on my radar, but apologies for reviewing a little late.\n\nI have some questions about the overall design and if we resolve to go in that direction will unfortunately impact the implementation.",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f62380c_14c89bed",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "I think this needs some substantiation. Some concerns about doing it in the kernel spring to mind, but I think it would be worth enumerating your concerns explicitly so we can be confident in the choice of trade-offs.",
+      "range": {
+        "startLine": 4,
+        "startChar": 46,
+        "endLine": 5,
+        "endChar": 57
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c35d364_99ce5cc6",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "This makes me a bit wary. I don\u0027t see any discussion of [userspace TTY locking schemes](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug\u003d734086) in the document - does the proposal use them?",
+      "range": {
+        "startLine": 8,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35184bcf_7121737e",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "I assume they\u0027re each requesting the GPIO only when they\u0027re activated?",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 76
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af6e6c21_3c4bc0b4",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:24:18Z",
+      "side": 1,
+      "message": "What happens to the clients? Do they remain connected?",
       "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
