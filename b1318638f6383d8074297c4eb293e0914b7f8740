@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "70fd14eb_5fe9f62b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-05-24T01:32:49Z",
+      "side": 1,
+      "message": "Sorry, quoted the wrong part of the DBus spec there (grabbed the bit about object paths instead of connection names). This seems like a better fit for my intent:\n\n\u003e Connections have one or more bus names associated with them.\n\u003e\n\u003e ...\n\u003e\n\u003e  As with interface names, including a version number in well-known bus names is a good idea; it\u0027s possible to have the well-known bus name for more than one version simultaneously if backwards compatibility is required.\n\nhttps://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus\n\nBut together I think they illustrate that it\u0027s feasible to achieve this in the one process.",
+      "parentUuid": "62a5fce9_60c3ad3e",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "166e5415_74c2289e",
