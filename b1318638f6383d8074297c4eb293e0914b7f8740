@@ -262,6 +262,40 @@
       "parentUuid": "af6e6c21_3c4bc0b4",
       "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7379861_2482ac9b",
+        "filename": "console-ctl/activate-console.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2024-05-26T05:43:34Z",
+      "side": 1,
+      "message": "copywrite text missing ?\nhttps://github.com/openbmc/obmc-console/blob/master/ringbuffer.c#L1",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a3cd2d3_92944c59",
+        "filename": "console-ctl/activate-console.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000929
+      },
+      "writtenOn": "2024-05-26T05:43:34Z",
+      "side": 1,
+      "message": "int reply_status \u003d EXIT_FAILURE;\n\nset default value",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
