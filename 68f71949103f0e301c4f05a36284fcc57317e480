@@ -16,6 +16,57 @@
       "message": "@Andrew could give +2？",
       "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aad34d1_6a35fb44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-04T10:32:30Z",
+      "side": 1,
+      "message": "small bug with the inttial size setting, but looks good otherwise.",
+      "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c8331f_94029f40",
+        "filename": "log-handler.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-04T10:32:30Z",
+      "side": 1,
+      "message": "If you\u0027ve done the `log_trim()`, this will be incorrect. You probably want to set this before the maxsize check, and log_trim will overwrite if necessary.",
+      "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0431fe14_bdc96774",
+        "filename": "log-handler.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-04T10:32:30Z",
+      "side": 1,
+      "message": "super minor, but maybe follow the rest of the code\u0027s convention of separating the function call from the result check:\n\n```\nrc \u003d log_create(lh);\nif (rc \u003c 0) {\n    return -1;\n}\n```",
+      "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
