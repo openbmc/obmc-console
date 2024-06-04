@@ -99,10 +99,17 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&rb->consumers[i], &rb->consumers[i + 1],
 		sizeof(*rb->consumers) * (rb->n_consumers - i));
-
-	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
-				     sizeof(*rb->consumers));
 	/* NOLINTEND(bugprone-sizeof-expression) */
+
+	if (rb->n_consumers == 0) {
+		free(rb->consumers);
+		rb->consumers = NULL;
+	} else {
+		/* NOLINTBEGIN(bugprone-sizeof-expression) */
+		rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
+					     sizeof(*rb->consumers));
+		/* NOLINTEND(bugprone-sizeof-expression) */
+	}
 
 	free(rbc);
 }
