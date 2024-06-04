@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32bc8da8_712dbbd6",
+        "filename": "log-handler.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-06-04T12:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c8331f_94029f40",
+      "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0431fe14_bdc96774",
@@ -65,6 +83,24 @@
       "writtenOn": "2024-06-04T10:32:30Z",
       "side": 1,
       "message": "super minor, but maybe follow the rest of the code\u0027s convention of separating the function call from the result check:\n\n```\nrc \u003d log_create(lh);\nif (rc \u003c 0) {\n    return -1;\n}\n```",
+      "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4979596_e64b7b2a",
+        "filename": "log-handler.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-06-04T12:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0431fe14_bdc96774",
       "revId": "68f71949103f0e301c4f05a36284fcc57317e480",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
