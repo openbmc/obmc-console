@@ -96,13 +96,19 @@ void ringbuffer_consumer_unregister(struct ringbuffer_consumer *rbc)
 	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
 	 * pointer type.
 	 */
-	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&rb->consumers[i], &rb->consumers[i + 1],
+		/* NOLINTNEXTLINE(bugprone-sizeof-expression) */
 		sizeof(*rb->consumers) * (rb->n_consumers - i));
 
-	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
-				     sizeof(*rb->consumers));
-	/* NOLINTEND(bugprone-sizeof-expression) */
+	if (rb->n_consumers == 0) {
+		free(rb->consumers);
+		rb->consumers = NULL;
+	} else {
+		rb->consumers = reallocarray(
+			rb->consumers, rb->n_consumers,
+			/* NOLINTNEXTLINE(bugprone-sizeof-expression) */
+			sizeof(*rb->consumers));
+	}
 
 	free(rbc);
 }
