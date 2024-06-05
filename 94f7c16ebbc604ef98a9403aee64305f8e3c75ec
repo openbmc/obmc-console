@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eabc804_2ce609e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-05T02:42:31Z",
+      "side": 1,
+      "message": "The `free()` path needs a fix, but sounds good with the change in general",
+      "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f222f6cd_9c36a866",
@@ -14,6 +31,23 @@
       "writtenOn": "2024-06-05T01:45:15Z",
       "side": 1,
       "message": "I\u0027d prefer this become `NOLINTNEXTLINE()` and duplicate it down at the `reallocarray()` to avoid over-extending the scope of the `NOLINT`.",
+      "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b49b805_db91eb24",
+        "filename": "ringbuffer.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-05T02:42:31Z",
+      "side": 1,
+      "message": "You\u0027ll want to set `rb-\u003econsumers` to NULL to avoid reallocating from the now-invalid pointer, in the case where `ringbuffer_consumer_register` is called after this point",
       "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
