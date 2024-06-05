@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91817257_b5c4a477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-05T03:55:48Z",
+      "side": 1,
+      "message": "Hi John, I\u0027ve tried to clarify what I meant in my previous comment.",
+      "revId": "925bd068e5ddcb6aa9ded8dc2cc7a43e81f79578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11cadfab_a77603db",
+        "filename": "ringbuffer.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-05T03:55:48Z",
+      "side": 1,
+      "message": "The change I was suggesting was to stop using `NOLINTBEGIN()`/`NOLINTEND()` and switch to `NOLINTNEXTLINE()`, which reduces the noise:\n\n```\nmemmove(\u0026rb-\u003econsumers[i], \u0026rb-\u003econsumers[i + 1],\n        /* NOLINTNEXTLINE(bugprone-sizeof-expression) */\n        sizeof(*rb-\u003econsumers) * (rb-\u003en_consumers - i));\n```",
+      "revId": "925bd068e5ddcb6aa9ded8dc2cc7a43e81f79578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a243471_1f8ff238",
+        "filename": "ringbuffer.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-05T03:55:48Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "925bd068e5ddcb6aa9ded8dc2cc7a43e81f79578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
