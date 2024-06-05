@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8218adc8_3fdc84ec",
+        "filename": "ringbuffer.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-06-05T03:01:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f222f6cd_9c36a866",
+      "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b49b805_db91eb24",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-06-05T02:42:31Z",
       "side": 1,
       "message": "You\u0027ll want to set `rb-\u003econsumers` to NULL to avoid reallocating from the now-invalid pointer, in the case where `ringbuffer_consumer_register` is called after this point",
+      "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dde73d75_1ee69fa2",
+        "filename": "ringbuffer.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-06-05T03:01:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b49b805_db91eb24",
       "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
