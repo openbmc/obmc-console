@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f222f6cd_9c36a866",
+        "filename": "ringbuffer.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-05T01:45:15Z",
+      "side": 1,
+      "message": "I\u0027d prefer this become `NOLINTNEXTLINE()` and duplicate it down at the `reallocarray()` to avoid over-extending the scope of the `NOLINT`.",
+      "revId": "94f7c16ebbc604ef98a9403aee64305f8e3c75ec",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
