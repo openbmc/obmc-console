@@ -18,6 +18,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa32856a_f778bbbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000305
+      },
+      "writtenOn": "2024-06-05T04:57:00Z",
+      "side": 1,
+      "message": "Previously I thought you didn\u0027t recommend NOLINTBEGIN/NOLINTEND because the scope of inclusion was too large, but using the NOLINTNEXTLINE directive directly introduces comments within the function arguments, which looks a bit untidy (in my opinion), so I had adjusted it to NOLINTBEGIN/NOLINTEND",
+      "revId": "925bd068e5ddcb6aa9ded8dc2cc7a43e81f79578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11cadfab_a77603db",
