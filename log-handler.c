@@ -28,26 +28,11 @@
 #include <linux/types.h>
 
 #include "console-server.h"
-
-struct log_handler {
-	struct handler handler;
-	struct console *console;
-	struct ringbuffer_consumer *rbc;
-	int fd;
-	size_t size;
-	size_t maxsize;
-	size_t pagesize;
-	char *log_filename;
-	char *rotate_filename;
-};
+#include "config.h"
+#include "log-handler.h"
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
 static const size_t default_logsize = 16ul * 1024ul;
-
-static struct log_handler *to_log_handler(struct handler *handler)
-{
-	return container_of(handler, struct log_handler, handler);
-}
 
 static int log_trim(struct log_handler *lh)
 {
@@ -149,10 +134,12 @@ static int log_create(struct log_handler *lh)
 	return 0;
 }
 
-static int log_init(struct handler *handler, struct console *console,
-		    struct config *config)
+int log_init(struct handler *handler, struct console *console,
+	     struct config *config)
 {
-	struct log_handler *lh = to_log_handler(handler);
+	handler->data = malloc(sizeof(struct log_handler));
+	struct log_handler *lh = (struct log_handler *)handler->data;
+
 	const char *filename;
 	const char *logsize_str;
 	size_t logsize = default_logsize;
@@ -196,21 +183,12 @@ static int log_init(struct handler *handler, struct console *console,
 	return 0;
 }
 
-static void log_fini(struct handler *handler)
+void log_fini(struct handler *handler)
 {
-	struct log_handler *lh = to_log_handler(handler);
+	struct log_handler *lh = (struct log_handler *)handler->data;
 	ringbuffer_consumer_unregister(lh->rbc);
 	close(lh->fd);
 	free(lh->log_filename);
 	free(lh->rotate_filename);
+	free(lh);
 }
-
-static struct log_handler log_handler = {
-	.handler = {
-		.name		= "log",
-		.init		= log_init,
-		.fini		= log_fini,
-	},
-};
-
-console_handler_register(&log_handler.handler);

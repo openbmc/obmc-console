@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-#include "console-server.h"
+#include <err.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <termios.h>
 
-int main(int argc, char **argv)
-{
-	console_server_main(argc, argv, false);
-}
+#include "console-server.h"
+#include "config.h"
+
+struct tty_handler {
+	struct handler handler;
+	struct console *console;
+	struct ringbuffer_consumer *rbc;
+	struct poller *poller;
+	int fd;
+	int fd_flags;
+	bool blocked;
+};
+
+int tty_baudrate(struct handler *handler, speed_t baudrate);
+
+int tty_init(struct handler *handler, struct console *console,
+	     struct config *config __attribute__((unused)));
+
+void tty_fini(struct handler *handler);
