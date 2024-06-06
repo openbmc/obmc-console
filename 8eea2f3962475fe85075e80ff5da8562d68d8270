@@ -16,6 +16,24 @@
       "message": "Hi Alexander, I\u0027m going to need some time to digest this, and it needs input from Jeremy as well.\n\nOverall I would like you to have a think about how we can make the change easier to consume for reviewers. I\u0027m going to struggle to convince myself that a 3000 line diff is coherent for all possible review concerns. Perhaps a reasonable strategy is to start with adding documentation for the feature, and then try to isolate any refactorings you need to support the feature into their own patches, and then finally do the work to implement it?",
       "revId": "8eea2f3962475fe85075e80ff5da8562d68d8270",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fed577d_1e51f0a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-06T12:08:31Z",
+      "side": 1,
+      "message": "Hi Andrew,\n\nThe change is a lot of renaming since the \u0027struct console\u0027 is replaced by \u0027struct console_server\u0027 in many functions. Then the member access to that struct causes a lot of the diff, but in these functions there may be not much change in how they work.\n\nThe tests are there to make sure the important parts still work after the change.\nThey cause a lot of diff but do not need to be reviewed so carefully. Some setup is required to do the integration tests, but the existing support for PTY\u0027s has made it easier 👍 so thanks for that 😊\n\nThe potential to break existing features should only be in the modified files, which is around 900 lines.\n\nThe complete console-ctl folder for example should not introduce any regression since it\u0027s a separate binary and only interacts with the obmc-console-server when called.\n\nThe additional dbus interface should not introduce any regression since it\u0027s only called and used by the new code.",
+      "parentUuid": "7ed0f63c_2e5cadb6",
+      "revId": "8eea2f3962475fe85075e80ff5da8562d68d8270",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

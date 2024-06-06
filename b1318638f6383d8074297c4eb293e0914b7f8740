@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7f29f6ff_74cb1252",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-06T12:08:31Z",
+      "side": 1,
+      "message": "Agree to 1 and 2. The configuration can likely be done in a backwards-compatible way.",
+      "parentUuid": "fdb6f220_37f11432",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "166e5415_74c2289e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14
@@ -177,6 +195,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf4cb39_3e5f33f1",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-06T12:08:31Z",
+      "side": 1,
+      "message": "Sure 👍",
+      "parentUuid": "c93782d9_48eb8f1a",
+      "range": {
+        "startLine": 4,
+        "startChar": 46,
+        "endLine": 5,
+        "endChar": 57
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c35d364_99ce5cc6",
@@ -238,6 +280,30 @@
       "side": 1,
       "message": "\u003e Only one obmc-console-server reads from the uart at a time.\n\nSure. However, trying to enforce that as close to the thing that we\u0027re trying to prevent conflicts on seems sensible to me. But I\u0027m happy to be argued out of it.",
       "parentUuid": "7d334a4d_91bc287b",
+      "range": {
+        "startLine": 8,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92f7f70d_27d62e0a",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-06T12:08:31Z",
+      "side": 1,
+      "message": "The next patchset should be a one-process solution.",
+      "parentUuid": "aa60be14_152a8f3a",
       "range": {
         "startLine": 8,
         "startChar": 54,
