@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed0f63c_2e5cadb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-06T03:42:12Z",
+      "side": 1,
+      "message": "Hi Alexander, I\u0027m going to need some time to digest this, and it needs input from Jeremy as well.\n\nOverall I would like you to have a think about how we can make the change easier to consume for reviewers. I\u0027m going to struggle to convince myself that a 3000 line diff is coherent for all possible review concerns. Perhaps a reasonable strategy is to start with adding documentation for the feature, and then try to isolate any refactorings you need to support the feature into their own patches, and then finally do the work to implement it?",
+      "revId": "8eea2f3962475fe85075e80ff5da8562d68d8270",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
