@@ -29,8 +29,11 @@
 #include <sys/un.h>
 
 #include "console-server.h"
+#include "config.h"
 
 #define EXIT_ESCAPE 2
+
+static volatile sig_atomic_t sigint = false;
 
 enum process_rc {
 	PROCESS_OK = 0,
@@ -170,7 +173,7 @@ static int process_console(struct console_client *client)
 		return PROCESS_ERR;
 	}
 	if (len == 0) {
-		fprintf(stderr, "Connection closed\n");
+		warnx("Connection closed\n");
 		return PROCESS_EXIT;
 	}
 
@@ -263,6 +266,13 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
+static void sighandler(int signal)
+{
+	if (signal == SIGINT) {
+		sigint = true;
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	struct console_client _client;
@@ -288,33 +298,31 @@ int main(int argc, char *argv[])
 		switch (rc) {
 		case 'c':
 			if (optarg[0] == '\0') {
-				fprintf(stderr, "Config str cannot be empty\n");
+				warnx("Config str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
 			config_path = optarg;
 			break;
 		case 'e':
 			if (optarg[0] == '\0') {
-				fprintf(stderr, "Escape str cannot be empty\n");
+				warnx("Escape str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
 			esc = (const uint8_t *)optarg;
 			break;
 		case 'i':
 			if (optarg[0] == '\0') {
-				fprintf(stderr,
-					"Socket ID str cannot be empty\n");
+				warnx("Socket ID str cannot be empty\n");
 				return EXIT_FAILURE;
 			}
 			console_id = optarg;
 			break;
 		default:
-			fprintf(stderr,
-				"Usage: %s "
-				"[-e <escape sequence>]"
-				"[-i <console ID>]"
-				"[-c <config>]\n",
-				argv[0]);
+			warnx("Usage: %s "
+			      "[-e <escape sequence>]"
+			      "[-i <console ID>]"
+			      "[-c <config>]\n",
+			      argv[0]);
 			return EXIT_FAILURE;
 		}
 	}
@@ -347,7 +355,14 @@ int main(int argc, char *argv[])
 		goto out_client_fini;
 	}
 
+	signal(SIGINT, sighandler);
+
 	for (;;) {
+		if (sigint) {
+			warnx("Received interrupt, exiting\n");
+			goto out_client_fini;
+		}
+
 		pollfds[0].fd = client->fd_in;
 		pollfds[0].events = POLLIN;
 		pollfds[1].fd = client->console_sd;

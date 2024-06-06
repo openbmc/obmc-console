@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "console-server.h"
+#include "config.h"
 #include "iniparser/iniparser.h"
 
 struct config *config_mock(char *key, char *value)
