@@ -33,16 +33,30 @@
 #include "iniparser/iniparser.h"
 
 #include "console-server.h"
+#include "util.h"
+#include "config.h"
 
-static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
+const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 struct config {
 	dictionary *dict;
 };
 
+const char *config_get_section_value(struct config *config, const char *secname,
+				     const char *name)
+{
+	char buf[100];
+	sprintf(buf, "%s:%s", secname, name);
+
+	const char *value = iniparser_getstring(config->dict, buf, NULL);
+
+	return value;
+}
+
 const char *config_get_value(struct config *config, const char *name)
 {
 	char buf[100];
+
 	sprintf(buf, ":%s", name);
 
 	const char *value = iniparser_getstring(config->dict, buf, NULL);
@@ -65,42 +79,14 @@ struct config *config_parse(char *key, char *value)
 	return config;
 }
 
-static struct config *config_init_inner(const char *filename)
+// secname may be null in case there is no section
+struct config *config_init(dictionary *dict)
 {
 	struct config *config;
-
-	config = NULL;
 
 	config = malloc(sizeof(*config));
 
-	config->dict = iniparser_load(filename);
-
-	if (config->dict == NULL) {
-		free(config);
-		config = NULL;
-	}
-
-	return config;
-}
-
-struct config *config_init(const char *filename)
-{
-	struct config *config;
-	int fd;
-
-	if (!filename) {
-		filename = config_default_filename;
-	}
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0) {
-		warn("Can't open configuration file %s", filename);
-		return NULL;
-	}
-
-	config = config_init_inner(filename);
-
-	close(fd);
+	config->dict = dict;
 
 	return config;
 }
