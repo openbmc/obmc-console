@@ -60,3 +60,29 @@ portion for the unix domain socket created by the obmc-console-server instance.
 The server needs to know this because it needs to know what to name the pipe;
 the client needs to know it as it needs to form the abstract socket name to
 which to connect.
+
+## Mux Support
+
+In some hardware designs, multiple UARTS may be available behind a Mux. Please
+reference
+[docs/mux-support.md](https://github.com/openbmc/obmc-console/blob/master/docs/mux-support.md)
+in that case.
+
+## Sample Development Setup
+
+For developing obmc-console, we can use pseudo terminals (pty's) in Linux.
+
+The socat command will output names of 2 pty's, one of which is the master and
+the other one is the slave. The master pty can be used to emulate a UART.
+
+```
+$ socat -d -d pty,raw,echo=0,link=pty1 pty,raw,echo=0,link=pty2
+
+$ obmc-console-server --console-id dev $(realpath pty2)
+
+$ obmc-console-client -i dev
+
+# this message should appear for the client
+$ echo "hi" > pty1
+
+```
