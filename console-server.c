@@ -909,7 +909,7 @@ static const struct option options[] = {
 	{ 0, 0, 0, 0 },
 };
 
-int main(int argc, char **argv)
+int console_server_main(int argc, char **argv)
 {
 	size_t buffer_size = default_buffer_size;
 	const char *config_filename = NULL;
