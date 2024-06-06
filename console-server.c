@@ -1145,13 +1145,14 @@ static void console_server_console_fini(struct console *console)
 	free(console);
 }
 
-int console_server_init(struct console_server *server, char *config_filename)
+int console_server_init(struct console_server *server,
+			struct console_server_args *args)
 {
 	memset(server, 0, sizeof(struct console_server));
 
 	server->tty_pollfd_index = -1;
 
-	server->config = config_init(config_filename);
+	server->config = config_init(args->config_filename);
 	if (server->config == NULL) {
 		return 1;
 	}
@@ -1172,8 +1173,62 @@ void console_server_fini(struct console_server *server)
 	free(server->config);
 }
 
+void console_server_args_fini(struct console_server_args *args)
+{
+	free(args->config_filename);
+}
+
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args)
+{
+	args->console_id = NULL;
+	args->config_tty_kname = NULL;
+	args->config_filename = NULL;
+
+	// We may not be the first function to parse arguments using
+	// getopt. So just initialize optind here before the call.
+	// There is no harm in this since it should already be 1 in non-testing case.
+	// https://man7.org/linux/man-pages/man3/getopt.3.html
+	optind = 1;
+
+	for (;;) {
+		int c;
+		int idx;
+
+		c = getopt_long(argc, argv, "c:i:", options, &idx);
+		if (c == -1) {
+			break;
+		}
+
+		switch (c) {
+		case 'c':
+			args->config_filename = strdup(optarg);
+			break;
+		case 'i':
+			args->console_id = optarg;
+			break;
+		case 'h':
+		case '?':
+			usage(argv[0]);
+			return EXIT_SUCCESS;
+		default:
+			usage(argv[0]);
+			return 1;
+		}
+	}
+
+	if (optind < argc) {
+		args->config_tty_kname = argv[optind];
+	} else {
+		warnx("no tty device path has been provided\n");
+		return 1;
+	}
+
+	return 0;
+}
+
 static int console_server_add_consoles(struct console_server *server,
-				       char *arg_console_id)
+				       struct console_server_args *args)
 {
 	int rc;
 
@@ -1184,7 +1239,7 @@ static int console_server_add_consoles(struct console_server *server,
 	}
 
 	if (nsections == 0) {
-		char *console_id = arg_console_id;
+		char *console_id = args->console_id;
 
 		rc = console_server_add_console(server, server->config,
 						console_id);
@@ -1208,18 +1263,17 @@ static int console_server_add_consoles(struct console_server *server,
 	return 0;
 }
 
-static int console_server_with_args(char *config_filename, char *arg_console_id,
-				    char *arg_config_tty_kname)
+static int console_server_with_args(struct console_server_args *args)
 {
 	int rc = 0;
 	struct console_server server;
 
-	rc = console_server_init(&server, config_filename);
+	rc = console_server_init(&server, args);
 	if (rc != 0) {
 		return 1;
 	}
 
-	rc = console_server_add_consoles(&server, arg_console_id);
+	rc = console_server_add_consoles(&server, args);
 	if (rc != 0) {
 		goto out_server_fini;
 	}
@@ -1231,7 +1285,7 @@ static int console_server_with_args(char *config_filename, char *arg_console_id,
 	console_mux_activate(server.initial_active_console);
 
 	rc = console_server_tty_init(&server, server.config,
-				     arg_config_tty_kname);
+				     args->config_tty_kname);
 
 	if (rc != 0) {
 		warnx("error during tty_init, exiting.\n");
@@ -1252,59 +1306,18 @@ out_server_fini:
 
 int main(int argc, char **argv)
 {
-	char *config_filename = NULL;
-	char *config_tty_kname = NULL;
-	char *console_id = NULL;
-	int rc = 0;
+	struct console_server_args args;
+	int rc;
 
-	// We may not be the first function to parse arguments using
-	// getopt. So just initialize optind here before the call.
-	// There is no harm in this since it should already be 1 in non-testing case.
-	// https://man7.org/linux/man-pages/man3/getopt.3.html
-	optind = 1;
-
-	for (;;) {
-		int c;
-		int idx;
-
-		c = getopt_long(argc, argv, "c:i:", options, &idx);
-		if (c == -1) {
-			break;
-		}
-
-		switch (c) {
-		case 'c':
-			config_filename = strdup(optarg);
-			break;
-		case 'i':
-			console_id = optarg;
-			break;
-		case 'h':
-		case '?':
-			usage(argv[0]);
-			return EXIT_SUCCESS;
-		default:
-			usage(argv[0]);
-			return 1;
-		}
-	}
-
-	if (optind < argc) {
-		config_tty_kname = argv[optind];
-	} else {
-		warnx("no tty device path has been provided\n");
-		rc = 1;
-	}
+	rc = console_server_args_init(argc, argv, &args);
 
 	if (rc != 0) {
-		goto out;
+		return rc;
 	}
 
-	rc = console_server_with_args(config_filename, console_id,
-				      config_tty_kname);
+	rc = console_server_with_args(&args);
 
-out:
-	free(config_filename);
+	console_server_args_fini(&args);
 
 	return rc == 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
