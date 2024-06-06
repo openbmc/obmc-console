@@ -88,4 +88,13 @@ executable('obmc-console-client',
            ],
            install: true)
 
+executable('obmc-console-ctl',
+          'console-ctl/console-ctl-main.c',
+          'console-ctl/console-ctl.c',
+          'console-ctl/activate-console.c',
+          dependencies: [
+             dependency('libsystemd'),
+          ],
+          install: true)
+
 subdir('test')
