@@ -246,3 +246,5 @@ int dbus_create_socket_consumer(struct console *console);
 	do {                                                                   \
 		char __c[(c) ? 1 : -1] __attribute__((unused));                \
 	} while (0)
+
+int console_server_main(int argc, char **argv);

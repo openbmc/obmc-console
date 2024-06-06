@@ -263,7 +263,7 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
-int main(int argc, char *argv[])
+int console_client_main(int argc, char *argv[])
 {
 	struct console_client _client;
 	struct console_client *client;
