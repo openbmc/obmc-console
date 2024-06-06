@@ -1,0 +1,9 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Jeremy Kerr <jk@ozlabs.org>
+Code-Review+1: George Liu <liuxiwei@ieisystem.com>
+Submitted-by: John Wang <wangzhiqiang02@ieisystem.com>
+Submitted-at: Thu, 06 Jun 2024 06:10:18 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/62587
+Comments-Total: 43
+Project: openbmc/obmc-console
+Branch: refs/heads/master
