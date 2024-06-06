@@ -31,38 +31,16 @@
 #include <systemd/sd-daemon.h>
 
 #include "console-server.h"
+#include "socket-handler.h"
 
 #define SOCKET_HANDLER_PKT_SIZE 512
 /* Set poll() timeout to 4000 uS, or 4 mS */
 #define SOCKET_HANDLER_PKT_US_TIMEOUT 4000
 
-struct client {
-	struct socket_handler *sh;
-	struct poller *poller;
-	struct ringbuffer_consumer *rbc;
-	int fd;
-	bool blocked;
-};
-
-struct socket_handler {
-	struct handler handler;
-	struct console *console;
-	struct poller *poller;
-	int sd;
-
-	struct client **clients;
-	int n_clients;
-};
-
 static struct timeval const socket_handler_timeout = {
 	.tv_sec = 0,
 	.tv_usec = SOCKET_HANDLER_PKT_US_TIMEOUT
 };
-
-static struct socket_handler *to_socket_handler(struct handler *handler)
-{
-	return container_of(handler, struct socket_handler, handler);
-}
 
 static void client_close(struct client *client)
 {
@@ -87,9 +65,15 @@ static void client_close(struct client *client)
 	assert(idx < sh->n_clients);
 
 	free(client);
-	client = NULL;
 
 	sh->n_clients--;
+
+	if (sh->n_clients == 0) {
+		free(sh->clients);
+		sh->clients = NULL;
+		return;
+	}
+
 	/*
 	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
 	 * pointer type.
@@ -263,7 +247,7 @@ client_timeout(struct handler *handler __attribute__((unused)), void *data)
 static enum poller_ret client_poll(struct handler *handler, int events,
 				   void *data)
 {
-	struct socket_handler *sh = to_socket_handler(handler);
+	struct socket_handler *sh = handler->data;
 	struct client *client = data;
 	uint8_t buf[4096];
 	ssize_t rc;
@@ -302,7 +286,7 @@ err_close:
 static enum poller_ret socket_poll(struct handler *handler, int events,
 				   void __attribute__((unused)) * data)
 {
-	struct socket_handler *sh = to_socket_handler(handler);
+	struct socket_handler *sh = (struct socket_handler *)handler->data;
 	struct client *client;
 	int fd;
 	int n;
@@ -356,7 +340,8 @@ int dbus_create_socket_consumer(struct console *console)
 
 	for (i = 0; i < console->n_handlers; i++) {
 		if (strcmp(console->handlers[i]->name, "socket") == 0) {
-			sh = to_socket_handler(console->handlers[i]);
+			sh = (struct socket_handler *)(console->handlers[i]
+							       ->data);
 			break;
 		}
 	}
@@ -382,7 +367,7 @@ int dbus_create_socket_consumer(struct console *console)
 
 	client->sh = sh;
 	client->fd = fds[0];
-	client->poller = console_poller_register(sh->console, &sh->handler,
+	client->poller = console_poller_register(sh->console, sh->handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);
 	client->rbc = console_ringbuffer_consumer_register(
@@ -416,15 +401,18 @@ close_fds:
 	return rc;
 }
 
-static int socket_init(struct handler *handler, struct console *console,
-		       struct config *config __attribute__((unused)))
+int socket_init(struct handler *handler, struct console *console,
+		struct config *config __attribute__((unused)))
 {
-	struct socket_handler *sh = to_socket_handler(handler);
+	handler->data = malloc(sizeof(struct socket_handler));
+	struct socket_handler *sh = (struct socket_handler *)handler->data;
+
 	struct sockaddr_un addr;
 	size_t addrlen;
 	ssize_t len;
 	int rc;
 
+	sh->handler = handler;
 	sh->console = console;
 	sh->clients = NULL;
 	sh->n_clients = 0;
@@ -480,9 +468,9 @@ cleanup:
 	return -1;
 }
 
-static void socket_fini(struct handler *handler)
+void socket_fini(struct handler *handler)
 {
-	struct socket_handler *sh = to_socket_handler(handler);
+	struct socket_handler *sh = (struct socket_handler *)handler->data;
 
 	while (sh->n_clients) {
 		client_close(sh->clients[0]);
@@ -493,14 +481,5 @@ static void socket_fini(struct handler *handler)
 	}
 
 	close(sh->sd);
+	free(sh);
 }
-
-static struct socket_handler socket_handler = {
-	.handler = {
-		.name		= "socket",
-		.init		= socket_init,
-		.fini		= socket_fini,
-	},
-};
-
-console_handler_register(&socket_handler.handler);

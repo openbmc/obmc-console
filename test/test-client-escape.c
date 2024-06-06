@@ -29,6 +29,7 @@ static ssize_t __read(int fd, void *buf, size_t len);
 #include "console-client.c"
 #undef read
 #undef main
+#include "util.h"
 
 struct test {
 	enum esc_type esc_type;
@@ -153,8 +154,6 @@ struct test tests[] = {
 		.exp_rc = PROCESS_EXIT,
 	},
 };
-
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 struct test_ctx ctxs[ARRAY_SIZE(tests)];
 
