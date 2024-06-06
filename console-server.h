@@ -134,6 +134,9 @@ struct console_server {
 
 	struct console **consoles;
 	size_t n_consoles;
+
+	// may be NULL in case there is no mux
+	struct console_mux *mux;
 };
 
 struct console {
@@ -159,6 +162,9 @@ struct console {
 	size_t dbus_pollfd_index;
 
 	struct sd_bus *bus;
+
+	// values to configure the mux
+	unsigned long mux_index;
 };
 
 /* poller API */
