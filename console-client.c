@@ -28,9 +28,13 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+#include "iniparser/iniparser.h"
 #include "console-server.h"
+#include "config.h"
 
 #define EXIT_ESCAPE 2
+
+static bool sigint = false;
 
 enum process_rc {
 	PROCESS_OK = 0,
@@ -263,6 +267,13 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
+static void sighandler(int signal)
+{
+	if (signal == SIGINT) {
+		sigint = true;
+	}
+}
+
 int console_client_main(int argc, char *argv[])
 {
 	struct console_client _client;
@@ -320,7 +331,8 @@ int console_client_main(int argc, char *argv[])
 	}
 
 	if (config_path) {
-		config = config_init(config_path);
+		dictionary *dict = iniparser_load(config_path);
+		config = config_init(dict);
 		if (!config) {
 			warnx("Can't read configuration, exiting.");
 			return EXIT_FAILURE;
@@ -347,7 +359,14 @@ int console_client_main(int argc, char *argv[])
 		goto out_client_fini;
 	}
 
+	signal(SIGINT, sighandler);
+
 	for (;;) {
+		if (sigint) {
+			fprintf(stderr, "Received interrupt, exiting\n");
+			goto out_client_fini;
+		}
+
 		pollfds[0].fd = client->fd_in;
 		pollfds[0].events = POLLIN;
 		pollfds[1].fd = client->console_sd;
