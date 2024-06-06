@@ -208,7 +208,7 @@ int ringbuffer_queue(struct ringbuffer *rb, uint8_t *data, size_t len)
 size_t ringbuffer_dequeue_peek(struct ringbuffer_consumer *rbc, size_t offset,
 			       uint8_t **data)
 {
-	struct ringbuffer *rb = rbc->rb;
+	const struct ringbuffer *rb = rbc->rb;
 	size_t pos;
 	size_t len;
 
