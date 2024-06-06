@@ -124,7 +124,19 @@ struct console_server {
 	// index into pollfds
 	size_t tty_pollfd_index;
 
+	struct config *config;
+
+	// first console to activate
+	struct console *initial_active_console;
+
+	// the currently active console
 	struct console *active_console;
+
+	struct console **consoles;
+	size_t n_consoles;
+
+	// may be NULL in case there is no mux
+	struct console_mux *mux;
 };
 
 struct console {
@@ -150,6 +162,9 @@ struct console {
 	size_t dbus_pollfd_index;
 
 	struct sd_bus *bus;
+
+	// values to configure the mux
+	unsigned long mux_index;
 };
 
 /* poller API */
