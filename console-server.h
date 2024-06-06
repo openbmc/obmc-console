@@ -268,8 +268,6 @@ int dbus_create_socket_consumer(struct console *console);
 		char __c[(c) ? 1 : -1] __attribute__((unused));                \
 	} while (0)
 
-int console_server_main(int argc, char **argv, bool testing);
-
 // returns the index of that pollfd in server->pollfds
 // we cannot return a pointer because 'realloc' may move server->pollfds
 ssize_t console_server_request_pollfd(struct console_server *server);
@@ -280,3 +278,4 @@ int console_server_release_pollfd(struct console_server *server,
 int console_server_args_init(int argc, char **argv,
 			     struct console_server_args *args);
 void console_server_args_fini(struct console_server_args *args);
+int console_server_main(int argc, char **argv);
