@@ -34,10 +34,9 @@
 
 #include "config.h"
 #include "config-internal.h"
+#include "util.h"
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
-
-static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
+const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 const char *config_get_value(struct config *config, const char *name)
 {
@@ -90,6 +89,24 @@ struct config *config_init(const char *filename)
 	}
 
 	return config;
+}
+
+const char *config_get_section_value(struct config *config, const char *secname,
+				     const char *name)
+{
+	int rc;
+	char buf[CONFIG_MAX_KEY_LENGTH];
+	rc = sprintf(buf, "%s:%s", secname, name);
+
+	if (rc != (int)(strlen(name) + strlen(secname) + 1)) {
+		// error / key too long for the buffer
+		warnx("%s: key too long for buffer", __func__);
+		return NULL;
+	}
+
+	const char *value = iniparser_getstring(config->dict, buf, NULL);
+
+	return value;
 }
 
 void config_fini(struct config *config)
