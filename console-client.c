@@ -273,7 +273,7 @@ static void sighandler(int signal)
 	}
 }
 
-int main(int argc, char *argv[])
+int console_client_main(int argc, char *argv[])
 {
 	struct console_client _client;
 	struct console_client *client;
