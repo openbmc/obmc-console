@@ -90,6 +90,7 @@ static void client_close(struct client *client)
 	client = NULL;
 
 	sh->n_clients--;
+
 	/*
 	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
 	 * pointer type.
