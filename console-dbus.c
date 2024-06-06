@@ -184,8 +184,7 @@ int dbus_init(struct console *console,
 		return 1;
 	}
 
-	/*
-	if (testing) {
+	if (testing_run) {
 		r = sd_bus_default_user(&console->bus);
 		if (r < 0) {
 			warnx("Failed to connect to user bus: %s, retrying with system bus",
@@ -194,9 +193,8 @@ int dbus_init(struct console *console,
 		}
 		goto has_dbus;
 	}
-	*/
 
-	//system_dbus:
+system_dbus:
 
 	r = sd_bus_default_system(&console->bus);
 	if (r < 0) {
@@ -208,7 +206,7 @@ int dbus_init(struct console *console,
 		printf("console '%s' connected to dbus\n", console->console_id);
 	}
 
-	//has_dbus:
+has_dbus:
 	/* Register support console interface */
 	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
 			 console->console_id);

@@ -52,6 +52,8 @@
 
 #define DEV_PTS_PATH "/dev/pts"
 
+bool testing_run = false;
+
 /* default size of the shared backlog ringbuffer */
 const size_t default_buffer_size = 128ul * 1024ul;
 
@@ -1442,10 +1444,12 @@ out_server_fini:
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
-int console_server_main(int argc, char **argv)
+int console_server_main(int argc, char **argv, bool testing)
 {
 	struct console_server_args args;
 	int rc;
+
+	testing_run = testing;
 
 	rc = console_server_args_init(argc, argv, &args);
 
