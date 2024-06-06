@@ -17,19 +17,26 @@
 #include <assert.h>
 #include <errno.h>
 #include <err.h>
+#include <pthread.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <systemd/sd-bus-vtable.h>
+#include <systemd/sd-bus.h>
 
 #include "console-server.h"
+#include "console-gpio.h"
+#include "config.h"
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;
 
-#define DBUS_ERR    "org.openbmc.error"
-#define DBUS_NAME   "xyz.openbmc_project.Console.%s"
-#define OBJ_NAME    "/xyz/openbmc_project/console/%s"
-#define UART_INTF   "xyz.openbmc_project.Console.UART"
-#define ACCESS_INTF "xyz.openbmc_project.Console.Access"
+#define DBUS_ERR     "org.openbmc.error"
+#define DBUS_NAME    "xyz.openbmc_project.Console.%s"
+#define OBJ_NAME     "/xyz/openbmc_project/console/%s"
+#define UART_INTF    "xyz.openbmc_project.Console.UART"
+#define ACCESS_INTF  "xyz.openbmc_project.Console.Access"
+#define CONTROL_INTF "xyz.openbmc_project.Console.Control"
 
 static void tty_change_baudrate(struct console *console)
 {
@@ -110,6 +117,20 @@ static int get_baud_handler(sd_bus *bus __attribute__((unused)),
 	return r;
 }
 
+static int get_active_handler(sd_bus *bus __attribute__((unused)),
+			      const char *path __attribute__((unused)),
+			      const char *interface __attribute__((unused)),
+			      const char *property __attribute__((unused)),
+			      sd_bus_message *reply, void *userdata,
+			      sd_bus_error *error __attribute__((unused)))
+{
+	struct console *console = userdata;
+	int active = (console->server->active_console == console) ? 1 : 0;
+	int r = sd_bus_message_append(reply, "b", active);
+
+	return r;
+}
+
 static int method_connect(sd_bus_message *msg, void *userdata,
 			  sd_bus_error *err)
 {
@@ -141,6 +162,29 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 	return rc;
 }
 
+static int method_activate(sd_bus_message *msg, void *userdata,
+			   sd_bus_error *err)
+{
+	struct console *console = userdata;
+	int status;
+
+	if (!console) {
+		warnx("Internal error: Console pointer is null");
+		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
+		return sd_bus_reply_method_error(msg, err);
+	}
+
+	if (console->server->debug) {
+		printf("console '%s' : dbus Activate()\n", console->console_id);
+	}
+
+	console_activate(console);
+
+	status = sd_bus_reply_method_return(msg, "i", 0);
+
+	return status;
+}
+
 static const sd_bus_vtable console_uart_vtable[] = {
 	SD_BUS_VTABLE_START(0),
 	SD_BUS_WRITABLE_PROPERTY("Baud", "t", get_baud_handler,
@@ -157,8 +201,17 @@ static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_END,
 };
 
-void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)))
+static const sd_bus_vtable console_control_vtable[] = {
+	SD_BUS_VTABLE_START(0),
+	SD_BUS_METHOD_WITH_ARGS("Activate", "", "i", method_activate,
+				SD_BUS_VTABLE_UNPRIVILEGED),
+	SD_BUS_PROPERTY("Active", "b", get_active_handler, 0,
+			SD_BUS_VTABLE_PROPERTY_EMITS_CHANGE),
+	SD_BUS_VTABLE_END,
+};
+
+int dbus_init(struct console *console,
+	      struct config *config __attribute__((unused)), bool testing)
 {
 	char obj_name[dbus_obj_path_len];
 	char dbus_name[dbus_obj_path_len];
@@ -168,22 +221,39 @@ void dbus_init(struct console *console,
 
 	if (!console) {
 		warnx("Couldn't get valid console");
-		return;
+		return 1;
 	}
+
+	if (testing) {
+		r = sd_bus_default_user(&console->bus);
+		if (r < 0) {
+			warnx("Failed to connect to user bus: %s, retrying with system bus",
+			      strerror(-r));
+			goto system_dbus;
+		}
+		goto has_dbus;
+	}
+
+system_dbus:
 
 	r = sd_bus_default_system(&console->bus);
 	if (r < 0) {
 		warnx("Failed to connect to system bus: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
+	if (console->server->debug) {
+		printf("console '%s' connected to dbus\n", console->console_id);
+	}
+
+has_dbus:
 	/* Register support console interface */
 	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
 			 console->console_id);
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	if (console->server->tty.type == TTY_DEVICE_UART) {
@@ -194,7 +264,7 @@ void dbus_init(struct console *console,
 		if (r < 0) {
 			warnx("Failed to register UART interface: %s",
 			      strerror(-r));
-			return;
+			return -1;
 		}
 	}
 
@@ -203,7 +273,15 @@ void dbus_init(struct console *console,
 				     console_access_vtable, console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
+		return -1;
+	}
+
+	/* Register control interface */
+	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, CONTROL_INTF,
+				     console_control_vtable, console);
+	if (r < 0) {
+		warnx("Failed to issue method call: %s", strerror(-r));
+		return -1;
 	}
 
 	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
@@ -211,7 +289,7 @@ void dbus_init(struct console *console,
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	/* Finally register the bus name */
@@ -220,19 +298,24 @@ void dbus_init(struct console *console,
 					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
 		warnx("Failed to acquire service name: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	fd = sd_bus_get_fd(console->bus);
 	if (fd < 0) {
 		warnx("Couldn't get the bus file descriptor");
-		return;
+		return -1;
+	}
+
+	if (console->server->debug) {
+		printf("console '%s' acquired dbus name '%s'\n",
+		       console->console_id, dbus_name);
 	}
 
 	const ssize_t index = console_server_request_pollfd(console->server);
 	if (index < 0) {
 		fprintf(stderr, "Error: failed to allocate pollfd\n");
-		return;
+		return -1;
 	}
 
 	console->dbus_pollfd_index = index;
@@ -241,4 +324,6 @@ void dbus_init(struct console *console,
 
 	dbus_pollfd->fd = fd;
 	dbus_pollfd->events = POLLIN;
+
+	return 0;
 }
