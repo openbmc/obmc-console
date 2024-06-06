@@ -97,6 +97,15 @@ enum tty_device {
 	TTY_DEVICE_PTY,
 };
 
+struct console_server_args {
+	// may be NULL when using config-file
+	char *console_id;
+
+	char *config_tty_kname;
+
+	char *config_filename;
+};
+
 struct console_server {
 	struct {
 		const char *kname;
@@ -124,7 +133,14 @@ struct console_server {
 	// index into pollfds
 	size_t tty_pollfd_index;
 
+	struct config *config;
+
 	struct console *active_console;
+	struct console **consoles;
+	size_t n_consoles;
+
+	// may be NULL in case there is no mux
+	struct console_mux *mux;
 };
 
 struct console {
@@ -150,6 +166,9 @@ struct console {
 	size_t dbus_pollfd_index;
 
 	struct sd_bus *bus;
+
+	// values to configure the mux
+	uint32_t mux_index;
 };
 
 /* poller API */
@@ -268,3 +287,7 @@ ssize_t console_server_request_pollfd(struct console_server *server, int fd,
 
 int console_server_release_pollfd(struct console_server *server,
 				  size_t pollfd_index);
+
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args);
+void console_server_args_fini(struct console_server_args *args);
