@@ -1362,7 +1362,7 @@ static int console_server_with_args(struct console_server_args *args)
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
-int main(int argc, char **argv)
+int console_server_main(int argc, char **argv)
 {
 	struct console_server_args args;
 	int rc;

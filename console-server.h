@@ -297,3 +297,4 @@ int console_server_release_pollfd(struct console_server *server,
 int console_server_args_init(int argc, char **argv,
 			     struct console_server_args *args);
 void console_server_args_fini(struct console_server_args *args);
+int console_server_main(int argc, char **argv);
