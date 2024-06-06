@@ -55,6 +55,7 @@ endif
 iniparser_dep = dependency('iniparser')
 
 executable('obmc-console-server',
+           'console-server-main.c',
            'config.c',
            'console-dbus.c',
            'console-server.c',
@@ -79,6 +80,7 @@ executable('obmc-console-server',
            install: true)
 
 executable('obmc-console-client',
+           'console-client-main.c',
            'config.c',
            'console-client.c',
            'console-socket.c',
