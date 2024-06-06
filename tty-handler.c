@@ -25,9 +25,10 @@
 #include <termios.h>
 
 #include "console-server.h"
+#include "config.h"
 
 struct tty_handler {
-	struct handler handler;
+	struct handler *handler;
 	struct console *console;
 	struct ringbuffer_consumer *rbc;
 	struct poller *poller;
@@ -35,11 +36,6 @@ struct tty_handler {
 	int fd_flags;
 	bool blocked;
 };
-
-static struct tty_handler *to_tty_handler(struct handler *handler)
-{
-	return container_of(handler, struct tty_handler, handler);
-}
 
 static void tty_set_fd_blocking(struct tty_handler *th, bool fd_blocking)
 {
@@ -159,7 +155,7 @@ static enum ringbuffer_poll_ret tty_ringbuffer_poll(void *arg, size_t force_len)
 static enum poller_ret tty_poll(struct handler *handler, int events,
 				void __attribute__((unused)) * data)
 {
-	struct tty_handler *th = to_tty_handler(handler);
+	struct tty_handler *th = (struct tty_handler *)handler->data;
 	uint8_t buf[4096];
 	ssize_t len;
 	int rc;
@@ -236,10 +232,14 @@ static int make_terminal_raw(struct tty_handler *th, const char *tty_name)
 	return 0;
 }
 
-static int tty_init(struct handler *handler, struct console *console,
-		    struct config *config __attribute__((unused)))
+int tty_init(struct handler *handler, struct console *console,
+	     struct config *config __attribute__((unused)))
 {
-	struct tty_handler *th = to_tty_handler(handler);
+	handler->data = malloc(sizeof(struct tty_handler));
+	struct tty_handler *th = (struct tty_handler *)handler->data;
+
+	th->handler = handler;
+
 	speed_t desired_speed;
 	const char *tty_name;
 	const char *tty_baud;
@@ -248,11 +248,17 @@ static int tty_init(struct handler *handler, struct console *console,
 
 	tty_name = config_get_value(config, "local-tty");
 	if (!tty_name) {
+		if (console->server->debug) {
+			printf("console-server: did not find property 'local-tty' in config, returning from %s\n",
+			       __func__);
+			free(th);
+		}
 		return -1;
 	}
 
 	rc = asprintf(&tty_path, "/dev/%s", tty_name);
 	if (!rc) {
+		free(th);
 		return -1;
 	}
 
@@ -260,6 +266,7 @@ static int tty_init(struct handler *handler, struct console *console,
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
 		free(tty_path);
+		free(th);
 		return -1;
 	}
 
@@ -292,22 +299,24 @@ static int tty_init(struct handler *handler, struct console *console,
 	th->rbc = console_ringbuffer_consumer_register(console,
 						       tty_ringbuffer_poll, th);
 
+	handler->active = true;
 	return 0;
 }
 
-static void tty_fini(struct handler *handler)
+void tty_fini(struct handler *handler)
 {
-	struct tty_handler *th = to_tty_handler(handler);
+	struct tty_handler *th = (struct tty_handler *)handler->data;
 	if (th->poller) {
 		console_poller_unregister(th->console, th->poller);
 	}
 	close(th->fd);
+	free(th);
 }
 
-static int tty_baudrate(struct handler *handler, speed_t baudrate)
+int tty_baudrate(struct handler *handler, speed_t baudrate)
 {
 	const char *tty_name = "local-tty";
-	struct tty_handler *th = to_tty_handler(handler);
+	struct tty_handler *th = (struct tty_handler *)handler->data;
 
 	if (baudrate == 0) {
 		return -1;
@@ -320,14 +329,3 @@ static int tty_baudrate(struct handler *handler, speed_t baudrate)
 	}
 	return 0;
 }
-
-static struct tty_handler tty_handler = {
-	.handler = {
-		.name		= "tty",
-		.init		= tty_init,
-		.fini		= tty_fini,
-		.baudrate	= tty_baudrate,
-	},
-};
-
-console_handler_register(&tty_handler.handler);
