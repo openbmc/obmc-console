@@ -16,7 +16,9 @@
 
 #pragma once
 
+#include <bits/pthreadtypes.h>
 #include <poll.h>
+#include <stdatomic.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <termios.h> /* for speed_t */
@@ -51,17 +53,8 @@ struct handler {
 	void (*fini)(struct handler *handler);
 	int (*baudrate)(struct handler *handler, speed_t baudrate);
 	bool active;
+	void *data; // private data of the handler
 };
-
-/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-#define __handler_name(n) __handler_##n
-#define _handler_name(n)  __handler_name(n)
-
-#define console_handler_register(h)                                            \
-	static const __attribute__((section("handlers")))                      \
-	__attribute__((used)) struct handler *                                 \
-	_handler_name(__COUNTER__) = h
-/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
@@ -83,6 +76,18 @@ enum tty_device {
 	TTY_DEVICE_VUART,
 	TTY_DEVICE_UART,
 	TTY_DEVICE_PTY,
+};
+
+struct console_server_args {
+	// may be NULL when using config-files
+	char *console_id;
+
+	char *config_tty_kname;
+
+	char **config_filenames;
+	size_t n_config_filenames;
+
+	bool debug;
 };
 
 struct console_server {
@@ -113,11 +118,18 @@ struct console_server {
 	size_t tty_pollfd_index;
 
 	struct console *active_console;
+	struct console **consoles;
+	size_t n_consoles;
+
+	struct gpiod_chip *gpio_chip;
+
+	bool debug;
 };
 
+/* Console server structure */
 struct console {
-	// point back to the console server
-	// which we are a member of
+	// point back to the console server which
+	// we are a member of
 	struct console_server *server;
 
 	const char *console_id;
@@ -138,6 +150,9 @@ struct console {
 	size_t dbus_pollfd_index;
 
 	struct sd_bus *bus;
+
+	struct console_gpio **mux_gpios;
+	long n_mux_gpios;
 };
 
 /* poller API */
@@ -220,19 +235,6 @@ console_ringbuffer_consumer_register(struct console *console,
 /* Console server API */
 void tty_init_termios(struct console_server *server);
 
-/* config API */
-struct config;
-const char *config_get_value(struct config *config, const char *name);
-struct config *config_init(const char *filename);
-const char *config_resolve_console_id(struct config *config,
-				      const char *id_arg);
-void config_fini(struct config *config);
-
-int config_parse_baud(speed_t *speed, const char *baud_string);
-uint32_t parse_baud_to_int(speed_t speed);
-speed_t parse_int_to_baud(uint32_t baud);
-int config_parse_bytesize(const char *size_str, size_t *size);
-
 /* socket paths */
 ssize_t console_socket_path(socket_path_t path, const char *id);
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
@@ -242,8 +244,8 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 
 /* console-dbus API */
-void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)));
+int dbus_init(struct console *console,
+	      struct config *config __attribute__((unused)), bool testing);
 
 /* socket-handler API */
 int dbus_create_socket_consumer(struct console *console);
@@ -262,6 +264,8 @@ int dbus_create_socket_consumer(struct console *console);
 		char __c[(c) ? 1 : -1] __attribute__((unused));                \
 	} while (0)
 
+int console_server_main(int argc, char **argv, bool testing);
+
 // returns the index of that pollfd in server->pollfds
 // we cannot return a pointer because 'realloc' may move server->pollfds
 ssize_t console_server_request_pollfd(struct console_server *server);
@@ -269,4 +273,6 @@ ssize_t console_server_request_pollfd(struct console_server *server);
 int console_server_release_pollfd(struct console_server *server,
 				  size_t pollfd_index);
 
-int console_server_main(int argc, char **argv);
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args);
+void console_server_args_fini(struct console_server_args *args);

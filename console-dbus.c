@@ -17,19 +17,26 @@
 #include <assert.h>
 #include <errno.h>
 #include <err.h>
+#include <pthread.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <systemd/sd-bus-vtable.h>
+#include <systemd/sd-bus.h>
 
 #include "console-server.h"
+#include "console-gpio.h"
+#include "config.h"
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;
 
-#define DBUS_ERR    "org.openbmc.error"
-#define DBUS_NAME   "xyz.openbmc_project.Console.%s"
-#define OBJ_NAME    "/xyz/openbmc_project/console/%s"
-#define UART_INTF   "xyz.openbmc_project.Console.UART"
-#define ACCESS_INTF "xyz.openbmc_project.Console.Access"
+#define DBUS_ERR     "org.openbmc.error"
+#define DBUS_NAME    "xyz.openbmc_project.Console.%s"
+#define OBJ_NAME     "/xyz/openbmc_project/console/%s"
+#define UART_INTF    "xyz.openbmc_project.Console.UART"
+#define ACCESS_INTF  "xyz.openbmc_project.Console.Access"
+#define CONTROL_INTF "xyz.openbmc_project.Console.Control"
 
 static void tty_change_baudrate(struct console *console)
 {
@@ -123,6 +130,12 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 		return sd_bus_reply_method_error(msg, err);
 	}
 
+	if (console->server->debug) {
+		printf("console '%s' : activating\n", console->console_id);
+	}
+
+	console_activate(console);
+
 	/* Register the consumer. */
 	socket_fd = dbus_create_socket_consumer(console);
 	if (socket_fd < 0) {
@@ -157,8 +170,8 @@ static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_END,
 };
 
-void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)))
+int dbus_init(struct console *console,
+	      struct config *config __attribute__((unused)), bool testing)
 {
 	char obj_name[dbus_obj_path_len];
 	char dbus_name[dbus_obj_path_len];
@@ -168,22 +181,39 @@ void dbus_init(struct console *console,
 
 	if (!console) {
 		warnx("Couldn't get valid console");
-		return;
+		return 1;
 	}
+
+	if (testing) {
+		r = sd_bus_default_user(&console->bus);
+		if (r < 0) {
+			warnx("Failed to connect to user bus: %s, retrying with system bus",
+			      strerror(-r));
+			goto system_dbus;
+		}
+		goto has_dbus;
+	}
+
+system_dbus:
 
 	r = sd_bus_default_system(&console->bus);
 	if (r < 0) {
 		warnx("Failed to connect to system bus: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
+	if (console->server->debug) {
+		printf("console '%s' connected to dbus\n", console->console_id);
+	}
+
+has_dbus:
 	/* Register support console interface */
 	bytes = snprintf(obj_name, dbus_obj_path_len, OBJ_NAME,
 			 console->console_id);
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	if (console->server->tty.type == TTY_DEVICE_UART) {
@@ -194,7 +224,7 @@ void dbus_init(struct console *console,
 		if (r < 0) {
 			warnx("Failed to register UART interface: %s",
 			      strerror(-r));
-			return;
+			return -1;
 		}
 	}
 
@@ -203,7 +233,7 @@ void dbus_init(struct console *console,
 				     console_access_vtable, console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
@@ -211,7 +241,7 @@ void dbus_init(struct console *console,
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	/* Finally register the bus name */
@@ -220,19 +250,24 @@ void dbus_init(struct console *console,
 					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
 		warnx("Failed to acquire service name: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	fd = sd_bus_get_fd(console->bus);
 	if (fd < 0) {
 		warnx("Couldn't get the bus file descriptor");
-		return;
+		return -1;
+	}
+
+	if (console->server->debug) {
+		printf("console '%s' acquired dbus name '%s'\n",
+		       console->console_id, dbus_name);
 	}
 
 	const ssize_t index = console_server_request_pollfd(console->server);
 	if (index < 0) {
 		fprintf(stderr, "Error: failed to allocate pollfd\n");
-		return;
+		return -1;
 	}
 
 	console->dbus_pollfd_index = index;
@@ -241,4 +276,6 @@ void dbus_init(struct console *console,
 
 	dbus_pollfd->fd = fd;
 	dbus_pollfd->events = POLLIN;
+
+	return 0;
 }
