@@ -115,6 +115,15 @@ struct console_server {
 		};
 	} tty;
 
+	// All the pollfds are stored here,
+	// so 'poll' can operate on them.
+	// The other 'pollfd*' are just pointers to this array.
+	struct pollfd *pollfds;
+	size_t capacity_pollfds;
+
+	// index into pollfds
+	size_t tty_pollfd_index;
+
 	struct console *active;
 };
 
@@ -137,7 +146,9 @@ struct console {
 	struct poller **pollers;
 	long n_pollers;
 
-	struct pollfd *pollfds;
+	// index into (struct console_server)->pollfds
+	size_t dbus_pollfd_index;
+
 	struct sd_bus *bus;
 };
 
@@ -149,13 +160,9 @@ struct poller {
 	poller_timeout_fn_t timeout_fn;
 	struct timeval timeout;
 	bool remove;
-};
 
-/* we have two extra entry in the pollfds array for the VUART tty */
-enum internal_pollfds {
-	POLLFD_HOSTTTY = 0,
-	POLLFD_DBUS = 1,
-	MAX_INTERNAL_POLLFD = 2,
+	// index into (struct console_server)->pollfds
+	size_t pollfd_index;
 };
 
 struct poller *console_poller_register(struct console *console,
@@ -253,3 +260,11 @@ int dbus_create_socket_consumer(struct console *console);
 	} while (0)
 
 #define BUILD_ASSERT_OR_ZERO(c) (sizeof(char[(c) ? 1 : -1]) - 1)
+
+// returns the index of that pollfd in server->pollfds
+// we cannot return a pointer because 'realloc' may move server->pollfds
+ssize_t console_server_request_pollfd(struct console_server *server, int fd,
+				      short int events);
+
+int console_server_release_pollfd(struct console_server *server,
+				  size_t pollfd_index);

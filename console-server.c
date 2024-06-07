@@ -61,6 +61,76 @@ static void usage(const char *progname)
 		progname);
 }
 
+static bool console_server_pollfd_reclaimable(struct pollfd *p)
+{
+	return p->fd == -1 && p->events == 0 && p->revents == ~0;
+}
+
+static ssize_t
+console_server_find_released_pollfd(struct console_server *server)
+{
+	for (size_t i = 0; i < server->capacity_pollfds; i++) {
+		struct pollfd *p = &server->pollfds[i];
+		if (console_server_pollfd_reclaimable(p)) {
+			return (ssize_t)i;
+		}
+	}
+	return -1;
+}
+
+// returns the index of that pollfd in server->pollfds
+// we cannot return a pointer because 'realloc' may move server->pollfds
+ssize_t console_server_request_pollfd(struct console_server *server, int fd,
+				      short int events)
+{
+	ssize_t index;
+	struct pollfd *pollfd;
+
+	index = console_server_find_released_pollfd(server);
+
+	if (index < 0) {
+		const size_t newcap = server->capacity_pollfds + 1;
+
+		struct pollfd *newarr = reallocarray(server->pollfds, newcap,
+						     sizeof(struct pollfd));
+		if (newarr == NULL) {
+			return -1;
+		}
+		server->pollfds = newarr;
+
+		index = (ssize_t)server->capacity_pollfds;
+
+		server->capacity_pollfds = newcap;
+	}
+
+	pollfd = &server->pollfds[index];
+	pollfd->fd = fd;
+	pollfd->events = events;
+	pollfd->revents = 0;
+
+	return index;
+}
+
+int console_server_release_pollfd(struct console_server *server,
+				  size_t pollfd_index)
+{
+	if (pollfd_index >= server->capacity_pollfds) {
+		return -1;
+	}
+
+	struct pollfd *pfd = &server->pollfds[pollfd_index];
+
+	// mark pollfd as reclaimable
+
+	// ignore this file descriptor when calling 'poll'
+	// https://www.man7.org/linux/man-pages/man2/poll.2.html
+	pfd->fd = -1;
+	pfd->events = 0;
+	pfd->revents = ~0;
+
+	return 0;
+}
+
 /* populates server->tty.dev and server->tty.sysfs_devnode, using the tty kernel name */
 static int tty_find_device(struct console_server *server)
 {
@@ -285,8 +355,14 @@ static int tty_init_io(struct console_server *server)
 
 	tty_init_termios(server);
 
-	server->active->pollfds[server->active->n_pollers].fd = server->tty.fd;
-	server->active->pollfds[server->active->n_pollers].events = POLLIN;
+	ssize_t index =
+		console_server_request_pollfd(server, server->tty.fd, POLLIN);
+
+	if (index < 0) {
+		return -1;
+	}
+
+	server->tty_pollfd_index = (size_t)index;
 
 	return 0;
 }
@@ -393,9 +469,15 @@ static int tty_init(struct console_server *server, struct config *config,
 
 static void tty_fini(struct console_server *server)
 {
+	if (server->tty_pollfd_index < server->capacity_pollfds) {
+		console_server_release_pollfd(server, server->tty_pollfd_index);
+		server->tty_pollfd_index = SIZE_MAX;
+	}
+
 	if (server->tty.type == TTY_DEVICE_VUART) {
 		free(server->tty.vuart.sysfs_devnode);
 	}
+
 	free(server->tty.dev);
 }
 
@@ -629,13 +711,22 @@ struct poller *console_poller_register(struct console *console,
 	struct poller *poller;
 	long n;
 
+	const ssize_t index = console_server_request_pollfd(
+		console->server, fd, (short)(events & 0x7fff));
+	if (index < 0) {
+		fprintf(stderr, "Error requesting pollfd\n");
+		return NULL;
+	}
+
 	poller = malloc(sizeof(*poller));
+	// TODO: check for error case of malloc here and release previously requested pollfd
 	poller->remove = false;
 	poller->handler = handler;
 	poller->event_fn = poller_fn;
 	poller->timeout_fn = timeout_fn;
 	timerclear(&poller->timeout);
 	poller->data = data;
+	poller->pollfd_index = index;
 
 	/* add one to our pollers array */
 	n = console->n_pollers++;
@@ -646,21 +737,10 @@ struct poller *console_poller_register(struct console *console,
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	console->pollers = reallocarray(console->pollers, console->n_pollers,
 					sizeof(*console->pollers));
+	// TODO: check for the error case of reallocarray and release previously requested pollfd
 	/* NOLINTEND(bugprone-sizeof-expression) */
 
 	console->pollers[n] = poller;
-
-	/* increase pollfds array too  */
-	console->pollfds = reallocarray(
-		console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
-		sizeof(*console->pollfds));
-
-	/* shift the end pollfds up by one */
-	memcpy(&console->pollfds[n + 1], &console->pollfds[n],
-	       sizeof(*console->pollfds) * MAX_INTERNAL_POLLFD);
-
-	console->pollfds[n].fd = fd;
-	console->pollfds[n].events = (short)(events & 0x7fff);
 
 	return poller;
 }
@@ -700,14 +780,7 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 	}
 	/* NOLINTEND(bugprone-sizeof-expression) */
 
-	/* ... and the pollfds array */
-	memmove(&console->pollfds[i], &console->pollfds[i + 1],
-		sizeof(*console->pollfds) *
-			(MAX_INTERNAL_POLLFD + console->n_pollers - i));
-
-	console->pollfds = reallocarray(
-		console->pollfds, (MAX_INTERNAL_POLLFD + console->n_pollers),
-		sizeof(*console->pollfds));
+	console_server_release_pollfd(console->server, poller->pollfd_index);
 
 	free(poller);
 }
@@ -715,16 +788,8 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 void console_poller_set_events(struct console *console, struct poller *poller,
 			       int events)
 {
-	int i;
-
-	/* find the entry in our pollers array */
-	for (i = 0; i < console->n_pollers; i++) {
-		if (console->pollers[i] == poller) {
-			break;
-		}
-	}
-
-	console->pollfds[i].events = (short)(events & 0x7fff);
+	console->server->pollfds[poller->pollfd_index].events =
+		(short)(events & 0x7fff);
 }
 
 void console_poller_set_timeout(struct console *console __attribute__((unused)),
@@ -792,7 +857,12 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 	 */
 	for (i = 0; i < console->n_pollers; i++) {
 		poller = console->pollers[i];
-		pollfd = &console->pollfds[i];
+		pollfd = &console->server->pollfds[poller->pollfd_index];
+		if (pollfd->fd < 0) {
+			// pollfd has already been released
+			continue;
+		}
+
 		prc = POLLER_OK;
 
 		/* process pending events... */
@@ -879,7 +949,7 @@ static int run_console_iteration(struct console *console)
 
 	timeout = get_poll_timeout(console, &tv);
 
-	rc = poll(console->pollfds, console->n_pollers + MAX_INTERNAL_POLLFD,
+	rc = poll(console->server->pollfds, console->server->capacity_pollfds,
 		  (int)timeout);
 
 	if (rc < 0) {
@@ -891,7 +961,7 @@ static int run_console_iteration(struct console *console)
 	}
 
 	/* process internal fd first */
-	if (console->pollfds[console->n_pollers].revents) {
+	if (console->server->pollfds[console->server->tty_pollfd_index].revents) {
 		rc = read(console->server->tty.fd, buf, sizeof(buf));
 		if (rc <= 0) {
 			warn("Error reading from tty device");
@@ -903,7 +973,7 @@ static int run_console_iteration(struct console *console)
 		}
 	}
 
-	if (console->pollfds[console->n_pollers + 1].revents) {
+	if (console->server->pollfds[console->dbus_pollfd_index].revents) {
 		sd_bus_process(console->bus, NULL);
 	}
 
@@ -993,8 +1063,8 @@ int main(int argc, char **argv)
 	server.active = console;
 	console->server = &server;
 
-	console->pollfds =
-		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
+	server.pollfds = NULL;
+	server.capacity_pollfds = 0;
 
 	buffer_size_str = config_get_value(config, "ringbuffer-size");
 	if (buffer_size_str) {
@@ -1041,7 +1111,7 @@ out_ringbuffer_fini:
 
 out_console_fini:
 	free(console->pollers);
-	free(console->pollfds);
+	free(server.pollfds);
 	free(console);
 
 out_config_fini:
