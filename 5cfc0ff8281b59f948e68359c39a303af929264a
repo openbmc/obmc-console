@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc88db24_db73ec0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-07T15:49:55Z",
+      "side": 1,
+      "message": "Thanks for all these comments! As you said, the details might still change while i break up the change, so i can look at those comments later.\n\nAs you suggested i tried to get some preliminary items done in patches previous to this on, the relation chain has been expanded. As you said, many of these things are unrelated to the uart mux support but required for the clean implementation.\n\n- separate patch to create struct console_server\n- separate patch to introduce run_console_iteration\n\nIf it\u0027s ok for you then we could focus on getting those and their predecessors reviewed, and i can create further patches for\n\n- create the additional dbus interface (between this patch and the console-ctl patch)\n- configuration directory / configuration file with sections\n- debug print macro/function",
+      "parentUuid": "c34a7dff_7e6e2144",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bdcce83_8078c416",
         "filename": "config.c",
         "patchSetId": 21
@@ -167,6 +185,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "As I mentioned in the overall comment, I\u0027m not sure why you\u0027re making this change. These should be fine to remain static and registered through the handlers array?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55070523_d2c25f76",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-07T15:49:55Z",
+      "side": 1,
+      "message": "From my understanding, the log handler refers to a filename which would be different for the different consoles behind a mux. It would be confusing to have log output from different consoles in the same file.\n\nIn socket-handler.c, the console_id is also part of the socket addr.sun_path,\nso the socket also appears to be a per-console feature.\n\nMaybe tty-handler is a console-server feature... then i would have to approach it differently.\n\nIt any case, from my perspective it makes no sense to have a separate section in the binary for these, unless some external program makes use of that. They can be in .data section like anything else or be allocated dynamically.",
+      "parentUuid": "62661f50_ffcddab5",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
