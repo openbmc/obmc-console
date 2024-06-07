@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76cf7961_01dea30f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "Hi Alexander, I\u0027ve added some more thoughts. Please tell me where I might be off track though, I don\u0027t want to have you flip-flopping with the implementation based on lack of understanding on my part.",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f88f6a2_8c6d1563",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "Perhaps we can add a `docs/` directory and put this at `docs/mux-support.md`",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "513f4e1c_f7bf8e33",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "Can you please provide the full `busctl list` and `busctl tree` output here for all relevant connections? That would be very useful context to orient people (me).",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7bb1f9e_ae5998a3",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "I have a vague feeling that this is too abstract. Are you proposing that this interface is always exposed regardless of whether a UART mux is present or not? If it\u0027s not exposed when a mux isn\u0027t present, then I think it should be clear in the name that the interface relates to the mux, e.g. `xyz.openbmc_project.Console.Mux`. If it is always exposed, what\u0027s its behaviour when a mux isn\u0027t present?\n\nSeparately, the interface must first be specified in `phosphor-dbus-interfaces` before it\u0027s implemented here, to make sure it\u0027s properly debated. You can find the other interfaces specified there also:\n\nhttps://github.com/openbmc/phosphor-dbus-interfaces/tree/master/yaml/xyz/openbmc_project/Console",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69e4f7d5_360a4d77",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "Bit of a nit, but IMO this diagram should be easier to interpret. It feels like it has unnecessary cross-overs. In README.md I have the diagram going from the network on the left to the UART on the right, and I think we can try to do the same here?\n\nI took some time to diagram my understanding. What are your thoughts on this?\n\n```\n                                          +--------------------+                                           \n                                          | uart1.conf         |                                           \n                                          +--------------------+                                           \n                                          | console-id \u003d host1 |                                           \n                                          | mux-index \u003d 0      |                                           \n                                          +----+---------------+                                           \n                                               |                                                           \n                                               |                                                           \n                                               |                                                           \n                                               |                                                           \n                                          +----+----+                                 +-----+     +-------+\n                                          |         |                                 |     |     |       |\n                                          |         |     +-------+     +-------+     |     +-----+ UART1 |\n+-----------------------------------+     |         |     |       |     |       |     |     |     |       |\n| xyz.openbmc_project.Console.host1 +-----+         +-----+ ttyS0 +-----+ UART0 +-----+     |     +-------+\n+-----------------------------------+     |         |     |       |     |       |     |     |              \n                                          |  obmc   |     +-------+     +-------+     |     |              \n                                          | console |                                 | MUX |              \n                                          | server  |                   +-------+     |     |              \n+-----------------------------------+     |         |                   |       |     |     |              \n| xyz.openbmc_project.Console.host2 +-----+         +-------------------+ GPIO  +-----+     |     +-------+\n+-----------------------------------+     |         |                   |       |     |     |     |       |\n                                          |         |                   +-------+     |     +-----+ UART2 |\n                                          |         |                                 |     |     |       |\n                                          +----+----+                                 +-----+     +-------+\n                                               |                                                           \n                                               |                                                           \n                                               |                                                           \n                                               |                                                           \n                                          +----+---------------+                                           \n                                          | uart2.conf         |                                           \n                                          +--------------------+                                           \n                                          | console-id \u003d host2 |                                           \n                                          | mux-index \u003d 1      |                                           \n                                          +--------------------+                                           \n```\n\nHowever, see discussion on the example configs about whether we should split them into separate files, I might be back-tracking on that idea (sorry - but I hope that motivates discussion instead of immediately taking the suggestion and running with an implementation).",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ecabc29_aba89ebc",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "Can you please add some discussion of how we configure obmc-console for this hardware setup? I think we need to unpack answers to questions such as:\n\n1. What configuration files are needed?\n2. Where should they be placed?\n3. How does the UART mux feature compose with e.g. the concurrent console servers feature?",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d71ed2b9_d36ace9e",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-07T03:15:11Z",
+      "side": 1,
+      "message": "I\u0027m a bit wary of `mux-gpio-N` as a concept. I think my ideal approach would be to have a `mux-index` property, which can take an integer value, and then somewhere (maybe not here?) we specify `mux-gpios` which takes one or more GPIO names to look up. The order of GPIOs listed in `mux-gpios` forms the LSB-first bit representation of an N-bit number that bounds the value of `mux-index`. This is inspired by the `i2c-mux-gpio` devicetree binding:\n\nhttps://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml?h\u003dv6.10-rc2#n32\n\nI don\u0027t think `mux-gpios` should be specified in the config for a given console, as it would then be duplicated (and need to be consistent) across console configs. Really it describes something associated directly with the mux, not the mux\u0027s downstream ports. Possibly I\u0027m flip-flopping here, but do we go back to a single config file with sections? Doesn\u0027t feel great to require yet-another-file to solve the where-do-we-represent-this problem (in my defense I was trying to prompt some discussions last time before you implemented multi-file scheme, but you\u0027ve already implemented it 😄)",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
