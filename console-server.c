@@ -62,7 +62,7 @@ static void usage(const char *progname)
 }
 
 /* populates console->tty.dev and console->tty.sysfs_devnode, using the tty kernel name */
-static int tty_find_device(struct console *console)
+static int tty_find_device(struct console_server *server)
 {
 	char *tty_class_device_link = NULL;
 	char *tty_path_input_real = NULL;
@@ -74,23 +74,23 @@ static int tty_find_device(struct console *console)
 	char *tty_path_input = NULL;
 	int rc;
 
-	console->tty.type = TTY_DEVICE_UNDEFINED;
+	server->tty.type = TTY_DEVICE_UNDEFINED;
 
-	assert(console->tty.kname);
-	if (!strlen(console->tty.kname)) {
+	assert(server->tty.kname);
+	if (!strlen(server->tty.kname)) {
 		warnx("TTY kname must not be empty");
 		rc = -1;
 		goto out_free;
 	}
 
-	if (console->tty.kname[0] == '/') {
-		tty_path_input = strdup(console->tty.kname);
+	if (server->tty.kname[0] == '/') {
+		tty_path_input = strdup(server->tty.kname);
 		if (!tty_path_input) {
 			rc = -1;
 			goto out_free;
 		}
 	} else {
-		rc = asprintf(&tty_path_input, "/dev/%s", console->tty.kname);
+		rc = asprintf(&tty_path_input, "/dev/%s", server->tty.kname);
 		if (rc < 0) {
 			goto out_free;
 		}
@@ -110,15 +110,15 @@ static int tty_find_device(struct console *console)
 	 * https://amboar.github.io/notes/2023/05/02/testing-obmc-console-with-socat.html
 	 */
 	if (!strncmp(DEV_PTS_PATH, tty_path_input_real, strlen(DEV_PTS_PATH))) {
-		console->tty.type = TTY_DEVICE_PTY;
-		console->tty.dev = strdup(console->tty.kname);
-		rc = console->tty.dev ? 0 : -1;
+		server->tty.type = TTY_DEVICE_PTY;
+		server->tty.dev = strdup(server->tty.kname);
+		rc = server->tty.dev ? 0 : -1;
 		goto out_free;
 	}
 
 	tty_kname_real = basename(tty_path_input_real);
 	if (!tty_kname_real) {
-		warn("Can't find real name for %s", console->tty.kname);
+		warn("Can't find real name for %s", server->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -146,13 +146,13 @@ static int tty_find_device(struct console *console)
 		warn("Can't find parent device for %s", tty_kname_real);
 	}
 
-	rc = asprintf(&console->tty.dev, "/dev/%s", tty_kname_real);
+	rc = asprintf(&server->tty.dev, "/dev/%s", tty_kname_real);
 	if (rc < 0) {
 		goto out_free;
 	}
 
 	// Default to non-VUART
-	console->tty.type = TTY_DEVICE_UART;
+	server->tty.type = TTY_DEVICE_UART;
 
 	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
 	if (tty_sysfs_devnode) {
@@ -164,8 +164,8 @@ static int tty_find_device(struct console *console)
 
 		rc = access(tty_vuart_lpc_addr, F_OK);
 		if (!rc) {
-			console->tty.type = TTY_DEVICE_VUART;
-			console->tty.vuart.sysfs_devnode =
+			server->tty.type = TTY_DEVICE_VUART;
+			server->tty.vuart.sysfs_devnode =
 				strdup(tty_sysfs_devnode);
 		}
 	}
@@ -182,20 +182,20 @@ out_free:
 	return rc;
 }
 
-static int tty_set_sysfs_attr(struct console *console, const char *name,
+static int tty_set_sysfs_attr(struct console_server *server, const char *name,
 			      int value)
 {
 	char *path;
 	FILE *fp;
 	int rc;
 
-	assert(console->tty.type == TTY_DEVICE_VUART);
+	assert(server->tty.type == TTY_DEVICE_VUART);
 
-	if (!console->tty.vuart.sysfs_devnode) {
+	if (!server->tty.vuart.sysfs_devnode) {
 		return -1;
 	}
 
-	rc = asprintf(&path, "%s/%s", console->tty.vuart.sysfs_devnode, name);
+	rc = asprintf(&path, "%s/%s", server->tty.vuart.sysfs_devnode, name);
 	if (rc < 0) {
 		return -1;
 	}
@@ -203,7 +203,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	fp = fopen(path, "w");
 	if (!fp) {
 		warn("Can't access attribute %s on device %s", name,
-		     console->tty.kname);
+		     server->tty.kname);
 		rc = -1;
 		goto out_free;
 	}
@@ -212,7 +212,7 @@ static int tty_set_sysfs_attr(struct console *console, const char *name,
 	rc = fprintf(fp, "0x%x", value);
 	if (rc < 0) {
 		warn("Error writing to %s attribute of device %s", name,
-		     console->tty.kname);
+		     server->tty.kname);
 	}
 	fclose(fp);
 
@@ -224,20 +224,20 @@ out_free:
 /**
  * Set termios attributes on the console tty.
  */
-void tty_init_termios(struct console *console)
+void tty_init_termios(struct console_server *server)
 {
 	struct termios termios;
 	int rc;
 
-	rc = tcgetattr(console->tty.fd, &termios);
+	rc = tcgetattr(server->tty.fd, &termios);
 	if (rc) {
 		warn("Can't read tty termios");
 		return;
 	}
 
-	if (console->tty.type == TTY_DEVICE_UART && console->tty.uart.baud) {
-		if (cfsetspeed(&termios, console->tty.uart.baud) < 0) {
-			warn("Couldn't set speeds for %s", console->tty.kname);
+	if (server->tty.type == TTY_DEVICE_UART && server->tty.uart.baud) {
+		if (cfsetspeed(&termios, server->tty.uart.baud) < 0) {
+			warn("Couldn't set speeds for %s", server->tty.kname);
 		}
 	}
 
@@ -246,57 +246,59 @@ void tty_init_termios(struct console *console)
 	 */
 	cfmakeraw(&termios);
 
-	rc = tcsetattr(console->tty.fd, TCSANOW, &termios);
+	rc = tcsetattr(server->tty.fd, TCSANOW, &termios);
 	if (rc) {
-		warn("Can't set terminal options for %s", console->tty.kname);
+		warn("Can't set terminal options for %s", server->tty.kname);
 	}
 }
 
 /**
  * Open and initialise the serial device
  */
-static void tty_init_vuart_io(struct console *console)
+static void tty_init_vuart_io(struct console_server *server)
 {
-	assert(console->tty.type == TTY_DEVICE_VUART);
+	assert(server->tty.type == TTY_DEVICE_VUART);
 
-	if (console->tty.vuart.sirq) {
-		tty_set_sysfs_attr(console, "sirq", console->tty.vuart.sirq);
+	if (server->tty.vuart.sirq) {
+		tty_set_sysfs_attr(server, "sirq", server->tty.vuart.sirq);
 	}
 
-	if (console->tty.vuart.lpc_addr) {
-		tty_set_sysfs_attr(console, "lpc_address",
-				   console->tty.vuart.lpc_addr);
+	if (server->tty.vuart.lpc_addr) {
+		tty_set_sysfs_attr(server, "lpc_address",
+				   server->tty.vuart.lpc_addr);
 	}
 }
 
-static int tty_init_io(struct console *console)
+static int tty_init_io(struct console_server *server)
 {
-	console->tty.fd = open(console->tty.dev, O_RDWR);
-	if (console->tty.fd <= 0) {
-		warn("Can't open tty %s", console->tty.dev);
+	server->tty.fd = open(server->tty.dev, O_RDWR);
+	if (server->tty.fd <= 0) {
+		warn("Can't open tty %s", server->tty.dev);
 		return -1;
 	}
 
 	/* Disable character delay. We may want to later enable this when
 	 * we detect larger amounts of data
 	 */
-	fcntl(console->tty.fd, F_SETFL, FNDELAY);
+	fcntl(server->tty.fd, F_SETFL, FNDELAY);
 
-	tty_init_termios(console);
+	tty_init_termios(server);
 
-	console->pollfds[console->n_pollers].fd = console->tty.fd;
-	console->pollfds[console->n_pollers].events = POLLIN;
+	server->active_console->pollfds[server->active_console->n_pollers].fd =
+		server->tty.fd;
+	server->active_console->pollfds[server->active_console->n_pollers]
+		.events = POLLIN;
 
 	return 0;
 }
 
-static int tty_init_vuart(struct console *console, struct config *config)
+static int tty_init_vuart(struct console_server *server, struct config *config)
 {
 	unsigned long parsed;
 	const char *val;
 	char *endp;
 
-	assert(console->tty.type == TTY_DEVICE_VUART);
+	assert(server->tty.type == TTY_DEVICE_VUART);
 
 	val = config_get_value(config, "lpc-address");
 	if (val) {
@@ -313,7 +315,7 @@ static int tty_init_vuart(struct console *console, struct config *config)
 			return -1;
 		}
 
-		console->tty.vuart.lpc_addr = (uint16_t)parsed;
+		server->tty.vuart.lpc_addr = (uint16_t)parsed;
 		if (endp == optarg) {
 			warn("Invalid LPC address: '%s'", val);
 			return -1;
@@ -333,7 +335,7 @@ static int tty_init_vuart(struct console *console, struct config *config)
 			warn("Invalid LPC SERIRQ: '%s'", val);
 		}
 
-		console->tty.vuart.sirq = (int)parsed;
+		server->tty.vuart.sirq = (int)parsed;
 		if (endp == optarg) {
 			warn("Invalid sirq: '%s'", val);
 		}
@@ -342,39 +344,39 @@ static int tty_init_vuart(struct console *console, struct config *config)
 	return 0;
 }
 
-static int tty_init(struct console *console, struct config *config,
+static int tty_init(struct console_server *server, struct config *config,
 		    const char *tty_arg)
 {
 	const char *val;
 	int rc;
 
 	if (tty_arg) {
-		console->tty.kname = tty_arg;
+		server->tty.kname = tty_arg;
 	} else if ((val = config_get_value(config, "upstream-tty"))) {
-		console->tty.kname = val;
+		server->tty.kname = val;
 	} else {
 		warnx("Error: No TTY device specified");
 		return -1;
 	}
 
-	rc = tty_find_device(console);
+	rc = tty_find_device(server);
 	if (rc) {
 		return rc;
 	}
 
-	switch (console->tty.type) {
+	switch (server->tty.type) {
 	case TTY_DEVICE_VUART:
-		rc = tty_init_vuart(console, config);
+		rc = tty_init_vuart(server, config);
 		if (rc) {
 			return rc;
 		}
 
-		tty_init_vuart_io(console);
+		tty_init_vuart_io(server);
 		break;
 	case TTY_DEVICE_UART:
 		val = config_get_value(config, "baud");
 		if (val) {
-			if (config_parse_baud(&console->tty.uart.baud, val)) {
+			if (config_parse_baud(&server->tty.uart.baud, val)) {
 				warnx("Invalid baud rate: '%s'", val);
 			}
 		}
@@ -387,15 +389,15 @@ static int tty_init(struct console *console, struct config *config,
 		return -1;
 	}
 
-	return tty_init_io(console);
+	return tty_init_io(server);
 }
 
-static void tty_fini(struct console *console)
+static void tty_fini(struct console_server *server)
 {
-	if (console->tty.type == TTY_DEVICE_VUART) {
-		free(console->tty.vuart.sysfs_devnode);
+	if (server->tty.type == TTY_DEVICE_VUART) {
+		free(server->tty.vuart.sysfs_devnode);
 	}
-	free(console->tty.dev);
+	free(server->tty.dev);
 }
 
 static int write_to_path(const char *path, const char *data)
@@ -506,7 +508,7 @@ out_free_glob:
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len)
 {
-	return write_buf_to_fd(console->tty.fd, data, len);
+	return write_buf_to_fd(console->server->tty.fd, data, len);
 }
 
 /* Prepare a socket name */
@@ -868,7 +870,7 @@ static int run_console_iteration(struct console *console)
 
 	/* process internal fd first */
 	if (console->pollfds[console->n_pollers].revents) {
-		rc = read(console->tty.fd, buf, sizeof(buf));
+		rc = read(console->server->tty.fd, buf, sizeof(buf));
 		if (rc <= 0) {
 			warn("Error reading from tty device");
 			return -1;
@@ -921,6 +923,7 @@ int main(int argc, char **argv)
 	const char *config_tty_kname = NULL;
 	const char *buffer_size_str = NULL;
 	const char *console_id = NULL;
+	struct console_server server;
 	struct console *console;
 	struct config *config;
 	int rc;
@@ -954,8 +957,14 @@ int main(int argc, char **argv)
 
 	config = config_init(config_filename);
 
+	memset(&server, 0, sizeof(struct console_server));
+
 	console = malloc(sizeof(struct console));
 	memset(console, 0, sizeof(*console));
+
+	server.active_console = console;
+	console->server = &server;
+
 	console->pollfds =
 		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
 	buffer_size_str = config_get_value(config, "ringbuffer-size");
@@ -975,7 +984,7 @@ int main(int argc, char **argv)
 
 	uart_routing_init(config);
 
-	rc = tty_init(console, config, config_tty_kname);
+	rc = tty_init(&server, config, config_tty_kname);
 	if (rc) {
 		goto out_config_fini;
 	}
@@ -988,7 +997,7 @@ int main(int argc, char **argv)
 
 	handlers_fini(console);
 
-	tty_fini(console);
+	tty_fini(&server);
 
 out_config_fini:
 	config_fini(config);
