@@ -163,7 +163,6 @@ void dbus_init(struct console *console,
 {
 	char obj_name[dbus_obj_path_len];
 	char dbus_name[dbus_obj_path_len];
-	int dbus_poller = 0;
 	int fd;
 	int r;
 	size_t bytes;
@@ -231,8 +230,12 @@ void dbus_init(struct console *console,
 		return;
 	}
 
-	dbus_poller = POLLFD_DBUS;
+	const ssize_t index =
+		console_server_request_pollfd(console->server, fd, POLLIN);
+	if (index < 0) {
+		fprintf(stderr, "Error: failed to allocate pollfd\n");
+		return;
+	}
 
-	console->pollfds[dbus_poller].fd = fd;
-	console->pollfds[dbus_poller].events = POLLIN;
+	console->dbus_pollfd_index = index;
 }
