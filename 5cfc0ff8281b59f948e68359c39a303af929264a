@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb877e9d_53b3dcae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "It\u0027s great that you have split this up from the original series, but this particular change is still where 90% of the complexity still lies.\n\n(I\u0027d sugg",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34a7dff_7e6e2144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "It\u0027s great that you have split this up from the original series, but this particular change is still where 90% of the complexity still lies.\n\nI\u0027d suggest that the aim would be to split the _complexity_ between patches in the series, rather than aiming for splitting the _size_ of those changes. Those are typically correlated, but not always.\n\nFor example, no need to put the documentation as the last patch - it\u0027s perfectly fine to document things as you add them (in fact, it really helps with review if you document as you go). Then you can update those docs as you add more stuff.\n\nFor this patch in the series, there\u0027s still a lot happening here:\n\n - you\u0027re adding header files for every handler, and changing the mechanism in which those handlers are initialised (why?)\n \n - you\u0027re introducing exit-on-sigint behaviour\n\n - made some things const\n \n - changed the scope of existing variables\n \nAll of these may well be useful, but are unrelated to the core of your change here (ie., adding multiplexer support). Having those as separate things will definitely make it more clear about how you\u0027re intending to implement the mux support, and for us to review and merge these changes.\n\nSo, I would suggest pulling those into separate changes that implement one concept -  as much as is sensible. There\u0027s a bit of elaboration about that at https://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#organizing-commits\n\nFrom what I can extract from the actual multiplexer-related changes, this is what seems to be happening:\n \n  1. you\u0027ve split `struct console` into `struct console` and `struct console_server`. I assume there\u0027s one of the latter, and then one of the former for each muxed console\n  \n  2. changed the configuration mechanism from reading a single file to reading multiple files from a directory, with each configuring one of the `struct console`s above.\n  \n  3. added a pointer from the `struct console_server` to the currently-active `struct console`\n  \n  4. added a new dbus interface that can be used to update this pointer, and perform activation-related operations (printing the log and updating gpios)\n  \n  5. split the console_run to perform each iteration in a separate function\n  \n\nThose all make fairly logical sense, but we can probably split out a lot of the prerequisite infrastructure before adding the actual multiplexing; I imagine that may be quite small in the end.\n\nFoe example, just doing (1) in a single change (but still temporarily assuming a single `struct console`) would make things much more clear, as there would be a lot of churn contained into a technically-trivial patch.\n\nThere\u0027s a few concepts that I would suggest looking into at an initial review:\n\n  - Using multiple config files seems a bit unwieldy. Can we stay with the single file and just add the necessary structure to represent the mux control? Say, a [section]-based approach for each mux port?\n  \n  this would help to distinguish configuration that may be common across both consoles too.\n  \n  - it\u0027s assuming a 0/1 single-gpio-driven mux at the moment. I know this is the only implementation at present, but we may want to abstract this a little for alternatives (eg., there are parts that have two GPIOs that select between four uarts). While we don\u0027t want to design too far ahead, maybe just abstracting this into something like a `console_mux_select()`, that defers to our single gpio implementation for now.\n \nI\u0027ve put a few comments inline, but they may be less relevant depending on whether you make structural changes, so don\u0027t worry too much about addressing each of them at the moment - they\u0027re mainly pointers for future items.\n\nA couple of things in general though:\n\n - if you\u0027re adding new files, please include the copyright header too\n \n - your new header files seem to have a lot of unnecessary `#includes`\n \n - you have quite a few of\n \n```\nif (console-\u003eserver-\u003edebug) {\n    printf(...)\n}\n```\n\n   a helper function or macro may neaten this up a bit; say:\n    \n    \n```\nstatic void cs_debug(struct console_server *cs, const char *fmt, ...);\n```",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdcce83_8078c416",
+        "filename": "config.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "We have this in `console-server.h` (which you no longer include)?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed697ed_2f55fed2",
+        "filename": "config.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "This seems like it could be its own fix",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56918c7f_bdd768a7",
+        "filename": "config.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "Copyright header",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae24fbe_44f8dcbf",
+        "filename": "config.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "doesn\u0027t look like you use `termios.h` or `stdlib.h` here ?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dbddb44_0cbb78d2",
+        "filename": "console-client.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "The exit-on-sigint could be its own change",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c04d7ab4_c4215663",
+        "filename": "console-dbus.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "Do we need this?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c6a821_79198002",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "Keep the ordering intact; we have local headers all grouped below.",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62661f50_ffcddab5",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "As I mentioned in the overall comment, I\u0027m not sure why you\u0027re making this change. These should be fine to remain static and registered through the handlers array?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88bdd8af_aed1f8e0",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "spurious `;`",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16444881_8c2c64af",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "Please use `goto` __very__ sparingly (typically: just for cleanup paths on excetpion). Here you\u0027re just skipping one statement with the goto; you may as well include that directly in the contidional",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72605867_c1c751b4",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "This looks pretty much like `scandir()`, would it make sense to use that?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2f4533_80a0d684",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "maybe `warn()` for error-message consistency.",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b7ac52_0c8eba39",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "are we not okay with links?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1a7c69_ecae4e6b",
+        "filename": "console-server.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "What atomic ops are we using here?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "051c8c76_a85ff177",
+        "filename": "console-server.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "Sounds like this comment is no longer valid, and should be on `struct console_server` ?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8204aa_79bd3f98",
+        "filename": "meson.build",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "this is a duplicate",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae387d80_cd520c23",
+        "filename": "ringbuffer.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "seems unrelated",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3de0fe_00b375fd",
+        "filename": "socket-handler.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-07T10:05:45Z",
+      "side": 1,
+      "message": "no need to cast from `void *`",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
