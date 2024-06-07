@@ -85,8 +85,7 @@ enum tty_device {
 	TTY_DEVICE_PTY,
 };
 
-/* Console server structure */
-struct console {
+struct console_server {
 	struct {
 		const char *kname;
 		char *dev;
@@ -103,6 +102,15 @@ struct console {
 			} uart;
 		};
 	} tty;
+
+	struct console *active_console;
+};
+
+struct console {
+	// point back to the console server
+	// which we are a member of
+	struct console_server *server;
+
 	const char *console_id;
 
 	/* Socket name starts with null character hence we need length */
@@ -203,7 +211,7 @@ console_ringbuffer_consumer_register(struct console *console,
 				     ringbuffer_poll_fn_t poll_fn, void *data);
 
 /* Console server API */
-void tty_init_termios(struct console *console);
+void tty_init_termios(struct console_server *server);
 
 /* config API */
 struct config;
