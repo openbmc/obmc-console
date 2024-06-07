@@ -828,71 +828,75 @@ static void sighandler(int signal)
 	}
 }
 
-int run_console(struct console *console)
+static int run_console_iteration(struct console *console)
 {
-	sighandler_t sighandler_save = signal(SIGINT, sighandler);
+	uint8_t buf[4096];
 	struct timeval tv;
 	long timeout;
 	ssize_t rc;
 
-	rc = 0;
+	if (console->rb->size < sizeof(buf)) {
+		fprintf(stderr, "Ringbuffer size should be greater than %zuB\n",
+			sizeof(buf));
+		return -1;
+	}
+
+	if (sigint) {
+		fprintf(stderr, "Received interrupt, exiting\n");
+		return -1;
+	}
+
+	rc = get_current_time(&tv);
+	if (rc) {
+		warn("Failed to read current time");
+		return -1;
+	}
+
+	timeout = get_poll_timeout(console, &tv);
+
+	rc = poll(console->pollfds, console->n_pollers + MAX_INTERNAL_POLLFD,
+		  (int)timeout);
+
+	if (rc < 0) {
+		if (errno == EINTR) {
+			return 0;
+		}
+		warn("poll error");
+		return -1;
+	}
+
+	/* process internal fd first */
+	if (console->pollfds[console->n_pollers].revents) {
+		rc = read(console->tty.fd, buf, sizeof(buf));
+		if (rc <= 0) {
+			warn("Error reading from tty device");
+			return -1;
+		}
+		rc = ringbuffer_queue(console->rb, buf, rc);
+		if (rc) {
+			return -1;
+		}
+	}
+
+	if (console->pollfds[console->n_pollers + 1].revents) {
+		sd_bus_process(console->bus, NULL);
+	}
+
+	/* ... and then the pollers */
+	rc = call_pollers(console, &tv);
+	if (rc) {
+		return -1;
+	}
+	return 0;
+}
+
+int run_console(struct console *console)
+{
+	sighandler_t sighandler_save = signal(SIGINT, sighandler);
+	ssize_t rc = 0;
 
 	for (;;) {
-		uint8_t buf[4096];
-
-		if (console->rb->size < sizeof(buf)) {
-			fprintf(stderr,
-				"Ringbuffer size should be greater than %zuB\n",
-				sizeof(buf));
-			rc = -1;
-			break;
-		}
-
-		if (sigint) {
-			fprintf(stderr, "Received interrupt, exiting\n");
-			break;
-		}
-
-		rc = get_current_time(&tv);
-		if (rc) {
-			warn("Failed to read current time");
-			break;
-		}
-
-		timeout = get_poll_timeout(console, &tv);
-
-		rc = poll(console->pollfds,
-			  console->n_pollers + MAX_INTERNAL_POLLFD,
-			  (int)timeout);
-
-		if (rc < 0) {
-			if (errno == EINTR) {
-				continue;
-			}
-			warn("poll error");
-			break;
-		}
-
-		/* process internal fd first */
-		if (console->pollfds[console->n_pollers].revents) {
-			rc = read(console->tty.fd, buf, sizeof(buf));
-			if (rc <= 0) {
-				warn("Error reading from tty device");
-				rc = -1;
-				break;
-			}
-			rc = ringbuffer_queue(console->rb, buf, rc);
-			if (rc) {
-				break;
-			}
-		}
-
-		if (console->pollfds[console->n_pollers + 1].revents) {
-			sd_bus_process(console->bus, NULL);
-		}
-
-		/* ... and then the pollers */
-		rc = call_pollers(console, &tv);
+		rc = run_console_iteration(console);
 		if (rc) {
 			break;
 		}
