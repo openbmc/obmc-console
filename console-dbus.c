@@ -37,7 +37,7 @@ static void tty_change_baudrate(struct console *console)
 	int i;
 	int rc;
 
-	tty_init_termios(console);
+	tty_init_termios(console->server);
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
@@ -45,7 +45,7 @@ static void tty_change_baudrate(struct console *console)
 			continue;
 		}
 
-		rc = handler->baudrate(handler, console->tty.uart.baud);
+		rc = handler->baudrate(handler, console->server->tty.uart.baud);
 		if (rc) {
 			warnx("Can't set terminal baudrate for handler %s",
 			      handler->name);
@@ -78,8 +78,8 @@ static int set_baud_handler(sd_bus *bus, const char *path,
 		return -EINVAL;
 	}
 
-	assert(console->tty.type == TTY_DEVICE_UART);
-	console->tty.uart.baud = speed;
+	assert(console->server->tty.type == TTY_DEVICE_UART);
+	console->server->tty.uart.baud = speed;
 	tty_change_baudrate(console);
 
 	sd_bus_emit_properties_changed(bus, path, interface, property, NULL);
@@ -95,13 +95,14 @@ static int get_baud_handler(sd_bus *bus __attribute__((unused)),
 			    sd_bus_error *error __attribute__((unused)))
 {
 	struct console *console = userdata;
+	struct console_server *server = console->server;
 	uint64_t baudrate;
 	int r;
 
-	assert(console->tty.type == TTY_DEVICE_UART);
-	baudrate = parse_baud_to_int(console->tty.uart.baud);
+	assert(server->tty.type == TTY_DEVICE_UART);
+	baudrate = parse_baud_to_int(server->tty.uart.baud);
 	if (!baudrate) {
-		warnx("Invalid baud rate: '%d'", console->tty.uart.baud);
+		warnx("Invalid baud rate: '%d'", server->tty.uart.baud);
 	}
 
 	r = sd_bus_message_append(reply, "t", baudrate);
@@ -186,7 +187,7 @@ void dbus_init(struct console *console,
 		return;
 	}
 
-	if (console->tty.type == TTY_DEVICE_UART) {
+	if (console->server->tty.type == TTY_DEVICE_UART) {
 		/* Register UART interface */
 		r = sd_bus_add_object_vtable(console->bus, NULL, obj_name,
 					     UART_INTF, console_uart_vtable,
