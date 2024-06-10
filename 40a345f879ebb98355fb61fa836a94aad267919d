@@ -16,6 +16,24 @@
       "message": "LGTM, thanks!",
       "revId": "40a345f879ebb98355fb61fa836a94aad267919d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34931541_0b8d4d7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-10T09:32:35Z",
+      "side": 1,
+      "message": "Hi Jeremy, could you please review the preceding patch in this relation chain.\n\nIt is very small but prevents me from submitting the change.\n\nTechnically it\u0027s independent from this change but all these changes are used for the bigger feature and i would not know how to describe this scenario\n(commit C depends on commits A,B in any order) in gerrit.\n\nSo i could re-submit this as an independent change or you could review the preceding patch and if it does not get approved, i could re-order the relation chain.\n\nLet me know what you prefer 👍",
+      "parentUuid": "498bbd55_1d6055cb",
+      "revId": "40a345f879ebb98355fb61fa836a94aad267919d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
