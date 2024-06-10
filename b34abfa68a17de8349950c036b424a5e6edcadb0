@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c624a7b1_cdcecc5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-10T08:21:52Z",
+      "side": 1,
+      "message": "The allocation can be bounded by whichever code is using the\nconsole_server_request_pollfd and console_server_release_pollfd functions.\n\nI\u0027m not aware the allocation was previously bounded, it just used reallocarray.\n\nSo the new code should not be any worse in the next revision (see the other comment).",
+      "parentUuid": "a526401e_59fed3bf",
+      "revId": "b34abfa68a17de8349950c036b424a5e6edcadb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e785ec2_515cbd24",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-10T05:53:41Z",
       "side": 1,
       "message": "So you\u0027re just invalidating entries in the pollfds array, rather than shrinking the array. I assume this is so that we don\u0027t end up potentially invalidating indexes that have previously been returned from `console_server_request_pollfd`.\n\nHowever, now we have an unbounded allocation by repeated request/release. For example, a remote endpoint could exhaust all memory by repeatedly connecting to the console ssh port.",
+      "revId": "b34abfa68a17de8349950c036b424a5e6edcadb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "430554a0_c512ca96",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-10T08:21:52Z",
+      "side": 1,
+      "message": "Yes. It would just grow, that\u0027s no bueno. I had not thought about the malicious use-case.\n\nCan push a new version soon that could just recycle the pollfd when pollfd.fd \u003d\u003d -1.",
+      "parentUuid": "9e785ec2_515cbd24",
       "revId": "b34abfa68a17de8349950c036b424a5e6edcadb0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
