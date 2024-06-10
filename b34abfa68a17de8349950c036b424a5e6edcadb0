@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a526401e_59fed3bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-10T05:53:41Z",
+      "side": 1,
+      "message": "Generally looks good, but this does introduce an unbounded allocation of the pollfds array. Do we need to rethink handing out indexes in this array? or provide a limit on it (and then what happens when that limit is reached?)",
+      "revId": "b34abfa68a17de8349950c036b424a5e6edcadb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e785ec2_515cbd24",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-10T05:53:41Z",
+      "side": 1,
+      "message": "So you\u0027re just invalidating entries in the pollfds array, rather than shrinking the array. I assume this is so that we don\u0027t end up potentially invalidating indexes that have previously been returned from `console_server_request_pollfd`.\n\nHowever, now we have an unbounded allocation by repeated request/release. For example, a remote endpoint could exhaust all memory by repeatedly connecting to the console ssh port.",
+      "revId": "b34abfa68a17de8349950c036b424a5e6edcadb0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
