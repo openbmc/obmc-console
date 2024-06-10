@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a6c1751_27598c11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-10T05:31:22Z",
+      "side": 1,
+      "message": "Sounds great, I\u0027ll take a look through the new series now.",
+      "parentUuid": "dc88db24_db73ec0f",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bdcce83_8078c416",
         "filename": "config.c",
         "patchSetId": 21
@@ -203,6 +221,24 @@
       "side": 1,
       "message": "From my understanding, the log handler refers to a filename which would be different for the different consoles behind a mux. It would be confusing to have log output from different consoles in the same file.\n\nIn socket-handler.c, the console_id is also part of the socket addr.sun_path,\nso the socket also appears to be a per-console feature.\n\nMaybe tty-handler is a console-server feature... then i would have to approach it differently.\n\nIt any case, from my perspective it makes no sense to have a separate section in the binary for these, unless some external program makes use of that. They can be in .data section like anything else or be allocated dynamically.",
       "parentUuid": "62661f50_ffcddab5",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db5811d9_d6506ac8",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-10T05:31:22Z",
+      "side": 1,
+      "message": "OK, so it sounds like the underlying requirement here is that you\u0027re able to have *multiple instances* of a handler, rather than anything around how the handlers are defined.\n\nIn order to do that, I\u0027d propose that we split the handler definitions from the handler instances. ie., `struct handler-\u003einit` would return a new instance of the handler, rather than populating the (static) `struct handler`. the struct handler just becomes only the per-handler data, consisting of ops and a name.\n\nThe separate section is just so we can build our handlers set at link-time, that\u0027s all; we could certainly do the same by exporting (just) the `struct handler` from each and putting those in an array and have that defined a build-time instead. However, this is pretty orthogonal to your goal of having multiple instances active - and certainly doesn\u0027t mean we need to create headers and expose internals for every handler.",
+      "parentUuid": "55070523_d2c25f76",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
