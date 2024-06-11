@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9aff88e_0fe0dfd2",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-11T08:54:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f3580f_12879890",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84776b22_f5fd1632",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b56f7a0d_dcb8c2e2",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-11T08:54:37Z",
+      "side": 1,
+      "message": "Since the label will be gone, it is not needed.",
+      "parentUuid": "84776b22_f5fd1632",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb712f90_b34f54a1",
@@ -65,6 +101,24 @@
       "writtenOn": "2024-06-11T00:16:41Z",
       "side": 1,
       "message": "Why create this buffer that we\u0027ll discard on the next `request_pollfd` ? Just set to NULL here?",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a44cbd_297e5279",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-11T08:54:37Z",
+      "side": 1,
+      "message": "You are right it is not needed. realloc can allocate the buffer.",
+      "parentUuid": "bb712f90_b34f54a1",
       "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
