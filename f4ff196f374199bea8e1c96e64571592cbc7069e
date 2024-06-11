@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b85a7bf_3a1b9235",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-11T00:16:41Z",
+      "side": 1,
+      "message": "Looks good! Just a couple of queries inline though.",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71f3580f_12879890",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-11T00:16:41Z",
+      "side": 1,
+      "message": "I\u0027d suggest just doing the realloc path as part of this conditional, and avoiding the goto.",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84776b22_f5fd1632",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-11T00:16:41Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb712f90_b34f54a1",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-06-11T00:16:41Z",
+      "side": 1,
+      "message": "Why create this buffer that we\u0027ll discard on the next `request_pollfd` ? Just set to NULL here?",
+      "revId": "f4ff196f374199bea8e1c96e64571592cbc7069e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
