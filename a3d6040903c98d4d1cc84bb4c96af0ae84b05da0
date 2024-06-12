@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b38a10_b6d9737e",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9855d33_13251e59",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f12f5e3b_1973f849",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-06-12T00:56:29Z",
       "side": 1,
       "message": "I\u0027d recommend using socat\u0027s `link` argument for the `pty` type, as it means that we don\u0027t have to parse the socat output for the PTY numbers. I wrote about that a bit here:\n\nhttps://amboar.github.io/notes/2023/05/02/testing-obmc-console-with-socat.html",
+      "range": {
+        "startLine": 77,
+        "startChar": 14,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5210840e_f6933519",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Yes this is better 👍",
+      "parentUuid": "f12f5e3b_1973f849",
       "range": {
         "startLine": 77,
         "startChar": 14,
@@ -87,6 +135,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "208168cd_91e70660",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Thanks 👍, i did not know of this option.\nUsing \u0027link\u0027 will be better for creating any scripts.",
+      "parentUuid": "c0408e11_3570b115",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcec054a_c2fe2098",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-06-12T00:56:29Z",
       "side": 1,
       "message": "I think we were aiming for all muxed consoles to be managed through the one process (to map to the one TTY device). Does this bit of the documentation need an update to reflect that?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5818c4c8_87493f0d",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Yes, i can update it.\n\nIt\u0027s unrelated to any mux setup, it should just show how to do basic development on this repo, as is already described in your blog posts.",
+      "parentUuid": "fcec054a_c2fe2098",
       "range": {
         "startLine": 81,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6317253_c763a83a",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "314ba6c2_4ec3bf4c",
+      "range": {
+        "startLine": 6,
+        "startChar": 30,
+        "endLine": 6,
+        "endChar": 72
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "317aacb7_fa0c84fc",
@@ -146,6 +266,30 @@
       "writtenOn": "2024-06-12T00:56:29Z",
       "side": 1,
       "message": "I think you need to unpack why it can be represented in static configuration files then? Or are they not static (are we symlinking them and restarting obmc-console-server)?\n\nI assume the mux is always present. Is that the case?",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba79b95_44990ae7",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "When the blade is present, the configuration file can be used.\n\nWhen the blade is removed, the console-server can be stopped, or not stopped, depending on how people want to use it. It is not relevant for this implementation.\n\nIt will probably not break anything when the service is not stopped.\n\nThe stopping of the service and detection of blade removal is out of scope for this patch series.\n\nFrom my understanding, devicetree represents static hardware. So representing this in devicetree would be a misrepresentation of the system. Devicetree cannot be \u0027stopped\u0027 like some obmc-console-server systemd service.\n\nThe mux could be on the blade or the bmc board, i assume it would be on the blade, but not 100% sure. It might not be relevant for the implementation.",
+      "parentUuid": "317aacb7_fa0c84fc",
       "range": {
         "startLine": 15,
         "startChar": 11,
@@ -173,6 +317,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a369969_1e4eeb67",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Yes, i added the configuration example to the markdown, and removed it from the examples folder.\n\nMaybe it\u0027s better to have the docs and example close together. Then when one is updated the other one is not so easily overlooked.",
+      "parentUuid": "7e3bbb8f_551e0eb6",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "756f0abe_5ebe8d66",
@@ -186,6 +348,24 @@
       "writtenOn": "2024-06-12T02:07:17Z",
       "side": 1,
       "message": "Can we unpack here what is printed and why that\u0027s necessary?\n\nAlso, do you anticipate closing the client connections after deactivation? If so, why, and if not, why not?\n\nI haven\u0027t checked your current implementation because I\u0027d prefer to get the documentation right first, but I think there\u0027s an opportunity to expose multiple Unix domain sockets, one for each muxed console. That way we would never have to disconnect anyone, rather we would only route data to connections from the active socket (and not to connections from the non-active sockets).",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e301398_b435bb76",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "What\u0027s printed is the implementation detail.\n\nI would not want to document it as it could change over time and is not meant to be consumed by software. It is just for whoever reads that log.\n\nThe print would include a timestamp and indication of connected/disconnected.\n\nThe current implementation should not disconnect anyone. Whatever is read from the uart is routed to the active console.\n\nDisconnecting clients seemed too violent for me. Also there is no mechanism to tell them they should reconnect.",
+      "parentUuid": "756f0abe_5ebe8d66",
       "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -207,6 +387,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7557b954_75ee107e",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "The print is good for logging purposes. Any client or log file should have that information. \n\nOtherwise it would get very confusing for someone reading the logs when there\u0027s a chunk missing from the host boot logs since someone switched the mux to BIC UART or something else.\n\nIt should be transparent to readers of the log and any clients that they have been connected/disconnected. If the console is disconnected, it will be helpful to have that fact as the first thing in the log file. \n\nOtherwise people will wonder \"where is all the logs, the software must be broken!\".\n\nAs to what\u0027s printed that\u0027s implementation detail.",
+      "parentUuid": "19e61f01_e2dd64ca",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1a05825_932d682d",
@@ -224,6 +422,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6586ad2f_fcd35116",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "c1a05825_932d682d",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0157af4_ea610040",
@@ -237,6 +453,30 @@
       "writtenOn": "2024-06-12T00:56:29Z",
       "side": 1,
       "message": "This needs consistency with the busctl output above. Either we use `console1` for both, or `host1` for both.",
+      "range": {
+        "startLine": 82,
+        "startChar": 57,
+        "endLine": 82,
+        "endChar": 62
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ebaac9_7880cb3d",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0157af4_ea610040",
       "range": {
         "startLine": 82,
         "startChar": 57,
@@ -270,6 +510,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9273f4_d216f1fc",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb909481_44cfbe0f",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 93,
+        "endChar": 35
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de790114_a4406a34",
@@ -293,6 +557,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92509e71_a793ef3c",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de790114_a4406a34",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "176c6a4d_e0fa3448",
@@ -306,6 +594,30 @@
       "writtenOn": "2024-06-12T00:56:29Z",
       "side": 1,
       "message": "And here.",
+      "range": {
+        "startLine": 111,
+        "startChar": 57,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b90d9af_6f60144a",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "176c6a4d_e0fa3448",
       "range": {
         "startLine": 111,
         "startChar": 57,
