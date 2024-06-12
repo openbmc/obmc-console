@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e6fec75_04b7a289",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Hi Alexander, I\u0027ve given a CR-1 as I don\u0027t think we\u0027ve yet got consensus on some parts and I have a few more requests.",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9855d33_13251e59",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Given we\u0027re writing markdown can you please add a link here? That makes it easy to navigate when rendered.",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12f5e3b_1973f849",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "I\u0027d recommend using socat\u0027s `link` argument for the `pty` type, as it means that we don\u0027t have to parse the socat output for the PTY numbers. I wrote about that a bit here:\n\nhttps://amboar.github.io/notes/2023/05/02/testing-obmc-console-with-socat.html",
+      "range": {
+        "startLine": 77,
+        "startChar": 14,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0408e11_3570b115",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "If we use the `link` argument then we can elide this output in the example. I think it\u0027s a little confusing for those just reading through without invoking `socat` themselves.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcec054a_c2fe2098",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "I think we were aiming for all muxed consoles to be managed through the one process (to map to the one TTY device). Does this bit of the documentation need an update to reflect that?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314ba6c2_4ec3bf4c",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Sorry, I should have been more careful about making the diagram align with the text. Can you fix that?",
+      "range": {
+        "startLine": 6,
+        "startChar": 30,
+        "endLine": 6,
+        "endChar": 72
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "317aacb7_fa0c84fc",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "I think you need to unpack why it can be represented in static configuration files then? Or are they not static (are we symlinking them and restarting obmc-console-server)?\n\nI assume the mux is always present. Is that the case?",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3bbb8f_551e0eb6",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Can you please document the relevant configuration file properties here as well, so people know *how* to configure the behaviour?",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1a05825_932d682d",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Can we do something to demonstrate multiple bus connections owned by the one process? I think I suggested `busctl list` output last time (ideally trimmed to only the relevant bits using `grep` or something).",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0157af4_ea610040",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "This needs consistency with the busctl output above. Either we use `console1` for both, or `host1` for both.",
+      "range": {
+        "startLine": 82,
+        "startChar": 57,
+        "endLine": 82,
+        "endChar": 62
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb909481_44cfbe0f",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Again here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 30,
+        "endLine": 93,
+        "endChar": 35
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de790114_a4406a34",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Also here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176c6a4d_e0fa3448",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "And here.",
+      "range": {
+        "startLine": 111,
+        "startChar": 57,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

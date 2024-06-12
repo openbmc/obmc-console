@@ -135,6 +135,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15701f1_eb025819",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "Let\u0027s continue this discussion on the [PDI patch](https://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/71878).",
+      "parentUuid": "6026b091_3983fe6c",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69e4f7d5_360a4d77",
@@ -224,6 +248,30 @@
       "side": 1,
       "message": "If we start with sections it may get overcomplicated and the parser would have to be modified. There may need to be an additional level of structure to the \u0027struct config\u0027 to support sections along with the memory-management to ensure everything properly allocated and freed. \n\nMaybe something like\n\nmeta-openembedded/meta-oe/recipes-support/iniparser/iniparser_4.1.bb\n\nwould make sense to at least have a standard format and then be able to use some standard dependency instead of hand-coding a parser to support sections. \n\nFor the mux config, we can make it similar as for the i2c-mux-gpio dt binding like you suggested. It will be more familiar to developers who already worked with that.\n\nFor the multi-section config file, i can investigate if the \u0027iniparser\u0027 dependency would be suitable.",
       "parentUuid": "d71ed2b9_d36ace9e",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43700926_8bfaf273",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T00:56:29Z",
+      "side": 1,
+      "message": "\u003e Maybe something like\n\u003e\n\u003e meta-openembedded/meta-oe/recipes-support/iniparser/iniparser_4.1.bb\n\u003e\n\u003e would make sense to at least have a standard format and then be able to use some standard dependency instead of hand-coding a parser to support sections.\n\nI\u0027m okay if we add something more conventional. We\u0027ll need consensus from Jeremy though, and I fear it will lead to a bit of a cascade of work. Configuring obmc-console is already tricky, and I\u0027m a little concerned we\u0027d only make that worse with the conversion.\n\nIf we were to change I\u0027d like to make sure documentation for the new config schema is part of that effort. The project really suffers from a lack of clear documentation there, which is compounded by some of the complexity I\u0027ve already added with the concurrent consoles support.\n\n\u003e For the mux config, we can make it similar as for the i2c-mux-gpio dt binding like you suggested. It will be more familiar to developers who already worked with that.\n\nThanks. Familiarity is helpful, but I think the more important aspect is we can lean on prior art and the support of others having already thought about the problem. It might be helpful to link to that i2c gpio mux binding document in the documentation for the new properties.",
+      "parentUuid": "1440e8b0_19816f9c",
       "range": {
         "startLine": 2,
         "startChar": 0,
