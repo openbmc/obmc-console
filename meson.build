@@ -52,6 +52,10 @@ if udev.found()
                install_dir: udev.get_variable('udevdir') / 'rules.d')
 endif
 
+iniparser_proj = subproject('iniparser-4.2.1', required: true)
+dep_iniparser = iniparser_proj.get_variable('dep_iniparser')
+dep_iniparser = dep_iniparser.as_system('system')
+
 executable('obmc-console-server',
            'config.c',
            'console-dbus.c',
@@ -68,6 +72,7 @@ executable('obmc-console-server',
            ],
            dependencies: [
              dependency('libsystemd'),
+             dep_iniparser,
              meson.get_compiler('c').find_library('rt')
            ],
            install_dir: get_option('sbindir'),
@@ -80,6 +85,9 @@ executable('obmc-console-client',
            'util.c',
            c_args: [
              '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
+           ],
+           dependencies: [
+             dep_iniparser,
            ],
            install: true)
 
