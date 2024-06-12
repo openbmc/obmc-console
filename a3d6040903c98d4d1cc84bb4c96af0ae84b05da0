@@ -175,6 +175,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "756f0abe_5ebe8d66",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T02:07:17Z",
+      "side": 1,
+      "message": "Can we unpack here what is printed and why that\u0027s necessary?\n\nAlso, do you anticipate closing the client connections after deactivation? If so, why, and if not, why not?\n\nI haven\u0027t checked your current implementation because I\u0027d prefer to get the documentation right first, but I think there\u0027s an opportunity to expose multiple Unix domain sockets, one for each muxed console. That way we would never have to disconnect anyone, rather we would only route data to connections from the active socket (and not to connections from the non-active sockets).",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e61f01_e2dd64ca",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-12T02:07:17Z",
+      "side": 1,
+      "message": "What is printed? And why?",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1a05825_932d682d",
         "filename": "docs/mux-support.md",
         "patchSetId": 6
