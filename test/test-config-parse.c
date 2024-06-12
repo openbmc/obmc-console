@@ -9,27 +9,32 @@
 #define SYSCONFDIR
 #endif
 
+#include "config-test-utils.h"
 #include "config.c"
 
 static void execute_test(const char *input, const char *key,
 			 const char *expected)
 {
-	struct config *ctx;
+	struct config *ctx = mock_config_from_buffer(input);
 	const char *found;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup(input);
-	config_parse(ctx, buf);
-	free(buf);
-	found = config_get_value(ctx, key);
 	if (!expected) {
-		assert(!found);
+		if (ctx->dict != NULL) {
+			found = config_get_value(ctx, key);
+			assert(!found);
+			iniparser_freedict(ctx->dict);
+		}
+
+		free(ctx);
+		return;
 	}
-	if (expected) {
-		assert(found);
-		assert(!strcmp(expected, found));
-	}
+
+	assert(ctx->dict != NULL);
+	found = config_get_value(ctx, key);
+
+	assert(found);
+	assert(!strcmp(expected, found));
+
 	config_fini(ctx);
 }
 
