@@ -1,0 +1,19 @@
+project('iniparser', 'c')
+
+inc = 'iniparser-include'
+
+run_command('sh', '-c', 'mkdir -p iniparser-include/iniparser')
+run_command('sh', '-c', 'cp -r src/* iniparser-include/iniparser/')
+
+iniparser = shared_library('iniparser',
+  'src/dictionary.c',
+  'src/iniparser.c',
+  include_directories : inc,
+  install : true)
+
+dep_iniparser = declare_dependency(include_directories : inc,
+  link_with : iniparser)
+
+# Provide variable to the main project
+dep_iniparser = dep_iniparser
+
