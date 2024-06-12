@@ -52,11 +52,33 @@ if udev.found()
                install_dir: udev.get_variable('udevdir') / 'rules.d')
 endif
 
+iniparser_wrap = 'subprojects/iniparser-4.2.1.wrap'
+
+src = meson.current_source_dir()
+iniparser_meson = src + '/subprojects/iniparser_meson.build'
+iniparser_dir = src + '/subprojects/iniparser-4.2.1'
+iniparser_meson_target = src + '/subprojects/iniparser-4.2.1/meson.build'
+
+fs = import('fs')
+if not meson.is_subproject() and not fs.exists(iniparser_dir)
+  run_command('meson', 'subprojects', 'download', check:false)
+endif
+
+dep_iniparser = dependency('iniparser', required:false)
+
+if not dep_iniparser.found()
+  run_command('cp', iniparser_meson, iniparser_meson_target, check:true)
+  iniparser_proj = subproject('iniparser-4.2.1', required: true)
+  dep_iniparser = iniparser_proj.get_variable('dep_iniparser')
+  dep_iniparser = dep_iniparser.as_system('system')
+endif
+
 executable('obmc-console-server',
            'config.c',
            'console-dbus.c',
            'console-server.c',
            'console-socket.c',
+           'console-gpio.c',
            'log-handler.c',
            'ringbuffer.c',
            'socket-handler.c',
@@ -68,6 +90,8 @@ executable('obmc-console-server',
            ],
            dependencies: [
              dependency('libsystemd'),
+             dep_iniparser,
+             dependency('libgpiod'),
              meson.get_compiler('c').find_library('rt')
            ],
            install_dir: get_option('sbindir'),
@@ -80,6 +104,9 @@ executable('obmc-console-client',
            'util.c',
            c_args: [
              '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
+           ],
+           dependencies: [
+             dep_iniparser,
            ],
            install: true)
 

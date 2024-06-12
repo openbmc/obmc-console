@@ -29,165 +29,79 @@
 
 #include <sys/mman.h>
 #include <sys/stat.h>
+
+#include "iniparser/iniparser.h"
+
 #include "console-server.h"
 
-static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
+#include "config.h"
+//#include "console-server.h"
 
-struct config_item {
-	char *name;
-	char *value;
-	struct config_item *next;
-};
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 struct config {
-	struct config_item *items;
+	dictionary *dict;
 };
+
+const char *config_get_section_value(struct config *config, const char *secname,
+				     const char *name)
+{
+	char buf[100];
+	sprintf(buf, "%s:%s", secname, name);
+
+	const char *value = iniparser_getstring(config->dict, buf, NULL);
+
+	return value;
+}
 
 const char *config_get_value(struct config *config, const char *name)
 {
-	struct config_item *item;
+	char buf[100];
 
-	if (!config) {
-		return NULL;
-	}
+	sprintf(buf, ":%s", name);
 
-	for (item = config->items; item; item = item->next) {
-		if (!strcasecmp(item->name, name)) {
-			return item->value;
-		}
-	}
+	const char *value = iniparser_getstring(config->dict, buf, NULL);
 
-	return NULL;
+	return value;
 }
 
-static void config_parse(struct config *config, char *buf)
+// for use in tests
+struct config *config_parse(char *key, char *value)
 {
-	struct config_item *item;
-	char *name;
-	char *value;
-	char *p;
-	char *line;
+	struct config *config = malloc(sizeof(struct config));
 
-	for (p = NULL, line = strtok_r(buf, "\n", &p); line;
-	     line = strtok_r(NULL, "\n", &p)) {
-		char *end;
-		int rc;
+	config->dict = dictionary_new(1);
 
-		/* trim leading space */
-		while (isspace(*line)) {
-			line++;
-		}
+	char buf[100];
+	sprintf(buf, ":%s", key);
 
-		/* skip comments */
-		if (*line == '#') {
-			continue;
-		}
+	dictionary_set(config->dict, buf, value);
 
-		name = malloc(strlen(line));
-		value = malloc(strlen(line));
-		if (name && value) {
-			rc = sscanf(line, "%[^ =] = %[^#]s", name, value);
-		} else {
-			rc = -ENOMEM;
-		}
-
-		if (rc != 2) {
-			free(name);
-			free(value);
-			continue;
-		}
-
-		/* trim trailing space */
-		end = value + strlen(value) - 1;
-		while (isspace(*end)) {
-			*end-- = '\0';
-		}
-
-		/* create a new item and add to our list */
-		item = malloc(sizeof(*item));
-		item->name = name;
-		item->value = value;
-		item->next = config->items;
-		config->items = item;
-	}
-}
-
-static struct config *config_init_fd(int fd, const char *filename)
-{
-	struct config *config;
-	size_t size;
-	size_t len;
-	ssize_t rc;
-	char *buf;
-
-	size = 4096;
-	len = 0;
-	buf = malloc(size + 1);
-	config = NULL;
-
-	for (;;) {
-		rc = read(fd, buf + len, size - len);
-		if (rc < 0) {
-			warn("Can't read from configuration file %s", filename);
-			goto out_free;
-
-		} else if (!rc) {
-			break;
-		}
-		len += rc;
-		if (len == size) {
-			size <<= 1;
-			buf = realloc(buf, size + 1);
-		}
-	}
-	buf[len] = '\0';
-
-	config = malloc(sizeof(*config));
-	config->items = NULL;
-
-	config_parse(config, buf);
-
-out_free:
-	free(buf);
 	return config;
 }
 
-struct config *config_init(const char *filename)
+// secname may be null in case there is no section
+struct config *config_init(dictionary *dict)
 {
 	struct config *config;
-	int fd;
 
-	if (!filename) {
-		filename = config_default_filename;
-	}
+	config = malloc(sizeof(*config));
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0) {
-		warn("Can't open configuration file %s", filename);
-		return NULL;
-	}
-
-	config = config_init_fd(fd, filename);
-
-	close(fd);
+	config->dict = dict;
 
 	return config;
 }
 
 void config_fini(struct config *config)
 {
-	struct config_item *item;
-	struct config_item *next;
-
 	if (!config) {
 		return;
 	}
 
-	for (item = config->items; item; item = next) {
-		next = item->next;
-		free(item->name);
-		free(item->value);
-		free(item);
+	if (config->dict) {
+		iniparser_freedict(config->dict);
 	}
 
 	free(config);
@@ -357,22 +271,3 @@ const char *config_resolve_console_id(struct config *config, const char *id_arg)
 
 	return DEFAULT_CONSOLE_ID;
 }
-
-#ifdef CONFIG_TEST
-int main(void)
-{
-	struct config_item *item;
-	struct config *config;
-
-	config = config_init_fd(STDIN_FILENO, "<stdin>");
-	if (!config)
-		return EXIT_FAILURE;
-
-	for (item = config->items; item; item = item->next)
-		printf("%s: %s\n", item->name, item->value);
-
-	config_fini(config);
-
-	return EXIT_SUCCESS;
-}
-#endif
