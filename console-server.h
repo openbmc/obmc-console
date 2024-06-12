@@ -207,6 +207,7 @@ void tty_init_termios(struct console *console);
 
 /* config API */
 struct config;
+struct config *config_parse(char *key, char *value);
 const char *config_get_value(struct config *config, const char *name);
 struct config *config_init(const char *filename);
 const char *config_resolve_console_id(struct config *config,
