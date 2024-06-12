@@ -39,6 +39,7 @@
 #include <poll.h>
 
 #include "console-server.h"
+#include "config.h"
 
 #define DEV_PTS_PATH "/dev/pts"
 

@@ -205,19 +205,6 @@ console_ringbuffer_consumer_register(struct console *console,
 /* Console server API */
 void tty_init_termios(struct console *console);
 
-/* config API */
-struct config;
-const char *config_get_value(struct config *config, const char *name);
-struct config *config_init(const char *filename);
-const char *config_resolve_console_id(struct config *config,
-				      const char *id_arg);
-void config_fini(struct config *config);
-
-int config_parse_baud(speed_t *speed, const char *baud_string);
-uint32_t parse_baud_to_int(speed_t speed);
-speed_t parse_int_to_baud(uint32_t baud);
-int config_parse_bytesize(const char *size_str, size_t *size);
-
 /* socket paths */
 ssize_t console_socket_path(socket_path_t path, const char *id);
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,

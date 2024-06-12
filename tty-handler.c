@@ -25,6 +25,7 @@
 #include <termios.h>
 
 #include "console-server.h"
+#include "config.h"
 
 struct tty_handler {
 	struct handler handler;
