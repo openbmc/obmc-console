@@ -29,6 +29,7 @@
 #include <sys/un.h>
 
 #include "console-server.h"
+#include "config.h"
 
 #define EXIT_ESCAPE 2
 

@@ -28,6 +28,7 @@
 #include <linux/types.h>
 
 #include "console-server.h"
+#include "config.h"
 
 struct log_handler {
 	struct handler handler;
