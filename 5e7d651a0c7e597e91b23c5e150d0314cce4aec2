@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca580d9_4b2d2c16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-12T08:54:29Z",
+      "side": 1,
+      "message": "This change enables people to add integration tests down the line, then there will not be any linking error due to duplicate main function.\n\n\nPlease consider +2/-2 or any comments 👍",
+      "revId": "5e7d651a0c7e597e91b23c5e150d0314cce4aec2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
