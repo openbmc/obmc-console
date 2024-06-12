@@ -1,0 +1,10 @@
+[wrap-file]
+directory = iniparser-4.2.1
+source_url = https://github.com/ndevilla/iniparser/archive/refs/tags/v4.2.1.zip
+source_filename = iniparser-4.2.1.zip
+source_hash = 3a77d70e0489a3ef5a00c559134190740f20fd828ba3ff596d408c5438c8a896
+
+patch_directory = iniparser
+
+[provide]
+iniparser = iniparser_dep

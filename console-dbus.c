@@ -21,6 +21,7 @@
 #include <sys/socket.h>
 
 #include "console-server.h"
+#include "config.h"
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;

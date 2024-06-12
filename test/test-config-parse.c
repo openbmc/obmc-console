@@ -11,25 +11,66 @@
 
 #include "config.c"
 
+static struct config *mock_config_from_buffer(const char *input)
+{
+	struct config *ctx;
+	ssize_t rc;
+
+	int fd = memfd_create("test-parse-ini", 0);
+	assert(fd != -1);
+
+	const size_t len = strlen(input);
+	rc = write(fd, input, len);
+
+	assert(rc >= 0);
+	assert((size_t)rc == len);
+
+	rc = lseek(fd, 0, SEEK_SET);
+	assert(rc == 0);
+
+	FILE *f = fdopen(fd, "r");
+	assert(f != NULL);
+
+	dictionary *dict = iniparser_load_file(f, "");
+
+	fclose(f);
+
+	if (dict == NULL) {
+		return NULL;
+	}
+
+	ctx = calloc(1, sizeof(*ctx));
+
+	if (ctx) {
+		ctx->dict = dict;
+	}
+
+	return ctx;
+}
+
 static void execute_test(const char *input, const char *key,
 			 const char *expected)
 {
-	struct config *ctx;
+	struct config *ctx = mock_config_from_buffer(input);
 	const char *found;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup(input);
-	config_parse(ctx, buf);
-	free(buf);
-	found = config_get_value(ctx, key);
 	if (!expected) {
+		if (ctx == NULL) {
+			return;
+		}
+
+		found = config_get_value(ctx, key);
 		assert(!found);
+
+		goto cleanup;
 	}
-	if (expected) {
-		assert(found);
-		assert(!strcmp(expected, found));
-	}
+
+	assert(ctx->dict != NULL);
+	found = config_get_value(ctx, key);
+
+	assert(found);
+	assert(!strcmp(expected, found));
+cleanup:
 	config_fini(ctx);
 }
 

@@ -207,7 +207,7 @@ readability-suspicious-call-argument,
 '
 
 WarningsAsErrors: '*'
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '^(test\/)?[a-zA-Z0-9]*\.h'
 CheckOptions:
   - { key: readability-identifier-naming.VariableCase,  value: lower_case }
   - { key: readability-identifier-naming.FunctionCase,  value: lower_case }
