@@ -2,6 +2,7 @@
 
 #define TEST_CONSOLE_ID "test"
 
+#include "config-test-utils.h"
 #include "config.c"
 
 static void test_independence_cmdline_optarg(void)
@@ -21,12 +22,8 @@ static void test_independence_config_console_id(void)
 {
 	const char *console_id;
 	struct config *ctx;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup("console-id = " TEST_CONSOLE_ID);
-	config_parse(ctx, buf);
-	free(buf);
+	ctx = config_mock("console-id", TEST_CONSOLE_ID);
 	console_id = config_resolve_console_id(ctx, NULL);
 
 	assert(!strcmp(console_id, TEST_CONSOLE_ID));
@@ -38,12 +35,8 @@ static void test_independence_config_socket_id(void)
 {
 	const char *console_id;
 	struct config *ctx;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup("socket-id = " TEST_CONSOLE_ID);
-	config_parse(ctx, buf);
-	free(buf);
+	ctx = config_mock("socket-id", TEST_CONSOLE_ID);
 	console_id = config_resolve_console_id(ctx, NULL);
 
 	/*
@@ -70,15 +63,10 @@ static void test_independence_default(void)
 
 static void test_precedence_cmdline_optarg(void)
 {
-	static const char *const config = "console-id = console\n";
 	const char *console_id;
 	struct config *ctx;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup(config);
-	config_parse(ctx, buf);
-	free(buf);
+	ctx = config_mock("console-id", "console");
 	console_id = config_resolve_console_id(ctx, TEST_CONSOLE_ID);
 
 	assert(config_get_value(ctx, "console-id"));
@@ -89,15 +77,10 @@ static void test_precedence_cmdline_optarg(void)
 
 static void test_precedence_config_console_id(void)
 {
-	static const char *const config = "console-id = console\n";
 	const char *console_id;
 	struct config *ctx;
-	char *buf;
 
-	ctx = calloc(1, sizeof(*ctx));
-	buf = strdup(config);
-	config_parse(ctx, buf);
-	free(buf);
+	ctx = config_mock("console-id", "console");
 	console_id = config_resolve_console_id(ctx, NULL);
 
 	assert(config_get_value(ctx, "console-id"));

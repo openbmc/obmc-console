@@ -1,6 +1,5 @@
 tests = [
 	'test-client-escape',
-	'test-config-parse',
 	'test-config-parse-bytesize',
 	'test-config-resolve-console-id',
 	'test-ringbuffer-boundary-poll',
@@ -13,6 +12,16 @@ tests = [
 ]
 
 foreach t : tests
-  test(t, executable(t, f'@t@.c', c_args: [ '-DSYSCONFDIR=""' ],
-		     include_directories: '..'))
+  test(t,
+    executable(
+      t,
+      f'@t@.c',
+      'config-test-utils.c',
+      c_args: [ '-DSYSCONFDIR=""' ],
+      dependencies: [
+        iniparser_dep,
+      ],
+      include_directories: '..'
+    )
+  )
 endforeach

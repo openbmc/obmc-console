@@ -25,8 +25,15 @@
 #include <sys/time.h>
 #include <sys/un.h>
 
+#include "iniparser/iniparser.h"
+
 struct console;
-struct config;
+
+#define CONFIG_MAX_KEY_LENGTH 512
+
+struct config {
+	dictionary *dict;
+};
 
 /* Handler API.
  *
