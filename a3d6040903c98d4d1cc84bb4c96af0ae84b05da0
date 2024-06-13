@@ -208,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "493eb96b_a9444d1e",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T02:57:39Z",
+      "side": 1,
+      "message": "\u003e It\u0027s unrelated to any mux setup\n\nWell, I don\u0027t think that\u0027s true? Why would we need multiple processes? If there\u0027s no mux there should only be one process, and I thought we were shooting for managing the UART mux in one process, not one process per mux leg?",
+      "parentUuid": "5818c4c8_87493f0d",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "314ba6c2_4ec3bf4c",
         "filename": "docs/mux-support.md",
         "patchSetId": 6
@@ -302,6 +326,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6da6e7e0_c8ee6252",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T02:57:39Z",
+      "side": 1,
+      "message": "\u003e When the blade is removed, the console-server can be stopped, or not stopped, depending on how people want to use it. It is not relevant for this implementation.\n\n\u003e The mux could be on the blade or the bmc board, i assume it would be on the blade, but not 100% sure. It might not be relevant for the implementation.\n\nIf the mux is on the blade and the blade is removed at some point, then we can\u0027t sensibly continue with a mux-based configuration of obmc-console-server, right?",
+      "parentUuid": "2ba79b95_44990ae7",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e3bbb8f_551e0eb6",
         "filename": "docs/mux-support.md",
         "patchSetId": 6
@@ -331,6 +379,24 @@
       "side": 1,
       "message": "Yes, i added the configuration example to the markdown, and removed it from the examples folder.\n\nMaybe it\u0027s better to have the docs and example close together. Then when one is updated the other one is not so easily overlooked.",
       "parentUuid": "7e3bbb8f_551e0eb6",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ea39f4_2b5283f0",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T02:57:39Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "0a369969_1e4eeb67",
       "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -372,6 +438,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b68c716_dc3fbc99",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T02:57:39Z",
+      "side": 1,
+      "message": "\u003e What\u0027s printed is the implementation detail.\n\nI don\u0027t think it is. It effectively forms an ABI, as it\u0027s a behaviour visible to clients. People will end up grepping for the connect/disconnect string. If it\u0027s an implementation detail it can change without concern, but given the circumstance, if it changes, it will break the grep. So I don\u0027t think it\u0027s an implementation detail.\n\n\u003e I would not want to document it as it could change over time and is not meant to be consumed by software. It is just for whoever reads that log.\n\nSo I guess that\u0027s my point of disagreement.\n\n\u003e The current implementation should not disconnect anyone. Whatever is read from the uart is routed to the active console.\n\nOkay. I think that\u0027s reasonable. I was poking at this to understand the plan with the unix domain socket(s) exposed by the server. So we\u0027re still planning to have one per (muxed) console with no disconnection, as opposed to one per TTY device and disconnecting clients on switching the mux. Or are we considering a third option?",
+      "parentUuid": "2e301398_b435bb76",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19e61f01_e2dd64ca",
         "filename": "docs/mux-support.md",
         "patchSetId": 6
@@ -401,6 +485,24 @@
       "side": 1,
       "message": "The print is good for logging purposes. Any client or log file should have that information. \n\nOtherwise it would get very confusing for someone reading the logs when there\u0027s a chunk missing from the host boot logs since someone switched the mux to BIC UART or something else.\n\nIt should be transparent to readers of the log and any clients that they have been connected/disconnected. If the console is disconnected, it will be helpful to have that fact as the first thing in the log file. \n\nOtherwise people will wonder \"where is all the logs, the software must be broken!\".\n\nAs to what\u0027s printed that\u0027s implementation detail.",
       "parentUuid": "19e61f01_e2dd64ca",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9389eb8e_500f206f",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T02:57:39Z",
+      "side": 1,
+      "message": "\u003e As to what\u0027s printed that\u0027s implementation detail.\n\nSee the discussion above.",
+      "parentUuid": "7557b954_75ee107e",
       "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
