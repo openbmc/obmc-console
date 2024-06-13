@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35fcbe7e_085af10b",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T03:05:03Z",
+      "side": 1,
+      "message": "uart2?\n\nBut that comes back to our musings about whether splitting the configuration is the right way to go. I had backtracked on that previously, and Jeremy considers splitting the configuration files to be a bit unwieldy, and suggests adding sections:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71228/comments/c34a7dff_7e6e2144",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b250f8e_ae6747f7",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-13T03:05:03Z",
+      "side": 1,
+      "message": "Hmm, I thought we were shooting for one process per Linux TTY?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 66
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
