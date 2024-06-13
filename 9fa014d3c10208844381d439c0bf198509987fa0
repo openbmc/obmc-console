@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8deab489_3f781418",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "This is docs for the current implementation. It does not make sense to me to document something that\u0027s different from the working code.\n\nStarted WIP change\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71973\nto add \u0027iniparser\u0027 dependency which will be able to parse sections. Once that\u0027s ready (still needs some minor changes in the meson.build) and merged, i can change the implementation to use sections 👍\n\nThen when the implementation is using sections, i can change the documentation.",
+      "parentUuid": "35fcbe7e_085af10b",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b250f8e_ae6747f7",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-13T03:05:03Z",
       "side": 1,
       "message": "Hmm, I thought we were shooting for one process per Linux TTY?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 66
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4080f3_49afc36a",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "Sorry, i made a typo while writing that. Should be fixed in latest revision.",
+      "parentUuid": "2b250f8e_ae6747f7",
       "range": {
         "startLine": 80,
         "startChar": 0,

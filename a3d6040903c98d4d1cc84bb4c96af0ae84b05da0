@@ -230,6 +230,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e086a7a_a6a9c6f3",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "In the latest revision of README.md there is only one obmc-console-server in the section \"Sample Development Setup\".",
+      "parentUuid": "493eb96b_a9444d1e",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 1
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "314ba6c2_4ec3bf4c",
@@ -348,6 +372,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a7c2a8d_2bebdfc7",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "I literally cannot understand this comment.",
+      "parentUuid": "6da6e7e0_c8ee6252",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e3bbb8f_551e0eb6",
@@ -454,6 +502,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc8fe11_751cd71a",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "There is no consideration for any grep. It\u0027s not intended for people to build applications based on it.\n\nThat\u0027s precisely why i did not document the exact string or format, since that would indicate that there was some kind of interface.\n\nNot everything in life has to follow some specification and be documented. Sometimes there is implementation details.\n\n\nOn top of that, specifying some kind of string format would mean that anything connected to the upstream UART could also print that string, effectively bamboozeling any log consumer into thinking that it\u0027s e.g. disconnected when it was just whatever is on the other side of that UART, printing some string.\n\nOne would wonder what kind of things could happen if then there was indeed log output afterwards. Maybe that application would then \u0027forget\u0027 these logs\nuntil some type of \u0027console has been connected\u0027 string appears again.\n\nExample 1:\nSystem A - uart - mux - console-server - log file - Application B\n\n1. System A prints \u0027disconnected\u0027 type string, from some random application (malicious or accidental)\n2. Application B thinks the console is disconnected, pauses logging\n3. Important event happens in System A, logs are printed to uart\n4. Application B discards these logs, as it thinks the console is in disconnected state\n5. People are sad and realize that any random app can print any string and this does not constitute reliable info on connected/disconnected state.\n6. People stop relying on undocumented behavior that\u0027s most definitely not intended  to form some kind of interface\n\n\nIf there is an actual need to have some structured data on the precise times the mux was switched and any console was connected/disconnected,\nthis should better be exposed via some separate interface, like additional dbus methods and properties.\n\nThat would be out of scope for this patch series.",
+      "parentUuid": "5b68c716_dc3fbc99",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19e61f01_e2dd64ca",
@@ -503,6 +569,24 @@
       "side": 1,
       "message": "\u003e As to what\u0027s printed that\u0027s implementation detail.\n\nSee the discussion above.",
       "parentUuid": "7557b954_75ee107e",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "118e4d68_62857e98",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9389eb8e_500f206f",
       "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

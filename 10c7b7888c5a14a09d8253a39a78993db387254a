@@ -211,6 +211,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df744e5_cf9e8453",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "1. still in discussion, depending on the fate of iniparser in obmc-console.\n2. same as before, can place them in the filesystem.\n3. why would it not compose?\n   From what i\u0027ve seen in meson.build it has to do with configuration files.\n   Is there anything that feature does at runtime?",
+      "parentUuid": "6ecabc29_aba89ebc",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d71ed2b9_d36ace9e",
@@ -272,6 +290,30 @@
       "side": 1,
       "message": "\u003e Maybe something like\n\u003e\n\u003e meta-openembedded/meta-oe/recipes-support/iniparser/iniparser_4.1.bb\n\u003e\n\u003e would make sense to at least have a standard format and then be able to use some standard dependency instead of hand-coding a parser to support sections.\n\nI\u0027m okay if we add something more conventional. We\u0027ll need consensus from Jeremy though, and I fear it will lead to a bit of a cascade of work. Configuring obmc-console is already tricky, and I\u0027m a little concerned we\u0027d only make that worse with the conversion.\n\nIf we were to change I\u0027d like to make sure documentation for the new config schema is part of that effort. The project really suffers from a lack of clear documentation there, which is compounded by some of the complexity I\u0027ve already added with the concurrent consoles support.\n\n\u003e For the mux config, we can make it similar as for the i2c-mux-gpio dt binding like you suggested. It will be more familiar to developers who already worked with that.\n\nThanks. Familiarity is helpful, but I think the more important aspect is we can lean on prior art and the support of others having already thought about the problem. It might be helpful to link to that i2c gpio mux binding document in the documentation for the new properties.",
       "parentUuid": "1440e8b0_19816f9c",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff909925_bc628858",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-13T08:51:28Z",
+      "side": 1,
+      "message": "Why would the configuration be more tricky? \n\nEverything i was proposing in terms of configuration should be backwards compatible to the old config. If we use sections or multiple configuration files,\nthe config for a single console can probably stay the same.\n\nIt would be cleaner to also have a section in case of a single console, but it\u0027s not necessary. iniparser can give better error messages on syntax errors in the config file, so it makes it easier for people to configure.",
+      "parentUuid": "43700926_8bfaf273",
       "range": {
         "startLine": 2,
         "startChar": 0,
