@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93b1797a_4f8db109",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-14T04:47:46Z",
+      "side": 1,
+      "message": "\u003e This is docs for the current implementation. It does not make sense to me to document something that\u0027s different from the working code.\n\nSo I\u0027m almost solely reviewing this documentation patch at the moment in the absence of any [design document](https://github.com/openbmc/docs/blob/master/designs/design-template.md) for the feature. What you\u0027re doing here is not really small or self-contained, and I think is well suited to setting a direction using the project\u0027s usual method.\n\nI would like to set my own expectations about what I will see in the code before I get bogged down in the minutia of C and the implementation.\n\nIf you want to constrain this patch to the implementation, then how do you feel about writing a separate design document? That might be a more coherent way to make progress that doesn\u0027t leave you changing the implementation on a whim every other day.",
+      "parentUuid": "8deab489_3f781418",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b250f8e_ae6747f7",
         "filename": "docs/mux-support.md",
         "patchSetId": 7

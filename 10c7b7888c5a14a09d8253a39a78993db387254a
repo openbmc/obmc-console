@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec529e61_d5ec781b",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-14T04:47:46Z",
+      "side": 1,
+      "message": "My questions here really reflect how I\u0027m treating this documentation: I\u0027m using it as a specification for how the implementation should behave, not the other way around.\n\nI don\u0027t want to have to reverse-engineer your intentions out of the implementation details of what at one point was a 3000 line patch. Please try to consider your reviewers here.\n\nI do think it would be appropriate to write a design document, as mentioned above.",
+      "parentUuid": "2df744e5_cf9e8453",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d71ed2b9_d36ace9e",
         "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
         "patchSetId": 1
@@ -314,6 +332,30 @@
       "side": 1,
       "message": "Why would the configuration be more tricky? \n\nEverything i was proposing in terms of configuration should be backwards compatible to the old config. If we use sections or multiple configuration files,\nthe config for a single console can probably stay the same.\n\nIt would be cleaner to also have a section in case of a single console, but it\u0027s not necessary. iniparser can give better error messages on syntax errors in the config file, so it makes it easier for people to configure.",
       "parentUuid": "43700926_8bfaf273",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96ae522_d5068352",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-14T04:47:46Z",
+      "side": 1,
+      "message": "\u003e Why would the configuration be more tricky?\n\nWell, so long as what we\u0027re already accepting in the custom config parser isn\u0027t less strict than what\u0027s allowed by an INI parser, then it should be fine. I just hadn\u0027t convinced myself that was the case.",
+      "parentUuid": "ff909925_bc628858",
       "range": {
         "startLine": 2,
         "startChar": 0,
