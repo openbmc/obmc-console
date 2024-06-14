@@ -247,6 +247,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b583258_49482839",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-14T09:49:51Z",
+      "side": 1,
+      "message": "I\u0027m not suggesting you read all the patches.\n\nSome of them are not even ready yet and may have to be changed depending on the outcome of the iniparser patch and our discussions here. I do not want to waste your time reviewing code that will change anyways.\n\nIt is only a first implementation which can be used to experiment with the feature.\n\nHowever the first two \"refactor run_console\" and \"move main functions into their own files\" already stand on their own and can be reviewed.\n\nAlso the iniparser patch can already be reviewed since we agreed on using sections to simplify the configuration.\n\nI want to make some forward progress here. Adding another corpse to markdown graveyard (aka design documents) will only further delay this feature.\n\nI\u0027m fine with creating documentation in this repo, since it is close to the code and may actually be updated with time.",
+      "parentUuid": "ec529e61_d5ec781b",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d71ed2b9_d36ace9e",
@@ -356,6 +374,30 @@
       "side": 1,
       "message": "\u003e Why would the configuration be more tricky?\n\nWell, so long as what we\u0027re already accepting in the custom config parser isn\u0027t less strict than what\u0027s allowed by an INI parser, then it should be fine. I just hadn\u0027t convinced myself that was the case.",
       "parentUuid": "ff909925_bc628858",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1efe03_40d9fc24",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-14T09:49:51Z",
+      "side": 1,
+      "message": "The iniparser patch is open here\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71973\n\nBefore creating the patch, i did some manual testing to see how \u0027iniparser\u0027 behaves \n(especially being able to parse config with sections and config without sections).\nI did not find any surprising behaviors.\n\nYou can try out iniparser in some small program to see if there is any concerns. Or we can add additional testcases.\n\nLooking forward to your review on that patch 👍",
+      "parentUuid": "f96ae522_d5068352",
       "range": {
         "startLine": 2,
         "startChar": 0,

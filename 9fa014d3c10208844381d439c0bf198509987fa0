@@ -96,6 +96,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d86ea9_4a841cd8",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-14T09:49:51Z",
+      "side": 1,
+      "message": "The design document will just slow us down. The documentation can be in this repo.\n\nI can create more markdown files if required to go into more detail on any aspects of the feature that you determine need further documentation.",
+      "parentUuid": "0c7c159d_f725bc94",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "9fa014d3c10208844381d439c0bf198509987fa0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b250f8e_ae6747f7",

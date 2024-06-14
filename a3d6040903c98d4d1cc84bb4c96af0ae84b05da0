@@ -420,6 +420,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66545189_ce9e2007",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-14T09:49:51Z",
+      "side": 1,
+      "message": "I\u0027m sorry, marking it as resolved was probably not the right idea.\n\nWe already agreed that disconnecting clients is a bad idea. Since that will force other software to re-connect and implement the additional logic.\n\nSo everything can stay exposed. I don\u0027t see the downside there.",
+      "parentUuid": "3874589b_467d0acb",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e3bbb8f_551e0eb6",
@@ -558,6 +582,24 @@
       "side": 1,
       "message": "\u003e There is no consideration for any grep. It\u0027s not intended for people to build applications based on it.\n\u003e\n\u003e That\u0027s precisely why i did not document the exact string or format, since that would indicate that there was some kind of interface.\n\u003e \n\u003e Not everything in life has to follow some specification and be documented. Sometimes there is implementation details.\n\nIn my mind an implementation detail is a detail that\u0027s not visible to the user, usually hidden behind an abstraction. Injecting data into the stream that was not sent by the other side of the console isn\u0027t that. Just because you choose to believe that it\u0027s an implementation detail that doesn\u0027t make it so.\n\nHowever, I appreciate that this is all quite tempting.\n\nI\u0027m interested in Jeremy\u0027s input here.",
       "parentUuid": "9fc8fe11_751cd71a",
+      "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c5d1deb_3779266b",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-14T09:49:51Z",
+      "side": 1,
+      "message": "in latest revision, added some documentation about the log message, and a disclaimer that it\u0027s not some kind of API. I hope everyone can be happy with that. \n\nI do not want to make it some fixed format that then cannot be changed in the future.",
+      "parentUuid": "87c8e1b5_1904a269",
       "revId": "a3d6040903c98d4d1cc84bb4c96af0ae84b05da0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
