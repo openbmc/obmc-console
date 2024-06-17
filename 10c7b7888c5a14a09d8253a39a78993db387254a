@@ -267,6 +267,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0479b9f_8b7326db",
+        "filename": "MUX-SUPPORT.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-17T05:49:56Z",
+      "side": 1,
+      "message": "\u003e I want to make some forward progress here.\n\nForward progress happens at the rate at which we can reach consensus. If you want to make some forward progress here, please help me help you achieve that consensus. Consensus comes from the ability to adapt to the needs of others while still achieving our own goals.\n\nMy needs, as one of the maintainers of the affected code, are to ensure I\u0027m comfortable with the design, the UX (how the console behaves) and UI (how the APIs are exposed), and eventually how we implement these concerns in the context of the existing code.\n\nCurrently, many important points of the design and discussion of their trade-offs are scattered over multiple comments and the implementation. For me this is ineffective as it\u0027s difficult to extract a coherent picture. To make forward progress I would like to be able to quickly iterate on all the details and trade-offs of the design in one place, away from the implementation. Doing so away from the implementation allows us to involve other stakeholders where necessary (e.g. maintainers of phosphor-host-ipmid, bmcweb) without dragging them into the weeds, or (yet) having to reshape the implementation as well. Writing down a design will save us from unnecessary implementation and review.\n\nBroadly, OpenBMC uses design documents for this purpose. The CONTRIBUTING documentation outlines how changes should be planned:\n\nhttps://github.com/openbmc/docs/blob/master/CONTRIBUTING.md#planning-changes\n\nNot doing avoidable work by first reaching consensus on a design will make forward progress easier.\n\n\u003e Adding another corpse to markdown graveyard (aka design documents) will only further delay this feature.\n\nFrom the perspective of OpenBMC\u0027s design documents being an up-to-date reflection of the code, yes, they are a markdown graveyard.\n\nBut this perspective misses their actual purpose, which is to provide a mechanism and a rallying-point for developing consensus on how the project wants to do something. Storing the result in the docs repo isn\u0027t so much for them to forever reflect the code, but to capture why some decisions were made the in the way that they were. They are a historical artifact. Trying to treat them as anything else will likely lead to frustration. They\u0027re a collaborative blog post - current at the time of submission, but YMMV beyond that.",
+      "parentUuid": "4b583258_49482839",
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d71ed2b9_d36ace9e",
         "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
         "patchSetId": 1
@@ -398,6 +416,30 @@
       "side": 1,
       "message": "The iniparser patch is open here\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71973\n\nBefore creating the patch, i did some manual testing to see how \u0027iniparser\u0027 behaves \n(especially being able to parse config with sections and config without sections).\nI did not find any surprising behaviors.\n\nYou can try out iniparser in some small program to see if there is any concerns. Or we can add additional testcases.\n\nLooking forward to your review on that patch 👍",
       "parentUuid": "f96ae522_d5068352",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "10c7b7888c5a14a09d8253a39a78993db387254a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d2c457c_fe505969",
+        "filename": "conf/example/muxed-uart/server-uart-muxed-console1-example.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-17T05:49:56Z",
+      "side": 1,
+      "message": "\u003e Looking forward to your review on that patch 👍\n\nThanks. I\u0027ll take a look once we\u0027ve addressed some of the other concerns in the comments here.",
+      "parentUuid": "0e1efe03_40d9fc24",
       "range": {
         "startLine": 2,
         "startChar": 0,
