@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63175bcd_c598f318",
+        "filename": ".gitignore",
+        "patchSetId": 26
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 0,
+      "message": "Can you split this out to a separate change at the top of the stack? It\u0027s not clear what the reasoning is to drop it.",
+      "revId": "7144509c30ea63953359397839e3d6ce3e0af4e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

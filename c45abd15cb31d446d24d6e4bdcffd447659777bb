@@ -3,6 +3,228 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "844f495f_b4c48482",
+        "filename": "console-client.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "This should be `static volatile sig_atomic_t sigint \u003d ...;`, otherwise the behaviour is unspecified by the C standard.",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb851a7_2078ea1b",
+        "filename": "console-client.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "[man 2 signal](https://man7.org/linux/man-pages/man2/signal.2.html#DESCRIPTION) says at the top of `DESCRIPTION`:\n\n```\n       WARNING: the behavior of signal() varies across UNIX versions,\n       and has also varied historically across different versions of\n       Linux.  Avoid its use: use sigaction(2) instead.  See Portability\n       below.\n```\n\nWe should probably avoid well-documented booby-trapped library calls...",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "395c9cef_94ac0918",
+        "filename": "console-dbus.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "By the consensus on [Add designs/uart-mux-support.md](https://gerrit.openbmc.org/c/openbmc/docs/+/72125) this isn\u0027t (yet) necessary. If we need it, it should be a separate patch that follows this one (... sometime in the future).",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "580fd788_defb08b8",
+        "filename": "console-dbus.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "Please no, let\u0027s leave bus fiddling to [dbus-run-session](https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html) and the environment. If we must access the system bus then it\u0027s relatively straight forward to make the relevant environment variables match. See how I\u0027ve hooked things up for testing here:\n\nhttps://github.com/amboar/dbus-sensors/commit/deef99485d7671634baee09aac6368b8b839b574#diff-9cd49426232fe1cd89c98e67825def7724c31956a4e55ad5eabc84f466f05e32R14",
+      "range": {
+        "startLine": 174,
+        "startChar": 52,
+        "endLine": 174,
+        "endChar": 66
+      },
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc714970_a242e5d8",
+        "filename": "console-gpio.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "I think we agreed that rather than `mux-gpio-N`, we\u0027d define `mux-gpios` as a list, and then use `mux-index` as a scalar value over the LSB-MSB ordered `mux-gpios` to set the mux state.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 49
+      },
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2b3225_d78af645",
+        "filename": "console-gpio.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "I prefer this have a more descriptive name if it\u0027s not `static`.",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299db3b2_afdf56a6",
+        "filename": "console-gpio.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "So my concern with the declarations in this header is that they are hard to relate to each other even now, let alone when separated out in the code, and don\u0027t seem to represent a coherent object model. Everything takes `struct console *` as its context; why not define the lot in `console-server.h`?\n\nA while back I wrote a post about naming things in C and trying to maintain coherence in the few namespaces that C has. I\u0027d certainly feel more at home with the patch if it followed the strategy outlined a bit more closely:\n\nhttps://amboar.github.io/notes/2023/06/09/naming-functions-in-c.html",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c20e683_e9f37479",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "I think we\u0027ve eliminated this idea, yes?",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "803fc988_c0a1da27",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "Can we extract the debug/verbose mode support out to a separate patch? Seems like that should be one small straight-forward step to reducing the complexity of this change.\n\nIt will also help isolate the discussion about how we can make writing debug statements a bit more ergonomic.",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "886e7ce5_71773d5e",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "We iterate here over `n_consoles`, and then we iterate on 1041 over `n_consoles`, and again on 1057 over `n_consoles`. This feels like the abstraction is wrong? Can we have these functions operate on one specific console, and hoist the iteration to a higher level? As in, I think these functions could take a `struct console *` instead. Or is there some reason I\u0027m missing that we need to do everything in column-major order?",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13490865_edadaa93",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "We can drop this?",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5982ff43_99fe4115",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "Please remove this. See the other comment about `dbus-run-session`.",
+      "range": {
+        "startLine": 1517,
+        "startChar": 46,
+        "endLine": 1517,
+        "endChar": 59
+      },
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a40ba7e_de7343bc",
         "filename": "meson.build",
         "patchSetId": 26

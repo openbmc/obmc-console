@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fd1da58_7d819cd8",
+        "filename": "config.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "It\u0027s also defined in `test/test-client-escape.c`. Maybe we should add a `util.h` and move it there (and also the prototype for `write_buf_to_fd()`)? Or just `array.h`?",
+      "parentUuid": "6bdcce83_8078c416",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ed697ed_2f55fed2",
         "filename": "config.c",
         "patchSetId": 21
@@ -245,6 +263,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43e81c29_4b8dad98",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "The link-time trick is tidy and I\u0027d prefer to keep it given it\u0027s what we already have.\n\nI think that addressing Jeremy\u0027s concerns would shave complexity from the patch (with the reduction in type exposure and header files). Reducing or isolating the complexity will help a lot with the review process.",
+      "parentUuid": "db5811d9_d6506ac8",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88bdd8af_aed1f8e0",
         "filename": "console-server.c",
         "patchSetId": 21
@@ -290,6 +326,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "This looks pretty much like `scandir()`, would it make sense to use that?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "131a2e18_71fd7d64",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-26T12:40:08Z",
+      "side": 1,
+      "message": "I think given that we\u0027ve nixed the idea of multiple config files we should be able to drop it entirely (and not use scandir() either)?\n\nI think that should chop out a chunk of complexity from the config stuff below.",
+      "parentUuid": "72605867_c1c751b4",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
