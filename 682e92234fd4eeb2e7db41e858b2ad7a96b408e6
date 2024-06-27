@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8548b729_1b08dd75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-27T02:04:37Z",
+      "side": 1,
+      "message": "Alexander: There are quite a few unresolved comments on this one. Can you try to address some or all of them (and mark them as resolved where appropriate) so we can converge a bit?",
+      "revId": "682e92234fd4eeb2e7db41e858b2ad7a96b408e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
