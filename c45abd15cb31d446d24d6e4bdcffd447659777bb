@@ -256,6 +256,24 @@
       "parentUuid": "3a40ba7e_de7343bc",
       "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5423a5ec_687c68c3",
+        "filename": "meson.build",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-27T01:57:41Z",
+      "side": 1,
+      "message": "Okay, this is now sorted out; `meson wrap update-db \u0026\u0026 meson wrap install libgpiod` should now give a setup that builds properly (using v1.6.5).",
+      "parentUuid": "bd84b431_ec2f4a40",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
