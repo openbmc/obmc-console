@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45cb9de9_667681c5",
+        "filename": "console-server.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-27T01:54:38Z",
+      "side": 1,
+      "message": "Hmm, I was going to ask why we\u0027re using the heap here, but we\u0027re doing the same for `struct console`, and it\u0027s unclear to me why we\u0027re doing that either.\n\nIt looks like we\u0027ve just done it since the early days and there\u0027s not been a reason to change it (`d66195c15740 (\"Add configuration infrastructure\")` in 2016).\n\nAnyway, not a huge problem, just struck me as odd. We can address that later.",
+      "revId": "f284334d828663320b3c7fae2e08fade69e3ddb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d17008d5_be76aca7",
+        "filename": "console-server.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-27T01:54:38Z",
+      "side": 1,
+      "message": "I wonder if it would be better if we extract the anonymous embedded struct type definition for the tty member out to a named struct type, and then pass the pointer to that through here. It would still have all the same churn, but defines the API boundaries a bit more neatly? So:\n\n```\nstruct console_tty {\n    const char *name;\n    ...\n};\n\nstruct console_server {\n    struct console_tty tty;\n    ...\n};\n...\nvoid tty_init_termios(struct console_tty *);\n...\n```\n\nHowever, this is just a half-baked thought that needs discussion of its merit, let\u0027s not chase the implementation yet.",
+      "range": {
+        "startLine": 214,
+        "startChar": 22,
+        "endLine": 214,
+        "endChar": 51
+      },
+      "revId": "f284334d828663320b3c7fae2e08fade69e3ddb6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
