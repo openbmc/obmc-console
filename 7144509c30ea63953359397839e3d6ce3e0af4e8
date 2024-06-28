@@ -16,6 +16,24 @@
       "message": "Can you split this out to a separate change at the top of the stack? It\u0027s not clear what the reasoning is to drop it.",
       "revId": "7144509c30ea63953359397839e3d6ce3e0af4e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70e4f421_5623812b",
+        "filename": ".gitignore",
+        "patchSetId": 26
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 0,
+      "message": "Mhm i don\u0027t know either. Adding that back in.\nThe only thing needed to remove here is config.h so that the config file specific\nfunctions have their own header file.",
+      "parentUuid": "63175bcd_c598f318",
+      "revId": "7144509c30ea63953359397839e3d6ce3e0af4e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

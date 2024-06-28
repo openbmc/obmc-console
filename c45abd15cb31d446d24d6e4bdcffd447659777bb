@@ -52,6 +52,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7706e0df_bff9457c",
+        "filename": "console-dbus.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "395c9cef_94ac0918",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "580fd788_defb08b8",
@@ -65,6 +83,30 @@
       "writtenOn": "2024-06-26T12:40:08Z",
       "side": 1,
       "message": "Please no, let\u0027s leave bus fiddling to [dbus-run-session](https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html) and the environment. If we must access the system bus then it\u0027s relatively straight forward to make the relevant environment variables match. See how I\u0027ve hooked things up for testing here:\n\nhttps://github.com/amboar/dbus-sensors/commit/deef99485d7671634baee09aac6368b8b839b574#diff-9cd49426232fe1cd89c98e67825def7724c31956a4e55ad5eabc84f466f05e32R14",
+      "range": {
+        "startLine": 174,
+        "startChar": 52,
+        "endLine": 174,
+        "endChar": 66
+      },
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "614a7a53_1a4aff8b",
+        "filename": "console-dbus.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Thanks for pointing this out 👍 I can remove the edge case here and try to apply dbus-run-session in the testing patch.",
+      "parentUuid": "580fd788_defb08b8",
       "range": {
         "startLine": 174,
         "startChar": 52,
@@ -163,6 +205,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6ad91eb_cb93f7a0",
+        "filename": "console-gpio.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a2b3225_d78af645",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "299db3b2_afdf56a6",
@@ -232,6 +292,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a9abcd_3be2de77",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Yes. it was kind of leftovers from my implementation. I found it very helpful during development but we can re-introduce it after the feature patch has stabilized.",
+      "parentUuid": "803fc988_c0a1da27",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "886e7ce5_71773d5e",
@@ -245,6 +323,24 @@
       "writtenOn": "2024-06-26T12:40:08Z",
       "side": 1,
       "message": "We iterate here over `n_consoles`, and then we iterate on 1041 over `n_consoles`, and again on 1057 over `n_consoles`. This feels like the abstraction is wrong? Can we have these functions operate on one specific console, and hoist the iteration to a higher level? As in, I think these functions could take a `struct console *` instead. Or is there some reason I\u0027m missing that we need to do everything in column-major order?",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8375c31e_2d5a7b62",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Yes, the abstraction is wrong. Either we should keep the order as done before\nor run a function for each console.\n\nI did not want to mess with the order that was there before,\nand would prefer to have a function for each of the tasks that then iterates over the consoles.\n\nThat way we can avoid the edge case of the tty pollfd in the active console.\n\nSo like\n\n- console_server_check_ringbuffer_sizes\n- console_server_process_dbus\n- console_server_process_pollers\n\nin latest revision",
+      "parentUuid": "886e7ce5_71773d5e",
       "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -297,6 +393,30 @@
       "writtenOn": "2024-06-26T12:40:08Z",
       "side": 1,
       "message": "Please remove this. See the other comment about `dbus-run-session`.",
+      "range": {
+        "startLine": 1517,
+        "startChar": 46,
+        "endLine": 1517,
+        "endChar": 59
+      },
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23ce1ab_6666768f",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "Using dbus-run-session now, you reference was very helpful.\nI did not know of it before. But i did not manage to get it working with a script only. Had to use execve since there was some problems with libasan.\n\nI could not resolve that so now the test does execve with dbus-run-session\nand then passes it\u0027s own path inside that call along with a parameter that stops the recursion. But we can discuss that on the testing path 👍",
+      "parentUuid": "5982ff43_99fe4115",
       "range": {
         "startLine": 1517,
         "startChar": 46,

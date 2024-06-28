@@ -16,6 +16,24 @@
       "message": "Alexander: There are quite a few unresolved comments on this one. Can you try to address some or all of them (and mark them as resolved where appropriate) so we can converge a bit?",
       "revId": "682e92234fd4eeb2e7db41e858b2ad7a96b408e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa125c61_7b9f386b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:33:57Z",
+      "side": 1,
+      "message": "I\u0027m trying to work through them a few at a time.\n\nI don\u0027t want to change everything at once since most changes result\nin changes to the later patches aswell.\n\nSometimes i push new revisions which do not change alot since i\u0027m always pushing the entire relation chain, so everything is up to date 👍\n\nSo there may be new revisions which do not address any review comments since\nthe changes are a result of changes on previous patches.",
+      "parentUuid": "8548b729_1b08dd75",
+      "revId": "682e92234fd4eeb2e7db41e858b2ad7a96b408e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
