@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c0032e_03faa24c",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-28T06:33:12Z",
+      "side": 1,
+      "message": "I think we have some confusion about capacity and count here? If the pollfd that\u0027s removed isn\u0027t the last then we effectively lop an active one off the poll() call? Also, I don\u0027t think we\u0027d be able to subsequently release that last pollfd, because we short-circuit above.",
+      "revId": "1ed7e2004b27527cbdba4696ec0dc3db2d42ab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c92f083d_983a94db",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-28T06:33:12Z",
+      "side": 1,
+      "message": "This pattern repeats in a few places. I wonder if it\u0027s better to pass a populated pollfd into the `console_server_request_pollfd()` call, or at least `fd` and `events` arguments? Might be worth discussing here (not yet implementing) whether we can encapsulate the behaviour a little more.",
+      "range": {
+        "startLine": 361,
+        "startChar": 1,
+        "endLine": 363,
+        "endChar": 29
+      },
+      "revId": "1ed7e2004b27527cbdba4696ec0dc3db2d42ab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
