@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e83ba61_23ec7569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-28T02:40:59Z",
+      "side": 1,
+      "message": "So I think the main question here is how you chose this particular INI parser implementation - probably best to discuss that here in the comments, and then we can figure where to go from there (either move the reasoning to the commit message, or take whatever path comes out of the discussion).",
+      "revId": "288f7112e83d74fa7d0f6c979336a27e17f67255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb32702_0edea446",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-06-28T02:40:59Z",
+      "side": 1,
+      "message": "Hi Alexander, I think this one is probably the next most likely thing we could merge once we\u0027ve ironed out some of the details. Given that, it might be beneficial to move this earlier in your series.",
+      "revId": "288f7112e83d74fa7d0f6c979336a27e17f67255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
