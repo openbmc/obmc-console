@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a61c759_544ffa0d",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 24
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T15:37:08Z",
+      "side": 1,
+      "message": "i did not manage to get it working with a wrapper script as per your example over here https://github.com/amboar/dbus-sensors/commit/deef99485d7671634baee09aac6368b8b839b574#diff-9cd49426232fe1cd89c98e67825def7724c31956a4e55ad5eabc84f466f05e32R14\n\nIs the CI for that example also running with valgrind and asan?\n\nFor me, there were always errors with libasan.so complaining that it was not first in the link order.\n\nThe approach with execve works but is a bit hacky and i\u0027m not happy with it.",
+      "revId": "5405ff569a060b890cae7743fc2d90cbea8da69d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
