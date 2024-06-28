@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "879aa1d1_f1f4c2c7",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T09:12:09Z",
+      "side": 1,
+      "message": "Yes, good you catched that 👍\n\nMight be better to just store the capacity of the buffer.\n\nDo you think it is worth it to extract the pollfd allocator into it\u0027s own\nfile and test it separately? Or should we leave it without tests since it is not too complicated.",
+      "parentUuid": "49c0032e_03faa24c",
+      "revId": "1ed7e2004b27527cbdba4696ec0dc3db2d42ab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c92f083d_983a94db",
         "filename": "console-server.c",
         "patchSetId": 8
@@ -31,6 +49,30 @@
       "writtenOn": "2024-06-28T06:33:12Z",
       "side": 1,
       "message": "This pattern repeats in a few places. I wonder if it\u0027s better to pass a populated pollfd into the `console_server_request_pollfd()` call, or at least `fd` and `events` arguments? Might be worth discussing here (not yet implementing) whether we can encapsulate the behaviour a little more.",
+      "range": {
+        "startLine": 361,
+        "startChar": 1,
+        "endLine": 363,
+        "endChar": 29
+      },
+      "revId": "1ed7e2004b27527cbdba4696ec0dc3db2d42ab27",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "918ae09c_c07613c0",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-06-28T09:12:09Z",
+      "side": 1,
+      "message": "Yes, this can save us a few lines of code.\nSince at every call site the fd and events should already be known.\n\nCan implement this and we can go back later if we find it has any drawbacks.",
+      "parentUuid": "c92f083d_983a94db",
       "range": {
         "startLine": 361,
         "startChar": 1,
