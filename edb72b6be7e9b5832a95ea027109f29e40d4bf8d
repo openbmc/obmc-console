@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "aeadaf0f_beb327f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T10:02:59Z",
+      "side": 1,
+      "message": "There\u0027s an open comment about having the pollfd \u0027allocator\u0027 be in it\u0027s own file.\n\nPart of that could also be adding tests for this allocator. I\u0027m happy for any feedback on that.\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71884/comment/49c0032e_03faa24c/\n\nThe whole series here is tested by the integration tests at the end of the series.\nSince i do not look forward to manually testing ```n commits * m revisions```\n(unreasonable expectation)\n\nAnd this repo does not currently have any integration tests.\n\nSince historically a \"Tested\" section has not been required on this repo,\ni did not want to add it here.\n\nUsually it\u0027s just an excuse for a lack of proper CI anyways.\n\nIf we start with manual testing here then we would have to first define\nhow obmc-console should be tested to work (create a test protocol),\nand document that somewhere (e.g. TESTING.md)\n\nAnd then you already have what\u0027s essentially an integration test.",
+      "parentUuid": "1e515fdf_d07d7538",
+      "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cddd520d_fd37ae04",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
