@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "596e8b76_cd7cbe16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T09:20:35Z",
+      "side": 1,
+      "message": "Ok, i had assumed that any old dependency would be fine, since there is already a recipe in the tree which implies some level of trust.\n\n[1,2] i have updated the URL in the commit message 👍\n\n[3] I\u0027m aware of the xz issue and would consider it to be the responsibility of whoever bumps a recipe to a new revision, to check what has changed in the project.\nI have checked the source codes of iniparser and can assure you it does not contain any surprises. \nSince we use a fixed revision of the project, it should be fine to check it once at the time we come to depend on it?\n\n[4] Updated the commit message with a brief comparison of our choices here.",
+      "parentUuid": "e01d7f0e_d4f8df63",
+      "revId": "288f7112e83d74fa7d0f6c979336a27e17f67255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "edb32702_0edea446",
