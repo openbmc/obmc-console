@@ -33,6 +33,80 @@
       "message": "LGTM",
       "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e25fe3d_c18ce823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T03:42:20Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a couple of queries inline.",
+      "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4676046_f2075585",
+        "filename": "console-server.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T03:42:20Z",
+      "side": 1,
+      "message": "[reallocarray()](https://www.man7.org/linux/man-pages/man3/reallocarray.3.html)?",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc81ead2_42ed2cd5",
+        "filename": "console-server.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T03:42:20Z",
+      "side": 1,
+      "message": "We could assign `index` before `server-\u003ecapacity_polfds` and avoid the subtraction.",
+      "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1114d476_a288580a",
+        "filename": "console-server.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T03:42:20Z",
+      "side": 1,
+      "message": "Can you unpack what you mean by this comment? We don\u0027t free anything below?",
+      "revId": "edb72b6be7e9b5832a95ea027109f29e40d4bf8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
