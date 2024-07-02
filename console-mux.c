@@ -8,6 +8,7 @@
 #include "console-server.h"
 #include "console-mux.h"
 #include "config.h"
+#include "util.h"
 
 struct console_gpio {
 	char *name;
@@ -97,6 +98,8 @@ console_mux_find_gpio_by_index(struct console_server *server,
 static void console_mux_release_gpio_lines(struct console_server *server,
 					   unsigned long count)
 {
+	debug("console mux: release gpio lines");
+
 	assert(count <= server->mux->n_mux_gpios);
 
 	for (unsigned long i = 0; i < count; i++) {
@@ -116,6 +119,8 @@ static int console_mux_request_gpio_lines(struct console_server *server,
 	const char *current = config_gpio_names;
 	struct console_gpio *gpio;
 	int status = 0;
+
+	debug("console mux: request gpio lines");
 
 	for (size_t j = 0; j < mux->n_mux_gpios; j++) {
 		gpio = console_mux_find_gpio_by_index(server, &current, j);
@@ -139,6 +144,8 @@ static int console_mux_request_gpio_lines(struct console_server *server,
 
 int console_server_mux_init(struct console_server *server)
 {
+	debug("console server mux init");
+
 	int rc = 0;
 	const char *config_gpio_names =
 		config_get_value(server->config, key_mux_gpios);
@@ -198,6 +205,8 @@ void console_server_mux_fini(struct console_server *server)
 
 int console_mux_init(struct console *console, struct config *config)
 {
+	debug2("console mux init for console id: %s", console->console_id);
+
 	if (!console->server->mux) {
 		return 0;
 	}
@@ -288,6 +297,8 @@ int console_mux_activate(struct console *console)
 	const bool first_activation = server->active == NULL;
 	const bool is_active = server->active == console;
 	int status = 0;
+
+	debug2("console mux activate console '%s'", console->console_id);
 
 	if (is_active) {
 		return 0;
