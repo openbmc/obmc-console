@@ -42,6 +42,7 @@
 
 #include "console-server.h"
 #include "config.h"
+#include "util.h"
 
 #define DEV_PTS_PATH "/dev/pts"
 
@@ -621,6 +622,9 @@ static void handlers_init(struct console *console, struct config *config)
 	size_t i;
 
 	n_types = __stop_handlers - __start_handlers;
+
+	debug2("init handlers for console id: '%s'", console->console_id);
+
 	console->handlers = calloc(n_types, sizeof(struct handler *));
 	if (!console->handlers) {
 		err(EXIT_FAILURE, "malloc(handlers)");
@@ -631,6 +635,9 @@ static void handlers_init(struct console *console, struct config *config)
 	for (i = 0; i < n_types; i++) {
 		const struct handler_type *type = __start_handlers[i];
 		struct handler *handler;
+
+		debug2("init handler at index %ld", i);
+		debug2("handler name: '%s'", type->name);
 
 		/* Should be picked up at build time by
 		 * console_handler_register, but check anyway
@@ -967,6 +974,8 @@ static int run_console_iteration(struct console_server *server)
 
 	timeout = get_poll_timeout(server->active, &tv);
 
+	debug("polling");
+
 	rc = poll(server->pollfds, server->capacity_pollfds, (int)timeout);
 
 	if (sigint) {
@@ -984,12 +993,15 @@ static int run_console_iteration(struct console_server *server)
 
 	/* process internal fd first */
 	if (server->pollfds[server->tty_pollfd_index].revents) {
+		debug("reading from tty fd");
+
 		rc = read(server->tty.fd, buf, sizeof(buf));
 		if (rc <= 0) {
 			warn("Error reading from tty device");
 			return -1;
 		}
 
+		debug2("read %ld bytes from tty pollfd\n", rc);
 		rc = ringbuffer_queue(server->active->rb, buf, rc);
 		if (rc) {
 			return -1;
@@ -1002,6 +1014,8 @@ static int run_console_iteration(struct console_server *server)
 	if (dbus_pollfd->revents) {
 		sd_bus_process(server->bus, NULL);
 	}
+
+	debug("running per-console event handler");
 
 	for (size_t i = 0; i < server->n_consoles; i++) {
 		struct console *console = server->consoles[i];
@@ -1017,6 +1031,8 @@ static int run_console_iteration(struct console_server *server)
 
 int run_server(struct console_server *server)
 {
+	debug("entering run_server");
+
 	sighandler_t sighandler_save = signal(SIGINT, sighandler);
 	ssize_t rc = 0;
 
@@ -1051,6 +1067,8 @@ static struct console *console_init(struct console_server *server,
 	size_t buffer_size = default_buffer_size;
 	const char *buffer_size_str = NULL;
 	int rc;
+
+	debug2("console_init for console id: '%s'", console_id);
 
 	struct console *console = calloc(1, sizeof(struct console));
 	if (console == NULL) {
@@ -1125,6 +1143,8 @@ static int console_server_add_console(struct console_server *server,
 	struct console *console;
 
 	console_id = config_resolve_console_id(config, opt_console_id);
+
+	debug2("console server add console '%s'", console_id);
 
 	struct console **tmp = reallocarray(server->consoles,
 					    server->n_consoles + 1,
