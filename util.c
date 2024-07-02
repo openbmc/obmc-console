@@ -18,6 +18,9 @@
 #include <unistd.h>
 
 #include "console-server.h"
+#include "util.h"
+
+bool debug_logging_enabled = false;
 
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 {
