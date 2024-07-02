@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e01d7f0e_d4f8df63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T04:25:42Z",
+      "side": 1,
+      "message": "Firstly, I prefer that you be a little more conservative in marking threads as resolved :) I asked for the rationale so we could either be sure this is the library we wanted, or choose another, and in the event that we\u0027re okay with the one you chose then to add the rationale to the commit message. The latter isn\u0027t yet done so we\u0027re not through with it on that measure, and I asked because I did have some concerns:\n\n1. The URL referenced points to someone\u0027s personal tree. This is not necessarily a bad thing, but I don\u0027t have an existing trust relationship with them (I\u0027ve never come across their username or the project). However, I guess trust in it is somewhat reasonable as it has an existing bitbake recipe that points to the same.\n\n2. The README in the repo at that URL says this at the top:\n\n   \u003e Changes in May 2024: We moved to [iniparser/iniparser](https://gitlab.com/iniparser/iniparser)!\n   \n   So we should at least point to the current project repo, and not a historical one (even if the recipe points to the old one).\n\n3. Immediately under that, it seems the project has very recently changed maintainers\n\n   \u003e Changes in March 2024: @lmoellendorf took over maintenance for this project.\n   \n   This is also not someone I\u0027m familiar with, and in light of the [xz issue](https://lwn.net/Articles/967866/) this feels like a particularly vulnerable time for the project. I think some caution is warranted.\n\n4. A quick grep turned up some other options in the OpenBMC tree:\n\n   ```\n   $ git grep -lw INI -- :/:*.bb\n   meta-openembedded/meta-oe/recipes-support/inih/libinih_58.bb\n   meta-openembedded/meta-oe/recipes-support/iniparser/iniparser_4.1.bb\n   meta-openembedded/meta-oe/recipes-support/minini/minini_1.2.b.bb\n   poky/meta/recipes-devtools/python/python3-iniconfig_2.0.0.bb\n   poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb\n   ```\n   \n   Of these, `inih` also has [an existing wrap in the meson wrap database](https://wrapdb.mesonbuild.com/v2/inih_r57-1/inih.wrap), so that might be worth evaluating before maintaining our own wrap here. If we choose to consume `inih` via the wrapdb then you can integrate it by running `meson wrap install inih`. However, it looks like upstream also merged meson support directly into the project:\n   \n   https://github.com/benhoyt/inih?tab\u003dreadme-ov-file#meson-notes\n   \n   Given that, the wrap could look like almost any other git wrap that we use in projects throughout OpenBMC.\n   \n   However, we should evaluate `inih` and `minini` on the same criteria you outlined as upsides to `iniparser` above. Can you do a quick comparison?",
+      "parentUuid": "3dd12584_be7c6cad",
+      "revId": "288f7112e83d74fa7d0f6c979336a27e17f67255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "edb32702_0edea446",
