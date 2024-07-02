@@ -16,4 +16,22 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+#define debug(S)                                                               \
+	if (debug_logging_enabled) {                                           \
+		fprintf(stderr, "[debug] ");                                   \
+		fprintf(stderr, S);                                            \
+		fprintf(stderr, "\n");                                         \
+	}
+
+#define debug2(A, B)                                                           \
+	if (debug_logging_enabled) {                                           \
+		fprintf(stderr, "[debug] ");                                   \
+		fprintf(stderr, A, B);                                         \
+		fprintf(stderr, "\n");                                         \
+	}
+
+extern bool debug_logging_enabled;
