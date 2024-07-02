@@ -347,6 +347,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a48c666d_d89d5b4b",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "The order in which these file descriptors are processed is (largely?) an implementation detail. I don\u0027t think we should be afraid to reorganise it, especially if it supports sensible abstractions.\n\nI prefer you don\u0027t do what you\u0027ve done here, and instead have an event processing function per console. If there\u0027s a special-case for the active console, then add the logic for that special-case.\n\nI really prefer we hoist the iteration such there\u0027s only one loop driving it over the N consoles.",
+      "parentUuid": "8375c31e_2d5a7b62",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13490865_edadaa93",
         "filename": "console-server.c",
         "patchSetId": 26

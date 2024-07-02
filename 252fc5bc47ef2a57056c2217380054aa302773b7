@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96de3006_7d070b65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for resolving a bunch of the concerns. I have a few more inline.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95f01dba_2e9e98ad",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "Please don\u0027t cast away `const`, see comment below.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3463e395_0248649c",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "Why 10? Also, why not `calloc()`? What if `malloc()`/`calloc()` return NULL?",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8f2dfa_fd9f261d",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "This error message focuses on an implementation detail, but it\u0027s a message that\u0027s printed to the user. Messages should be user-focused - how should a user react to this condition? I don\u0027t think they should be expected to change the option parsing implementation.\n\nFurther, I expect we should use `warnx()` for consistency. Please audit the rest of the patch for that.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83eab1ca_b0baca4c",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary - we should emit an error to the user at the point where we need a console ID and don\u0027t have one provided. We\u0027re only at that point after both the command line arguments and the configuration file have been parsed.",
+      "range": {
+        "startLine": 1259,
+        "startChar": 1,
+        "endLine": 1261,
+        "endChar": 2
+      },
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b430ee9_6c4bb055",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "What are we trying to achieve with the `config_*` set of APIs? Having to call through the `iniparser_*` APIs here feels like it breaks any encapsulation the `config_*` APIs could offer. Can we design better `config_*` APIs to avoid this?",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d69374_521fcfe5",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1302,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "I have a few concerns here:\n\nThe first is you mustn\u0027t cast away `const`. I also don\u0027t see why there\u0027s reason to here. See:\n\nhttps://wiki.sei.cmu.edu/confluence/display/c/EXP05-C.+Do+not+cast+away+a+const+qualification\n\nThe wiki (SEI CERT C Coding Standard) is maintained by members of the C standards committee among others. Its intent is to be an approachable resource for C programmers, by contrast to the C standard itself, which targets implementers of the language.\n\nPlease audit the rest of this patch and others in the patch stack to address this concern.\n\nThe second is this assumption doesn\u0027t appear to match what you\u0027ve documented:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71867/22/docs/mux-support.md#32\n\nI would like to iron out the details of the configuration schema separate to the implementation. I don\u0027t think we should assume that a section name is the console ID, as this precludes us from merging the client and server configuration files down the track. I think moving to INI is an opportunity to clean up some of the clutter and I would like to make sure we don\u0027t prevent it.\n\nThe final concern is this is breaking encapsulation of the `config_*` APIs again 😞",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96c9034_e5983884",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "In the comments above (on a prior PS) Jeremy requested that you don\u0027t drive control-flow this way. Please rework the code to eliminate all `goto`-based control-flow that isn\u0027t resource cleanup in error paths.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c0f64fe_3bb5dd5f",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "This is a bit of a red flag 😊",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f337a24e_932282a8",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "I don\u0027t see where it\u0027s justified that we now unconditionally request these properties, given that the existing code will conditionally request them based on the UART type.\n\nAnother concern I have is its separating the handing of the configuration data from where the configuration data is actually used. We could instead pass the relevant section through as an argument for the init function to extract the data like it already does prior to this patch. This is my preferred approach, so I\u0027d like to see some discussion of the trade-offs.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af5fa8c_5b69e917",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "`lpc-address` isn\u0027t the correct property for the variable name. This also continues to break down the existing separation of configuration based on the UART type 😞",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "028ea952_e05a8be8",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1373,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-02T02:02:10Z",
+      "side": 1,
+      "message": "This should be `run_server(\u0026server)`? Otherwise we\u0027re mixing the naming of abstractions and that makes the code harder to understand. We need to name things such that we build a topology of abstractions, a taxonomy of sorts. Again, I feel https://amboar.github.io/notes/2023/06/09/naming-functions-in-c.html might be helpful to understand my position.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
