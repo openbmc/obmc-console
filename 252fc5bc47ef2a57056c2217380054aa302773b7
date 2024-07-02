@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f175b2e_d60580b0",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95f01dba_2e9e98ad",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3463e395_0248649c",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-02T02:02:10Z",
       "side": 1,
       "message": "Why 10? Also, why not `calloc()`? What if `malloc()`/`calloc()` return NULL?",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641fa421_cad6201a",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "agree, should use calloc here. Also checking the error path now.\nThe 10 is an arbitrary choice.",
+      "parentUuid": "3463e395_0248649c",
       "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ec23b10_7b330d23",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Changed this to print the usage instead and return 1.\nAgree that warnx is the better function. I\u0027m just not used to it.",
+      "parentUuid": "7e8f2dfa_fd9f261d",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83eab1ca_b0baca4c",
@@ -82,6 +136,30 @@
       "writtenOn": "2024-07-02T02:02:10Z",
       "side": 1,
       "message": "I don\u0027t think this is necessary - we should emit an error to the user at the point where we need a console ID and don\u0027t have one provided. We\u0027re only at that point after both the command line arguments and the configuration file have been parsed.",
+      "range": {
+        "startLine": 1259,
+        "startChar": 1,
+        "endLine": 1261,
+        "endChar": 2
+      },
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d67c9af5_c2221066",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "yes, i removed that print. It does not make sense to print when an error has not yet occurred.",
+      "parentUuid": "83eab1ca_b0baca4c",
       "range": {
         "startLine": 1259,
         "startChar": 1,
@@ -143,6 +221,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4206b2e3_10638d9a",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "cleaned up this instance 👍\nIt was not necessary just leftovers from previous revisions.",
+      "parentUuid": "f96c9034_e5983884",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c0f64fe_3bb5dd5f",
@@ -156,6 +252,24 @@
       "writtenOn": "2024-07-02T02:02:10Z",
       "side": 1,
       "message": "This is a bit of a red flag 😊",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7af402_01c77bc0",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c0f64fe_3bb5dd5f",
       "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -207,6 +321,24 @@
       "writtenOn": "2024-07-02T02:02:10Z",
       "side": 1,
       "message": "This should be `run_server(\u0026server)`? Otherwise we\u0027re mixing the naming of abstractions and that makes the code harder to understand. We need to name things such that we build a topology of abstractions, a taxonomy of sorts. Again, I feel https://amboar.github.io/notes/2023/06/09/naming-functions-in-c.html might be helpful to understand my position.",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "509c1533_31c15b73",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1373,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "028ea952_e05a8be8",
       "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

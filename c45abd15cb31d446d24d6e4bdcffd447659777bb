@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ad40eb_c782cebf",
+        "filename": "console-client.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844f495f_b4c48482",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "feb851a7_2078ea1b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-26T12:40:08Z",
       "side": 1,
       "message": "[man 2 signal](https://man7.org/linux/man-pages/man2/signal.2.html#DESCRIPTION) says at the top of `DESCRIPTION`:\n\n```\n       WARNING: the behavior of signal() varies across UNIX versions,\n       and has also varied historically across different versions of\n       Linux.  Avoid its use: use sigaction(2) instead.  See Portability\n       below.\n```\n\nWe should probably avoid well-documented booby-trapped library calls...",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4ce543_a45e0d33",
+        "filename": "console-client.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "I mainly added this for tests. So the test can send a SIGINT to the console process and the process can shutdown cleanly without leaking any resources.\n\nBut i can look into into sigaction for the next revisions.",
+      "parentUuid": "feb851a7_2078ea1b",
       "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -240,6 +276,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "908b2313_cd2636d4",
+        "filename": "console-gpio.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Agree that there could be more consistency here. I can rename the functions in the header to have common ```console_gpio_``` prefix.\n\nMy intent with this file is to separate all the console specific code that deals with the libgpio. I did not want to have any libgpio code in the console-server.c\n\nWhile looking at that, also noticed 3 functions here can be made static\n- console_gpio_request_lines (formerly set_console_gpios)\n- console_gpio_release_lines (formerly release_console_gpios)\n- console_gpio_print_timestamped (formerly console_print_timestamped)",
+      "parentUuid": "299db3b2_afdf56a6",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c20e683_e9f37479",
@@ -359,6 +413,24 @@
       "side": 1,
       "message": "The order in which these file descriptors are processed is (largely?) an implementation detail. I don\u0027t think we should be afraid to reorganise it, especially if it supports sensible abstractions.\n\nI prefer you don\u0027t do what you\u0027ve done here, and instead have an event processing function per console. If there\u0027s a special-case for the active console, then add the logic for that special-case.\n\nI really prefer we hoist the iteration such there\u0027s only one loop driving it over the N consoles.",
       "parentUuid": "8375c31e_2d5a7b62",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd91cf95_7ad151d4",
+        "filename": "console-server.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Hoisted the iteration in the newest revision.",
+      "parentUuid": "a48c666d_d89d5b4b",
       "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -494,6 +566,24 @@
       "side": 1,
       "message": "Okay, this is now sorted out; `meson wrap update-db \u0026\u0026 meson wrap install libgpiod` should now give a setup that builds properly (using v1.6.5).",
       "parentUuid": "bd84b431_ec2f4a40",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96111ec8_5900d0f9",
+        "filename": "meson.build",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Added the wrap file in the newest revision. Thanks for these instructions 👍",
+      "parentUuid": "5423a5ec_687c68c3",
       "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

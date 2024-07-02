@@ -106,6 +106,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33421fd3_500883f4",
+        "filename": "config.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "moved this to util.h",
+      "parentUuid": "1fd1da58_7d819cd8",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ed697ed_2f55fed2",
@@ -119,6 +137,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "This seems like it could be its own fix",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab9dbdea_93f5c6b4",
+        "filename": "config.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "closing this since the original comment position was lost and seems to refer to an outdated revision. re-open if necessary.",
+      "parentUuid": "8ed697ed_2f55fed2",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -140,6 +176,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4aa48df_78e5adcd",
+        "filename": "config.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56918c7f_bdd768a7",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ae24fbe_44f8dcbf",
@@ -153,6 +207,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "doesn\u0027t look like you use `termios.h` or `stdlib.h` here ?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34322295_fa3cc702",
+        "filename": "config.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "termios.h defines speed_t.\n\nstdlib.h can be removed 👍",
+      "parentUuid": "1ae24fbe_44f8dcbf",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -222,6 +294,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "Keep the ordering intact; we have local headers all grouped below.",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "820ef8ea_7e10f065",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86c6a821_79198002",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -314,6 +404,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de72a860_508d330f",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bdd8af_aed1f8e0",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16444881_8c2c64af",
@@ -327,6 +435,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "Please use `goto` __very__ sparingly (typically: just for cleanup paths on excetpion). Here you\u0027re just skipping one statement with the goto; you may as well include that directly in the contidional",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42b2962_a191c8a4",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16444881_8c2c64af",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -471,6 +597,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8084d2cc_fdbd23b6",
+        "filename": "console-server.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "i think it can be removed.",
+      "parentUuid": "af1a7c69_ecae4e6b",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "051c8c76_a85ff177",
@@ -484,6 +628,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "Sounds like this comment is no longer valid, and should be on `struct console_server` ?",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6c2a02_3c13a210",
+        "filename": "console-server.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "removed the comment. The name of the struct is self-explanatory.",
+      "parentUuid": "051c8c76_a85ff177",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -505,6 +667,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f15e006d_8317f493",
+        "filename": "meson.build",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef8204aa_79bd3f98",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae387d80_cd520c23",
@@ -522,6 +702,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec694ddf_7ffb03d8",
+        "filename": "ringbuffer.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Yes. I changed it back.",
+      "parentUuid": "ae387d80_cd520c23",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be3de0fe_00b375fd",
@@ -535,6 +733,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "no need to cast from `void *`",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca13b22d_854e8ce3",
+        "filename": "socket-handler.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-02T17:03:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3de0fe_00b375fd",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
