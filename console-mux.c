@@ -7,6 +7,7 @@
 #include "console-server.h"
 #include "console-mux.h"
 #include "config.h"
+#include "util.h"
 
 struct console_gpio {
 	char *name;
@@ -141,6 +142,9 @@ static int console_gpio_set_lines(struct console *console)
 {
 	int status = 0;
 
+	debug3("console gpio set %ld lines for '%s'\n",
+	       console->server->mux->n_mux_gpios, console->console_id);
+
 	for (int i = 0; i < console->server->mux->n_mux_gpios; i++) {
 		struct console_gpio *gpio = &console->server->mux->mux_gpios[i];
 
@@ -160,6 +164,8 @@ int console_server_mux_init(struct console_server *server)
 {
 	int rc;
 	int ngpios;
+
+	debug("console_server mux init");
 
 	ngpios = find_n_mux_gpios(server->config);
 
@@ -211,6 +217,8 @@ int console_server_mux_init(struct console_server *server)
 
 int console_mux_init(struct console *console, struct config *config)
 {
+	debug2("console mux init for console id: %s", console->console_id);
+
 	if (!console->server->mux) {
 		return 0;
 	}
@@ -311,6 +319,8 @@ int console_mux_activate(struct console *console)
 {
 	int status = 0;
 	const bool is_active = console->server->active_console == console;
+
+	debug2("console mux activate console '%s'", console->console_id);
 
 	if (console->server->mux) {
 		status = console_gpio_set_lines(console);
