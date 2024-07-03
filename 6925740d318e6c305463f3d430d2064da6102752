@@ -16,6 +16,24 @@
       "message": "These tests should all still pass, right? Have we demonstrated that they do? Is there a reason to delete the tests?",
       "revId": "6925740d318e6c305463f3d430d2064da6102752",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b5b3641_d2f67fb1",
+        "filename": "test/test-config-parse.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 0,
+      "message": "Deleted them since i would assume we do not test our dependencies.\nSince the dependency already has it\u0027s own tests.\n\nHeres a link to a recent test run in their CI\nhttps://gitlab.com/iniparser/iniparser/-/jobs/7109191472\n\nIf you would prefer, i can add back the test/test-config-parse.c\n\nShould i do that?",
+      "parentUuid": "d0871883_49b3b7b8",
+      "revId": "6925740d318e6c305463f3d430d2064da6102752",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

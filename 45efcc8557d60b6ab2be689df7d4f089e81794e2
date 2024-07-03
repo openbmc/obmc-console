@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74f0328f_de124268",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "changed it to 512 and made a #define for it 👍\nMy reasoning here is to be able to allocate the key on the stack.\nI do not expect a key that is larger than that.",
+      "parentUuid": "a5491908_9bd3b0d6",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ccd5f84_50989cbc",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "This really must be `snprintf()` given `buf` has a length that\u0027s unrelated to `name`. See the `BUGS` section of `man 3 sprintf`:\n\nhttps://www.man7.org/linux/man-pages/man3/sprintf.3.html#BUGS\n\nHowever, also see the note in the [RETURN VALUE](https://www.man7.org/linux/man-pages/man3/sprintf.3.html#RETURN_VALUE) section, and thus also the [CAVEATS](https://www.man7.org/linux/man-pages/man3/sprintf.3.html#CAVEATS) section.\n\nPlease audit the rest of the patch and address any other uses of `sprintf()`.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9984ced_900f18bb",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Ok, good to point this out. Fixed it now and found 1 other occurrence in the patch.\n\nGood idea about the return value, if we don\u0027t check it we could return a value for a different key that is a cut-off version of the provided key.\n\nI inserted a check here for the return value but omitted that check for ```config_mock```",
+      "parentUuid": "7ccd5f84_50989cbc",
       "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +111,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddcfabd8_4984f3cc",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76c8067f_22be476f",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 14
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc8a4d5b_351a6e01",
@@ -88,6 +148,24 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "I don\u0027t see how the name of this function relates to its behaviour. It seems to set a key in the config?\n\nAlso, if this is only used for tests, can we please implement it in a file under the `test/` directory instead?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a76393f0_f416dcca",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "moved it to ```test/config-test-utils.c``` 👍",
+      "parentUuid": "dc8a4d5b_351a6e01",
       "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -109,6 +187,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd1f712_7831a33e",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3125016e_75970896",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50de4329_83eaa939",
@@ -122,6 +218,24 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "There\u0027s only one call-site for this as far as I can tell - can we please just inline it into that call-site below?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc765332_d752b509",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50de4329_83eaa939",
       "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -149,6 +263,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "307bb2ad_d82e5754",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a50dab4_8ce493a6",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 81,
+        "endChar": 2
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19371ce0_ad48ef05",
@@ -166,6 +304,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd3e7eb_591ef3d9",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19371ce0_ad48ef05",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f7e4ce3_3d0ada08",
@@ -179,6 +335,30 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "See the comments below; these variables should not be necessary.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 73
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8841e5_ee5a225d",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f7e4ce3_3d0ada08",
       "range": {
         "startLine": 58,
         "startChar": 0,
@@ -212,6 +392,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7851be_1378fc82",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done. Removed all that since it was not necessary. Your suggestion with patch_directory resolved all these issues.",
+      "parentUuid": "f4910cbc_36d573cf",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b72d4e25_11b7292f",
@@ -225,6 +429,24 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "`required: false` seems wrong? It is required - note that meson will automatically fallback to the subproject wrap if it can\u0027t find a system installation of `iniparser`. We should remove `required: false` here.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9daea3a_632b3e08",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b72d4e25_11b7292f",
       "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -246,6 +468,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd687163_c666d121",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Yeah that\u0027s better. Thanks for the link.",
+      "parentUuid": "b642c015_6bccd74b",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27c5b326_a06014cd",
@@ -259,6 +499,30 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "Can you unpack what\u0027s going on here?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 67
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6533ac_0f941725",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Yes. We create a directory so we can include iniparser\nas ```iniparser/iniparser.h```. Added a comment about that.\n\nBecause iniparser only has its headers in ```src/``` directory",
+      "parentUuid": "27c5b326_a06014cd",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -292,6 +556,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff783a2c_d04bfa9c",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33228b88_666076bc",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e3e4181_28a06c52",
@@ -305,6 +593,24 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "I\u0027m not sure this is right? Can you unpack what\u0027s going on here?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f05889_b106fbf0",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Yes. confirmed it is not necessary.",
+      "parentUuid": "0e3e4181_28a06c52",
       "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -328,6 +634,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1d8323d_d29f3263",
+        "filename": "test/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "I\u0027ve found it easiest to just add it to everything.\nSplitting out the test dependencies and creating elaborate recipe to build the individual tests just discourages people from writing tests.\n\nRight now it\u0027s as easy as writing a single file and adding it to a list.\n\nIf you prefer, i can split it but then there may be more effort in the future to maintain the setup. Is there any drawbacks to have a test require a dependency that\u0027s not needed?",
+      "parentUuid": "5ef0be63_1fe754b1",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f41fdaba_e9a37a42",
         "filename": "test/test-config-resolve-console-id.c",
         "patchSetId": 8
@@ -339,6 +663,30 @@
       "writtenOn": "2024-07-03T05:06:57Z",
       "side": 1,
       "message": "This function really deserves a better name. May be `config_mock()`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4636fda_826af791",
+        "filename": "test/test-config-resolve-console-id.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f41fdaba_e9a37a42",
       "range": {
         "startLine": 25,
         "startChar": 7,
