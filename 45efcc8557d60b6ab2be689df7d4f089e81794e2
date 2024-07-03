@@ -1,0 +1,352 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61249246_10e417a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for unpacking the trade-offs in the commit message, I think that\u0027s reasonably compelling argument now. That said, I have a few concerns across the implementation and the build system.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5491908_9bd3b0d6",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "Why 100? Can you please provide some reasoning?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ccd5f84_50989cbc",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "This really must be `snprintf()` given `buf` has a length that\u0027s unrelated to `name`. See the `BUGS` section of `man 3 sprintf`:\n\nhttps://www.man7.org/linux/man-pages/man3/sprintf.3.html#BUGS\n\nHowever, also see the note in the [RETURN VALUE](https://www.man7.org/linux/man-pages/man3/sprintf.3.html#RETURN_VALUE) section, and thus also the [CAVEATS](https://www.man7.org/linux/man-pages/man3/sprintf.3.html#CAVEATS) section.\n\nPlease audit the rest of the patch and address any other uses of `sprintf()`.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c8067f_22be476f",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "`return iniparser_getstring(config-\u003edict, buf, NULL);`?",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 14
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc8a4d5b_351a6e01",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "I don\u0027t see how the name of this function relates to its behaviour. It seems to set a key in the config?\n\nAlso, if this is only used for tests, can we please implement it in a file under the `test/` directory instead?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3125016e_75970896",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "100 again - if this value represents some specific concept (... like \"maximum key length\"), then please provide a macro so it can be applied consistently and changed without fuss.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50de4329_83eaa939",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "There\u0027s only one call-site for this as far as I can tell - can we please just inline it into that call-site below?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a50dab4_8ce493a6",
+        "filename": "config.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "If we call `iniparser_load()` before allocating the the `config` object then we don\u0027t need to clean up the `config` object on a failed load.",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 81,
+        "endChar": 2
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19371ce0_ad48ef05",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "See the comments below; this variable shouldn\u0027t be necessary.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7e4ce3_3d0ada08",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "See the comments below; these variables should not be necessary.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 73
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4910cbc_36d573cf",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "What\u0027s the motivation for this? I\u0027ve not seen it required anywhere else. Perhaps this concern is dealt with by resolving the comments below?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 5
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72d4e25_11b7292f",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "`required: false` seems wrong? It is required - note that meson will automatically fallback to the subproject wrap if it can\u0027t find a system installation of `iniparser`. We should remove `required: false` here.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b642c015_6bccd74b",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "Please no, let\u0027s place the `meson.build` at `subprojects/packagefiles/iniparser/meson.build` and use the [patch_directory](https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps) wrap property to have meson handle this for us.",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27c5b326_a06014cd",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "Can you unpack what\u0027s going on here?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 67
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33228b88_666076bc",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "I feel like convention is to name this `iniparser_dep`?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e3e4181_28a06c52",
+        "filename": "subprojects/iniparser_meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is right? Can you unpack what\u0027s going on here?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef0be63_1fe754b1",
+        "filename": "test/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "Do they all require `dep_iniparser`? Perhaps we could split out the ones that do?",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41fdaba_e9a37a42",
+        "filename": "test/test-config-resolve-console-id.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T05:06:57Z",
+      "side": 1,
+      "message": "This function really deserves a better name. May be `config_mock()`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
