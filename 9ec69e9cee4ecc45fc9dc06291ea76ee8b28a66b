@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff966413_7475143d",
+        "filename": "console-client.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Removed it. it was not needed here.",
+      "parentUuid": "37026faa_1efd5454",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db8b7735_858fe67a",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce784704_58e093c2",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db8b7735_858fe67a",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "914155fe_d02dac4c",
@@ -65,6 +101,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "These should also be `static`?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c556e439_e3168eb6",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "914155fe_d02dac4c",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -98,6 +158,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b5f7af_988b69b0",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3d4691_06afea5b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2a2167b_de513d3c",
@@ -111,6 +195,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Please don\u0027t cast away `const`\n\nhttps://wiki.sei.cmu.edu/confluence/display/c/EXP05-C.+Do+not+cast+away+a+const+qualification\n\nPlease audit the rest of the patch for this concern.",
+      "range": {
+        "startLine": 20,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59b27e44_16d7add1",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2a2167b_de513d3c",
       "range": {
         "startLine": 20,
         "startChar": 20,
@@ -138,6 +246,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9948602d_009ed0f9",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b603ca9_cf706756",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cd1b3c0_e25b90c1",
@@ -155,6 +281,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0535cff_e1fd7cd5",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Good idea 👍",
+      "parentUuid": "2cd1b3c0_e25b90c1",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "822f0ed9_35727270",
@@ -168,6 +312,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "`strchr` again for this.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6eaa677_ccdaed5b",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "822f0ed9_35727270",
       "range": {
         "startLine": 48,
         "startChar": 1,
@@ -218,6 +386,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80c450f_e7c364cc",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2072a404_517881ae",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3948d1bb_b785a5b3",
@@ -231,6 +423,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Needs a bounds check (_at least_ an `assert()`) and a check that `malloc()` returned non-`NULL`.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc79a26_8de35b63",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3948d1bb_b785a5b3",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -254,6 +464,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f57951e8_2920864f",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Yeah i had not thought of that. There could be multiple gpio chips.\nIn that case we need to query. I can look into that for future revisions.",
+      "parentUuid": "44f86bc0_e0fd2e8e",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c275dfb7_ec0f2af7",
         "filename": "console-gpio.c",
         "patchSetId": 40
@@ -265,6 +493,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "`calloc(3)` here\n\nBut what\u0027s the reason to maintain an array of pointers to `struct console_gpio`? Is there some reason not to use an array of `struct console_gpio` directly? That would save N+1 allocations and fragmentation.",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 1
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bde4311e_288d3be5",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "I changed it here to use a single allocation.",
+      "parentUuid": "c275dfb7_ec0f2af7",
       "range": {
         "startLine": 136,
         "startChar": 2,
@@ -298,6 +550,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ec33ba_92f6af02",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190f60b6_fea4d137",
+      "range": {
+        "startLine": 177,
+        "startChar": 49,
+        "endLine": 177,
+        "endChar": 63
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f06e6a7_fccbf43d",
@@ -311,6 +587,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Why 80? Ideally this should have a macro to label it?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed05aa81_71b35742",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f06e6a7_fccbf43d",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -361,6 +655,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2045d753_f7c6ef8d",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce421100_92116830",
+      "range": {
+        "startLine": 208,
+        "startChar": 28,
+        "endLine": 208,
+        "endChar": 36
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3722ef03_5559f338",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3747ad78_b3d400eb",
+      "range": {
+        "startLine": 208,
+        "startChar": 51,
+        "endLine": 208,
+        "endChar": 53
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7401cfa_9c374806",
@@ -374,6 +716,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "[asprintf()](https://www.man7.org/linux/man-pages/man3/asprintf.3.html)?",
+      "range": {
+        "startLine": 215,
+        "startChar": 1,
+        "endLine": 216,
+        "endChar": 72
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3178bb_422a61c8",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7401cfa_9c374806",
       "range": {
         "startLine": 215,
         "startChar": 1,
@@ -401,6 +767,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c91bc750_b41882d9",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "i did not get any warnings in CI from this.",
+      "parentUuid": "c789d4c0_19e5b6f1",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ce48e4e_1cfc6821",
@@ -414,6 +798,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Bit of a nitpick, but I don\u0027t think we need the separate `_inner()` function. Just inline it into its one call-site below?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "702bf2cb_2140c28a",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ce48e4e_1cfc6821",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -435,6 +837,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0301fca6_522a63c6",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9c5a59c_df3cb7ef",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af59e793_e282d7d7",
@@ -448,6 +868,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Again curious about the warning here.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac10d84_876f3a5a",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Changed it to be a const pointer since we do not alter the message.",
+      "parentUuid": "af59e793_e282d7d7",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -469,6 +907,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fd9c8db_ff9ae1f8",
+        "filename": "console-gpio.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Yes. Let\u0027s make a ```struct console_mux``` and only provide the pointer\nas member in struct console_server. \n\nWe can then move both struct definitions into the .c file\n\nThen the mux code can deal with the internals.",
+      "parentUuid": "ebf4f02d_db652d2e",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc39c243_f9935cb7",
@@ -482,6 +938,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Thanks for addressing the naming consistency of the API. I\u0027ve only had this thought now, so apologies for flapping about a bit. However, I think GPIOs are an implementation detail? Can we avoid exposing that in the naming? I think we can rename the header and the APIs to reflect the caller-facing _behaviour_ and not the implementation, so:\n\n- `console-mux.h`\n- `struct console_mux`\n- `console_mux_{init,fini,activate_console}()`\n\nThen the configuration can drive how the mux is implemented (in the current case, the implementation requests the GPIO-related properties).",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30f9f508_efdfea21",
+        "filename": "console-gpio.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc39c243_f9935cb7",
       "range": {
         "startLine": 14,
         "startChar": 12,
@@ -703,6 +1183,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c7fb87_eac0d248",
+        "filename": "console-server.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Yes this can go.",
+      "parentUuid": "ac962729_a6e97f64",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cacb1319_bb8d95be",
@@ -716,6 +1214,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "This also needs to move if we\u0027re to have `config.h`?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 14
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60b35658_e02aa046",
+        "filename": "console-server.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-03T16:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cacb1319_bb8d95be",
       "range": {
         "startLine": 233,
         "startChar": 0,
