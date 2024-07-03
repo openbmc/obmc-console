@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef2a8480_52294333",
+        "filename": "console-client.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Right, but the code isn\u0027t compiled out for non-test environments :)\n\nAlso, see Jeremy\u0027s comment above about making this a separate commit.",
+      "parentUuid": "fd4ce543_a45e0d33",
+      "revId": "c45abd15cb31d446d24d6e4bdcffd447659777bb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "395c9cef_94ac0918",
         "filename": "console-dbus.c",
         "patchSetId": 26

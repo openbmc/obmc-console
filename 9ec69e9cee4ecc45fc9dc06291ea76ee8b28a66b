@@ -1,0 +1,763 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aef2fab6_2ef40fff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for resolving quite a few of the concerns. Some still remain from previous patchsets. Particularly, I\u0027d like to see the discussion about changing the link-time registration of handlers addressed, as I think that could slim the patch down quite a bit.\n\nAlso, thanks for improving the naming consistency of the APIs. I do have another suggestion  regarding that, but my new comments primarily focus on the implementation details across the code.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37026faa_1efd5454",
+        "filename": "console-client.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned that we\u0027re still seeing `iniparser` includes outside of `config.c`? See my comment on the prior patchset about encapsulation.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8b7735_858fe67a",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "In-line with the suggestion on the header, I think this file should be renamed to `console-mux.c`.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "914155fe_d02dac4c",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "These should also be `static`?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d3d4691_06afea5b",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Can we re-order the definitions so we don\u0027t need forward-declarations? It will surprise me if these need mutual references.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2a2167b_de513d3c",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Please don\u0027t cast away `const`\n\nhttps://wiki.sei.cmu.edu/confluence/display/c/EXP05-C.+Do+not+cast+away+a+const+qualification\n\nPlease audit the rest of the patch for this concern.",
+      "range": {
+        "startLine": 20,
+        "startChar": 20,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b603ca9_cf706756",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "`strdup` allocates on the heap; the result needs to be tested.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cd1b3c0_e25b90c1",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "We can avoid the `strdup()`/`free()` and stateful `strtok()` calls by using [strchr](https://www.man7.org/linux/man-pages/man3/strchr.3.html) in a similar loop.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "822f0ed9_35727270",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "`strchr` again for this.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfef17f1_a7cf47af",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Seems a bit expensive to be re-parsing the config for every bit in a number? Shouldn\u0027t we parse the config properties into a struct with a representation that\u0027s a bit easier to work with?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2072a404_517881ae",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Please see [the caveats of `strtol(3)`](https://www.man7.org/linux/man-pages/man3/strtol.3.html#CAVEATS) and handle errors appropriately.",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3948d1bb_b785a5b3",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Needs a bounds check (_at least_ an `assert()`) and a check that `malloc()` returned non-`NULL`.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44f86bc0_e0fd2e8e",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "I don\u0027t think hard-coding the gpiochip is sensible. Use the libgpiod APIs to find the named GPIO? Possibly we need the v2 APIs to assist with that. That\u0027s fine, but we\u0027ll need to update the meson wrap to support v2. I\u0027m unwilling to accept this as-is though.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c275dfb7_ec0f2af7",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "`calloc(3)` here\n\nBut what\u0027s the reason to maintain an array of pointers to `struct console_gpio`? Is there some reason not to use an array of `struct console_gpio` directly? That would save N+1 allocations and fragmentation.",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 1
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "190f60b6_fea4d137",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "[program_invocation_short_name](https://linux.die.net/man/3/program_invocation_short_name)?",
+      "range": {
+        "startLine": 177,
+        "startChar": 49,
+        "endLine": 177,
+        "endChar": 63
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f06e6a7_fccbf43d",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Why 80? Ideally this should have a macro to label it?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3747ad78_b3d400eb",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "`sizeof(buf_timestamp)`?",
+      "range": {
+        "startLine": 208,
+        "startChar": 51,
+        "endLine": 208,
+        "endChar": 53
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce421100_92116830",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "This shouldn\u0027t need a cast? The array should decay to a pointer?",
+      "range": {
+        "startLine": 208,
+        "startChar": 28,
+        "endLine": 208,
+        "endChar": 36
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7401cfa_9c374806",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "[asprintf()](https://www.man7.org/linux/man-pages/man3/asprintf.3.html)?",
+      "range": {
+        "startLine": 215,
+        "startChar": 1,
+        "endLine": 216,
+        "endChar": 72
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c789d4c0_19e5b6f1",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Does this not issue a warning about passing a `const` string through an non-const pointer?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce48e4e_1cfc6821",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Bit of a nitpick, but I don\u0027t think we need the separate `_inner()` function. Just inline it into its one call-site below?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c5a59c_df3cb7ef",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "I\u0027d just inline the call to `console_gpio_print_timestamped()` here and remove `console_deactivate_inner()`.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af59e793_e282d7d7",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Again curious about the warning here.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebf4f02d_db652d2e",
+        "filename": "console-gpio.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Must we expose this?\n\nAlso, see below, I think we should call this `struct console_mux`.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc39c243_f9935cb7",
+        "filename": "console-gpio.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Thanks for addressing the naming consistency of the API. I\u0027ve only had this thought now, so apologies for flapping about a bit. However, I think GPIOs are an implementation detail? Can we avoid exposing that in the naming? I think we can rename the header and the APIs to reflect the caller-facing _behaviour_ and not the implementation, so:\n\n- `console-mux.h`\n- `struct console_mux`\n- `console_mux_{init,fini,activate_console}()`\n\nThen the configuration can drive how the mux is implemented (in the current case, the implementation requests the GPIO-related properties).",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e95b6ff4_5144d944",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Again I\u0027m a bit concerned by breaking encapsulation of the config APIs.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e7502b_da3420f1",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "I understand the desire, but it feels unrelated to adding mux functionality 😊. Maybe a separate patch?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55a49dcb_c2fb4803",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "`calloc()` should have sorted this out for us?",
+      "range": {
+        "startLine": 1062,
+        "startChar": 1,
+        "endLine": 1063,
+        "endChar": 24
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b2cc275_f2114dae",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "This is printed to the user. We need to consider how the user should respond to such a message. I think you should rather say something like \"A console ID is required but was not provided by the configuration file or command-line option\".",
+      "range": {
+        "startLine": 1117,
+        "startChar": 2,
+        "endLine": 1118,
+        "endChar": 19
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d506279_4b812779",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Please avoid `goto` control-flow.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54afb3a9_69dbed9a",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "This still needs explanation. It should also be documented whether we expect this to be subject to `realloc{,array}()`. And if not, why not instead specify an array of 10 consoles straight in the struct definition?",
+      "range": {
+        "startLine": 1176,
+        "startChar": 27,
+        "endLine": 1176,
+        "endChar": 29
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d977d09_e8681688",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Can you unpack what you mean by this?",
+      "range": {
+        "startLine": 1213,
+        "startChar": 13,
+        "endLine": 1213,
+        "endChar": 31
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e2a6951_ec04d78f",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Is this something we warned about previously?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d82068ce_0883beed",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "This seems unnecessary.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c9e1de_f58f0749",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "All uses of `iniparser` APIs should be encapsulated in the implementation of the `config` APIs. We shouldn\u0027t have the implementation details scattered around the codebase.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac962729_a6e97f64",
+        "filename": "console-server.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "What\u0027s necessary from this header? And can we punt the include to a `.c` file? I think it would be best to at least add a comment explaining it.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cacb1319_bb8d95be",
+        "filename": "console-server.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "This also needs to move if we\u0027re to have `config.h`?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 14
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f55205_7e41c7e4",
+        "filename": "ringbuffer.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Seems unrelated? Make a separate patch arguing for this?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a986e3_4c391ee2",
+        "filename": "util.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-03T03:22:00Z",
+      "side": 1,
+      "message": "Probably shouldn\u0027t be IBM Corporation?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
