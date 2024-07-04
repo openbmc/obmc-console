@@ -652,6 +652,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4df0c10_97aacc19",
+        "filename": "test/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T01:07:02Z",
+      "side": 1,
+      "message": "\u003e Is there any drawbacks to have a test require a dependency that\u0027s not needed?\n\nIMO yes, the lack of precision requires analysis in the future to unwind the dependencies as the tests are refactored. I feel it is best to encode them precisely from the start. It should only be a small amount of rework here? Perhaps:\n\n```\nconfig_tests \u003d [\u0027test-config-parse-bytesize\u0027, \u0027test-config-resolve-console-id\u0027]\nforeach ct : config_tests\n  test(ct, executable(ct, f\u0027@ct@.c\u0027, \u0027config-test-utils.c\u0027,\n                      c_args: [ \u0027-DSYSCONFDIR\u003d\"\"\u0027 ],\n                      dependencies: [ iniparser_dep ],\n                      include_directories: \u0027..\u0027))\nendforeach\n```",
+      "parentUuid": "e1d8323d_d29f3263",
+      "revId": "45efcc8557d60b6ab2be689df7d4f089e81794e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f41fdaba_e9a37a42",
         "filename": "test/test-config-resolve-console-id.c",
         "patchSetId": 8

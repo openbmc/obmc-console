@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d368495_59b417cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T01:07:02Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a few comments on the details, but broadly I think it\u0027s looking good.",
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a93dd60_04763d5e",
+        "filename": "config.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T01:07:02Z",
+      "side": 1,
+      "message": "This should rather be:\n\n```\nif (rc \u003c 0) {\n    return NULL;\n}\n\nif ((size_t)rc \u003e\u003d sizeof(buf)) {\n    return NULL;\n}\n```\n\nThat avoids any risk of out-of-bounds reads, arithmetic overflow, or value truncation from the cast to `int`.",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08a92a5_4f091bf3",
+        "filename": "config.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T01:07:02Z",
+      "side": 1,
+      "message": "First needs a check for `NULL`:\n\n```\nconfig \u003d malloc(sizeof(*config));\nif (config) {\n    config-\u003edict \u003d dict;\n}\nreturn config;\n```",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c276bfd9_7c442803",
+        "filename": "meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T01:07:02Z",
+      "side": 1,
+      "message": "Is this required? Does the `dependency()` request on line 55 not automatically fallback to the wrap?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
