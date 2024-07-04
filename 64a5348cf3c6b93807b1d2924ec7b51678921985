@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f813353f_dbeef69a",
+        "filename": "config.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-04T15:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93dd60_04763d5e",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 2
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b08a92a5_4f091bf3",
@@ -64,6 +88,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6d1ec88_0fdcab2c",
+        "filename": "config.c",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-04T15:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b08a92a5_4f091bf3",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c276bfd9_7c442803",
@@ -77,6 +125,30 @@
       "writtenOn": "2024-07-04T01:07:02Z",
       "side": 1,
       "message": "Is this required? Does the `dependency()` request on line 55 not automatically fallback to the wrap?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "64a5348cf3c6b93807b1d2924ec7b51678921985",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7e9f7f_055b3617",
+        "filename": "meson.build",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-04T15:41:15Z",
+      "side": 1,
+      "message": "Yes it does. I\u0027m not too familiar with meson.",
+      "parentUuid": "c276bfd9_7c442803",
       "range": {
         "startLine": 57,
         "startChar": 0,
