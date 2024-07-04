@@ -1,0 +1,323 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf408599_4614b968",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for the rework so far. I have a few more comments. For the most part they tackle the details, though a couple of comments on the handling of GPIOs are a bit more architectural.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27f67fc_036f0194",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can we please keep these sorted alphabetically?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9fd02e2_49384e06",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can you unpack why we dropped the `static` here?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d44642ab_b23746fd",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can you please use `snprintf` and not `sprintf`? That greatly improves memory safety and simplifies your bounds checking below (removes the risk of unsigned overflow and the need for the cast).\n\nPlease audit the rest of the patch and others in your series for use of `sprintf`. Any use should be refactored to use `snprintf` with a check on the return value against the destination buffer size.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13dcf524_1674dd53",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "`return iniparser_getstring(config-\u003edict, buf, NULL);`?",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40bb93d_5ac6a5a2",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can we move this into the implementation?\n\nAlso this should be a system include.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd9080e_845e9caa",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can we move this to the implementation also?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28b5ed0f_787d463a",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "If we don\u0027t move the definition above then this forward-declaration is redundant (as it\u0027s not \"forward\" in its current position).",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f26df4f_5fa35429",
+        "filename": "console-dbus.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Please sort these alphabetically as well.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be48ef04_5dda9c9a",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Given that `struct console_mux` contains a `struct console_gpio` pointer, shouldn\u0027t this be defined before `struct console_mux`?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44740c48_e5b852a0",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Given we now have a single-process design I think we can have `obmc-console-server` own the GPIOs from startup to shutdown. So instead of `gpiod_line_request_output()` below, we can use `gpiod_line_request()` in `set_mux_gpio_from_config()`, and then when the active console is switched we call `gpiod_line_set_value()` to update the mux state.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe95abf3_83d26954",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Just a note that this still needs to be fixed.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b4c770_360c182b",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "As I understand the current design-point, this condition should be unnecessary. I think this is a hangover from your multi-process design? If it\u0027s not, can you unpack why it\u0027s necessary?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9e218d4_112f3913",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Can this be static?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1bad62c_105ceb9d",
+        "filename": "console-mux.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "These can all go in the implementation rather than this header (you can forward-declare `struct console` as we only describe pointers to it).",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19fbe6a_0caeb859",
+        "filename": "console-mux.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "Do we need to forward declare this here? It\u0027s not used in the API declarations below. Do we use it elsewhere?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c54a5f9_f5a25355",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-04T00:37:49Z",
+      "side": 1,
+      "message": "I realise its a test, but debugging a broken `snprintf()` call in the test isn\u0027t something that will make people smile. Maybe add `assert(rc \u003c sizeof(buf));` to avoid some frustration.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
