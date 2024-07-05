@@ -1,0 +1,282 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f75290d_93de5e69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for the rework. It seems most of my concerns are now in the test code - that feels like good progress. The comments there are mainly around not causing ourselves work to debug test cases down the track.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "887df323_388380bc",
+        "filename": "config.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "I think you\u0027ve moved this from console-server.h, so this should retain the original IBM copyright, and you should add another for 9elements?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d44f7eee_91f54c49",
+        "filename": "subprojects/packagefiles/iniparser/meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Can we trim the empty lines?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce5dd2ac_e40b5783",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "This is only used in `test/test-config-resolve-console-id.c`, can we move it there for now and make it `static`?\n\nThe broad idea here is to keep things as localised as possible, until multiple uses force us to centralise them. There\u0027s nothing preventing us doing that down the track (which is what\u0027s important to recognise now).",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76667b29_592119f1",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "I realise this is for testing, but can we please still check the result of `malloc()`?\n\n```\nassert(config !\u003d NULL);\n```",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a6902b_ca874670",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "`assert()` for this result as well",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5357522_f85c902d",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Can we please not mix variable declarations and code?\n\nIt\u0027s probably worth a look through the rest of the patch to address any other instances.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb680ff0_08e2b620",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Can we please do:\n\n```\nint rc;\n\n...\n\nrc \u003d snprintf(...);\nassert(rc \u003e\u003d 0 \u0026\u0026 rc \u003c sizeof(buf);\n```",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e10707f_9d41136d",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "This is only used in `test/test-config-parse.c`, can we move it there for now and make it `static`?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89963a0_566dfc09",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "It\u0027s not critical, but this feels like it beats around the bush a bit compared to `write()`, given we need the `strlen()` result later anyway?\n\n```\nsize_t len \u003d strlen(input);\nwrite(fd, input, len);\n...\n```\n\nAnd then...",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2321d18c_359d7070",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "... Please rather do:\n\n```\nassert(rc \u003e\u003d 0);\nassert((size_t)rc \u003c len);\n```\n\nTo avoid a truncating cast.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3707be_87ef1fcf",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "If we switch to `write()` above then we should probably use `lseek()` here.\n\nWith that, we can move the `fdopen()` call down to here, where we need it.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb1a6062_8b617828",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "This should be `fclose()` given we\u0027ve used `fdopen()`?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61cdc351_858e4d19",
+        "filename": "test/config-test-utils.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "If we move the implementations of the functions as suggested in `test/config-test-utils.c` then I think this header is unnecessary.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "593217c8_f367f027",
+        "filename": "test/meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Bit of a nitpick, but in the spirit of \"keeping things that go together together\", can we group the array with the foreach loop (i.e. move this down to line ~22 below).",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a56726_720187ea",
+        "filename": "test/test-config-parse.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-05T00:43:53Z",
+      "side": 1,
+      "message": "Can you unpack why we are re-implementing `config_fini()` above? Is it necessary for the structure of the code to be rearranged? It feels to me like the minimal change would be to replace the `calloc()`/`strdup()`/`config_parse()`/`free()` sequence with the call to `mock_config_from_buffer()` and the rest can remain the same?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
