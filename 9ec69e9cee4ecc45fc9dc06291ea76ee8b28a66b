@@ -989,6 +989,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0577de_8c3845db",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e95b6ff4_5144d944",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49e7502b_da3420f1",
@@ -1006,6 +1024,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e75ab74_247a9fe9",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49e7502b_da3420f1",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55a49dcb_c2fb4803",
@@ -1019,6 +1055,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "`calloc()` should have sorted this out for us?",
+      "range": {
+        "startLine": 1062,
+        "startChar": 1,
+        "endLine": 1063,
+        "endChar": 24
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5318bea2_22637552",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55a49dcb_c2fb4803",
       "range": {
         "startLine": 1062,
         "startChar": 1,
@@ -1052,6 +1112,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0b01d3e_125232cc",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b2cc275_f2114dae",
+      "range": {
+        "startLine": 1117,
+        "startChar": 2,
+        "endLine": 1118,
+        "endChar": 19
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d506279_4b812779",
@@ -1069,6 +1153,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31e0cbd_58962496",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d506279_4b812779",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54afb3a9_69dbed9a",
@@ -1082,6 +1184,30 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "This still needs explanation. It should also be documented whether we expect this to be subject to `realloc{,array}()`. And if not, why not instead specify an array of 10 consoles straight in the struct definition?",
+      "range": {
+        "startLine": 1176,
+        "startChar": 27,
+        "endLine": 1176,
+        "endChar": 29
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9016aa7_1dd35815",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "i believe i can remove this. \n```console_server_add_console``` will realloc anyways, so this can be ```NULL```\nuntil the realloc happens when adding a console.",
+      "parentUuid": "54afb3a9_69dbed9a",
       "range": {
         "startLine": 1176,
         "startChar": 27,
@@ -1115,6 +1241,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb952cc_1ce9bf38",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "It\u0027s important.\n\nIt\u0027s a nightmare to debug stuff like getopt_long usage that just **assumes** for no reason at all that it\u0027s the first function doing any argument parsing.\n\nI need this later on for integration-testing the console_server_args_init function\nover at \n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/71864/30\ntest/test-console-server-parse-args.c\n\nSo we can just set this to 1 over here, it should not make any difference in the non-testing case. But in general a good idea to ensure any globals needed for a function call like getopt_long are in the right state, independent of anything that ran previously.\n\nAdded as small comment referencing the man page so it\u0027s clear that this should not do anything in the regular case.",
+      "parentUuid": "1d977d09_e8681688",
+      "range": {
+        "startLine": 1213,
+        "startChar": 13,
+        "endLine": 1213,
+        "endChar": 31
+      },
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e2a6951_ec04d78f",
@@ -1128,6 +1278,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Is this something we warned about previously?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb45255_3b5fbd59",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "i don\u0027t think so. Removed it.",
+      "parentUuid": "3e2a6951_ec04d78f",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1149,6 +1317,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec37cee_265de861",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d82068ce_0883beed",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63c9e1de_f58f0749",
@@ -1162,6 +1348,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "All uses of `iniparser` APIs should be encapsulated in the implementation of the `config` APIs. We shouldn\u0027t have the implementation details scattered around the codebase.",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d9a2c6_050c8380",
+        "filename": "console-server.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "created 2 wrapper functions.",
+      "parentUuid": "63c9e1de_f58f0749",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -1265,6 +1469,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0cb341_59b0c628",
+        "filename": "ringbuffer.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "oops. removed that. not sure how that got in here.",
+      "parentUuid": "d5f55205_7e41c7e4",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37a986e3_4c391ee2",
@@ -1278,6 +1500,24 @@
       "writtenOn": "2024-07-03T03:22:00Z",
       "side": 1,
       "message": "Probably shouldn\u0027t be IBM Corporation?",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af1f8b17_f46006fc",
+        "filename": "util.h",
+        "patchSetId": 40
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37a986e3_4c391ee2",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

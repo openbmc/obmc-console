@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb6b7f9_2b43290a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 44
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Hi, with this revision i focused on minor issues and changing the ownership of struct console_mux to be under struct console_server.\n\nLooking forward to your review 👍",
+      "revId": "acb62b8fc0d9d176416e380c79013ff690bea6d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

@@ -71,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47efe392_a86d0739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Closing this since we split this now into separate patches and it refers to old revision.",
+      "parentUuid": "5a6c1751_27598c11",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bdcce83_8078c416",
@@ -242,6 +260,24 @@
       "writtenOn": "2024-06-07T10:05:45Z",
       "side": 1,
       "message": "The exit-on-sigint could be its own change",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea879bab_320a119b",
+        "filename": "console-client.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Yes. I can add new commits to the chain as things calm down on the existing patches 👍. So leaving this comment open for now.",
+      "parentUuid": "8dbddb44_0cbb78d2",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

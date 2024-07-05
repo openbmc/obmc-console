@@ -413,6 +413,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a38071b_b3602f1b",
+        "filename": "console-ctl/activate-console.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "outdated comment, please feel free to re-open on the newest revision if the issue still exists.",
+      "parentUuid": "d7379861_2482ac9b",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a3cd2d3_92944c59",
@@ -426,6 +444,24 @@
       "writtenOn": "2024-05-26T05:43:34Z",
       "side": 1,
       "message": "int reply_status \u003d EXIT_FAILURE;\n\nset default value",
+      "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc3e0ee_58e84004",
+        "filename": "console-ctl/activate-console.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "outdated comment, please feel free to re-open on the newest revision if the issue still exists.",
+      "parentUuid": "4a3cd2d3_92944c59",
       "revId": "b1318638f6383d8074297c4eb293e0914b7f8740",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

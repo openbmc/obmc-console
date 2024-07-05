@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f9bd67_3a624aca",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e27f67fc_036f0194",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9fd02e2_49384e06",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b31228_16d7b5af",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "changed it back. The default config path can stay encapsulated within config.c",
+      "parentUuid": "b9fd02e2_49384e06",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d44642ab_b23746fd",
@@ -71,6 +113,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Can you please use `snprintf` and not `sprintf`? That greatly improves memory safety and simplifies your bounds checking below (removes the risk of unsigned overflow and the need for the cast).\n\nPlease audit the rest of the patch and others in your series for use of `sprintf`. Any use should be refactored to use `snprintf` with a check on the return value against the destination buffer size.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91976e68_d0ad7451",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d44642ab_b23746fd",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -98,6 +158,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8618168_18778a36",
+        "filename": "config.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13dcf524_1674dd53",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a40bb93d_5ac6a5a2",
@@ -111,6 +195,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Can we move this into the implementation?\n\nAlso this should be a system include.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b382938_312695bf",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a40bb93d_5ac6a5a2",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -138,6 +240,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "012fa695_42df7a24",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fd9080e_845e9caa",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28b5ed0f_787d463a",
@@ -151,6 +277,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "If we don\u0027t move the definition above then this forward-declaration is redundant (as it\u0027s not \"forward\" in its current position).",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e53673_24a4efd0",
+        "filename": "config.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28b5ed0f_787d463a",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -178,6 +322,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf11511c_e743ac52",
+        "filename": "console-dbus.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f26df4f_5fa35429",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be48ef04_5dda9c9a",
@@ -191,6 +359,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Given that `struct console_mux` contains a `struct console_gpio` pointer, shouldn\u0027t this be defined before `struct console_mux`?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0829be63_23aedbcf",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be48ef04_5dda9c9a",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -212,6 +398,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4d34c6_3dcef700",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Good point 👍\nI refactored the mux handling so that struct console_server has the struct console_gpio instances and gpio lines.\n\nBefore it was duplicated in every struct console.\n\nNow the gpios should be requested by the server and release by it aswell.\n\nThe struct console now only contains the values for the gpios.",
+      "parentUuid": "44740c48_e5b852a0",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe95abf3_83d26954",
@@ -225,6 +429,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Just a note that this still needs to be fixed.",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8157609_5faba223",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "closing since this is duplicate comment to\nthe one made on revision 40, which is still unresolved.",
+      "parentUuid": "fe95abf3_83d26954",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -246,6 +468,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8863b447_cbc08c14",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "It\u0027s to request the lines initially when setting up all the consoles.",
+      "parentUuid": "a5b4c770_360c182b",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9e218d4_112f3913",
@@ -259,6 +499,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Can this be static?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c4a08b0_5961f8d1",
+        "filename": "console-mux.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Yes 👍",
+      "parentUuid": "e9e218d4_112f3913",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -286,6 +544,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46d0ae5_69bb421a",
+        "filename": "console-mux.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1bad62c_105ceb9d",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b19fbe6a_0caeb859",
@@ -299,6 +581,24 @@
       "writtenOn": "2024-07-04T00:37:49Z",
       "side": 1,
       "message": "Do we need to forward declare this here? It\u0027s not used in the API declarations below. Do we use it elsewhere?",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b831bef3_6898c1f1",
+        "filename": "console-mux.h",
+        "patchSetId": 41
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T14:18:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b19fbe6a_0caeb859",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
