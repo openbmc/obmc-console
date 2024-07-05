@@ -33,22 +33,25 @@ const size_t dbus_obj_path_len = 1024;
 
 static void tty_change_baudrate(struct console *console)
 {
-	struct handler *handler;
 	int i;
 	int rc;
 
 	tty_init_termios(console);
 
 	for (i = 0; i < console->n_handlers; i++) {
+		const struct handler_type *type;
+		struct handler *handler;
+
 		handler = console->handlers[i];
-		if (!handler->baudrate) {
+		type = handler->type;
+		if (!type->baudrate) {
 			continue;
 		}
 
-		rc = handler->baudrate(handler, console->tty.uart.baud);
+		rc = type->baudrate(handler, console->tty.uart.baud);
 		if (rc) {
 			warnx("Can't set terminal baudrate for handler %s",
-			      handler->name);
+			      type->name);
 		}
 	}
 }
