@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e5604e_819769c2",
+        "filename": "config.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Can do 👍",
+      "parentUuid": "887df323_388380bc",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d44f7eee_91f54c49",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "Can we trim the empty lines?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1da89a2_ace5a4c8",
+        "filename": "subprojects/packagefiles/iniparser/meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d44f7eee_91f54c49",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ee80f9_81394a1a",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce5dd2ac_e40b5783",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76667b29_592119f1",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "I realise this is for testing, but can we please still check the result of `malloc()`?\n\n```\nassert(config !\u003d NULL);\n```",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b57b0f6b_1b36674d",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76667b29_592119f1",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +175,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80fec461_2a5af522",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37a6902b_ca874670",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5357522_f85c902d",
@@ -116,6 +206,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "Can we please not mix variable declarations and code?\n\nIt\u0027s probably worth a look through the rest of the patch to address any other instances.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5053f2e8_b2c9f490",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "I can fix it here. Is there a clang-tidy check for this?\n\nI\u0027m not keen on looking through all the code manually and doing that for the subsequent patches aswell. It\u0027s very subjective if this improves readability.\n\nOne could even argue that declaring the variable later improves readability, as it reduces the scope of the variable and thus makes the code easier to reason about.",
+      "parentUuid": "a5357522_f85c902d",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -137,6 +245,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30c43c4_b6c7fe3b",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb680ff0_08e2b620",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e10707f_9d41136d",
@@ -150,6 +276,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "This is only used in `test/test-config-parse.c`, can we move it there for now and make it `static`?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "130e045c_574ef88a",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e10707f_9d41136d",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -171,6 +315,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ffef8a0_5815444b",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89963a0_566dfc09",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2321d18c_359d7070",
@@ -184,6 +346,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "... Please rather do:\n\n```\nassert(rc \u003e\u003d 0);\nassert((size_t)rc \u003c len);\n```\n\nTo avoid a truncating cast.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc715a1_ac70ea7f",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2321d18c_359d7070",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -205,6 +385,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc8727f_b56a1e16",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f3707be_87ef1fcf",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb1a6062_8b617828",
@@ -222,6 +420,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a87b1c_7092f1ed",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb1a6062_8b617828",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61cdc351_858e4d19",
@@ -235,6 +451,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "If we move the implementations of the functions as suggested in `test/config-test-utils.c` then I think this header is unnecessary.",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9405e9d7_989adeaa",
+        "filename": "test/config-test-utils.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61cdc351_858e4d19",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -262,6 +496,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bca1661_7ba0261b",
+        "filename": "test/meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "593217c8_f367f027",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a56726_720187ea",
@@ -275,6 +533,24 @@
       "writtenOn": "2024-07-05T00:43:53Z",
       "side": 1,
       "message": "Can you unpack why we are re-implementing `config_fini()` above? Is it necessary for the structure of the code to be rearranged? It feels to me like the minimal change would be to replace the `calloc()`/`strdup()`/`config_parse()`/`free()` sequence with the call to `mock_config_from_buffer()` and the rest can remain the same?",
+      "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd096dd6_365440c8",
+        "filename": "test/test-config-parse.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-05T09:32:51Z",
+      "side": 1,
+      "message": "iniparser may fail to create the dictionary if there is errors in the config file.\nSo on the ```!expected``` path we need to check if the config or dictionary is NULL and if not, that the expected key is not present.\n\nMaybe this is a little different from how it worked before.\n\nThe original code suggests that the config is created in either case,\nbut the ```config_get_value``` just fails to fetch the key when the config was invalid.\n\nSo if there is any mistake in the config file and iniparser cannot parse it,\nthe config is not created. So it just fails at an earlier point.\n\n\nFixed the cleanup path also, now using the ```config_fini```",
+      "parentUuid": "b1a56726_720187ea",
       "revId": "6fe6096a92c9d8402ed8372b69317c7175029877",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
