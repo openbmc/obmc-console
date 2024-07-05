@@ -44,23 +44,35 @@ struct config;
  * If a handler needs to monitor a separate file descriptor for events, use the
  * poller API, through console_poller_register().
  */
-struct handler {
+struct handler;
+
+struct handler_type {
 	const char *name;
-	int (*init)(struct handler *handler, struct console *console,
-		    struct config *config);
+	struct handler *(*init)(const struct handler_type *type,
+				struct console *console, struct config *config);
 	void (*fini)(struct handler *handler);
 	int (*baudrate)(struct handler *handler, speed_t baudrate);
-	bool active;
+};
+
+struct handler {
+	const struct handler_type *type;
 };
 
 /* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 #define __handler_name(n) __handler_##n
 #define _handler_name(n)  __handler_name(n)
 
+#ifndef __clang__
+#define handler_type_check(h) BUILD_ASSERT_OR_ZERO((h)->init && (h)->fini)
+#else
+/* clang doesn't seem to be able to constify the type ops */
+#define handler_type_check(h) 0
+#endif
+
 #define console_handler_register(h)                                            \
 	static const __attribute__((section("handlers")))                      \
-	__attribute__((used)) struct handler *                                 \
-	_handler_name(__COUNTER__) = h
+	__attribute__((used)) struct handler_type *                            \
+	_handler_name(__COUNTER__) = (h) + handler_type_check(h)
 /* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);

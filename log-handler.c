@@ -149,14 +149,20 @@ static int log_create(struct log_handler *lh)
 	return 0;
 }
 
-static int log_init(struct handler *handler, struct console *console,
-		    struct config *config)
+static struct handler *log_init(const struct handler_type *type
+				__attribute__((unused)),
+				struct console *console, struct config *config)
 {
-	struct log_handler *lh = to_log_handler(handler);
+	struct log_handler *lh;
 	const char *filename;
 	const char *logsize_str;
 	size_t logsize = default_logsize;
 	int rc;
+
+	lh = malloc(sizeof(*lh));
+	if (!lh) {
+		return NULL;
+	}
 
 	lh->console = console;
 	lh->pagesize = 4096;
@@ -183,17 +189,22 @@ static int log_init(struct handler *handler, struct console *console,
 	rc = asprintf(&lh->rotate_filename, "%s.1", filename);
 	if (rc < 0) {
 		warn("Failed to construct rotate filename");
-		return -1;
+		goto err_free;
 	}
 
 	rc = log_create(lh);
 	if (rc < 0) {
-		return -1;
+		goto err_free;
 	}
 	lh->rbc = console_ringbuffer_consumer_register(console,
 						       log_ringbuffer_poll, lh);
 
-	return 0;
+	return &lh->handler;
+
+err_free:
+	free(lh->log_filename);
+	free(lh);
+	return NULL;
 }
 
 static void log_fini(struct handler *handler)
@@ -203,14 +214,13 @@ static void log_fini(struct handler *handler)
 	close(lh->fd);
 	free(lh->log_filename);
 	free(lh->rotate_filename);
+	free(lh);
 }
 
-static struct log_handler log_handler = {
-	.handler = {
-		.name		= "log",
-		.init		= log_init,
-		.fini		= log_fini,
-	},
+static const struct handler_type log_handler = {
+	.name = "log",
+	.init = log_init,
+	.fini = log_fini,
 };
 
-console_handler_register(&log_handler.handler);
+console_handler_register(&log_handler);

@@ -355,7 +355,7 @@ int dbus_create_socket_consumer(struct console *console)
 	int n;
 
 	for (i = 0; i < console->n_handlers; i++) {
-		if (strcmp(console->handlers[i]->name, "socket") == 0) {
+		if (strcmp(console->handlers[i]->type->name, "socket") == 0) {
 			sh = to_socket_handler(console->handlers[i]);
 			break;
 		}
@@ -416,14 +416,22 @@ close_fds:
 	return rc;
 }
 
-static int socket_init(struct handler *handler, struct console *console,
-		       struct config *config __attribute__((unused)))
+static struct handler *socket_init(const struct handler_type *type
+				   __attribute__((unused)),
+				   struct console *console,
+				   struct config *config
+				   __attribute__((unused)))
 {
-	struct socket_handler *sh = to_socket_handler(handler);
+	struct socket_handler *sh;
 	struct sockaddr_un addr;
 	size_t addrlen;
 	ssize_t len;
 	int rc;
+
+	sh = malloc(sizeof(*sh));
+	if (!sh) {
+		return NULL;
+	}
 
 	sh->console = console;
 	sh->clients = NULL;
@@ -438,7 +446,7 @@ static int socket_init(struct handler *handler, struct console *console,
 		} else {
 			warn("Socket name length exceeds buffer limits");
 		}
-		return -1;
+		goto err_free;
 	}
 
 	/* Try to take a socket from systemd first */
@@ -450,7 +458,7 @@ static int socket_init(struct handler *handler, struct console *console,
 		sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
 		if (sh->sd < 0) {
 			warn("Can't create socket");
-			return -1;
+			goto err_free;
 		}
 
 		addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
@@ -461,23 +469,26 @@ static int socket_init(struct handler *handler, struct console *console,
 			console_socket_path_readable(&addr, addrlen, name);
 			warn("Can't bind to socket path %s (terminated at first null)",
 			     name);
-			goto cleanup;
+			goto err_close;
 		}
 
 		rc = listen(sh->sd, 1);
 		if (rc) {
 			warn("Can't listen for incoming connections");
-			goto cleanup;
+			goto err_close;
 		}
 	}
 
-	sh->poller = console_poller_register(console, handler, socket_poll,
+	sh->poller = console_poller_register(console, &sh->handler, socket_poll,
 					     NULL, sh->sd, POLLIN, NULL);
 
-	return 0;
-cleanup:
+	return &sh->handler;
+
+err_close:
 	close(sh->sd);
-	return -1;
+err_free:
+	free(sh);
+	return NULL;
 }
 
 static void socket_fini(struct handler *handler)
@@ -493,14 +504,13 @@ static void socket_fini(struct handler *handler)
 	}
 
 	close(sh->sd);
+	free(sh);
 }
 
-static struct socket_handler socket_handler = {
-	.handler = {
-		.name		= "socket",
-		.init		= socket_init,
-		.fini		= socket_fini,
-	},
+static const struct handler_type socket_handler = {
+	.name = "socket",
+	.init = socket_init,
+	.fini = socket_fini,
 };
 
-console_handler_register(&socket_handler.handler);
+console_handler_register(&socket_handler);

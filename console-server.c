@@ -533,32 +533,46 @@ static int set_socket_info(struct console *console, struct config *config,
 static void handlers_init(struct console *console, struct config *config)
 {
 	/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-	extern struct handler *__start_handlers;
-	extern struct handler *__stop_handlers;
+	extern const struct handler_type *const __start_handlers;
+	extern const struct handler_type *const __stop_handlers;
 	/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-	struct handler *handler;
-	int i;
-	int rc;
+	size_t n_types;
+	int j = 0;
+	size_t i;
 
-	console->n_handlers = &__stop_handlers - &__start_handlers;
-	console->handlers = &__start_handlers;
+	n_types = &__stop_handlers - &__start_handlers;
+	console->handlers = calloc(n_types, sizeof(struct handler *));
+	if (!console->handlers) {
+		err(EXIT_FAILURE, "malloc(handlers)");
+	}
 
-	printf("%ld handler%s\n", console->n_handlers,
-	       console->n_handlers == 1 ? "" : "s");
+	printf("%ld handler type%s\n", n_types, n_types == 1 ? "" : "s");
 
-	for (i = 0; i < console->n_handlers; i++) {
-		handler = console->handlers[i];
+	for (i = 0; i < n_types; i++) {
+		const struct handler_type *type = &__start_handlers[i];
+		struct handler *handler;
 
-		rc = 0;
-		if (handler->init) {
-			rc = handler->init(handler, console, config);
+		/* Should be picked up at build time by
+		 * console_handler_register, but check anyway
+		 */
+		if (!type->init || !type->fini) {
+			errx(EXIT_FAILURE,
+			     "invalid handler type %s: no init() / fini()",
+			     type->name);
 		}
 
-		handler->active = rc == 0;
+		handler = type->init(type, console, config);
 
-		printf("  %s [%sactive]\n", handler->name,
-		       handler->active ? "" : "in");
+		printf("  console '%s': handler %s [%sactive]\n",
+		       console->console_id, type->name, handler ? "" : "in");
+
+		if (handler) {
+			handler->type = type;
+			console->handlers[j++] = handler;
+		}
 	}
+
+	console->n_handlers = j;
 }
 
 static void handlers_fini(struct console *console)
@@ -568,10 +582,12 @@ static void handlers_fini(struct console *console)
 
 	for (i = 0; i < console->n_handlers; i++) {
 		handler = console->handlers[i];
-		if (handler->fini && handler->active) {
-			handler->fini(handler);
-		}
+		handler->type->fini(handler);
 	}
+
+	free(console->handlers);
+	console->handlers = NULL;
+	console->n_handlers = 0;
 }
 
 static int get_current_time(struct timeval *tv)

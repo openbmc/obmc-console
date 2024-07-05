@@ -236,10 +236,12 @@ static int make_terminal_raw(struct tty_handler *th, const char *tty_name)
 	return 0;
 }
 
-static int tty_init(struct handler *handler, struct console *console,
-		    struct config *config __attribute__((unused)))
+static struct handler *tty_init(const struct handler_type *type
+				__attribute__((unused)),
+				struct console *console,
+				struct config *config __attribute__((unused)))
 {
-	struct tty_handler *th = to_tty_handler(handler);
+	struct tty_handler *th;
 	speed_t desired_speed;
 	const char *tty_name;
 	const char *tty_baud;
@@ -248,19 +250,25 @@ static int tty_init(struct handler *handler, struct console *console,
 
 	tty_name = config_get_value(config, "local-tty");
 	if (!tty_name) {
-		return -1;
+		return NULL;
 	}
 
 	rc = asprintf(&tty_path, "/dev/%s", tty_name);
 	if (!rc) {
-		return -1;
+		return NULL;
+	}
+
+	th = malloc(sizeof(*th));
+	if (!th) {
+		return NULL;
 	}
 
 	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
 		free(tty_path);
-		return -1;
+		free(th);
+		return NULL;
 	}
 
 	free(tty_path);
@@ -286,13 +294,13 @@ static int tty_init(struct handler *handler, struct console *console,
 		fprintf(stderr, "Couldn't make %s a raw terminal\n", tty_name);
 	}
 
-	th->poller = console_poller_register(console, handler, tty_poll, NULL,
-					     th->fd, POLLIN, NULL);
+	th->poller = console_poller_register(console, &th->handler, tty_poll,
+					     NULL, th->fd, POLLIN, NULL);
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
 						       tty_ringbuffer_poll, th);
 
-	return 0;
+	return &th->handler;
 }
 
 static void tty_fini(struct handler *handler)
@@ -302,6 +310,7 @@ static void tty_fini(struct handler *handler)
 		console_poller_unregister(th->console, th->poller);
 	}
 	close(th->fd);
+	free(th);
 }
 
 static int tty_baudrate(struct handler *handler, speed_t baudrate)
@@ -321,13 +330,11 @@ static int tty_baudrate(struct handler *handler, speed_t baudrate)
 	return 0;
 }
 
-static struct tty_handler tty_handler = {
-	.handler = {
-		.name		= "tty",
-		.init		= tty_init,
-		.fini		= tty_fini,
-		.baudrate	= tty_baudrate,
-	},
+static const struct handler_type tty_handler = {
+	.name = "tty",
+	.init = tty_init,
+	.fini = tty_fini,
+	.baudrate = tty_baudrate,
 };
 
-console_handler_register(&tty_handler.handler);
+console_handler_register(&tty_handler);
