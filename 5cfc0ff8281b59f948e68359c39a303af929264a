@@ -389,6 +389,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66511c5e_b824f5a4",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-07-05T07:01:12Z",
+      "side": 1,
+      "message": "I have implemented this at:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/72587\n\nAlexander: if this works for your intended structure, we can either review/merge that change separately, or happy for you to include in your series if you prefer.",
+      "parentUuid": "43e81c29_4b8dad98",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88bdd8af_aed1f8e0",
         "filename": "console-server.c",
         "patchSetId": 21
