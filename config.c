@@ -32,8 +32,8 @@
 
 #include <iniparser/iniparser.h>
 
-#include "config.h"
 #include "config-internal.h"
+#include "config.h"
 #include "util.h"
 
 static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
@@ -107,6 +107,26 @@ struct config *config_init(const char *filename)
 	config->dict = dict;
 
 	return config;
+}
+
+const char *config_get_section_value(struct config *config, const char *secname,
+				     const char *name)
+{
+	int rc;
+	char buf[CONFIG_MAX_KEY_LENGTH];
+	rc = snprintf(buf, sizeof(buf), "%s:%s", secname, name);
+
+	if (rc < 0) {
+		return NULL;
+	}
+
+	if ((size_t)rc >= sizeof(buf)) {
+		// error / key too long for the buffer
+		warnx("%s: key too long for buffer", __func__);
+		return NULL;
+	}
+
+	return iniparser_getstring(config->dict, buf, NULL);
 }
 
 void config_fini(struct config *config)
@@ -285,4 +305,14 @@ const char *config_resolve_console_id(struct config *config, const char *id_arg)
 	}
 
 	return DEFAULT_CONSOLE_ID;
+}
+
+int config_getnsec(struct config *config)
+{
+	return iniparser_getnsec(config->dict);
+}
+
+const char *config_getsecname(struct config *config, int i)
+{
+	return iniparser_getsecname(config->dict, i);
 }
