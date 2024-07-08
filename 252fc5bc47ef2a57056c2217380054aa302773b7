@@ -222,6 +222,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a8807bf_29ab2365",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1302,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Ok, the const is there now.\nGetting number of sections and section names is covered by ```config_*``` API now.\n\nThe mismatch with the docs is unfortunate.\n\nIt does appear that section **need to be unique** in ini format.\nSo my docs are wrong (not matching the code) and need to be adjusted. \n\nI would like to hear what is your opinion for how the console id being the section name would prevent us from merging client and server configuration files.\n\nAll i have seen about client config so far is that it also has property ```console-id```. But then that is the same case as a single console for the server.\n\nWe can discuss in the docs patch if you like to keep that discussion separate.",
+      "parentUuid": "49d69374_521fcfe5",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f96c9034_e5983884",
@@ -309,6 +327,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b4b372_95eff0ea",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Moved the reading of those config values closer to the code that uses it. So it is more similar to how it was before.",
+      "parentUuid": "f337a24e_932282a8",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af5fa8c_5b69e917",
@@ -322,6 +358,24 @@
       "writtenOn": "2024-07-02T02:02:10Z",
       "side": 1,
       "message": "`lpc-address` isn\u0027t the correct property for the variable name. This also continues to break down the existing separation of configuration based on the UART type 😞",
+      "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "702ca567_d1496ed7",
+        "filename": "console-server.c",
+        "patchSetId": 37
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af5fa8c_5b69e917",
       "revId": "252fc5bc47ef2a57056c2217380054aa302773b7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

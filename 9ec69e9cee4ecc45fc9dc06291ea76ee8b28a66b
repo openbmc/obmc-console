@@ -363,6 +363,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6c3730_4d08a03b",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Yes, good to point that out. \n\nHoisted the parsing for the mux index and inlined the function.\n\nFor the mux gpio names, modified that to keep a pointer outside the function to where it should continue parsing.\n\nSo the parsing for gpio names + mux index should be more efficient now and only take a single pass.",
+      "parentUuid": "cfef17f1_a7cf47af",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2072a404_517881ae",
@@ -476,6 +494,24 @@
       "side": 1,
       "message": "Yeah i had not thought of that. There could be multiple gpio chips.\nIn that case we need to query. I can look into that for future revisions.",
       "parentUuid": "44f86bc0_e0fd2e8e",
+      "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63dc1773_1fe89a36",
+        "filename": "console-gpio.c",
+        "patchSetId": 40
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Done, using gpiod_line_find now to open the line independent of which chip.",
+      "parentUuid": "f57951e8_2920864f",
       "revId": "9ec69e9cee4ecc45fc9dc06291ea76ee8b28a66b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },

@@ -618,6 +618,24 @@
       "message": "I realise its a test, but debugging a broken `snprintf()` call in the test isn\u0027t something that will make people smile. Maybe add `assert(rc \u003c sizeof(buf));` to avoid some frustration.",
       "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0060aca5_0b8ab517",
+        "filename": "test/config-test-utils.c",
+        "patchSetId": 41
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T10:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c54a5f9_f5a25355",
+      "revId": "dd796a68c5f69fd103a830fba005f4e9429b4bd4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
