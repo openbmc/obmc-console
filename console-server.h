@@ -235,8 +235,6 @@ void dbus_init(struct console *console,
 /* socket-handler API */
 int dbus_create_socket_consumer(struct console *console);
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
-
 #ifndef offsetof
 #define offsetof(type, member) ((unsigned long)&((type *)NULL)->member)
 #endif
