@@ -17,6 +17,7 @@
 #include <err.h>
 #include <errno.h>
 #include <getopt.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -32,6 +33,8 @@
 #include "config.h"
 
 #define EXIT_ESCAPE 2
+
+static volatile sig_atomic_t sigint;
 
 enum process_rc {
 	PROCESS_OK = 0,
@@ -264,6 +267,13 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
+static void sighandler(int signal)
+{
+	if (signal == SIGINT) {
+		sigint = 1;
+	}
+}
+
 int main(int argc, char *argv[])
 {
 	struct console_client _client;
@@ -348,7 +358,19 @@ int main(int argc, char *argv[])
 		goto out_client_fini;
 	}
 
+	struct sigaction act = { 0 };
+	act.sa_handler = &sighandler;
+	if (sigaction(SIGINT, &act, NULL) == -1) {
+		perror("sigaction");
+		goto out_client_fini;
+	}
+
 	for (;;) {
+		if (sigint) {
+			warnx("Received interrupt, exiting\n");
+			goto out_client_fini;
+		}
+
 		pollfds[0].fd = client->fd_in;
 		pollfds[0].events = POLLIN;
 		pollfds[1].fd = client->console_sd;
