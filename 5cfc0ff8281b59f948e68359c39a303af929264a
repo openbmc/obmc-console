@@ -282,6 +282,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8fac15e_cc2d4169",
+        "filename": "console-client.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T13:09:11Z",
+      "side": 1,
+      "message": "Separated this change over here\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/72604/1\n\nIt can go after the main feature since it is only used for testing.",
+      "parentUuid": "ea879bab_320a119b",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c04d7ab4_c4215663",
@@ -437,6 +455,24 @@
       "side": 1,
       "message": "I have implemented this at:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/72587\n\nAlexander: if this works for your intended structure, we can either review/merge that change separately, or happy for you to include in your series if you prefer.",
       "parentUuid": "43e81c29_4b8dad98",
+      "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4125e396_072be6b9",
+        "filename": "console-server.c",
+        "patchSetId": 21
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-08T13:09:11Z",
+      "side": 1,
+      "message": "Thanks Jeremy for your time to create that patch. It looks like that is what\u0027s\nneeded, to separate the types from the instances. \n\nI can rebase my series on top of that when it is merged. I would like it to be reviewed separately, to avoid including it in my series and then going out of sync when there is revisions there.",
+      "parentUuid": "66511c5e_b824f5a4",
       "revId": "5cfc0ff8281b59f948e68359c39a303af929264a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
