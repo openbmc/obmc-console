@@ -1005,6 +1005,8 @@ int main(int argc, char **argv)
 
 	tty_fini(console);
 
+	ringbuffer_fini(console->rb);
+
 out_config_fini:
 	config_fini(config);
 
