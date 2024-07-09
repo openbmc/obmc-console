@@ -633,6 +633,7 @@ struct poller *console_poller_register(struct console *console,
 	poller->handler = handler;
 	poller->event_fn = poller_fn;
 	poller->timeout_fn = timeout_fn;
+	timerclear(&poller->timeout);
 	poller->data = data;
 
 	/* add one to our pollers array */
