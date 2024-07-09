@@ -331,11 +331,9 @@ static int tty_baudrate(struct handler *handler, speed_t baudrate)
 	return 0;
 }
 
-static const struct handler_type tty_handler = {
+const struct handler_type tty_handler = {
 	.name = "tty",
 	.init = tty_init,
 	.fini = tty_fini,
 	.baudrate = tty_baudrate,
 };
-
-console_handler_register(&tty_handler);
