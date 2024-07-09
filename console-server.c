@@ -174,6 +174,7 @@ static int tty_find_device(struct console *console)
 out_free:
 	free(tty_vuart_lpc_addr);
 	free(tty_class_device_link);
+	free(tty_sysfs_devnode);
 	free(tty_device_tty_dir);
 	free(tty_device_reldir);
 	free(tty_path_input);
