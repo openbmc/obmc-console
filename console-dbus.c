@@ -174,9 +174,9 @@ void dbus_init(struct console *console,
 		return;
 	}
 
-	r = sd_bus_default_system(&console->bus);
+	r = sd_bus_default(&console->bus);
 	if (r < 0) {
-		warnx("Failed to connect to system bus: %s", strerror(-r));
+		warnx("Failed to connect to bus: %s", strerror(-r));
 		return;
 	}
 
