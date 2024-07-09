@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24f33651_37591c6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T00:30:57Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a couple of minor nits, but I think this looks okay.",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8508351d_1973f436",
+        "filename": "config-internal.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T00:30:57Z",
+      "side": 1,
+      "message": "Given `termios.h` is included via `config.h` this seems redundant (also we don\u0027t use any definitions here in the header)?",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb8b8593_190ebaea",
+        "filename": "test/test-config-resolve-console-id.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T00:30:57Z",
+      "side": 1,
+      "message": "Bit of a nit, but I think it\u0027s easier to reason about if we switch around the cast here, so:\n\n```\nassert(rc \u003e\u003d 0 \u0026\u0026 (size_t)rc \u003c sizeof(buf));\n```",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
