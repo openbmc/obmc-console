@@ -16,6 +16,24 @@
       "message": "We\u0027ll want to `tty_fini()` on error here, no?",
       "revId": "7f41d472b652bfeb0826d719c682b4a88c6c9334",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2155137b_01d8ad1c",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T08:22:02Z",
+      "side": 1,
+      "message": "haha, indeed.",
+      "parentUuid": "5f1b141b_4198296c",
+      "revId": "7f41d472b652bfeb0826d719c682b4a88c6c9334",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
