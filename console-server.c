@@ -1007,7 +1007,10 @@ int main(int argc, char **argv)
 		goto out_ringbuffer_fini;
 	}
 
-	dbus_init(console, config);
+	rc = dbus_init(console, config);
+	if (rc) {
+		goto out_tty_fini;
+	}
 
 	handlers_init(console, config);
 
@@ -1015,6 +1018,7 @@ int main(int argc, char **argv)
 
 	handlers_fini(console);
 
+out_tty_fini:
 	tty_fini(console);
 
 out_ringbuffer_fini:

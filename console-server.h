@@ -239,8 +239,8 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 
 /* console-dbus API */
-void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)));
+int dbus_init(struct console *console,
+	      struct config *config __attribute__((unused)));
 
 /* socket-handler API */
 int dbus_create_socket_consumer(struct console *console);
