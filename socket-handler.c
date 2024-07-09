@@ -97,8 +97,13 @@ static void client_close(struct client *client)
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
 	memmove(&sh->clients[idx], &sh->clients[idx + 1],
 		sizeof(*sh->clients) * (sh->n_clients - idx));
-	sh->clients =
-		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
+	if (sh->n_clients == 0) {
+		free(sh->clients);
+		sh->clients = NULL;
+	} else {
+		sh->clients = reallocarray(sh->clients, sh->n_clients,
+					   sizeof(*sh->clients));
+	}
 	/* NOLINTEND(bugprone-sizeof-expression) */
 }
 
