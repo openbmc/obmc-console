@@ -46,7 +46,7 @@
 const size_t default_buffer_size = 128ul * 1024ul;
 
 /* state shared with the signal handler */
-static bool sigint;
+static volatile sig_atomic_t sigint;
 
 static void usage(const char *progname)
 {
@@ -841,7 +841,7 @@ static int call_pollers(struct console *console, struct timeval *cur_time)
 static void sighandler(int signal)
 {
 	if (signal == SIGINT) {
-		sigint = true;
+		sigint = 1;
 	}
 }
 
