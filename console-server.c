@@ -982,17 +982,21 @@ int main(int argc, char **argv)
 		}
 	}
 	console->rb = ringbuffer_init(buffer_size);
+	if (!console->rb) {
+		rc = -1;
+		goto out_config_fini;
+	}
 
 	if (set_socket_info(console, config, console_id)) {
 		rc = -1;
-		goto out_config_fini;
+		goto out_ringbuffer_fini;
 	}
 
 	uart_routing_init(config);
 
 	rc = tty_init(console, config, config_tty_kname);
 	if (rc) {
-		goto out_config_fini;
+		goto out_ringbuffer_fini;
 	}
 
 	dbus_init(console, config);
@@ -1004,6 +1008,9 @@ int main(int argc, char **argv)
 	handlers_fini(console);
 
 	tty_fini(console);
+
+out_ringbuffer_fini:
+	ringbuffer_fini(console->rb);
 
 out_config_fini:
 	config_fini(config);
