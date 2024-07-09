@@ -225,10 +225,8 @@ static void log_fini(struct handler *handler)
 	free(lh);
 }
 
-static const struct handler_type log_handler = {
+const struct handler_type log_handler = {
 	.name = "log",
 	.init = log_init,
 	.fini = log_fini,
 };
-
-console_handler_register(&log_handler);
