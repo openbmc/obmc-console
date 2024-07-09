@@ -1,0 +1,527 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9562a254_4ba72de0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 48
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for addressing all the minor concerns so far, as well as some of the more architectural ones. I\u0027ve left a few more comments resulting from the iteration; some are admittedly nitpicks and bikesheds (I\u0027ve tried to identify these as such where relevant), some are about diff hunks that are addressing existing bugs. Others, I think mainly in `console-mux.c`, might require a bit more thought.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c0f101_df76ceea",
+        "filename": "console-dbus.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Hmm, we should probably do this as a separate fix.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0183f668_bff3e671",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Feels like playing with fire a little, but at least `strlen()` excludes the `NUL` byte.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42179de1_a4e8e008",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "I feel this name is not well aligned with the behaviour of the implementation. Maybe `console_mux_find_gpio_by_index()`?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571c0778_36d377e8",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Bikeshed comment, but, perhaps `console_mux_release_gpio_lines()`?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6cef4c5_45768ee6",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Similar to above: `console_mux_request_gpio_lines()`?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c50d2819_24e17bf1",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Won\u0027t this invoke undesirable behaviour if we haven\u0027t acquired all the lines? I expect we only want to release those we\u0027re know to have acquired?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f4a3ff8_a0ab2e19",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "I think if we\u0027ve reached this point the this condition can be asserted, otherwise `find_n_mux_gpios()` would have returned an error?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24665329_1a237f3c",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Why do we need to take a pointer-to-pointer if we\u0027re not using the result and resetting the value each time around the loop?\n\nCan we simplify this API?",
+      "range": {
+        "startLine": 183,
+        "startChar": 40,
+        "endLine": 183,
+        "endChar": 48
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e86feca_0bf39a9b",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Should we release those we\u0027ve acquired on error?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7676427_0f9450ed",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Rather than heap-allocate memory to store bits of the value we can instead store the mux index in an unsigned long, and use the shift-and-mask approach from line 226 on line 140 in `console_gpio_set_lines()`. That said, we will need to add a check that no-one has specified more than 32 GPIOs. I don\u0027t think that\u0027s unreasonable. If someone has a design with more than 4 billion mux legs they can keep it downstream.",
+      "range": {
+        "startLine": 201,
+        "startChar": 1,
+        "endLine": 206,
+        "endChar": 2
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57f91124_ba1eeaf2",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "We can avoid the cast by making the variable a `long`. That way there\u0027s no accidental truncation. I realise it\u0027s unlikely, but there\u0027s also no reason to write foot-guns.\n\nAlso, if we\u0027re not using the value of `end` we can instead pass `NULL` for the pointer and avoid the definition.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584d09b2_c11e380c",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Bit of a nit, but I think we can drop `gpio` from the name.",
+      "range": {
+        "startLine": 262,
+        "startChar": 18,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c028704_266977d6",
+        "filename": "console-mux.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Is there some subtlety that means we can\u0027t do this before calling `console_gpio_set_lines()`? If so, can you document why? If not, can you please move it?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04aa6ef6_7794c424",
+        "filename": "console-mux.h",
+        "patchSetId": 48
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Can you please add the copyright and license comment block if we need a separate header?\n\nArguably this could all go in `console-server.h` though, as the APIs are not required elsewhere?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a04fca_882b954d",
+        "filename": "console-mux.h",
+        "patchSetId": 48
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Bit of a nit, but if we\u0027re going to group these function prototypes, can we please put the two `console_server_mux_*()` functions together, and the two `console_mux_*()` functions together?\n\n```\nint console_server_mux_init(...);\nint console_server_mux_fini(...);\nint console_mux_init(...);\nint console_mux_activate_console(...);`\n```\n\nThat way we\u0027re \"keeping things that go together together\".",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72175f46_fa9d60ad",
+        "filename": "console-mux.h",
+        "patchSetId": 48
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Bit of a bikeshed comment, but `console_mux_activate()` feels more succinct to me. What you\u0027re activating is captured by the context provided as a parameter.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c708ece_3ce14691",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "This is a bug-fix that\u0027s independent of the presence of a UART mux. I prefer we split it out to a separate patch.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a954e6e6_4bf3f52e",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "This is also a bug-fix for a problem unrelated to a UART mux? Can we please split it out?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93610f8_0e3b9d20",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "If this is addressing the portability concern around 0 members and whether `reallocarray()` frees the object, then we also need to add the `free()` call in the 0 case (and set `console-\u003epollers \u003d NULL;`)?\n\nIf so, this is also addressing a bug that\u0027s unrelated to UART muxes, so I prefer we split it out.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32479fa6_f3c5a8d3",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Can we remove the blank line here to better visually associate the error check with the corresponding function call (to `dbus_init()`)?\n\nCan you please address this through the rest of the patch as well? It seems that quite a bit of whitespace is contributed by this pattern.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf57e5b_9953dfcb",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Directly assigning into the reallocated variable leaks the old object on error. Can you please fix that?\n\nI realise other code in the application doesn\u0027t handle it properly either, but I prefer we don\u0027t add more instances.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29b9ca2_3575f124",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Please use `reallocarray()`.",
+      "range": {
+        "startLine": 1125,
+        "startChar": 3,
+        "endLine": 1125,
+        "endChar": 54
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02997c1f_40a4ff53",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "No need to test for `NULL` before `free()`, as mentioned below.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cb40768_b0e22940",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "If we\u0027ve `memset()` the object to `0` then there\u0027s no need for the explicit initialisation to `0` and `NULL` for the members below.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f0bd081_e469f186",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s a need for the blank lines between initialisation of the members, but perhaps that will go away when addressing the `memset()` observation above.",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1cfa0a9_c3732ab4",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "No need to test if the pointer is `NULL` before `free()` - `free()`\u0027s contract is that it will not misbehave if the pointer is `NULL`:\n\n\u003e The free() function frees the memory space pointed to by ptr,\n\u003e which must have been returned by a previous call to malloc() or\n\u003e related functions.  Otherwise, or if ptr has already been freed,\n\u003e undefined behavior occurs.  **If ptr is NULL, no operation is\n\u003e performed.**\n\nhttps://www.man7.org/linux/man-pages/man3/free.3.html",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeda0662_8b93341c",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "Is there a strong reason to separate these out in this patch? If we leave them inline with `main()` then there\u0027s less diff noise, just the additions for initialising `args`.\n\nIf the separation is needed in another later patch, then I prefer we do it in the patch where it\u0027s required and not here.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 1,
+        "endLine": 1206,
+        "endChar": 1
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb996497_8de36f57",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-09T02:36:32Z",
+      "side": 1,
+      "message": "I\u0027d prefer we pick a consistent error representation. Currently you have a mix of returning `-1` or `1` from helper functions. Rather than push-down any exit-code requirement to the helper functions, perhaps we could use an expression to perform a translation, which will allow consistency (\"all helper functions return 0 on success or a negative value on error\"):\n\n```\nreturn rc \u003d\u003d 0 ? EXIT_FAILURE : EXIT_SUCCESS;\n```\n\nFrom the left of the diff this is what we already had 😊",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
