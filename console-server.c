@@ -546,7 +546,7 @@ static void handlers_init(struct console *console, struct config *config)
 		err(EXIT_FAILURE, "malloc(handlers)");
 	}
 
-	printf("%ld handler type%s\n", n_types, n_types == 1 ? "" : "s");
+	printf("%zu handler type%s\n", n_types, n_types == 1 ? "" : "s");
 
 	for (i = 0; i < n_types; i++) {
 		const struct handler_type *type = &__start_handlers[i];
