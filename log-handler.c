@@ -202,6 +202,7 @@ static struct handler *log_init(const struct handler_type *type
 	return &lh->handler;
 
 err_free:
+	free(lh->rotate_filename);
 	free(lh->log_filename);
 	free(lh);
 	return NULL;
