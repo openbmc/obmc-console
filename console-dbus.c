@@ -159,8 +159,8 @@ static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_END,
 };
 
-void dbus_init(struct console *console,
-	       struct config *config __attribute__((unused)))
+int dbus_init(struct console *console,
+	      struct config *config __attribute__((unused)))
 {
 	char obj_name[dbus_obj_path_len];
 	char dbus_name[dbus_obj_path_len];
@@ -171,13 +171,13 @@ void dbus_init(struct console *console,
 
 	if (!console) {
 		warnx("Couldn't get valid console");
-		return;
+		return -1;
 	}
 
 	r = sd_bus_default(&console->bus);
 	if (r < 0) {
 		warnx("Failed to connect to bus: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	/* Register support console interface */
@@ -186,7 +186,7 @@ void dbus_init(struct console *console,
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	if (console->tty.type == TTY_DEVICE_UART) {
@@ -197,7 +197,7 @@ void dbus_init(struct console *console,
 		if (r < 0) {
 			warnx("Failed to register UART interface: %s",
 			      strerror(-r));
-			return;
+			return -1;
 		}
 	}
 
@@ -206,7 +206,7 @@ void dbus_init(struct console *console,
 				     console_access_vtable, console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	bytes = snprintf(dbus_name, dbus_obj_path_len, DBUS_NAME,
@@ -214,7 +214,7 @@ void dbus_init(struct console *console,
 	if (bytes >= dbus_obj_path_len) {
 		warnx("Console id '%s' is too long. There is no enough space in the buffer.",
 		      console->console_id);
-		return;
+		return -1;
 	}
 
 	/* Finally register the bus name */
@@ -223,17 +223,19 @@ void dbus_init(struct console *console,
 					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
 		warnx("Failed to acquire service name: %s", strerror(-r));
-		return;
+		return -1;
 	}
 
 	fd = sd_bus_get_fd(console->bus);
 	if (fd < 0) {
 		warnx("Couldn't get the bus file descriptor");
-		return;
+		return -1;
 	}
 
 	dbus_poller = POLLFD_DBUS;
 
 	console->pollfds[dbus_poller].fd = fd;
 	console->pollfds[dbus_poller].events = POLLIN;
+
+	return 0;
 }

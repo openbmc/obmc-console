@@ -1003,7 +1003,10 @@ int main(int argc, char **argv)
 		goto out_config_fini;
 	}
 
-	dbus_init(console, config);
+	rc = dbus_init(console, config);
+	if (rc) {
+		goto out_config_fini;
+	}
 
 	handlers_init(console, config);
 
