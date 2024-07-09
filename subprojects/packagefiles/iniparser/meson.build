@@ -6,8 +6,8 @@ project('iniparser', 'c')
 
 inc = 'iniparser-include'
 
-run_command('sh', '-c', 'mkdir -p iniparser-include/iniparser')
-run_command('sh', '-c', 'cp -r src/* iniparser-include/iniparser/')
+run_command('sh', '-c', 'mkdir -p iniparser-include/iniparser', check: true)
+run_command('sh', '-c', 'cp -r src/* iniparser-include/iniparser/', check: true)
 
 iniparser = shared_library('iniparser',
   'src/dictionary.c',
