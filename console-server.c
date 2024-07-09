@@ -689,8 +689,14 @@ void console_poller_unregister(struct console *console, struct poller *poller)
 	memmove(&console->pollers[i], &console->pollers[i + 1],
 		sizeof(*console->pollers) * (console->n_pollers - i));
 
-	console->pollers = reallocarray(console->pollers, console->n_pollers,
-					sizeof(*console->pollers));
+	if (console->n_pollers == 0) {
+		free(console->pollers);
+		console->pollers = NULL;
+	} else {
+		console->pollers = reallocarray(console->pollers,
+						console->n_pollers,
+						sizeof(*console->pollers));
+	}
 	/* NOLINTEND(bugprone-sizeof-expression) */
 
 	/* ... and the pollfds array */
