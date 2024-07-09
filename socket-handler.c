@@ -519,10 +519,8 @@ static void socket_fini(struct handler *handler)
 	free(sh);
 }
 
-static const struct handler_type socket_handler = {
+const struct handler_type socket_handler = {
 	.name = "socket",
 	.init = socket_init,
 	.fini = socket_fini,
 };
-
-console_handler_register(&socket_handler);

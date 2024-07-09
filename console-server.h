@@ -58,22 +58,12 @@ struct handler {
 	const struct handler_type *type;
 };
 
-/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-#define __handler_name(n) __handler_##n
-#define _handler_name(n)  __handler_name(n)
+extern const struct handler_type tty_handler;
+extern const struct handler_type log_handler;
+extern const struct handler_type socket_handler;
 
-#ifndef __clang__
-#define handler_type_check(h) BUILD_ASSERT_OR_ZERO((h)->init && (h)->fini)
-#else
-/* clang doesn't seem to be able to constify the type ops */
-#define handler_type_check(h) 0
-#endif
-
-#define console_handler_register(h)                                            \
-	static const __attribute__((section("handlers")))                      \
-	__attribute__((used)) struct handler_type *                            \
-	_handler_name(__COUNTER__) = (h) + handler_type_check(h)
-/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
+#define N_HANDLER_TYPES 3
+extern const struct handler_type *global_handlers[N_HANDLER_TYPES];
 
 int console_data_out(struct console *console, const uint8_t *data, size_t len);
 
