@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5d7b6e64_bd6af5c7",
+        "filename": "console-dbus.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-09T16:08:18Z",
+      "side": 1,
+      "message": "ok you already did that in https://github.com/openbmc/obmc-console/commit/498a4a81d93b0242cea5de929f00cade2b5fe9f2",
+      "parentUuid": "74c0f101_df76ceea",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0183f668_bff3e671",
         "filename": "console-mux.c",
         "patchSetId": 48
@@ -626,6 +644,24 @@
       "writtenOn": "2024-07-09T02:36:32Z",
       "side": 1,
       "message": "This is also a bug-fix for a problem unrelated to a UART mux? Can we please split it out?",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "942fd036_f1b274d0",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-09T16:08:18Z",
+      "side": 1,
+      "message": "thanks for fixing this in https://github.com/openbmc/obmc-console/commit/9cc8459acc0a425920aa663c8cdd5043464c366e",
+      "parentUuid": "a954e6e6_4bf3f52e",
       "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
