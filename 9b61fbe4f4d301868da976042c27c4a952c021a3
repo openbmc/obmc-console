@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "804debf9_eb67234a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-09T12:35:05Z",
+      "side": 1,
+      "message": "Having a separate ```config.h``` header helps us to avoid including ```console-server.h``` where it is not needed.\n\nSo we have more fine-grained includes which helps to see dependencies more easily.",
+      "parentUuid": "9e0c1d97_87bcc9e4",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8508351d_1973f436",
@@ -70,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ceb230_bb17ab16",
+        "filename": "config-internal.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-09T12:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8508351d_1973f436",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb8b8593_190ebaea",
@@ -83,6 +119,24 @@
       "writtenOn": "2024-07-09T00:30:57Z",
       "side": 1,
       "message": "Bit of a nit, but I think it\u0027s easier to reason about if we switch around the cast here, so:\n\n```\nassert(rc \u003e\u003d 0 \u0026\u0026 (size_t)rc \u003c sizeof(buf));\n```",
+      "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1297b2_a3056adc",
+        "filename": "test/test-config-resolve-console-id.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-09T12:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb8b8593_190ebaea",
       "revId": "9b61fbe4f4d301868da976042c27c4a952c021a3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
