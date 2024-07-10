@@ -419,8 +419,8 @@ static int tty_init_vuart(struct console_server *server, struct config *config)
 	return 0;
 }
 
-static int tty_init(struct console_server *server, struct config *config,
-		    const char *tty_arg)
+static int console_server_tty_init(struct console_server *server,
+				   struct config *config, const char *tty_arg)
 {
 	const char *val;
 	int rc;
@@ -467,7 +467,7 @@ static int tty_init(struct console_server *server, struct config *config,
 	return tty_init_io(server);
 }
 
-static void tty_fini(struct console_server *server)
+static void console_server_tty_fini(struct console_server *server)
 {
 	if (server->tty.type == TTY_DEVICE_VUART) {
 		free(server->tty.vuart.sysfs_devnode);
@@ -662,7 +662,6 @@ static void handlers_fini(struct console *console)
 		handler = console->handlers[i];
 		handler->type->fini(handler);
 	}
-
 	free(console->handlers);
 	console->handlers = NULL;
 	console->n_handlers = 0;
@@ -916,23 +915,44 @@ static void sighandler(int signal)
 	}
 }
 
-static int run_console_iteration(struct console *console)
+static int run_console_per_console(struct console *console, size_t buf_size,
+				   struct timeval *tv)
 {
-	uint8_t buf[4096];
-	struct timeval tv;
-	long timeout;
-	ssize_t rc;
+	int rc;
 
-	if (console->rb->size < sizeof(buf)) {
+	if (console->rb->size < buf_size) {
 		fprintf(stderr, "Ringbuffer size should be greater than %zuB\n",
-			sizeof(buf));
-		return -1;
+			buf_size);
+		return 1;
 	}
 
 	if (sigint) {
-		fprintf(stderr, "Received interrupt, exiting\n");
-		return -1;
+		warnx("Received interrupt, exiting\n");
+		return 1;
 	}
+
+	// process dbus
+	struct pollfd *dbus_pollfd =
+		&(console->server->pollfds[console->dbus_pollfd_index]);
+	if (dbus_pollfd->revents) {
+		sd_bus_process(console->bus, NULL);
+	}
+
+	/* ... and then the pollers */
+	rc = call_pollers(console, tv);
+	if (rc) {
+		return 1;
+	}
+
+	return 0;
+}
+
+static int run_console_iteration(struct console_server *server)
+{
+	ssize_t rc;
+	struct timeval tv;
+	long timeout;
+	uint8_t buf[4096];
 
 	rc = get_current_time(&tv);
 	if (rc) {
@@ -940,10 +960,14 @@ static int run_console_iteration(struct console *console)
 		return -1;
 	}
 
-	timeout = get_poll_timeout(console, &tv);
+	timeout = get_poll_timeout(server->active_console, &tv);
 
-	rc = poll(console->server->pollfds, console->server->capacity_pollfds,
-		  (int)timeout);
+	rc = poll(server->pollfds, server->capacity_pollfds, (int)timeout);
+
+	if (sigint) {
+		warnx("Received interrupt, exiting\n");
+		return -1;
+	}
 
 	if (rc < 0) {
 		if (errno == EINTR) {
@@ -954,86 +978,80 @@ static int run_console_iteration(struct console *console)
 	}
 
 	/* process internal fd first */
-	if (console->server->pollfds[console->server->tty_pollfd_index].revents) {
-		rc = read(console->server->tty.fd, buf, sizeof(buf));
+	if (server->pollfds[server->tty_pollfd_index].revents) {
+		rc = read(server->tty.fd, buf, sizeof(buf));
 		if (rc <= 0) {
 			warn("Error reading from tty device");
 			return -1;
 		}
-		rc = ringbuffer_queue(console->rb, buf, rc);
+
+		rc = ringbuffer_queue(server->active_console->rb, buf, rc);
 		if (rc) {
 			return -1;
 		}
 	}
 
-	if (console->server->pollfds[console->dbus_pollfd_index].revents) {
-		sd_bus_process(console->bus, NULL);
+	for (size_t i = 0; i < server->n_consoles; i++) {
+		struct console *console = server->consoles[i];
+
+		rc = run_console_per_console(console, sizeof(buf), &tv);
+
+		if (rc != 0) {
+			return -1;
+		}
 	}
 
-	/* ... and then the pollers */
-	rc = call_pollers(console, &tv);
-	if (rc) {
-		return -1;
-	}
 	return 0;
 }
 
-int run_console(struct console *console)
+int run_server(struct console_server *server)
 {
 	sighandler_t sighandler_save = signal(SIGINT, sighandler);
 	ssize_t rc = 0;
 
+	if (server->n_consoles == 0) {
+		warnx("no console configured for this server");
+		return -1;
+	}
+
 	for (;;) {
-		rc = run_console_iteration(console);
+		rc = run_console_iteration(server);
 		if (rc) {
 			break;
 		}
 	}
 
 	signal(SIGINT, sighandler_save);
-	sd_bus_unref(console->bus);
+	for (size_t i = 0; i < server->n_consoles; i++) {
+		sd_bus_unref(server->consoles[i]->bus);
+	}
 
 	return rc ? -1 : 0;
 }
+
 static const struct option options[] = {
 	{ "config", required_argument, 0, 'c' },
 	{ "console-id", required_argument, 0, 'i' },
 	{ 0, 0, 0, 0 },
 };
 
-static int console_server_with_args(const char *config_filename,
-				    const char *arg_console_id,
-				    const char *arg_config_tty_kname)
+static struct console *console_init(struct console_server *server,
+				    struct config *config,
+				    const char *console_id)
 {
-	int rc = 0;
-	struct console_server server;
-	struct console *console;
-	struct config *config;
 	size_t buffer_size = default_buffer_size;
 	const char *buffer_size_str = NULL;
-
-	config = config_init(config_filename);
-	if (!config) {
-		return EXIT_FAILURE;
+	int rc;
+	struct console *console = calloc(1, sizeof(struct console));
+	if (console == NULL) {
+		return NULL;
 	}
 
-	memset(&server, 0, sizeof(struct console_server));
+	console->server = server;
+	console->console_id = console_id;
 
-	console = malloc(sizeof(struct console));
-	if (!console) {
-		rc = -1;
-		goto out_config_fini;
-	}
-
-	memset(console, 0, sizeof(*console));
-
-	server.active_console = console;
-	console->server = &server;
-
-	server.pollfds = NULL;
-	server.capacity_pollfds = 0;
-
-	buffer_size_str = config_get_value(config, "ringbuffer-size");
+	buffer_size_str =
+		config_get_section_value(config, console_id, "ringbuffer-size");
 	if (buffer_size_str) {
 		rc = config_parse_bytesize(buffer_size_str, &buffer_size);
 		if (rc) {
@@ -1042,57 +1060,198 @@ static int console_server_with_args(const char *config_filename,
 		}
 	}
 	console->rb = ringbuffer_init(buffer_size);
-	if (!console->rb) {
-		rc = -1;
-		goto out_console_fini;
-	}
 
-	if (set_socket_info(console, config, arg_console_id)) {
-		rc = -1;
-		goto out_ringbuffer_fini;
-	}
-
-	uart_routing_init(config);
-
-	rc = tty_init(&server, config, arg_config_tty_kname);
-	if (rc) {
-		goto out_ringbuffer_fini;
+	if (set_socket_info(console, config, console_id)) {
+		warnx("set_socket_info failed");
+		return NULL;
 	}
 
 	rc = dbus_init(console, config);
-	if (rc) {
-		goto out_tty_fini;
+	if (rc != 0) {
+		free(console);
+		return NULL;
 	}
 
 	handlers_init(console, config);
 
-	rc = run_console(console);
+	return console;
+}
 
+// 'opt_console_id' may be NULL
+static int console_server_add_console(struct console_server *server,
+				      struct config *config,
+				      const char *opt_console_id)
+{
+	const char *console_id;
+	struct console *console;
+
+	console_id = opt_console_id;
+
+	if (console_id == NULL) {
+		console_id = config_resolve_console_id(config, NULL);
+	}
+
+	if (console_id == NULL) {
+		warnx("A console ID is required but was not provided by the configuration file or command-line option");
+		return -1;
+	}
+
+	console = console_init(server, config, console_id);
+
+	if (console == NULL) {
+		warnx("console_init failed");
+		return -1;
+	}
+
+	struct console **tmp = reallocarray(server->consoles,
+					    server->n_consoles + 1,
+					    sizeof(struct console *));
+	if (tmp == NULL) {
+		warnx("could not realloc server->consoles");
+		return -1;
+	}
+	server->consoles = tmp;
+
+	server->consoles[server->n_consoles++] = console;
+
+	const char *initially_active =
+		config_get_value(config, "initially-active");
+	if (!initially_active) {
+		return 0;
+	}
+
+	if (strcmp(initially_active, "true") == 0) {
+		printf("setting console-id '%s' as the initially active console\n",
+		       console_id);
+		server->initial_active_console = console;
+	}
+
+	return 0;
+}
+
+static void console_server_console_fini(struct console *console)
+{
 	handlers_fini(console);
-
-out_tty_fini:
-	tty_fini(&server);
-
-out_ringbuffer_fini:
 	ringbuffer_fini(console->rb);
-
-out_console_fini:
 	free(console->pollers);
-	free(server.pollfds);
 	free(console);
+}
 
-out_config_fini:
-	config_fini(config);
+int console_server_init(struct console_server *server, char *config_filename)
+{
+	memset(server, 0, sizeof(struct console_server));
 
-	return rc;
+	server->tty_pollfd_index = -1;
+
+	server->config = config_init(config_filename);
+	if (server->config == NULL) {
+		return 1;
+	}
+	return 0;
+}
+
+void console_server_fini(struct console_server *server)
+{
+	for (size_t i = 0; i < server->n_consoles; i++) {
+		console_server_console_fini(server->consoles[i]);
+	}
+	config_fini(server->config);
+	free(server->consoles);
+	free(server->pollfds);
+	free(server->config);
+}
+
+static int console_server_add_consoles(struct console_server *server,
+				       char *arg_console_id)
+{
+	int rc;
+
+	const int nsections = config_getnsec(server->config);
+
+	if (nsections < 0) {
+		return 1;
+	}
+
+	if (nsections == 0) {
+		char *console_id = arg_console_id;
+
+		rc = console_server_add_console(server, server->config,
+						console_id);
+		return rc;
+	}
+
+	for (int i = 0; i < nsections; i++) {
+		const char *console_id = config_getsecname(server->config, i);
+
+		if (console_id == NULL) {
+			warnx("no console id provided\n");
+			return 1;
+		}
+
+		rc = console_server_add_console(server, server->config,
+						console_id);
+		if (rc != 0) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+static int console_server_with_args(char *config_filename, char *arg_console_id,
+				    char *arg_config_tty_kname)
+{
+	int rc = 0;
+	struct console_server server;
+
+	rc = console_server_init(&server, config_filename);
+	if (rc != 0) {
+		return 1;
+	}
+
+	rc = console_server_add_consoles(&server, arg_console_id);
+	if (rc != 0) {
+		goto out_server_fini;
+	}
+
+	if (!server.initial_active_console) {
+		server.initial_active_console = server.consoles[0];
+	}
+
+	server.active_console = server.initial_active_console;
+	server.initial_active_console = NULL;
+
+	rc = console_server_tty_init(&server, server.config,
+				     arg_config_tty_kname);
+
+	if (rc != 0) {
+		warnx("error during tty_init, exiting.\n");
+		goto out_server_fini;
+	}
+
+	uart_routing_init(server.config);
+
+	rc = run_server(&server);
+
+	console_server_tty_fini(&server);
+
+out_server_fini:
+	console_server_fini(&server);
+
+	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 int main(int argc, char **argv)
 {
-	const char *config_filename = NULL;
-	const char *config_tty_kname = NULL;
-	const char *console_id = NULL;
+	char *config_filename = NULL;
+	char *config_tty_kname = NULL;
+	char *console_id = NULL;
 	int rc = 0;
+
+	// We may not be the first function to parse arguments using
+	// getopt. So just initialize optind here before the call.
+	// There is no harm in this since it should already be 1 in non-testing case.
+	// https://man7.org/linux/man-pages/man3/getopt.3.html
+	optind = 1;
 
 	for (;;) {
 		int c;
@@ -1105,7 +1264,7 @@ int main(int argc, char **argv)
 
 		switch (c) {
 		case 'c':
-			config_filename = optarg;
+			config_filename = strdup(optarg);
 			break;
 		case 'i':
 			console_id = optarg;
@@ -1114,6 +1273,9 @@ int main(int argc, char **argv)
 		case '?':
 			usage(argv[0]);
 			return EXIT_SUCCESS;
+		default:
+			usage(argv[0]);
+			return 1;
 		}
 	}
 
@@ -1132,5 +1294,7 @@ int main(int argc, char **argv)
 				      config_tty_kname);
 
 out:
-	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
+	free(config_filename);
+
+	return rc == 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
