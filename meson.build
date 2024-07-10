@@ -89,4 +89,6 @@ executable('obmc-console-client',
            ],
            install: true)
 
-subdir('test')
+if get_option('tests')
+  subdir('test')
+endif
