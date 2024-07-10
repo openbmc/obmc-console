@@ -52,6 +52,7 @@ struct handler_type {
 				struct console *console, struct config *config);
 	void (*fini)(struct handler *handler);
 	int (*baudrate)(struct handler *handler, speed_t baudrate);
+	void (*deselect)(struct handler *handler);
 };
 
 struct handler {
@@ -136,6 +137,9 @@ struct console_server {
 	size_t dbus_pollfd_index;
 
 	struct sd_bus *bus;
+
+	// may be NULL in case there is no mux
+	struct console_mux *mux;
 };
 
 struct console {
@@ -156,6 +160,9 @@ struct console {
 
 	struct poller **pollers;
 	long n_pollers;
+
+	// values to configure the mux
+	unsigned long mux_index;
 };
 
 /* poller API */

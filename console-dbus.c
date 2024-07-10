@@ -20,8 +20,9 @@
 #include <string.h>
 #include <sys/socket.h>
 
-#include "console-server.h"
 #include "config.h"
+#include "console-mux.h"
+#include "console-server.h"
 
 /* size of the dbus object path length */
 const size_t dbus_obj_path_len = 1024;
@@ -126,6 +127,8 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 		sd_bus_error_set_const(err, DBUS_ERR, "Internal error");
 		return sd_bus_reply_method_error(msg, err);
 	}
+
+	console_mux_activate(console);
 
 	/* Register the consumer. */
 	socket_fd = dbus_create_socket_consumer(console);

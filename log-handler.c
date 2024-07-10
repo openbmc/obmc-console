@@ -180,7 +180,13 @@ static struct handler *log_init(const struct handler_type *type
 	}
 	lh->maxsize = logsize <= lh->pagesize ? lh->pagesize + 1 : logsize;
 
-	filename = config_get_value(config, "logfile");
+	filename = config_get_section_value(config, console->console_id,
+					    "logfile");
+
+	if (!filename && console->server->n_consoles == 1) {
+		filename = config_get_value(config, "logfile");
+	}
+
 	if (!filename) {
 		filename = default_filename;
 	}

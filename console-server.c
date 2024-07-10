@@ -38,6 +38,8 @@
 #include <sys/socket.h>
 #include <poll.h>
 
+#include "console-mux.h"
+
 #include "console-server.h"
 #include "config.h"
 
@@ -1070,6 +1072,12 @@ static struct console *console_init(struct console_server *server,
 		goto cleanup_console;
 	}
 
+	rc = console_mux_init(console, config);
+	if (rc) {
+		warn("could not set mux gpios from config, exiting.");
+		goto cleanup_rb;
+	}
+
 	if (set_socket_info(console, config, console_id)) {
 		warnx("set_socket_info failed");
 		goto cleanup_rb;
@@ -1205,6 +1213,11 @@ int console_server_init(struct console_server *server,
 		return -1;
 	}
 
+	rc = console_server_mux_init(server);
+	if (rc != 0) {
+		return -1;
+	}
+
 	uart_routing_init(server->config);
 
 	rc = tty_init(server, server->config, config_tty_kname);
@@ -1219,8 +1232,16 @@ int console_server_init(struct console_server *server,
 		return -1;
 	}
 
-	server->active = console_server_add_consoles(server, console_id);
-	if (server->active == NULL) {
+	struct console *initial_active =
+		console_server_add_consoles(server, console_id);
+	if (initial_active == NULL) {
+		// cleanup for dbus_server_init
+		sd_bus_unref(server->bus);
+		return -1;
+	}
+
+	rc = console_mux_activate(initial_active);
+	if (rc != 0) {
 		// cleanup for dbus_server_init
 		sd_bus_unref(server->bus);
 		return -1;
@@ -1238,6 +1259,7 @@ void console_server_fini(struct console_server *server)
 	free(server->consoles);
 	free(server->pollfds);
 	tty_fini(server);
+	console_server_mux_fini(server);
 	config_fini(server->config);
 
 	sd_bus_unref(server->bus);
