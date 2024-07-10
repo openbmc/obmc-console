@@ -124,7 +124,16 @@ struct console_server {
 	// index into pollfds
 	size_t tty_pollfd_index;
 
+	struct config *config;
+
+	// first console to activate
+	struct console *initial_active_console;
+
+	// the currently active console
 	struct console *active_console;
+
+	struct console **consoles;
+	size_t n_consoles;
 };
 
 struct console {
