@@ -30,6 +30,7 @@
 #include <sys/un.h>
 #include <systemd/sd-daemon.h>
 
+#include "console-mux.h"
 #include "console-server.h"
 
 #define SOCKET_HANDLER_PKT_SIZE 512
@@ -321,6 +322,8 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 		return POLLER_OK;
 	}
 
+	console_mux_activate(sh->console);
+
 	client = malloc(sizeof(*client));
 	memset(client, 0, sizeof(*client));
 
@@ -496,6 +499,17 @@ err_free:
 	return NULL;
 }
 
+static void socket_deselect(struct handler *handler)
+{
+	struct socket_handler *sh = to_socket_handler(handler);
+
+	while (sh->n_clients) {
+		struct client *c = sh->clients[0];
+		client_drain_queue(c, 0);
+		client_close(c);
+	}
+}
+
 static void socket_fini(struct handler *handler)
 {
 	struct socket_handler *sh = to_socket_handler(handler);
@@ -515,6 +529,7 @@ static void socket_fini(struct handler *handler)
 static const struct handler_type socket_handler = {
 	.name = "socket",
 	.init = socket_init,
+	.deselect = socket_deselect,
 	.fini = socket_fini,
 };
 
