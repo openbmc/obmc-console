@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c1b585_96690ab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-07-10T02:25:12Z",
+      "side": 1,
+      "message": "Looks good, but does formalise that we will always need a config file (as opposed to that just being broken at the moment).\n\nIs that intentional?",
+      "revId": "28a1761ac718dcaa7a21ff91cfc3c8806650c766",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb06dbb7_0e60d270",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-07-10T02:25:12Z",
+      "side": 1,
+      "message": "This will no longer allow running without a config file, is that an issue?",
+      "revId": "28a1761ac718dcaa7a21ff91cfc3c8806650c766",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
