@@ -41,10 +41,14 @@ static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 const char *config_get_value(struct config *config, const char *name)
 {
-	int rc;
 	char buf[CONFIG_MAX_KEY_LENGTH];
-	rc = snprintf(buf, CONFIG_MAX_KEY_LENGTH, ":%s", name);
+	int rc;
 
+	if (!config->dict) {
+		return NULL;
+	}
+
+	rc = snprintf(buf, CONFIG_MAX_KEY_LENGTH, ":%s", name);
 	if (rc < 0) {
 		return NULL;
 	}
@@ -54,7 +58,6 @@ const char *config_get_value(struct config *config, const char *name)
 	}
 
 	const char *value = iniparser_getstring(config->dict, buf, NULL);
-
 	if (value && strlen(value) == 0) {
 		return NULL;
 	}
@@ -70,15 +73,12 @@ struct config *config_init(const char *filename)
 		filename = config_default_filename;
 	}
 
-	dictionary *dict = iniparser_load(filename);
-	if (dict == NULL) {
+	config = malloc(sizeof(*config));
+	if (!config) {
 		return NULL;
 	}
 
-	config = malloc(sizeof(*config));
-	if (config) {
-		config->dict = dict;
-	}
+	config->dict = iniparser_load(filename);
 
 	return config;
 }
