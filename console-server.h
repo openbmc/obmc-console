@@ -98,6 +98,15 @@ enum tty_device {
 	TTY_DEVICE_PTY,
 };
 
+struct console_server_args {
+	// may be NULL when using config-file
+	char *console_id;
+
+	char *config_tty_kname;
+
+	char *config_filename;
+};
+
 struct console_server {
 	struct {
 		const char *kname;
@@ -281,3 +290,7 @@ ssize_t console_server_request_pollfd(struct console_server *server, int fd,
 
 int console_server_release_pollfd(struct console_server *server,
 				  size_t pollfd_index);
+
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args);
+void console_server_args_fini(struct console_server_args *args);
