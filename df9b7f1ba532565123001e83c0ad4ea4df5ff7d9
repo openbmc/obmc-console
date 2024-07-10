@@ -55,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c1c7285a_2f271c93",
+        "filename": "console-dbus.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Yeah, sorry, had to rush off before I could leave a reply here about the series of fixes.",
+      "parentUuid": "5d7b6e64_bd6af5c7",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0183f668_bff3e671",
         "filename": "console-mux.c",
         "patchSetId": 48
@@ -1007,6 +1025,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2aac4500_c6487b57",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "\u003e But agree that it does not belong in the same patch as adding uart mux support.\n\nOkay, glad we have consensus there. Can you please separate it out to a patch that follows this one?",
+      "parentUuid": "2502542a_d7614358",
+      "range": {
+        "startLine": 1199,
+        "startChar": 1,
+        "endLine": 1206,
+        "endChar": 1
+      },
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb996497_8de36f57",
         "filename": "console-server.c",
         "patchSetId": 48
@@ -1036,6 +1078,24 @@
       "side": 1,
       "message": "i can put that here, but it will not change anything, just look weird.",
       "parentUuid": "cb996497_8de36f57",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7446d442_51b964ca",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "\u003e but it will not change anything\n\nPutting it there allows you to consistently `return -1;` from all your new functions, just like the existing ones, while still consistently providing a `0` or `1` exit code from the `obmc-console-server` process. I was asking that you make sure your new functions consistently `return -1` as well.\n\nA quick grep should demonstrate:\n\n```\n$ git grep -E \u0027return .?1;\u0027\n```",
+      "parentUuid": "323d730f_5fe35d3a",
       "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

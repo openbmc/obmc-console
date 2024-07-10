@@ -1,0 +1,330 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f51c5e_c1327c28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Hello; this is good progress again. The diff size has come down quite a bit, which I appreciate. A few more comments inline, mainly on eliminating some of the loops in `console-mux.c` and the behaviour around `n_mux_gpios`.",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb1a6661_944ffca0",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Bikeshedding names, but I feel `count` might be more intuitive?",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 23
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d7830ed_8dc4c9d2",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Why allow a negative value at all? We could make the type `unsigned`? If someone wants `server-\u003emux-\u003en_mux_gpios`, they can use that expression right? Is there some circumstance where we can\u0027t write that expression when we need it?",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5d771a_f136d754",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "I\u0027d rather we check that the value isn\u0027t _more_ than `server-\u003emux-\u003en_mux_gpios` 😊",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44a998f9_6959a268",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Shall we use `CHAR_BIT` also? 😄",
+      "range": {
+        "startLine": 170,
+        "startChar": 70,
+        "endLine": 170,
+        "endChar": 71
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f7cdf28_da4e2b4c",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Can we integrate this into `console_mux_request_gpio_lines()` / `console_mux_release_gpio_lines()`? Or can you unpack the motivation for it being separate?",
+      "range": {
+        "startLine": 195,
+        "startChar": 1,
+        "endLine": 207,
+        "endChar": 2
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6782e8e4_7fd03d43",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Please use `0` here so the user can choose the representation in the configuration file with the usual base prefixes.\n\nAlso can we use `strtoul()`? There\u0027s no reason for the mux index to be negative as far as I can determine.",
+      "range": {
+        "startLine": 231,
+        "startChar": 54,
+        "endLine": 231,
+        "endChar": 56
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69944d8e_6f72f69e",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "This the loop isn\u0027t necessary; we just need `console-\u003emux_index \u003d gpio_value_int;` But given that, you might as well do away with `gpio_value_int` and assign the result of `strtoul()` straight into `console-\u003emux_index`.",
+      "range": {
+        "startLine": 237,
+        "startChar": 1,
+        "endLine": 241,
+        "endChar": 1
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b440b8_741c4bf6",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "`server-\u003emux-\u003en_mux_gpios` please.",
+      "range": {
+        "startLine": 255,
+        "startChar": 40,
+        "endLine": 255,
+        "endChar": 42
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76a2a4d2_14d485ae",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Can we integrate this into `console_mux_release_gpio_lines()`?",
+      "range": {
+        "startLine": 258,
+        "startChar": 2,
+        "endLine": 259,
+        "endChar": 39
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5091c8b5_17377261",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Also this?",
+      "range": {
+        "startLine": 263,
+        "startChar": 1,
+        "endLine": 264,
+        "endChar": 32
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79371572_900edbd0",
+        "filename": "console-mux.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "I do prefer that we _don\u0027t_ assign a pointer to `active_console` if it\u0027s not active, and allow it to be `NULL` (see the discussion on PS48). Can you please rework this?",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79c3d614_e2b4a02f",
+        "filename": "console-server.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Integer variables with static storage duration are defined to be initialised to zero by default, so this change is not strictly necessary (and is unrelated regardless).",
+      "range": {
+        "startLine": 54,
+        "startChar": 35,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0751d0_552631bc",
+        "filename": "console-server.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "This should rather use the `default` console ID behaviour, otherwise I expect the obmc-console config for some platforms will break? Can you look into that?",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb62773_21eeccb5",
+        "filename": "console-server.h",
+        "patchSetId": 51
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "Is there a reason for `uint32_t` here? Can we use `unsigned long` instead? `unsigned long` would jive well with assigning a result from `strtoul()`.",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "432d7513_928bd08f",
+        "filename": "socket-handler.c",
+        "patchSetId": 51
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T06:00:18Z",
+      "side": 1,
+      "message": "This hunk can be dropped; see line 107.",
+      "revId": "1f579cd4d20880c1c18475052573fa23c2daa6ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
