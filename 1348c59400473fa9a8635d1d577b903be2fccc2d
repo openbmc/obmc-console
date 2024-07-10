@@ -33,6 +33,24 @@
       "message": "Bit of a nit, but `sig_atomic_t` is defined as an integer type, and integer types with static storage duration are defined to be initialised to zero by default, so the assignment of `false` isn\u0027t strictly necessary. Also, given it\u0027s not explicitly a `bool` (any more than any integer in C can look like a bool) I\u0027d mildly prefer we avoid using `true`/`false` as well.",
       "revId": "1348c59400473fa9a8635d1d577b903be2fccc2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0680121_fd5f28f0",
+        "filename": "console-client.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-10T10:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "808208bd_7a898690",
+      "revId": "1348c59400473fa9a8635d1d577b903be2fccc2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
