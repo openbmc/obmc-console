@@ -1169,7 +1169,7 @@ static int console_server_add_console(struct console_server *server,
 // returns NULL on error
 static struct console *
 console_server_add_consoles(struct console_server *server,
-			    const char *arg_console_id)
+			    struct console_server_args *args)
 {
 	int rc;
 
@@ -1179,7 +1179,7 @@ console_server_add_consoles(struct console_server *server,
 	}
 
 	if (nsections == 0) {
-		const char *console_id = arg_console_id;
+		const char *console_id = args->console_id;
 
 		rc = console_server_add_console(server, server->config,
 						console_id);
@@ -1228,15 +1228,14 @@ console_server_add_consoles(struct console_server *server,
 }
 
 int console_server_init(struct console_server *server,
-			const char *config_filename,
-			const char *config_tty_kname, const char *console_id)
+			struct console_server_args *args)
 {
 	int rc;
 	memset(server, 0, sizeof(struct console_server));
 
 	server->tty_pollfd_index = -1;
 
-	server->config = config_init(config_filename);
+	server->config = config_init(args->config_filename);
 	if (server->config == NULL) {
 		return -1;
 	}
@@ -1248,7 +1247,7 @@ int console_server_init(struct console_server *server,
 
 	uart_routing_init(server->config);
 
-	rc = tty_init(server, server->config, config_tty_kname);
+	rc = tty_init(server, server->config, args->config_tty_kname);
 	if (rc != 0) {
 		warnx("error during tty_init, exiting.\n");
 		return -1;
@@ -1261,7 +1260,7 @@ int console_server_init(struct console_server *server,
 	}
 
 	struct console *initial_active =
-		console_server_add_consoles(server, console_id);
+		console_server_add_consoles(server, args);
 	if (initial_active == NULL) {
 		// cleanup for dbus_server_init
 		sd_bus_unref(server->bus);
@@ -1293,13 +1292,18 @@ void console_server_fini(struct console_server *server)
 	sd_bus_unref(server->bus);
 }
 
-int main(int argc, char **argv)
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args)
 {
-	const char *config_filename = NULL;
-	const char *config_tty_kname = NULL;
-	const char *console_id = NULL;
-	struct console_server server = { 0 };
-	int rc = 0;
+	args->console_id = NULL;
+	args->config_tty_kname = NULL;
+	args->config_filename = NULL;
+
+	// We may not be the first function to parse arguments using
+	// getopt. So just initialize optind here before the call.
+	// There is no harm in this since it should already be 1 in non-testing case.
+	// https://man7.org/linux/man-pages/man3/getopt.3.html
+	optind = 1;
 
 	for (;;) {
 		int c;
@@ -1312,10 +1316,10 @@ int main(int argc, char **argv)
 
 		switch (c) {
 		case 'c':
-			config_filename = optarg;
+			args->config_filename = strdup(optarg);
 			break;
 		case 'i':
-			console_id = optarg;
+			args->console_id = strdup(optarg);
 			break;
 		case 'h':
 		case '?':
@@ -1325,19 +1329,52 @@ int main(int argc, char **argv)
 	}
 
 	if (optind < argc) {
-		config_tty_kname = argv[optind];
+		args->config_tty_kname = argv[optind];
 	} else {
-		errx(EXIT_FAILURE, "no tty device path has been provided\n");
+		warnx("no tty device path has been provided\n");
+		return 1;
 	}
 
-	rc = console_server_init(&server, config_filename, config_tty_kname,
-				 console_id);
+	return 0;
+}
+
+void console_server_args_fini(struct console_server_args *args)
+{
+	free(args->config_filename);
+	free(args->console_id);
+}
+
+static int console_server_with_args(struct console_server_args *args)
+{
+	int rc;
+	struct console_server server = { 0 };
+	rc = console_server_init(&server, args);
+	if (rc != 0) {
+		return 1;
+	}
 
 	if (rc == 0) {
 		rc = run_server(&server);
 	}
 
 	console_server_fini(&server);
+
+	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
+int main(int argc, char **argv)
+{
+	struct console_server_args args;
+	int rc;
+
+	rc = console_server_args_init(argc, argv, &args);
+	if (rc != 0) {
+		return rc;
+	}
+
+	rc = console_server_with_args(&args);
+
+	console_server_args_fini(&args);
 
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
