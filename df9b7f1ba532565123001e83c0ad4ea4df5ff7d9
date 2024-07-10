@@ -719,6 +719,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f803240_a04a7a69",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-10T14:56:44Z",
+      "side": 1,
+      "message": "Let\u0027s re-open on another change if this issue still exists somewhere. Since the original diff is gone.",
+      "parentUuid": "6e274229_01f36822",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32479fa6_f3c5a8d3",
@@ -1120,6 +1138,24 @@
       "side": 1,
       "message": "\u003e but it will not change anything\n\nPutting it there allows you to consistently `return -1;` from all your new functions, just like the existing ones, while still consistently providing a `0` or `1` exit code from the `obmc-console-server` process. I was asking that you make sure your new functions consistently `return -1` as well.\n\nA quick grep should demonstrate:\n\n```\n$ git grep -E \u0027return .?1;\u0027\n```",
       "parentUuid": "323d730f_5fe35d3a",
+      "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248caac5_8647d47e",
+        "filename": "console-server.c",
+        "patchSetId": 48
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-10T14:56:44Z",
+      "side": 1,
+      "message": "Let\u0027s re-open on another change if this issue still exists somewhere. Since the original diff is gone.",
+      "parentUuid": "7446d442_51b964ca",
       "revId": "df9b7f1ba532565123001e83c0ad4ea4df5ff7d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
