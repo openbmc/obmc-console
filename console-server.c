@@ -535,14 +535,14 @@ static int set_socket_info(struct console *console, struct config *config,
 static void handlers_init(struct console *console, struct config *config)
 {
 	/* NOLINTBEGIN(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
-	extern const struct handler_type *const __start_handlers;
-	extern const struct handler_type *const __stop_handlers;
+	extern const struct handler_type *const __start_handlers[];
+	extern const struct handler_type *const __stop_handlers[];
 	/* NOLINTEND(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp) */
 	size_t n_types;
 	int j = 0;
 	size_t i;
 
-	n_types = &__stop_handlers - &__start_handlers;
+	n_types = __stop_handlers - __start_handlers;
 	console->handlers = calloc(n_types, sizeof(struct handler *));
 	if (!console->handlers) {
 		err(EXIT_FAILURE, "malloc(handlers)");
@@ -551,7 +551,7 @@ static void handlers_init(struct console *console, struct config *config)
 	printf("%zu handler type%s\n", n_types, n_types == 1 ? "" : "s");
 
 	for (i = 0; i < n_types; i++) {
-		const struct handler_type *type = &__start_handlers[i];
+		const struct handler_type *type = __start_handlers[i];
 		struct handler *handler;
 
 		/* Should be picked up at build time by
@@ -559,8 +559,8 @@ static void handlers_init(struct console *console, struct config *config)
 		 */
 		if (!type->init || !type->fini) {
 			errx(EXIT_FAILURE,
-			     "invalid handler type %s: no init() / fini()",
-			     type->name);
+			     "invalid handler type at index %zu (%s): no init() / fini()",
+			     i, type->name ? type->name : "");
 		}
 
 		handler = type->init(type, console, config);
