@@ -38,6 +38,8 @@
 #include <sys/socket.h>
 #include <poll.h>
 
+#include "console-mux.h"
+
 #include "console-server.h"
 #include "config.h"
 
@@ -1072,6 +1074,12 @@ static struct console *console_init(struct console_server *server,
 		goto cleanup_console;
 	}
 
+	rc = console_mux_init(console, config);
+	if (rc) {
+		warn("could not set mux gpios from config, exiting.");
+		goto cleanup_rb;
+	}
+
 	if (set_socket_info(console, config, console_id)) {
 		warnx("set_socket_info failed");
 		goto cleanup_rb;
@@ -1211,6 +1219,12 @@ int console_server_init(struct console_server *server,
 		return -1;
 	}
 
+	rc = console_server_mux_init(server);
+
+	if (rc != 0) {
+		goto out_config_fini;
+	}
+
 	uart_routing_init(server->config);
 
 	rc = tty_init(server, server->config, config_tty_kname);
@@ -1220,12 +1234,22 @@ int console_server_init(struct console_server *server,
 		goto out_config_fini;
 	}
 
-	server->active = console_server_add_consoles(server, console_id);
-	if (server->active == NULL) {
+	struct console *initial_active =
+		console_server_add_consoles(server, console_id);
+	if (initial_active == NULL) {
 		goto out_consoles_fini;
 	}
 
+	rc = console_mux_activate(initial_active);
+
+	if (rc != 0) {
+		goto out_mux_fini;
+	}
+
 	return 0;
+
+out_mux_fini:
+	console_server_mux_fini(server);
 
 out_consoles_fini:
 	for (size_t i = 0; i < server->n_consoles; i++) {
@@ -1244,6 +1268,8 @@ out_config_fini:
 
 void console_server_fini(struct console_server *server)
 {
+	console_server_mux_fini(server);
+
 	for (size_t i = 0; i < server->n_consoles; i++) {
 		console_server_console_fini(server->consoles[i]);
 	}
