@@ -65,21 +65,12 @@ const char *config_get_value(struct config *config, const char *name)
 struct config *config_init(const char *filename)
 {
 	struct config *config;
-	int fd;
 
 	if (!filename) {
 		filename = config_default_filename;
 	}
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0) {
-		warn("Can't open configuration file %s", filename);
-		return NULL;
-	}
-	close(fd);
-
 	dictionary *dict = iniparser_load(filename);
-
 	if (dict == NULL) {
 		return NULL;
 	}
