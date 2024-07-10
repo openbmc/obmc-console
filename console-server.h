@@ -124,7 +124,18 @@ struct console_server {
 	// index into pollfds
 	size_t tty_pollfd_index;
 
+	struct config *config;
+
+	// the currently active console
 	struct console *active;
+
+	struct console **consoles;
+	size_t n_consoles;
+
+	// index into (struct console_server)->pollfds
+	size_t dbus_pollfd_index;
+
+	struct sd_bus *bus;
 };
 
 struct console {
@@ -145,11 +156,6 @@ struct console {
 
 	struct poller **pollers;
 	long n_pollers;
-
-	// index into (struct console_server)->pollfds
-	size_t dbus_pollfd_index;
-
-	struct sd_bus *bus;
 };
 
 /* poller API */
@@ -239,6 +245,10 @@ ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
+
+/* console_server dbus */
+int dbus_server_init(struct console_server *server);
+void dbus_server_fini(struct console_server *server);
 
 /* console-dbus API */
 int dbus_init(struct console *console,

@@ -161,23 +161,55 @@ static const sd_bus_vtable console_access_vtable[] = {
 	SD_BUS_VTABLE_END,
 };
 
+int dbus_server_init(struct console_server *server)
+{
+	int r;
+	int fd;
+	r = sd_bus_default(&server->bus);
+	if (r < 0) {
+		warnx("Failed to connect to bus: %s", strerror(-r));
+		return -1;
+	}
+
+	fd = sd_bus_get_fd(server->bus);
+	if (fd < 0) {
+		warnx("Couldn't get the bus file descriptor");
+		sd_bus_unref(server->bus);
+		return -1;
+	}
+
+	const ssize_t index = console_server_request_pollfd(server, fd, POLLIN);
+	if (index < 0) {
+		warnx("Error: failed to allocate pollfd");
+		sd_bus_unref(server->bus);
+		return -1;
+	}
+
+	server->dbus_pollfd_index = index;
+	return 0;
+}
+
+void dbus_server_fini(struct console_server *server)
+{
+	if (server->dbus_pollfd_index < server->capacity_pollfds) {
+		console_server_release_pollfd(server,
+					      server->dbus_pollfd_index);
+		server->dbus_pollfd_index = SIZE_MAX;
+	}
+
+	sd_bus_unref(server->bus);
+}
+
 int dbus_init(struct console *console,
 	      struct config *config __attribute__((unused)))
 {
 	char obj_name[dbus_obj_path_len];
 	char dbus_name[dbus_obj_path_len];
-	int fd;
 	int r;
 	size_t bytes;
 
 	if (!console) {
 		warnx("Couldn't get valid console");
-		return -1;
-	}
-
-	r = sd_bus_default(&console->bus);
-	if (r < 0) {
-		warnx("Failed to connect to bus: %s", strerror(-r));
 		return -1;
 	}
 
@@ -192,9 +224,9 @@ int dbus_init(struct console *console,
 
 	if (console->server->tty.type == TTY_DEVICE_UART) {
 		/* Register UART interface */
-		r = sd_bus_add_object_vtable(console->bus, NULL, obj_name,
-					     UART_INTF, console_uart_vtable,
-					     console);
+		r = sd_bus_add_object_vtable(console->server->bus, NULL,
+					     obj_name, UART_INTF,
+					     console_uart_vtable, console);
 		if (r < 0) {
 			warnx("Failed to register UART interface: %s",
 			      strerror(-r));
@@ -203,8 +235,9 @@ int dbus_init(struct console *console,
 	}
 
 	/* Register access interface */
-	r = sd_bus_add_object_vtable(console->bus, NULL, obj_name, ACCESS_INTF,
-				     console_access_vtable, console);
+	r = sd_bus_add_object_vtable(console->server->bus, NULL, obj_name,
+				     ACCESS_INTF, console_access_vtable,
+				     console);
 	if (r < 0) {
 		warnx("Failed to issue method call: %s", strerror(-r));
 		return -1;
@@ -219,7 +252,7 @@ int dbus_init(struct console *console,
 	}
 
 	/* Finally register the bus name */
-	r = sd_bus_request_name(console->bus, dbus_name,
+	r = sd_bus_request_name(console->server->bus, dbus_name,
 				SD_BUS_NAME_ALLOW_REPLACEMENT |
 					SD_BUS_NAME_REPLACE_EXISTING);
 	if (r < 0) {
@@ -227,19 +260,5 @@ int dbus_init(struct console *console,
 		return -1;
 	}
 
-	fd = sd_bus_get_fd(console->bus);
-	if (fd < 0) {
-		warnx("Couldn't get the bus file descriptor");
-		return -1;
-	}
-
-	const ssize_t index =
-		console_server_request_pollfd(console->server, fd, POLLIN);
-	if (index < 0) {
-		fprintf(stderr, "Error: failed to allocate pollfd\n");
-		return -1;
-	}
-
-	console->dbus_pollfd_index = index;
 	return 0;
 }
