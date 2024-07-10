@@ -1,0 +1,14 @@
+[wrap-file]
+directory = libgpiod-1.6.5
+source_url = https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.5.tar.gz
+source_filename = libgpiod-1.6.5.tar.gz
+source_hash = 1473d3035b506065393a4569763cf6b5c98e59c8f865326374ebadffa2578f3a
+patch_filename = libgpiod_1.6.5-1_patch.zip
+patch_url = https://wrapdb.mesonbuild.com/v2/libgpiod_1.6.5-1/get_patch
+patch_hash = a8ee005ecaeaf9d4382d196a1b82e808e72b750f6b8cf61b84f7ccee134b8d4f
+source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/libgpiod_1.6.5-1/libgpiod-1.6.5.tar.gz
+wrapdb_version = 1.6.5-1
+
+[provide]
+libgpiod = gpiod_dep
+libgpiodcxx = gpiodcxx_dep
