@@ -977,11 +977,20 @@ int main(int argc, char **argv)
 	}
 
 	config = config_init(config_filename);
+	if (!config) {
+		return EXIT_FAILURE;
+	}
 
 	console = malloc(sizeof(struct console));
+	if (!console) {
+		rc = -1;
+		goto out_config_fini;
+	}
+
 	memset(console, 0, sizeof(*console));
 	console->pollfds =
 		calloc(MAX_INTERNAL_POLLFD, sizeof(*console->pollfds));
+
 	buffer_size_str = config_get_value(config, "ringbuffer-size");
 	if (buffer_size_str) {
 		rc = config_parse_bytesize(buffer_size_str, &buffer_size);
@@ -993,7 +1002,7 @@ int main(int argc, char **argv)
 	console->rb = ringbuffer_init(buffer_size);
 	if (!console->rb) {
 		rc = -1;
-		goto out_config_fini;
+		goto out_console_fini;
 	}
 
 	if (set_socket_info(console, config, console_id)) {
@@ -1025,12 +1034,13 @@ out_tty_fini:
 out_ringbuffer_fini:
 	ringbuffer_fini(console->rb);
 
-out_config_fini:
-	config_fini(config);
-
+out_console_fini:
 	free(console->pollers);
 	free(console->pollfds);
 	free(console);
+
+out_config_fini:
+	config_fini(config);
 
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
