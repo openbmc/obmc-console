@@ -1164,13 +1164,13 @@ static void console_server_console_fini(struct console *console)
 }
 
 int console_server_init(struct console_server *server,
-			const char *config_filename)
+			struct console_server_args *args)
 {
 	memset(server, 0, sizeof(struct console_server));
 
 	server->tty_pollfd_index = -1;
 
-	server->config = config_init(config_filename);
+	server->config = config_init(args->config_filename);
 	if (server->config == NULL) {
 		return 1;
 	}
@@ -1191,10 +1191,64 @@ void console_server_fini(struct console_server *server)
 	free(server->config);
 }
 
+void console_server_args_fini(struct console_server_args *args)
+{
+	free(args->config_filename);
+}
+
+int console_server_args_init(int argc, char **argv,
+			     struct console_server_args *args)
+{
+	args->console_id = NULL;
+	args->config_tty_kname = NULL;
+	args->config_filename = NULL;
+
+	// We may not be the first function to parse arguments using
+	// getopt. So just initialize optind here before the call.
+	// There is no harm in this since it should already be 1 in non-testing case.
+	// https://man7.org/linux/man-pages/man3/getopt.3.html
+	optind = 1;
+
+	for (;;) {
+		int c;
+		int idx;
+
+		c = getopt_long(argc, argv, "c:i:", options, &idx);
+		if (c == -1) {
+			break;
+		}
+
+		switch (c) {
+		case 'c':
+			args->config_filename = strdup(optarg);
+			break;
+		case 'i':
+			args->console_id = optarg;
+			break;
+		case 'h':
+		case '?':
+			usage(argv[0]);
+			return EXIT_SUCCESS;
+		default:
+			usage(argv[0]);
+			return 1;
+		}
+	}
+
+	if (optind < argc) {
+		args->config_tty_kname = argv[optind];
+	} else {
+		warnx("no tty device path has been provided\n");
+		return 1;
+	}
+
+	return 0;
+}
+
 // returns NULL on error
 static struct console *
 console_server_add_consoles(struct console_server *server,
-			    const char *arg_console_id)
+			    struct console_server_args *args)
 {
 	int rc;
 
@@ -1205,7 +1259,7 @@ console_server_add_consoles(struct console_server *server,
 	}
 
 	if (nsections == 0) {
-		const char *console_id = arg_console_id;
+		const char *console_id = args->console_id;
 
 		rc = console_server_add_console(server, server->config,
 						console_id);
@@ -1255,58 +1309,25 @@ console_server_add_consoles(struct console_server *server,
 	return NULL;
 }
 
-int main(int argc, char **argv)
+static int console_server_with_args(struct console_server_args *args)
 {
-	const char *config_filename = NULL;
-	const char *config_tty_kname = NULL;
-	const char *console_id = NULL;
-	struct console_server server = { 0 };
 	int rc = 0;
+	struct console_server server = { 0 };
 
-	for (;;) {
-		int c;
-		int idx;
-
-		c = getopt_long(argc, argv, "c:i:", options, &idx);
-		if (c == -1) {
-			break;
-		}
-
-		switch (c) {
-		case 'c':
-			config_filename = optarg;
-			break;
-		case 'i':
-			console_id = optarg;
-			break;
-		case 'h':
-		case '?':
-			usage(argv[0]);
-			return EXIT_SUCCESS;
-		}
-	}
-
-	if (optind < argc) {
-		config_tty_kname = argv[optind];
-	} else {
-		errx(EXIT_FAILURE, "no tty device path has been provided\n");
-	}
-
-	rc = console_server_init(&server, config_filename);
+	rc = console_server_init(&server, args);
 	if (rc != 0) {
-		return EXIT_FAILURE;
+		return 1;
 	}
 
 	struct console *initial_active;
-	initial_active = console_server_add_consoles(&server, console_id);
+	initial_active = console_server_add_consoles(&server, args);
 	if (initial_active == NULL) {
 		goto out_server_fini;
 	}
 
 	console_mux_activate(initial_active);
 
-	rc = tty_init(&server, server.config, config_tty_kname);
-
+	rc = tty_init(&server, server.config, args->config_tty_kname);
 	if (rc != 0) {
 		warnx("error during tty_init, exiting.\n");
 		goto out_server_fini;
@@ -1320,6 +1341,24 @@ int main(int argc, char **argv)
 
 out_server_fini:
 	console_server_fini(&server);
+
+	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
+int main(int argc, char **argv)
+{
+	struct console_server_args args;
+	int rc;
+
+	rc = console_server_args_init(argc, argv, &args);
+
+	if (rc != 0) {
+		return rc;
+	}
+
+	rc = console_server_with_args(&args);
+
+	console_server_args_fini(&args);
 
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
