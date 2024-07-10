@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210b2f6b_e2aee63b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T04:50:59Z",
+      "side": 1,
+      "message": "Hmm, does it help that we can already type `~.` (SSH-style escape) to disconnect? Is there benefit to adding another way that only works if you\u0027re running the process locally?",
+      "revId": "1348c59400473fa9a8635d1d577b903be2fccc2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "808208bd_7a898690",
+        "filename": "console-client.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T04:50:59Z",
+      "side": 1,
+      "message": "Bit of a nit, but `sig_atomic_t` is defined as an integer type, and integer types with static storage duration are defined to be initialised to zero by default, so the assignment of `false` isn\u0027t strictly necessary. Also, given it\u0027s not explicitly a `bool` (any more than any integer in C can look like a bool) I\u0027d mildly prefer we avoid using `true`/`false` as well.",
+      "revId": "1348c59400473fa9a8635d1d577b903be2fccc2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
