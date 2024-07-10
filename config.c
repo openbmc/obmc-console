@@ -34,8 +34,7 @@
 
 #include "config.h"
 #include "config-internal.h"
-
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+#include "util.h"
 
 static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
