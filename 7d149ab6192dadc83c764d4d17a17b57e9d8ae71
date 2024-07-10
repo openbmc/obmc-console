@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95783d85_5a8e499f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T04:38:01Z",
+      "side": 1,
+      "message": "I\u0027ve merged [console-server: Enable handler iteration with -fsanitize\u003daddress](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/72648) which should negate the need for this change. Let me know if that works for you.",
+      "revId": "7d149ab6192dadc83c764d4d17a17b57e9d8ae71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
