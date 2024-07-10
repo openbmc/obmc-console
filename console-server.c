@@ -1001,44 +1001,16 @@ static const struct option options[] = {
 	{ 0, 0, 0, 0 },
 };
 
-int main(int argc, char **argv)
+static int console_server_with_args(const char *config_filename,
+				    const char *arg_console_id,
+				    const char *arg_config_tty_kname)
 {
-	size_t buffer_size = default_buffer_size;
-	const char *config_filename = NULL;
-	const char *config_tty_kname = NULL;
-	const char *buffer_size_str = NULL;
-	const char *console_id = NULL;
+	int rc = 0;
 	struct console_server server;
 	struct console *console;
 	struct config *config;
-	int rc;
-
-	for (;;) {
-		int c;
-		int idx;
-
-		c = getopt_long(argc, argv, "c:i:", options, &idx);
-		if (c == -1) {
-			break;
-		}
-
-		switch (c) {
-		case 'c':
-			config_filename = optarg;
-			break;
-		case 'i':
-			console_id = optarg;
-			break;
-		case 'h':
-		case '?':
-			usage(argv[0]);
-			return EXIT_SUCCESS;
-		}
-	}
-
-	if (optind < argc) {
-		config_tty_kname = argv[optind];
-	}
+	size_t buffer_size = default_buffer_size;
+	const char *buffer_size_str = NULL;
 
 	config = config_init(config_filename);
 	if (!config) {
@@ -1075,14 +1047,14 @@ int main(int argc, char **argv)
 		goto out_console_fini;
 	}
 
-	if (set_socket_info(console, config, console_id)) {
+	if (set_socket_info(console, config, arg_console_id)) {
 		rc = -1;
 		goto out_ringbuffer_fini;
 	}
 
 	uart_routing_init(config);
 
-	rc = tty_init(&server, config, config_tty_kname);
+	rc = tty_init(&server, config, arg_config_tty_kname);
 	if (rc) {
 		goto out_ringbuffer_fini;
 	}
@@ -1112,5 +1084,53 @@ out_console_fini:
 out_config_fini:
 	config_fini(config);
 
+	return rc;
+}
+
+int main(int argc, char **argv)
+{
+	const char *config_filename = NULL;
+	const char *config_tty_kname = NULL;
+	const char *console_id = NULL;
+	int rc = 0;
+
+	for (;;) {
+		int c;
+		int idx;
+
+		c = getopt_long(argc, argv, "c:i:", options, &idx);
+		if (c == -1) {
+			break;
+		}
+
+		switch (c) {
+		case 'c':
+			config_filename = optarg;
+			break;
+		case 'i':
+			console_id = optarg;
+			break;
+		case 'h':
+		case '?':
+			usage(argv[0]);
+			return EXIT_SUCCESS;
+		}
+	}
+
+	if (optind < argc) {
+		config_tty_kname = argv[optind];
+	} else {
+		warnx("no tty device path has been provided\n");
+		rc = 1;
+	}
+
+	if (rc != 0) {
+		goto out;
+	}
+
+	rc = console_server_with_args(config_filename, console_id,
+				      config_tty_kname);
+
+out:
 	return rc == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
