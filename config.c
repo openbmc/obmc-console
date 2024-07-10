@@ -41,10 +41,14 @@ static const char *config_default_filename = SYSCONFDIR "/obmc-console.conf";
 
 const char *config_get_value(struct config *config, const char *name)
 {
-	int rc;
 	char buf[CONFIG_MAX_KEY_LENGTH];
-	rc = snprintf(buf, CONFIG_MAX_KEY_LENGTH, ":%s", name);
+	int rc;
 
+	if (!config->dict) {
+		return NULL;
+	}
+
+	rc = snprintf(buf, CONFIG_MAX_KEY_LENGTH, ":%s", name);
 	if (rc < 0) {
 		return NULL;
 	}
@@ -54,7 +58,6 @@ const char *config_get_value(struct config *config, const char *name)
 	}
 
 	const char *value = iniparser_getstring(config->dict, buf, NULL);
-
 	if (value && strlen(value) == 0) {
 		return NULL;
 	}
@@ -65,29 +68,44 @@ const char *config_get_value(struct config *config, const char *name)
 struct config *config_init(const char *filename)
 {
 	struct config *config;
-	int fd;
+	dictionary *dict;
 
 	if (!filename) {
 		filename = config_default_filename;
 	}
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0) {
-		warn("Can't open configuration file %s", filename);
-		return NULL;
-	}
-	close(fd);
+	if (access(filename, R_OK) == 0) {
+		dict = iniparser_load(filename);
+		if (!dict) {
+			/* Assume this is a parse failure */
+			return NULL;
+		}
+	} else {
+		/* If a config file was explicitly specified, then lack of access is always an error */
+		if (filename != config_default_filename) {
+			warn("Failed to open configuration file at '%s'",
+			     filename);
+			return NULL;
+		}
 
-	dictionary *dict = iniparser_load(filename);
+		/* For the default config path, any result other than not-present is an error */
+		if (errno != ENOENT && errno != ENOTDIR) {
+			warn("Failed to open configuration file at '%s'",
+			     filename);
+			return NULL;
+		}
 
-	if (dict == NULL) {
-		return NULL;
+		/* Config not present at default path, pretend its empty */
+		dict = NULL;
 	}
 
 	config = malloc(sizeof(*config));
-	if (config) {
-		config->dict = dict;
+	if (!config) {
+		iniparser_freedict(dict);
+		return NULL;
 	}
+
+	config->dict = dict;
 
 	return config;
 }
