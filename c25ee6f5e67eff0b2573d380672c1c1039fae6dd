@@ -16,6 +16,24 @@
       "message": "The indices make no sense for someone reading the logs, as it\u0027s just defined by link order. Is it worth including those here?",
       "revId": "c25ee6f5e67eff0b2573d380672c1c1039fae6dd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6662cd2e_142297b0",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-10T04:29:25Z",
+      "side": 1,
+      "message": "I\u0027ve dropped them for now, but it was helpful to confirm what was going on when the type name was printed as `(null)` in one circumstance while I was working this out.",
+      "parentUuid": "b170bf18_cadd010b",
+      "revId": "c25ee6f5e67eff0b2573d380672c1c1039fae6dd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
