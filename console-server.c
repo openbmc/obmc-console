@@ -38,6 +38,8 @@
 #include <sys/socket.h>
 #include <poll.h>
 
+#include "console-mux.h"
+
 #include "console-server.h"
 #include "config.h"
 
@@ -1068,6 +1070,14 @@ static struct console *console_init(struct console_server *server,
 	}
 	console->rb = ringbuffer_init(buffer_size);
 
+	rc = console_mux_init(console, config);
+	if (rc) {
+		warn("could not set mux gpios from config, exiting.");
+		ringbuffer_fini(console->rb);
+		free(console);
+		return NULL;
+	}
+
 	if (set_socket_info(console, config, console_id)) {
 		warnx("set_socket_info failed");
 		return NULL;
@@ -1134,11 +1144,14 @@ int console_server_init(struct console_server *server,
 	if (server->config == NULL) {
 		return 1;
 	}
-	return 0;
+
+	return console_server_mux_init(server);
 }
 
 void console_server_fini(struct console_server *server)
 {
+	console_server_mux_fini(server);
+
 	for (size_t i = 0; i < server->n_consoles; i++) {
 		console_server_console_fini(server->consoles[i]);
 	}
@@ -1254,10 +1267,13 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	server.active = console_server_add_consoles(&server, console_id);
-	if (server.active == NULL) {
+	struct console *initial_active;
+	initial_active = console_server_add_consoles(&server, console_id);
+	if (initial_active == NULL) {
 		goto out_server_fini;
 	}
+
+	console_mux_activate(initial_active);
 
 	rc = tty_init(&server, server.config, config_tty_kname);
 
