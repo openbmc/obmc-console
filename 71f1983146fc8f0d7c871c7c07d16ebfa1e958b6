@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ad2863_b2f0b945",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:33Z",
+      "side": 1,
+      "message": "Yes, good you catched it 👍. I can add a fallback to also check the value without the section. So it can be specified for one console or for all consoles.\n\nMaybe things like that can later be refactored into a more general\n```config_get_fallback_value(config, section, name)``` where we fall back to \n```config_get_value(config, name)``` in case the key is not available in the section.\n\nThat would make it easy to configure things globally but also on a per-console basis.",
+      "parentUuid": "68d15914_ddb57c7e",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "307845b2_7ef4feb0",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-07-11T01:55:16Z",
       "side": 1,
       "message": "I don\u0027t think this makes sense when we only have one console? Can we add this behaviour in the patch that adds the mux support?",
+      "range": {
+        "startLine": 1118,
+        "startChar": 1,
+        "endLine": 1122,
+        "endChar": 2
+      },
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ecf9e9_6c8c4549",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:33Z",
+      "side": 1,
+      "message": "This patch enables multiple consoles.\n\nWhich console is initially active does not have much to do with mux support.\n\nSo i believe it belongs in this patch. It does not break anything for the single console use-case.",
+      "parentUuid": "307845b2_7ef4feb0",
       "range": {
         "startLine": 1118,
         "startChar": 1,
@@ -116,6 +158,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbb384bf_8d1c711e",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fb1710d_82dcd87f",
+      "range": {
+        "startLine": 1219,
+        "startChar": 1,
+        "endLine": 1224,
+        "endChar": 38
+      },
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04382844_3dd4629f",
@@ -129,6 +195,24 @@
       "writtenOn": "2024-07-11T01:55:16Z",
       "side": 1,
       "message": "If we return the active console from `console_server_add_consoles()` then I think this is unnecessary?",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53a1a4d4_2cf3867c",
+        "filename": "console-server.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04382844_3dd4629f",
       "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
