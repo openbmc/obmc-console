@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2de88f5_759174a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "The existing implementation was plenty capable for 1 console.\n\nBut for example the dbus pollfd index was hardcoded.\n\nSo that would have needed to go anyways. Then only the ```POLLFD_HOSTTTY``` would have remained. \n\nThere is not much use in hardcoding that either, since it\u0027s location in the array does not matter. \n\nWhat remains is the requirement to allocate and free pollfds in a buffer \nfor use in the main loop.\n\nSo we can just write a simple allocator which fulfills all those requirements and provides a clean abstraction without any hardcoded indices.\n\nThe pollfd allocator could in theory also be refactored into it\u0027s own file and be unit-tested independently of the rest of the code.\n\nThe previous approach was tightly coupled to the hardcoded indices and it\u0027s use-case for a single console.\n\nI can extend the commit message to provide more background.",
+      "parentUuid": "4ef4814c_3ce5300b",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0bfbbef_639e8b8b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-11T04:34:46Z",
       "side": 1,
       "message": "Nit: Need to re-wrap the text here.",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201f1284_aff1ed60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0bfbbef_639e8b8b",
       "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9244ab_bdd5eaed",
+        "filename": "console-server.c",
+        "patchSetId": 19
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "Yes but then we have a variable in core data structures which has a type that\u0027s used halfway for error handling.\n\nEven when the error handling could have been done in code. If we keep it as ```size_t``` then it is clear that the index is valid and the checks only have to be done during initialization.\n\nOtherwise, some day someone might think \"oh hey this is signed, lets check before accessing the array\".",
+      "parentUuid": "19ded0e9_1d350fb1",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eab0eb6c_3e8b0518",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-07-11T04:34:46Z",
       "side": 1,
       "message": "Should this be `ssize_t` so it has a representation that\u0027s always invalid (`-1`)?",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a09f7e69_2a9a4a5c",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "In the one place where it is assigned, it is checked before that the index be ```\u003e\u003d 0```.\n\nThe program should exit with an error if the tty_pollfd_index cannot be assigned.\n\nIf we were to allow the ```-1``` we would have to do this for every pollfd index and would have to perform a check before every access to the array to avoid segmentation fault. \n\nThat would increase the error handling code. Currently we just check that the index is ```\u003e\u003d 0``` before assignment.\n\nAlso in would increase the amount of code needed to initialize the structs, since they cannot be 0-initialized anymore. \n\nSo every pollfd index should have a valid value before it is used.",
+      "parentUuid": "eab0eb6c_3e8b0518",
       "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +175,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b367e7_4ba18eca",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "same argument as above",
+      "parentUuid": "942c2b64_045d2897",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c00b818d_a181da6e",
@@ -116,6 +206,24 @@
       "writtenOn": "2024-07-11T04:34:46Z",
       "side": 1,
       "message": "`ssize_t`?",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f1d7f70_e8563358",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:58Z",
+      "side": 1,
+      "message": "same argument as above",
+      "parentUuid": "c00b818d_a181da6e",
       "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
