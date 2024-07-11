@@ -16,6 +16,24 @@
       "message": "As I\u0027ve squashed this into [introduce struct console_server_args](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/72664) we can abandon this one.",
       "revId": "fb2f80954eff4d91777ea70ee3a832a2ba7662d9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed2fc2f_5f09d7fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:46:00Z",
+      "side": 1,
+      "message": "(marking this as unresolved for the moment to signal it needs action)",
+      "parentUuid": "f8bef922_f31b4f77",
+      "revId": "fb2f80954eff4d91777ea70ee3a832a2ba7662d9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
