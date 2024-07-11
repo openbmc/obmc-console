@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1970134f_0d880e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:37Z",
+      "side": 1,
+      "message": "ok i changed the commit message to something similar, as your suggestion is longer than 50 chars.",
+      "parentUuid": "7e5b99cd_3fc8dd1c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "66315432fc89aea13d6eb1f615968d49d637fa3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bb0d8945_87a60c75",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5e4f71_79af8be0",
+        "filename": "console-server.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "715772dd_1d6f4dc7",
+      "revId": "66315432fc89aea13d6eb1f615968d49d637fa3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de800fbc_476812ed",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-07-11T04:21:32Z",
       "side": 1,
       "message": "Bit of a nit, but I think it\u0027s more succinct if we instead call this `active`.",
+      "range": {
+        "startLine": 118,
+        "startChar": 17,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "66315432fc89aea13d6eb1f615968d49d637fa3c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "042f0eda_2e5c671a",
+        "filename": "console-server.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de800fbc_476812ed",
       "range": {
         "startLine": 118,
         "startChar": 17,
