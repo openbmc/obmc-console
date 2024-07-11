@@ -1,0 +1,266 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbefcbfb_9258fb94",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Can we drop one of either `current` or `config_gpio_names`? They\u0027re redundant. `current` seems more succinct so I\u0027d be tempted to drop `config_gpio_names`.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dddb623b_f8549b11",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "I hate to flap around on the implementation here, but I couldn\u0027t help revisiting it.\n\nOn reflection I think this loop condition is a bit concerning. When will `current` become `NULL`? Essentially it can\u0027t without invoking undefined behaviour. Really we rely on the loop body to break out, and this condition is a bit meaningless.\n\nSo this should at least be `while (true)` to reflect the reality of the current implementation. `while (*current)` is probably an improvement, but we know the loop test won\u0027t see that, as we\u0027ve got the `if (!comma)` case below where we break.\n\nGiven we set `_GNU_SOURCE` for the project we also have access to `strchrnul()`. So putting my money where my mouth is, how about something like the `strtokcnt()` function I\u0027ve pasted into this gist:\n\nhttps://gist.github.com/amboar/3dde8ee6d319a65b628de0d152554290\n\nIt doesn\u0027t validate that the separated tokens are actually meaningful, just reports the number of fields. We can enforce non-emptiness when we\u0027re processing the GPIO names.\n\nLet me know what you think.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c30fd7a_9e718c40",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Reflecting again here as well, I think we can improve the function name. How about `extract_mux_gpio_name()`? I think `nth` is unhelpful as we\u0027re not providing an index as an argument, and we\u0027re not really \"finding\" it either: The state is maintained by the caller, and we just extract the current field, either up to the next separator or the end of the string.",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7335a443_ec6edc9e",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "If we use `strchrnul()` here we can drop the `if (!comma)` block below.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4367f0c7_b5fa6353",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Bit of a nit-pick, but it would be nice to take a consistent approach to testing for `NULL` (compare with line 59). My preference is for `if (!variable)` as it\u0027s idiomatic and succinct, but whatever the case, I prefer we consistently use one style.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d287437_c57fb9ee",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "I feel like there\u0027s an iterator-based API design trying to break out here, but perhaps that\u0027s an improvement for later.",
+      "range": {
+        "startLine": 80,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9406740_2b72ca64",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "This is where some of my discussion about consistent return values for errors in `console-server.c` emerges. The rest of the application functions use `return -1;` to signal errors. Please do that here also, and throughout the rest of the patch where appropriate.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f16eab8_52928aa5",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Sorry, probably should have clarified in my previous comment:\n\nPassing an out of bounds value for `count` is purely an implementation error, not something the user can control, or a circumstance where they would expect an error to be handled. That means it\u0027s an invariant, and we can instead use `assert()`:\n\n```\nassert(count \u003c\u003d server-\u003emux-\u003en_mux_gpios);\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 2
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "752132bd_8b30043d",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "So we\u0027re implicitly always selecting the console associated with `mux-index \u003d 0`? I think you had a configuration property for selecting the default muxed console? Should we be adhering to that value here?",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb1a714_53aaee5f",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Can we move this down above `console_mux_activate()` where it\u0027s used? The proximity will help when reviewing here in Gerrit.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7cf854e_3c28af40",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Given that we explicitly fetch this out here, maybe we could make `find_n_mux_gpios()` take the string as an argument, and that way it doesn\u0027t have to care about the config object? Maybe we could call it `count_mux_gpios()` while we\u0027re at it?",
+      "range": {
+        "startLine": 199,
+        "startChar": 1,
+        "endLine": 200,
+        "endChar": 50
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f917d47_7630d34a",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Still not convinced this needs to be separated from `console_mux_request_gpio_lines()`. It  feels a bit like an unnecessary distinction.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae057559_4ceddbbd",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Can we please group this with the definition of `console_server_mux_init()`? The ordering is a bit chaotic at the moment.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b121545_0dd6abab",
+        "filename": "console-server.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:27:05Z",
+      "side": 1,
+      "message": "Can we instead return the pointer to the initial active console (or `NULL` on error)? That way we save ourselves the extra struct member that has no use after start-up.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
