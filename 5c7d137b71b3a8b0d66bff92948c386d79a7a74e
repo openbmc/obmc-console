@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "942c1d83_fb69c691",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbefcbfb_9258fb94",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dddb623b_f8549b11",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "I hate to flap around on the implementation here, but I couldn\u0027t help revisiting it.\n\nOn reflection I think this loop condition is a bit concerning. When will `current` become `NULL`? Essentially it can\u0027t without invoking undefined behaviour. Really we rely on the loop body to break out, and this condition is a bit meaningless.\n\nSo this should at least be `while (true)` to reflect the reality of the current implementation. `while (*current)` is probably an improvement, but we know the loop test won\u0027t see that, as we\u0027ve got the `if (!comma)` case below where we break.\n\nGiven we set `_GNU_SOURCE` for the project we also have access to `strchrnul()`. So putting my money where my mouth is, how about something like the `strtokcnt()` function I\u0027ve pasted into this gist:\n\nhttps://gist.github.com/amboar/3dde8ee6d319a65b628de0d152554290\n\nIt doesn\u0027t validate that the separated tokens are actually meaningful, just reports the number of fields. We can enforce non-emptiness when we\u0027re processing the GPIO names.\n\nLet me know what you think.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d607c5b2_e56fecd3",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Your ```strtokcnt``` function is interesting but atleast for me, a little hard to read for what it does. I agree that what we\u0027re doing is essintially counting ```,``` and added a different ```strtokcnt``` function for the next revision.",
+      "parentUuid": "dddb623b_f8549b11",
       "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e037d0d_f3f24b45",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c30fd7a_9e718c40",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7335a443_ec6edc9e",
@@ -75,6 +135,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed9e46b_8cfce560",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7335a443_ec6edc9e",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4367f0c7_b5fa6353",
@@ -88,6 +166,24 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "Bit of a nit-pick, but it would be nice to take a consistent approach to testing for `NULL` (compare with line 59). My preference is for `if (!variable)` as it\u0027s idiomatic and succinct, but whatever the case, I prefer we consistently use one style.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c8bb4e_617b3b85",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "It would probably be an interesting waste of time to enable or implement a clang-tidy check for this...\n\nI can change it here.",
+      "parentUuid": "4367f0c7_b5fa6353",
       "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -132,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9bc83a_1fccc870",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9406740_2b72ca64",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f16eab8_52928aa5",
@@ -145,6 +259,30 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "Sorry, probably should have clarified in my previous comment:\n\nPassing an out of bounds value for `count` is purely an implementation error, not something the user can control, or a circumstance where they would expect an error to be handled. That means it\u0027s an invariant, and we can instead use `assert()`:\n\n```\nassert(count \u003c\u003d server-\u003emux-\u003en_mux_gpios);\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 2
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54429a8c_ad885a29",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f16eab8_52928aa5",
       "range": {
         "startLine": 111,
         "startChar": 1,
@@ -172,6 +310,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35736ce2_37b67d81",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "I assume we have to set some kind of value for the gpio when setting it as output.\n\nThe real value will be set later by ```console_gpio_set_lines```\n\nMaybe this is unfortunate since there may not be a valid state from the start.\n\nSince there may not even be a console with ```mux-index \u003d 0```\n\nWe could move the requesting of the mux gpios to a point that is later than selection of the active console.\n\nThen we could set the gpios correctly from the start. But that would require a bunch of rework in the initialization sequence.\n\nWhich is not necessary since we do not open the tty device until after the mux has been switched to the correct state.\n\nfrom ```console-server.c```\n\n```\n  |       console_mux_activate(initial_active, false);\n  \n  |       rc \u003d console_server_tty_init(\u0026server, server.config, config_tty_kname);\n```",
+      "parentUuid": "752132bd_8b30043d",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fb1a714_53aaee5f",
@@ -185,6 +341,24 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "Can we move this down above `console_mux_activate()` where it\u0027s used? The proximity will help when reviewing here in Gerrit.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9198f13_681d8760",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb1a714_53aaee5f",
       "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -212,6 +386,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "719f4b93_0791179d",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Good point. We do not have the entire config.",
+      "parentUuid": "d7cf854e_3c28af40",
+      "range": {
+        "startLine": 199,
+        "startChar": 1,
+        "endLine": 200,
+        "endChar": 50
+      },
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f917d47_7630d34a",
@@ -225,6 +423,24 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "Still not convinced this needs to be separated from `console_mux_request_gpio_lines()`. It  feels a bit like an unnecessary distinction.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96301203_71a6a098",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "ok, i put it there.",
+      "parentUuid": "5f917d47_7630d34a",
       "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -246,6 +462,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61a802c_465ecdd3",
+        "filename": "console-mux.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae057559_4ceddbbd",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b121545_0dd6abab",
@@ -259,6 +493,24 @@
       "writtenOn": "2024-07-11T01:27:05Z",
       "side": 1,
       "message": "Can we instead return the pointer to the initial active console (or `NULL` on error)? That way we save ourselves the extra struct member that has no use after start-up.",
+      "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d7c0b6_b56d9cb6",
+        "filename": "console-server.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:17:06Z",
+      "side": 1,
+      "message": "Yes, did that adjustment in the previous patch, since that\u0027s where the member is defined.",
+      "parentUuid": "6b121545_0dd6abab",
       "revId": "5c7d137b71b3a8b0d66bff92948c386d79a7a74e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
