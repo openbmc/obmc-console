@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d62fca2b_4f8d6406",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:36:40Z",
+      "side": 1,
+      "message": "Maybe:\n\n```\nutil: Consolidate ARRAY_SIZE() definitions\n```\n\nA short explanation would be helpful also. Perhaps:\n\n\u003e ARRAY_SIZE() was defined several times around the code-base. Provide a single definition in util.h and include it where necessary.",
+      "revId": "ff430bc3a5e7d8703c60d5d0b109fac9be5b2c6c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
