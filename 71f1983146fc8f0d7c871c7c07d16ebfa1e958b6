@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81bb81d4_a9aa31e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "Hi Alexander, I think separating this from the mux patch is a decent idea. I feel it helps reduce the review complexity, so thanks 😊. I have some comments inline.",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d15914_ddb57c7e",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "Does this not break existing configuration that don\u0027t specify `ringbuffer-size` under a section?",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307845b2_7ef4feb0",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "I don\u0027t think this makes sense when we only have one console? Can we add this behaviour in the patch that adds the mux support?",
+      "range": {
+        "startLine": 1118,
+        "startChar": 1,
+        "endLine": 1122,
+        "endChar": 2
+      },
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bd57458_459ca06d",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "Honestly I prefer we don\u0027t do this; I don\u0027t see the separation as helpful. If it\u0027s necessary later for some other reason, then lets defer it to then.",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb1710d_82dcd87f",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "This seems like a bit of an unnecessary dance - can we instead return the initial active console from `console_server_add_consoles()`?",
+      "range": {
+        "startLine": 1219,
+        "startChar": 1,
+        "endLine": 1224,
+        "endChar": 38
+      },
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04382844_3dd4629f",
+        "filename": "console-server.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T01:55:16Z",
+      "side": 1,
+      "message": "If we return the active console from `console_server_add_consoles()` then I think this is unnecessary?",
+      "revId": "71f1983146fc8f0d7c871c7c07d16ebfa1e958b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
