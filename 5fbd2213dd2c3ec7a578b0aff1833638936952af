@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b2822b_1d4b5388",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:18Z",
+      "side": 1,
+      "message": "I like it to be separated. The motivation for this patch is made very clear in the commit message.",
+      "parentUuid": "d8618546_d0e45cb1",
+      "revId": "5fbd2213dd2c3ec7a578b0aff1833638936952af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80b4fa29_cf22b871",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-07-11T04:42:17Z",
       "side": 1,
       "message": "I prefer we don\u0027t output `__func__` in the logs, it\u0027s not helpful to a user. I think it would be more helpful to print the section and key names.",
+      "range": {
+        "startLine": 125,
+        "startChar": 39,
+        "endLine": 125,
+        "endChar": 47
+      },
+      "revId": "5fbd2213dd2c3ec7a578b0aff1833638936952af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec35db6_9d98f822",
+        "filename": "config.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b4fa29_cf22b871",
       "range": {
         "startLine": 125,
         "startChar": 39,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5910b52_632f9cc6",
+        "filename": "config.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45da5672_c1ab114b",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 310,
+        "endChar": 18
+      },
+      "revId": "5fbd2213dd2c3ec7a578b0aff1833638936952af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5112f74_2a0b9e7a",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-07-11T04:42:17Z",
       "side": 1,
       "message": "If we\u0027re going to have `config_get_section_value()` we should probably have `config_get_section_name()` here 😊",
+      "range": {
+        "startLine": 315,
+        "startChar": 19,
+        "endLine": 315,
+        "endChar": 29
+      },
+      "revId": "5fbd2213dd2c3ec7a578b0aff1833638936952af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f94027_53c45c26",
+        "filename": "config.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-11T13:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5112f74_2a0b9e7a",
       "range": {
         "startLine": 315,
         "startChar": 19,
