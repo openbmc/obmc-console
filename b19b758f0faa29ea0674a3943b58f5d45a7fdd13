@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef4814c_3ce5300b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "Again, please let\u0027s prefix the patch subject with the affected component:\n\n```\nconsole-server: Refactor pollfd management\n```\n\nBut I think my bigger issue with the subject (and the body) is it doesn\u0027t provide any motivation. The commit message should answer questions like \"why are we doing this, and how does it help?\" and \"what was the limitation of the current implementation (what was it not capable of)?\".",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0bfbbef_639e8b8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "Nit: Need to re-wrap the text here.",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2634f99e_99b6d9e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a few minor comments, but broadly it looks fine.",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19ded0e9_1d350fb1",
+        "filename": "console-server.c",
+        "patchSetId": 19
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "If we make `tty_pollfd_index` `ssize_t` then we don\u0027t need `index` as a temporary (might apply to the other cases also).",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab0eb6c_3e8b0518",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "Should this be `ssize_t` so it has a representation that\u0027s always invalid (`-1`)?",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942c2b64_045d2897",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "`ssize_t` again here?",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00b818d_a181da6e",
+        "filename": "console-server.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-11T04:34:46Z",
+      "side": 1,
+      "message": "`ssize_t`?",
+      "revId": "b19b758f0faa29ea0674a3943b58f5d45a7fdd13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
