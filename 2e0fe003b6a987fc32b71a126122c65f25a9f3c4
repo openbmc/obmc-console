@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a10223_319635c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 60
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "Hi Alexander, fewer comments again, this feels like good convergence. The bulk are about the choice of types in some of the mux APIs. Beyond that I think we can simplify `console_mux_activate()` a little, and I\u0027m concerned there\u0027s a resource leak in the `console_init()` path.",
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "347f167e_c8951b72",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we need `ssize_t` here if we\u0027re returning `0` in the `!str` case. Just `size_t`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a5218e_21b5a6bb",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "`size_t` here also? That would remove the `(int)` cast below.",
+      "range": {
+        "startLine": 43,
+        "startChar": 7,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a46ff3a8_65d2c438",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "This would become `size_t` as well...",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 10
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "075b089c_04fd6ca2",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "... which means condition is just `ngpios \u003d\u003d 0` ...",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 161,
+        "endChar": 2
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4241723a_e00a4a9b",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "... which eliminates this cast.",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 166,
+        "endChar": 13
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcce93a_b3c5df70",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "I think we can drop the `printlogs` argument. I threw together a patch to do as much:\n\nhttps://gist.github.com/amboar/7f295e0910371cc6cdfd6a3c7acd35dd\n\nLet me know what you think.",
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da08c7a6_3bc44e0b",
+        "filename": "console-server.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T02:49:36Z",
+      "side": 1,
+      "message": "This leaks resources acquired above",
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
