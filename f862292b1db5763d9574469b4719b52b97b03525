@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb0bf2a_687555d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for the fixes. On closer inspection there are some resource leaks that should be addressed so we get a clean leak report from valgrind.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "134ea9de_abe86a28",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "I\u0027ll split this change out. It seems like a bit of an aesthetic concern that\u0027s not directly related to multiple consoles, and it doesn\u0027t rename any of the other `tty_*()` APIs.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2967ee5b_940360c4",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "This one too",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e39dbd_3c4c74e4",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "This all should be reduced to:\n\n```\nconsole_id \u003d config_resolve_config_id(config, opt_console_id);\n```\n\n`console_id` will never be `NULL` after the call to `config_resolve_config_id()`.",
+      "range": {
+        "startLine": 1095,
+        "startChar": 1,
+        "endLine": 1104,
+        "endChar": 2
+      },
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f30c3a34_0feeb9f9",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "This leaks all the resources acquired in `console_init()`. We need a call to `console_fini()` before returning.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8feaffa_264c6af9",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "I\u0027d like Jeremy\u0027s input on this config property.\n\nRegarding the function implementation, the `active_console` out-parameter feels a bit awkward. Relating that back to the property, I wonder if this would be better at the global scope where it accepts the console ID to configure as the start-up console. That way we punt it up a level in the initialisation sequence and we don\u0027t have the out-parameter issue here.\n\nThere are other trade-offs either way: It\u0027s easy to configure a console ID that doesn\u0027t exist at the global scope, but it\u0027s also easy to specify multiple consoles as `initially-active` if the property is at the section scope. Either way we need to check for consistency. My gut feeling is the global-scope property might create fewer hassles.\n\nThis all seems relatively minor, but exposing support for the property then becomes part of the application ABI, so we do need to be a bit conservative.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e49f75b6_52393280",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T01:37:17Z",
+      "side": 1,
+      "message": "This leaks all the consoles we\u0027ve successfully set up. We should call `console_server_console_fini()` for them.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
