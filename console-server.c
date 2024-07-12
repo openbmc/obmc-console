@@ -422,8 +422,8 @@ static int tty_init_vuart(struct console_server *server, struct config *config)
 	return 0;
 }
 
-static int tty_init(struct console_server *server, struct config *config,
-		    const char *tty_arg)
+static int console_server_tty_init(struct console_server *server,
+				   struct config *config, const char *tty_arg)
 {
 	const char *val;
 	int rc;
@@ -470,7 +470,7 @@ static int tty_init(struct console_server *server, struct config *config,
 	return tty_init_io(server);
 }
 
-static void tty_fini(struct console_server *server)
+static void console_server_tty_fini(struct console_server *server)
 {
 	if (server->tty_pollfd_index < server->capacity_pollfds) {
 		console_server_release_pollfd(server, server->tty_pollfd_index);
@@ -1253,7 +1253,7 @@ int console_server_init(struct console_server *server,
 
 	uart_routing_init(server->config);
 
-	rc = tty_init(server, server->config, config_tty_kname);
+	rc = console_server_tty_init(server, server->config, config_tty_kname);
 	if (rc != 0) {
 		warnx("error during tty_init, exiting.\n");
 		return -1;
@@ -1287,7 +1287,7 @@ void console_server_fini(struct console_server *server)
 
 	free(server->consoles);
 	dbus_server_fini(server);
-	tty_fini(server);
+	console_server_tty_fini(server);
 	free(server->pollfds);
 	console_server_mux_fini(server);
 	config_fini(server->config);
