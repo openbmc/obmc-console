@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b985ab_3d612866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T00:40:42Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for your work here. I don\u0027t have any immediate concerns with this now.",
+      "revId": "d3e97f020925507e9f8576efdbfaf9cb0503e73b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772a9e09_0316e8da",
+        "filename": "console-server.c",
+        "patchSetId": 15
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T00:40:42Z",
+      "side": 1,
+      "message": "We\u0027re actually pretty close to being able to pass the `tty` member through the `tty_*()` APIs and have an actual abstraction. I might poke at that after we get this all merged.",
+      "revId": "d3e97f020925507e9f8576efdbfaf9cb0503e73b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
