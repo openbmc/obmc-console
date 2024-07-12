@@ -297,6 +297,12 @@ static struct handler *tty_init(const struct handler_type *type
 
 	th->poller = console_poller_register(console, &th->handler, tty_poll,
 					     NULL, th->fd, POLLIN, NULL);
+
+	if (!th->poller) {
+		free(th);
+		return NULL;
+	}
+
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
 						       tty_ringbuffer_poll, th);

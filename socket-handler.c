@@ -332,6 +332,12 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	client->poller = console_poller_register(sh->console, handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);
+
+	if (!client->poller) {
+		free(client);
+		return POLLER_EXIT;
+	}
+
 	client->rbc = console_ringbuffer_consumer_register(
 		sh->console, client_ringbuffer_poll, client);
 
@@ -393,6 +399,12 @@ int dbus_create_socket_consumer(struct console *console)
 	client->poller = console_poller_register(sh->console, &sh->handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);
+
+	if (!client->poller) {
+		free(client);
+		return -1;
+	}
+
 	client->rbc = console_ringbuffer_consumer_register(
 		sh->console, client_ringbuffer_poll, client);
 	if (client->rbc == NULL) {
@@ -489,6 +501,10 @@ static struct handler *socket_init(const struct handler_type *type
 
 	sh->poller = console_poller_register(console, &sh->handler, socket_poll,
 					     NULL, sh->sd, POLLIN, NULL);
+
+	if (!sh->poller) {
+		goto err_close;
+	}
 
 	return &sh->handler;
 
