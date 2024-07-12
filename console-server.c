@@ -422,8 +422,8 @@ static int tty_init_vuart(struct console_server *server, struct config *config)
 	return 0;
 }
 
-static int tty_init(struct console_server *server, struct config *config,
-		    const char *tty_arg)
+static int console_server_tty_init(struct console_server *server,
+				   struct config *config, const char *tty_arg)
 {
 	const char *val;
 	int rc;
@@ -470,7 +470,7 @@ static int tty_init(struct console_server *server, struct config *config,
 	return tty_init_io(server);
 }
 
-static void tty_fini(struct console_server *server)
+static void console_server_tty_fini(struct console_server *server)
 {
 	if (server->tty.type == TTY_DEVICE_VUART) {
 		free(server->tty.vuart.sysfs_devnode);
@@ -1327,7 +1327,8 @@ static int console_server_with_args(struct console_server_args *args)
 
 	console_mux_activate(initial_active);
 
-	rc = tty_init(&server, server.config, args->config_tty_kname);
+	rc = console_server_tty_init(&server, server.config,
+				     args->config_tty_kname);
 	if (rc != 0) {
 		warnx("error during tty_init, exiting.\n");
 		goto out_server_fini;
@@ -1337,7 +1338,7 @@ static int console_server_with_args(struct console_server_args *args)
 
 	rc = run_server(&server);
 
-	tty_fini(&server);
+	console_server_tty_fini(&server);
 
 out_server_fini:
 	console_server_fini(&server);
