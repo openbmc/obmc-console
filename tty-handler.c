@@ -265,14 +265,13 @@ static struct handler *tty_init(const struct handler_type *type
 	}
 
 	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
+	free(tty_path);
+
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
-		free(tty_path);
-		free(th);
-		return NULL;
+		goto err_free;
 	}
 
-	free(tty_path);
 	th->fd_flags = fcntl(th->fd, F_GETFL, 0);
 
 	tty_baud = config_get_value(config, "local-tty-baud");
@@ -297,11 +296,25 @@ static struct handler *tty_init(const struct handler_type *type
 
 	th->poller = console_poller_register(console, &th->handler, tty_poll,
 					     NULL, th->fd, POLLIN, NULL);
+
+	if (!th->poller) {
+		goto err_close;
+	}
+
 	th->console = console;
 	th->rbc = console_ringbuffer_consumer_register(console,
 						       tty_ringbuffer_poll, th);
 
-	return &th->handler;
+	if (th->rbc) {
+		return &th->handler;
+	}
+
+	console_poller_unregister(console, th->poller);
+err_close:
+	close(th->fd);
+err_free:
+	free(th);
+	return NULL;
 }
 
 static void tty_fini(struct handler *handler)
