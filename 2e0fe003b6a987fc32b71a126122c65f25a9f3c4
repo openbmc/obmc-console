@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c036ac_add9cf2e",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "347f167e_c8951b72",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a5218e_21b5a6bb",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-07-12T02:49:36Z",
       "side": 1,
       "message": "`size_t` here also? That would remove the `(int)` cast below.",
+      "range": {
+        "startLine": 43,
+        "startChar": 7,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f87637a_078c711b",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a5218e_21b5a6bb",
       "range": {
         "startLine": 43,
         "startChar": 7,
@@ -87,6 +135,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "082fa8a6_54d0bd78",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a46ff3a8_65d2c438",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 10
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "075b089c_04fd6ca2",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-07-12T02:49:36Z",
       "side": 1,
       "message": "... which means condition is just `ngpios \u003d\u003d 0` ...",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 161,
+        "endChar": 2
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72fc0add_3d97e1cb",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "075b089c_04fd6ca2",
       "range": {
         "startLine": 159,
         "startChar": 1,
@@ -133,6 +229,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02de10d6_8d497d08",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4241723a_e00a4a9b",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 166,
+        "endChar": 13
+      },
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcce93a_b3c5df70",
@@ -150,6 +270,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ece8727_244eccbe",
+        "filename": "console-mux.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Dropped it. As done in your patch we can use ```server-\u003eactive``` being NULL to determine if we are in the first activation.",
+      "parentUuid": "edcce93a_b3c5df70",
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da08c7a6_3bc44e0b",
@@ -163,6 +301,24 @@
       "writtenOn": "2024-07-12T02:49:36Z",
       "side": 1,
       "message": "This leaks resources acquired above",
+      "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c5f28a6_70e3ba9d",
+        "filename": "console-server.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Yes. Added the cleanup for the ringbuffer and console.",
+      "parentUuid": "da08c7a6_3bc44e0b",
       "revId": "2e0fe003b6a987fc32b71a126122c65f25a9f3c4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

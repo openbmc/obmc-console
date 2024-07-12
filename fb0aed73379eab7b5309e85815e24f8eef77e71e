@@ -16,6 +16,24 @@
       "message": "We also need to do this after `accept()` in `socket_poll()` from `socket-handler.c`, right?",
       "revId": "fb0aed73379eab7b5309e85815e24f8eef77e71e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de568d5d_75659c40",
+        "filename": "console-dbus.c",
+        "patchSetId": 61
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:25Z",
+      "side": 1,
+      "message": "Looks like it. Added that in there.",
+      "parentUuid": "e24c8b7c_68a212ad",
+      "revId": "fb0aed73379eab7b5309e85815e24f8eef77e71e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
