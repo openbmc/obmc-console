@@ -58,20 +58,33 @@ ringbuffer_consumer_register(struct ringbuffer *rb, ringbuffer_poll_fn_t fn,
 	int n;
 
 	rbc = malloc(sizeof(*rbc));
+
+	if (!rbc) {
+		return NULL;
+	}
+
 	rbc->rb = rb;
 	rbc->poll_fn = fn;
 	rbc->poll_data = data;
 	rbc->pos = rb->tail;
 
-	n = rb->n_consumers++;
 	/*
 	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
 	 * pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
-	rb->consumers = reallocarray(rb->consumers, rb->n_consumers,
-				     sizeof(*rb->consumers));
+	struct ringbuffer_consumer **tmp = reallocarray(
+		rb->consumers, rb->n_consumers + 1, sizeof(*rb->consumers));
 	/* NOLINTEND(bugprone-sizeof-expression) */
+
+	if (!tmp) {
+		free(rbc);
+		return NULL;
+	}
+
+	rb->consumers = tmp;
+
+	n = rb->n_consumers++;
 	rb->consumers[n] = rbc;
 
 	return rbc;

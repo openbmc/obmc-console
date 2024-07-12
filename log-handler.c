@@ -205,8 +205,14 @@ static struct handler *log_init(const struct handler_type *type
 	}
 	lh->rbc = console_ringbuffer_consumer_register(console,
 						       log_ringbuffer_poll, lh);
+	if (!lh->rbc) {
+		goto err_close;
+	}
 
 	return &lh->handler;
+
+err_close:
+	close(lh->fd);
 
 err_free:
 	free(lh->rotate_filename);

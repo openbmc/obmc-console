@@ -325,6 +325,9 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	console_mux_activate(sh->console);
 
 	client = malloc(sizeof(*client));
+	if (!client) {
+		return POLLER_EXIT;
+	}
 	memset(client, 0, sizeof(*client));
 
 	client->sh = sh;
@@ -332,8 +335,17 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	client->poller = console_poller_register(sh->console, handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);
+
+	if (!client->poller) {
+		goto err_free;
+	}
+
 	client->rbc = console_ringbuffer_consumer_register(
 		sh->console, client_ringbuffer_poll, client);
+
+	if (!client->rbc) {
+		goto err_poller_unregister;
+	}
 
 	n = sh->n_clients++;
 	/*
@@ -341,12 +353,25 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 	 * pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
-	sh->clients =
+	struct client **tmp =
 		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
 	/* NOLINTEND(bugprone-sizeof-expression) */
+	if (!tmp) {
+		goto err_rbc_consumer_unregister;
+	}
+	sh->clients = tmp;
 	sh->clients[n] = client;
 
 	return POLLER_OK;
+
+err_rbc_consumer_unregister:
+	ringbuffer_consumer_unregister(client->rbc);
+err_poller_unregister:
+	console_poller_unregister(sh->console, client->poller);
+err_free:
+	free(client);
+
+	return POLLER_EXIT;
 }
 
 /* Create socket pair and register one end as poller/consumer and return
@@ -393,6 +418,12 @@ int dbus_create_socket_consumer(struct console *console)
 	client->poller = console_poller_register(sh->console, &sh->handler,
 						 client_poll, client_timeout,
 						 client->fd, POLLIN, client);
+
+	if (!client->poller) {
+		rc = -ENOMEM;
+		goto free_client;
+	}
+
 	client->rbc = console_ringbuffer_consumer_register(
 		sh->console, client_ringbuffer_poll, client);
 	if (client->rbc == NULL) {
@@ -408,9 +439,14 @@ int dbus_create_socket_consumer(struct console *console)
 	 * sizeof() on a pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
-	sh->clients =
+	struct client **tmp =
 		reallocarray(sh->clients, sh->n_clients, sizeof(*sh->clients));
 	/* NOLINTEND(bugprone-sizeof-expression) */
+	if (!tmp) {
+		rc = -ENOMEM;
+		goto free_client;
+	}
+	sh->clients = tmp;
 	sh->clients[n] = client;
 
 	/* Return the second FD to caller. */
@@ -490,7 +526,9 @@ static struct handler *socket_init(const struct handler_type *type
 	sh->poller = console_poller_register(console, &sh->handler, socket_poll,
 					     NULL, sh->sd, POLLIN, NULL);
 
-	return &sh->handler;
+	if (sh->poller) {
+		return &sh->handler;
+	}
 
 err_close:
 	close(sh->sd);
