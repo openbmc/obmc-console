@@ -75,6 +75,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1888f9c5_829c7f49",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3e39dbd_3c4c74e4",
+      "range": {
+        "startLine": 1095,
+        "startChar": 1,
+        "endLine": 1104,
+        "endChar": 2
+      },
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f30c3a34_0feeb9f9",
@@ -88,6 +112,24 @@
       "writtenOn": "2024-07-12T01:37:17Z",
       "side": 1,
       "message": "This leaks all the resources acquired in `console_init()`. We need a call to `console_fini()` before returning.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa791e37_fa8d61fe",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:16Z",
+      "side": 1,
+      "message": "I\u0027ll reorder that so the ```reallocarray``` happens before console_init.",
+      "parentUuid": "f30c3a34_0feeb9f9",
       "revId": "f862292b1db5763d9574469b4719b52b97b03525",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -127,6 +169,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1870532e_3b3d14f4",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:16Z",
+      "side": 1,
+      "message": "Ok, changed it to be a global ```active-console``` property in the config.",
+      "parentUuid": "f5d458e4_d12e75fd",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e49f75b6_52393280",
@@ -140,6 +200,24 @@
       "writtenOn": "2024-07-12T01:37:17Z",
       "side": 1,
       "message": "This leaks all the consoles we\u0027ve successfully set up. We should call `console_server_console_fini()` for them.",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9dfa31c_0050bbdf",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-12T09:59:16Z",
+      "side": 1,
+      "message": "When ```console_server_add_consoles``` is called in ```main```, the error path takes it to ```out_server_fini``` which calls ```console_server_fini``` which then calls ```console_server_console_fini(...)```  for the existing consoles.\n\nI chose this way of handling the error path since the teardown of all the existing consoles will have to happen anyway when the program exits.\n\nSo we might as well re-use the cleanup code for the error path on initialization.",
+      "parentUuid": "e49f75b6_52393280",
       "revId": "f862292b1db5763d9574469b4719b52b97b03525",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
