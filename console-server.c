@@ -711,7 +711,6 @@ struct poller *console_poller_register(struct console *console,
 				       int events, void *data)
 {
 	struct poller *poller;
-	long n;
 
 	const ssize_t index = console_server_request_pollfd(
 		console->server, fd, (short)(events & 0x7fff));
@@ -721,7 +720,12 @@ struct poller *console_poller_register(struct console *console,
 	}
 
 	poller = malloc(sizeof(*poller));
-	// TODO: check for error case of malloc here and release previously requested pollfd
+
+	if (!poller) {
+		console_server_release_pollfd(console->server, index);
+		return NULL;
+	}
+
 	poller->remove = false;
 	poller->handler = handler;
 	poller->event_fn = poller_fn;
@@ -730,19 +734,23 @@ struct poller *console_poller_register(struct console *console,
 	poller->data = data;
 	poller->pollfd_index = index;
 
-	/* add one to our pollers array */
-	n = console->n_pollers++;
 	/*
 	 * We're managing an array of pointers to aggregates, so don't warn about sizeof() on a
 	 * pointer type.
 	 */
 	/* NOLINTBEGIN(bugprone-sizeof-expression) */
-	console->pollers = reallocarray(console->pollers, console->n_pollers,
-					sizeof(*console->pollers));
-	// TODO: check for the error case of reallocarray and release previously requested pollfd
+	struct poller **tmp = reallocarray(console->pollers,
+					   console->n_pollers + 1,
+					   sizeof(*console->pollers));
 	/* NOLINTEND(bugprone-sizeof-expression) */
+	if (!tmp) {
+		console_server_release_pollfd(console->server, index);
+		free(poller);
+		return NULL;
+	}
+	console->pollers = tmp;
 
-	console->pollers[n] = poller;
+	console->pollers[console->n_pollers++] = poller;
 
 	return poller;
 }
