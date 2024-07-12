@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc2b447_d46bac60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T00:53:04Z",
+      "side": 1,
+      "message": "Hi Alexander, thanks for updating the commit message. I was hoping this was good to go but found what\u0027s hopefully the last issue as I worked through it.",
+      "revId": "f257e191241f5d539b5588b818605e3a944433c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "665ac8ad_a720765b",
+        "filename": "console-server.c",
+        "patchSetId": 20
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-12T00:53:04Z",
+      "side": 1,
+      "message": "We should unwind the updates to `console-\u003en_pollers` and `console-\u003epollers` here too, otherwise we have a dangling pointer in `console-\u003epollers[n]` (apologies I hadn\u0027t picked up on this earlier).\n\nPerhaps it\u0027s best to try to allocate the pollfd first. As it stands now we assume `reallocarray()` never fails, so there\u0027s no need to unwind the pollfd request if we re-order the sequence (but please add a comment about that so when we clean up the `reallocarray()` issue we make sure to clean up the pollfd allocation as well).",
+      "revId": "f257e191241f5d539b5588b818605e3a944433c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
