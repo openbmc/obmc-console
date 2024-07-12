@@ -111,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5d458e4_d12e75fd",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2024-07-12T01:41:08Z",
+      "side": 1,
+      "message": "Yep, agreed; I think a global `active-console` parameter may be best here.\n\nAt least any errors (ie, referring to a non-existent id) are easily locatable to a single error in the config.",
+      "parentUuid": "e8feaffa_264c6af9",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e49f75b6_52393280",
         "filename": "console-server.c",
         "patchSetId": 5
