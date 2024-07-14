@@ -220,6 +220,24 @@
       "parentUuid": "e49f75b6_52393280",
       "revId": "f862292b1db5763d9574469b4719b52b97b03525",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34a0c091_1a6baf19",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-14T23:46:35Z",
+      "side": 1,
+      "message": "Okay, fair enough. However, because it\u0027s not adjacent in the code, do you mind adding a comment here about how that cleanup proceeds? That might help other people resolve the same question without having to each reason through it themselves.",
+      "parentUuid": "b9dfa31c_0050bbdf",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
