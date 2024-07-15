@@ -238,6 +238,24 @@
       "parentUuid": "b9dfa31c_0050bbdf",
       "revId": "f862292b1db5763d9574469b4719b52b97b03525",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "019406e2_40681bde",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-15T09:38:37Z",
+      "side": 1,
+      "message": "Here\u0027s an idea of how such a comment may look like\n\n```\n// return NULL here should trigger a cleanup further up\n```\n\nI would prefer to not add a comment since\n\n- i don\u0027t see this done anywhere else in the codebase\n- comments get old quickly and may become inconsistent with the code over time\n- memory management and cleanup happens all over the place, \n  if we start commenting this instance we might aswell comment everywhere\n- adding a comment here would introduce an inconsistency with the rest of the codebase\n\n\u003e That might help other people resolve the same question without having to each reason through it themselves.\n\nReasoning through the code is a good way to understand the project.\n\n\nWe can create good abstractions but there will always be a need to read through the code. Comments are good if something unusual is happening where there\u0027s no way to get it by just looking at the code (e.g. commenting about some magic value or special algorithm, referencing specifications, ...).",
+      "parentUuid": "34a0c091_1a6baf19",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

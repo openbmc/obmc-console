@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "852cac4f_75f0ceee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-15T09:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c969de6_e72dae75",
+      "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf900103_54c10c5d",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-14T23:56:09Z",
       "side": 1,
       "message": "This leaks the ring-buffer and console objects.",
+      "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfdc5c7_ad71c67f",
+        "filename": "console-server.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-15T09:38:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf900103_54c10c5d",
       "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c676f3fd_c6221b42",
+        "filename": "console-server.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-15T09:38:37Z",
+      "side": 1,
+      "message": "Yes, inserted the cleanup here.",
+      "parentUuid": "bb21bcde_4f75a117",
+      "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb03cc1c_5a2f05b4",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-07-14T23:46:35Z",
       "side": 1,
       "message": "I don\u0027t think we should have re-ordered the UART routing initialisation after the TTY initialisation, and I think both of those need to go before the call to `console_server_add_consoles()`. Otherwise there\u0027s an opportunity for corruption or unexpected data during start-up.",
+      "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a050a96a_e0cfcbbd",
+        "filename": "console-server.c",
+        "patchSetId": 7
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-15T09:38:37Z",
+      "side": 1,
+      "message": "Makes sense. Reordered that.",
+      "parentUuid": "bb03cc1c_5a2f05b4",
       "revId": "a3f7cc8ddc37b71df6d15c44b4fc560cd04d2968",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
