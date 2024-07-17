@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b251dc15_20ea9fea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a few more comments regarding resource cleanup.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efd667ce_4bf35359",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "This should return `-1` for consistency",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8594894b_59312ef0",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "Again here.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261ab93b_84f2d17f",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "Again here.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57e1ebe_88fafd4e",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "Is this the behaviour we actually want? If one console fails to run its pollers we don\u0027t run the pollers for any subsequent console? Feels to me that `run_console_per_console()` should be a `void` function that logs on error and does any necessary cleanup of broken pollers.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d8ecbe0_de06eee9",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "Rather than add this comment perhaps we could add `assert(console_id \u0026\u0026 \"console_id must not be null\");` on line 1106, after the call to `config_resolve_console_id()`?",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "321aee84_6ce31aac",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "So the cleanup here doesn\u0027t really correspond to the resources acquired in `console_server_init()`. I feel this is a bit of an excursion from the [principle-of-least-surprise](https://en.wikipedia.org/wiki/Principle_of_least_astonishment). Either `console_server_init()` should be acquiring all the resources we\u0027re cleaning up here, or we should rework `console_server_fini()` to only cleanup the resources we\u0027re currently acquiring in `console_server_init()` (and clean up the remaining resources in another (appropriate) location).",
+      "range": {
+        "startLine": 1152,
+        "startChar": 1,
+        "endLine": 1159,
+        "endChar": 1
+      },
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

@@ -256,6 +256,24 @@
       "parentUuid": "34a0c091_1a6baf19",
       "revId": "f862292b1db5763d9574469b4719b52b97b03525",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9be2ac48_e883e4a3",
+        "filename": "console-server.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T02:36:30Z",
+      "side": 1,
+      "message": "\u003e Comments are good if something unusual is happening \n\nNon-local cleanup is something unusual.\n\n\u003e comments get old quickly and may become inconsistent with the code over time\n\nIf the comment about cleanup becomes inconsistent with the code then there\u0027s probably a bug.\n\n\u003e `// return NULL here should trigger a cleanup further up`\n\nI don\u0027t think \"further up\" is particularly helpful, as it\u0027s ambiguous (further up in the code layout in the file? Further up in the call stack? which are we talking about?).\n\nHow about:\n\n\u003e As the acquired resources are already recorded in `struct console_server`, let them be cleaned up in the exit path of `main()`",
+      "parentUuid": "019406e2_40681bde",
+      "revId": "f862292b1db5763d9574469b4719b52b97b03525",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
