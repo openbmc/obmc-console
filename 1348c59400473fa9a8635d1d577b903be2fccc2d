@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "972adce3_b5c97a1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:30:32Z",
+      "side": 1,
+      "message": "It\u0027s good that there is that possibility but for writing tests i prefer something more direct.\n\nThe SIGINT approach does not need any pipe to the client, it only needs the PID. So it is more flexible and does not need much setup. It will help to keep the tests short.",
+      "parentUuid": "87e9baee_f9736a44",
+      "revId": "1348c59400473fa9a8635d1d577b903be2fccc2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "808208bd_7a898690",
