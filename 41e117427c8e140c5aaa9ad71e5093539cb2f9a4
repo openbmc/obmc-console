@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0d740bf_6228884c",
+        "filename": "console-mux.c",
+        "patchSetId": 63
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-17T03:06:40Z",
+      "side": 1,
+      "message": "Given that `console_server_mux_init()` allocates `console-\u003emux`, `console_server_mux_fini()` should free `console-\u003emux`.\n\nBroadly, `_init()` and `_fini()` functions should adhere to the RAII pattern:\n\nhttps://en.wikipedia.org/wiki/Resource_acquisition_is_initialization\n\nCan you please check through your series to ensure the pattern is followed? I\u0027ve commented on several instances across this patch and the one prior. It\u0027s important to me that we adhere to this.",
+      "revId": "41e117427c8e140c5aaa9ad71e5093539cb2f9a4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
