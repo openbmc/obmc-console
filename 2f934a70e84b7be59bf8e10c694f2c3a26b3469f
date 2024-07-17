@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b2be18_b448b891",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efd667ce_4bf35359",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8594894b_59312ef0",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-17T02:36:30Z",
       "side": 1,
       "message": "Again here.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c1bc3ae_7e13c833",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8594894b_59312ef0",
       "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de835d37_5c9fbb0e",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "261ab93b_84f2d17f",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b57e1ebe_88fafd4e",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-07-17T02:36:30Z",
       "side": 1,
       "message": "Is this the behaviour we actually want? If one console fails to run its pollers we don\u0027t run the pollers for any subsequent console? Feels to me that `run_console_per_console()` should be a `void` function that logs on error and does any necessary cleanup of broken pollers.",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff17b23d_1dae510e",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "The previous behavior was for ```run_console_iteration``` to call ```call_pollers``` and ```return -1``` on error, which would break from the loop in ```run_console```. \n\nIf we do the same thing now for multiple consoles, we can also break from the loop if an error occurs.\n\nWhy would we need to run the pollers for other consoles if an error occurs? We do not even know what the error was in run_console_per_console.\n\n```run_console_per_console``` has several kinds of errors of which some of them cannot be recovered from.",
+      "parentUuid": "b57e1ebe_88fafd4e",
       "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -103,6 +175,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1eff2c3_b1f5a9ca",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "```config_resolve_console_id``` will always return something that is not ```NULL```. The comment about ```opt_console_id``` is valid because it documents something not obvious to any callers of this function. And it is very close to the code so it is likely to be updated in the future.\n\nI like to comment on struct members and occasionally on function arguments that may be ```NULL```.",
+      "parentUuid": "7d8ecbe0_de06eee9",
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "321aee84_6ce31aac",
@@ -116,6 +206,30 @@
       "writtenOn": "2024-07-17T02:36:30Z",
       "side": 1,
       "message": "So the cleanup here doesn\u0027t really correspond to the resources acquired in `console_server_init()`. I feel this is a bit of an excursion from the [principle-of-least-surprise](https://en.wikipedia.org/wiki/Principle_of_least_astonishment). Either `console_server_init()` should be acquiring all the resources we\u0027re cleaning up here, or we should rework `console_server_fini()` to only cleanup the resources we\u0027re currently acquiring in `console_server_init()` (and clean up the remaining resources in another (appropriate) location).",
+      "range": {
+        "startLine": 1152,
+        "startChar": 1,
+        "endLine": 1159,
+        "endChar": 1
+      },
+      "revId": "2f934a70e84b7be59bf8e10c694f2c3a26b3469f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64e53b82_0f9c4b3b",
+        "filename": "console-server.c",
+        "patchSetId": 8
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-17T12:20:13Z",
+      "side": 1,
+      "message": "I can rework the initialization so the ```main``` function will \nhave a call to ```console_server_init```, then ```run_server```, then ```console_server_fini```. \n\nThat way the RAII will be followed and the main function simplified.\n\nThe new ```console_server_init``` should either return successfully or return with error but everything already freed.",
+      "parentUuid": "321aee84_6ce31aac",
       "range": {
         "startLine": 1152,
         "startChar": 1,
