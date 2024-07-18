@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d637f283_7fd5a718",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 53
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-18T07:43:13Z",
+      "side": 1,
+      "message": "Now that I consider it, this isn\u0027t necessary as it\u0027s also determined by the section header.",
+      "revId": "808d197d8ca7d83e3b9a046cb9082bb37f8be7da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d69193e7_644af205",
+        "filename": "docs/mux-support.md",
+        "patchSetId": 53
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-18T07:43:13Z",
+      "side": 1,
+      "message": "As above.",
+      "revId": "808d197d8ca7d83e3b9a046cb9082bb37f8be7da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
