@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "007c9d83_2367f081",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-18T05:47:07Z",
+      "side": 1,
+      "message": "Hi Alexander; in the process of addressing the disconnection issue on [console-server: Add UART Mux Support](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/71228) I did some (mostly whitespace) cleanups here. I did also simplify the error handling paths in `console_server_init()`. Let me know if you have any concerns.",
+      "revId": "249ed05e3e9ecc9675911f3c0283ad4de7d13198",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
