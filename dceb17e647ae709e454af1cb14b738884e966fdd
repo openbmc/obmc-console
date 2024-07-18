@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65561701_f099a9ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 65
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-18T05:54:24Z",
+      "side": 1,
+      "message": "Hi Alexander, I realised something we hadn\u0027t addressed was the behaviour of disconnecting conflicting clients, as described in the design doc. I\u0027ve fixed that up (and done some other minor, mostly whitespace, changes). I\u0027ve tested this behaviour locally by specifying two sections in the config without describing the mux, and verified that the connect/disconnect behaviour worked as advertised via the Unix domain socket. Let me know what you think.",
+      "revId": "dceb17e647ae709e454af1cb14b738884e966fdd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
