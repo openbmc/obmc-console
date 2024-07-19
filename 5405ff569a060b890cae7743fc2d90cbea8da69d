@@ -52,6 +52,24 @@
       "parentUuid": "287ec0df_fbc4d755",
       "revId": "5405ff569a060b890cae7743fc2d90cbea8da69d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9c6083_e17acb28",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 24
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-19T12:59:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d247b2a_db0f9df9",
+      "revId": "5405ff569a060b890cae7743fc2d90cbea8da69d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
