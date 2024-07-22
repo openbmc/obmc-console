@@ -129,7 +129,7 @@ static int method_connect(sd_bus_message *msg, void *userdata,
 	/* Register the consumer. */
 	socket_fd = dbus_create_socket_consumer(console);
 	if (socket_fd < 0) {
-		rc = socket_fd;
+		rc = -socket_fd;
 		warnx("Failed to create socket consumer: %s", strerror(rc));
 		sd_bus_error_set_const(err, DBUS_ERR,
 				       "Failed to create socket consumer");
