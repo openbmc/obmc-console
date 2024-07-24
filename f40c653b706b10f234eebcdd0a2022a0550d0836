@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb8d0665_2139115b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T02:50:50Z",
+      "side": 1,
+      "message": "That said, they are mitigated by the async nature of the server: they aren\u0027t problems in practice as it\u0027s not multi-threaded. So while the ordering is arbitrary to some extent, it\u0027s my preference that avoid using orderings that rely on global reasoning. Given it\u0027s a matter of preference I\u0027ll fix them up myself, that way I\u0027m hopeful I can submit the series.",
+      "parentUuid": "cfc33563_1e86b7a6",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b87850c2_7d038d78",
