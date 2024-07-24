@@ -103,6 +103,24 @@
       "message": "Can we please implement a `dbus_server_fini()` in `console-dbus.c` that encapsulates the necessary cleanup?\n\nAlso, can you please maintain the stack-order nature of the clean-up? Specifically, given `console_server_init()` calls `dbus_server_init()` after `tty_init()`, `console_server_fini()` should call `dbus_server_fini()` before `tty_fini()`, otherwise there are yet more strange race-conditions.",
       "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29df4194_9d57176c",
+        "filename": "console-server.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T07:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ee0ab2c_0ff92236",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
