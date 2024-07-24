@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17fdf444_b3effbb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 69
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T07:50:42Z",
+      "side": 1,
+      "message": "Hi Alexander, I\u0027ve reworked a few commits in the chain to address some of the comments i left, but also to address a collection of warnings from valgrind under various conditions. In the end I\u0027ve tested the series up to this commit on an AST2600 EVB, configuring obmc-console to use the heartbeat LED pin as the mux GPIO. It appears to behave as we\u0027ve specified without any further warnings from valgrind. I think any further changes can go in as fixes on top.\n\nThanks for your efforts so far!",
+      "revId": "a6b291048fcb0fb58ada2c47b29cbc80b5f5f514",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
