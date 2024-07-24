@@ -1,0 +1,8 @@
+Code-Review+2: Andrew Jeffery <andrew@codeconstruct.com.au>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Submitted-at: Wed, 24 Jul 2024 07:51:16 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/71884
+Comments-Total: 44
+Project: openbmc/obmc-console
+Branch: refs/heads/master
