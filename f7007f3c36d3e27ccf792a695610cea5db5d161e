@@ -16,6 +16,24 @@
       "message": "This will also likely",
       "revId": "f7007f3c36d3e27ccf792a695610cea5db5d161e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79a8d777_c8bbc9ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 67
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T01:48:36Z",
+      "side": 1,
+      "message": "Hmm, I think this was a stray draft comment that was lying around, disregard it.",
+      "parentUuid": "d1ad63fa_755d44b8",
+      "revId": "f7007f3c36d3e27ccf792a695610cea5db5d161e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
