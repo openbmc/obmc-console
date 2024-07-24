@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfc33563_1e86b7a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T01:43:59Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a couple of comments regarding race condition hazards inline.",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b87850c2_7d038d78",
+        "filename": "console-server.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T01:43:59Z",
+      "side": 1,
+      "message": "We have to set up the DBus objects after the handlers, as the exposed interfaces drive behaviours on the handlers. Setting up the DBus objects before the handlers exposes a race condition (see the interactions for baud rate control between the UART DBus interface and the tty handler).",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ea9c41_b9cfd167",
+        "filename": "console-server.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T01:43:59Z",
+      "side": 1,
+      "message": "Ideally we\u0027d tear-down the per-console DBus stuff too, but I think we can defer that to later as a cleanup.",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee0ab2c_0ff92236",
+        "filename": "console-server.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T01:43:59Z",
+      "side": 1,
+      "message": "Can we please implement a `dbus_server_fini()` in `console-dbus.c` that encapsulates the necessary cleanup?\n\nAlso, can you please maintain the stack-order nature of the clean-up? Specifically, given `console_server_init()` calls `dbus_server_init()` after `tty_init()`, `console_server_fini()` should call `dbus_server_fini()` before `tty_fini()`, otherwise there are yet more strange race-conditions.",
+      "revId": "f40c653b706b10f234eebcdd0a2022a0550d0836",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
