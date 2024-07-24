@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0385cd8f_e0d13cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T02:00:49Z",
+      "side": 1,
+      "message": "Hi Orit, thanks for the change. I have one suggestion that I think might help with the clarity of the code.",
+      "revId": "db3af9892e7e5511111706d20776f5345dce2a47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2f7a5a3_c7c3abe6",
+        "filename": "console-dbus.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-24T02:00:49Z",
+      "side": 1,
+      "message": "Maybe we could drop the assignment to `rc` altogether and use `strerror(-socket_fd)` below. I think that the assignment to `rc` is unnecessarily confusing as it\u0027s not used anywhere else in this code-path.",
+      "revId": "db3af9892e7e5511111706d20776f5345dce2a47",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
