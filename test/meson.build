@@ -65,6 +65,7 @@ integration_tests = [
   'test-console-logs-to-file',
   'test-console-socket-read-write',
   'test-console-client-can-read',
+  'test-console-client-can-write',
 ]
 
 foreach t : integration_tests
