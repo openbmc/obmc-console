@@ -62,6 +62,7 @@ test(
 )
 
 integration_tests = [
+  'test-console-logs-to-file',
 ]
 
 foreach t : integration_tests
