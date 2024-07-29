@@ -34,6 +34,7 @@ foreach ct : tests_depend_iniparser
 endforeach
 
 integration_tests = [
+  'test-console-logs-to-file',
 ]
 
 foreach t : integration_tests
