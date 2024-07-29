@@ -36,6 +36,7 @@ endforeach
 integration_tests = [
   'test-console-logs-to-file',
   'test-console-socket-read-write',
+  'test-console-client-can-read',
 ]
 
 foreach t : integration_tests
