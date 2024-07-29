@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5facc940_1ecb78d9",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "I think it needs to be unique since meson could be running multiple instances of the same test.\n\nRandom was just an easy way to achieve that. It\u0027s not ideal since there is a low probability of collision.\n\nWhat would you suggest? I see options like libuuid.\nhttps://www.man7.org/linux/man-pages/man3/uuid.3.html",
+      "parentUuid": "37620143_0215f52e",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eda97b1f_f814ceb6",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -48,6 +66,30 @@
       "writtenOn": "2024-07-29T02:15:31Z",
       "side": 1,
       "message": "So this looks a lot like `grep -qF ...`",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46e305b_07f53918",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "But ```grep -qF``` has like 0 readability.\n\nI would have to look it up actually what these flags mean.",
+      "parentUuid": "eda97b1f_f814ceb6",
       "range": {
         "startLine": 37,
         "startChar": 1,
@@ -81,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b45867d_2c701bbe",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "But ```grep -qF``` has like 0 readability.\n\nI would have to look it up actually what these flags mean.",
+      "parentUuid": "33b2555a_0298d5e6",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3837564c_8732936b",
@@ -94,6 +160,24 @@
       "writtenOn": "2024-07-29T02:15:31Z",
       "side": 1,
       "message": "Must we to dynamically generate config files? What are we actually trying to achieve? What are the alternatives?",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4920ff3_559b976d",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "The requirement for config files comes from the requirement to write a log file.\nSo the log file path has to be configured.\n\nCurrently i am generating the config file as the console id is randomized.\n\nThe console id only has to be unique and not necessarily random, as you suggested. This is because meson can execute tests in parallel and otherwise the log files and such from different tests would get in the way of each other.",
+      "parentUuid": "3837564c_8732936b",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -117,6 +201,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1bc924fc_30b16973",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "Same argument as above, I\u0027m somewhat allergic to bash scripts.\n\nThey work well in the simplest cases. But not scalable for integration tests and future expansion.",
+      "parentUuid": "76b0864c_43389322",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8237648d_0d349841",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -128,6 +230,24 @@
       "writtenOn": "2024-07-29T02:15:31Z",
       "side": 1,
       "message": "I feel like this would be easier in shell.",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720fdf99_d2a09ce6",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "I try to avoid shell scripts whenever i can. When even a tiny bit of logic is required, shell scripts become unreadable by default.\n\n\nWhy would the setup be easier in shell? Handling the different processes has some boilerplate in C but at least it\u0027s explicit and easier to read.\n\n\nIf we avoid the shell scripts then people do not have to jump back and forth between 2 languages when working on the tests.",
+      "parentUuid": "8237648d_0d349841",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -149,6 +269,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff4d37ad_dd89b238",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "```sd_bus_get_fd``` does not succeed in the console-server when i do that.\n\nTo me it looks like it is not allowed to re-use the bus connection in a child process like described here\nhttps://www.freedesktop.org/software/systemd/man/latest/sd_bus_get_fd.html#\n\nI think the AI described it pretty well:\n```\nTo handle D-Bus connections using sd_bus_default() in both parent and child \nprocesses, you should avoid sharing the sd_bus connection and associated file \ndescriptors across process boundaries. Instead, you should create a new sd_bus \nconnection in the child process.\n\n\nWhen you call sd_bus_default() in the parent process and then fork a child process, \nthe file descriptors associated with the D-Bus connection are inherited by the \nchild process, but the actual resources (context, etc.) are not safely shared. This \nis why sd_bus_get_fd() fails in the child process.\n\n```\n\nReworked things so now the tests are creating the dbus connection in ```fork_off_console_server``` and the connection is released in the individual tests.\n\nThe d-bus connection is created after the child has been forked off so no d-bus resources are leaked to the child.",
+      "parentUuid": "ca752718_bf1c1970",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e96fabd_3d21f01a",
@@ -166,6 +304,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05429fb8_6dc46e5b",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "Most tests need access to d-bus at least to block on the console-server bus name.\n\nSo the bus name acts as a barrier for the test to continue.",
+      "parentUuid": "3e96fabd_3d21f01a",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d686ae93_b6e3583c",
@@ -179,6 +335,24 @@
       "writtenOn": "2024-07-29T02:15:31Z",
       "side": 1,
       "message": "Can we use the unix domain socket instead? It doesn\u0027t involve quite so much of a dance. `obmc-console-client` already does what we need, and we can invoke it from a coordinating shell-script.",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83cf76e_af91d147",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-29T13:09:54Z",
+      "side": 1,
+      "message": "obmc-console-client would then need to be terminated after it has connected.\n\nOtherwise we just let it run free and hope it terminates when the server is killed.\n\nHow would we detect it has successfully connected?\n\nUsing the unix domain socket is a good idea but looking at ```client_init``` function, it\u0027s roughly the same amount of code.\n\nWhat about exposing parts of the ```client_init``` function as a separate function in obmc-console-client.h? \n\nThen we can re-use that function over here. Would that be ok with you?",
+      "parentUuid": "d686ae93_b6e3583c",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
