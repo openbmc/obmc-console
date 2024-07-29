@@ -54,41 +54,79 @@ endif
 
 iniparser_dep = dependency('iniparser')
 
-executable('obmc-console-server',
-           'config.c',
-           'console-dbus.c',
-           'console-server.c',
-           'console-socket.c',
-           'console-mux.c',
-           'log-handler.c',
-           'ringbuffer.c',
-           'socket-handler.c',
-           'tty-handler.c',
-           'util.c',
+sources_server = [
+ 'config.c',
+ 'console-dbus.c',
+ 'console-server.c',
+ 'console-socket.c',
+ 'console-mux.c',
+ 'log-handler.c',
+ 'ringbuffer.c',
+ 'socket-handler.c',
+ 'tty-handler.c',
+ 'util.c',
+]
+
+deps_server = [
+ dependency('libsystemd'),
+ iniparser_dep,
+ dependency('libgpiod'),
+ meson.get_compiler('c').find_library('rt')
+]
+
+server = executable('obmc-console-server',
+           sources_server,
            c_args: [
              '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
-             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
+             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
            ],
-           dependencies: [
-             dependency('libsystemd'),
-             iniparser_dep,
-             dependency('libgpiod'),
-             meson.get_compiler('c').find_library('rt')
-           ],
+           dependencies: deps_server,
            install_dir: get_option('sbindir'),
            install: true)
 
-executable('obmc-console-client',
-           'config.c',
-           'console-client.c',
-           'console-socket.c',
-           'util.c',
+server_testing = executable('obmc-console-server-testing',
+           sources_server,
            c_args: [
-             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))
+             '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
+             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+             '-fsanitize=address',
            ],
-           dependencies: [
-             iniparser_dep,
+           link_args: [
+             '-fsanitize=address',
            ],
+           dependencies: deps_server,
+           install_dir: get_option('sbindir'),
+           install: true)
+
+sources_client = [
+ 'config.c',
+ 'console-client.c',
+ 'console-socket.c',
+ 'util.c',
+]
+
+deps_client = [
+ iniparser_dep,
+]
+
+client = executable('obmc-console-client',
+           sources_client,
+           c_args: [
+             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+           ],
+           dependencies: deps_client,
+           install: true)
+
+client_testing = executable('obmc-console-client-testing',
+           sources_client,
+           c_args: [
+             '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+             '-fsanitize=address',
+           ],
+           link_args: [
+             '-fsanitize=address',
+           ],
+           dependencies: deps_client,
            install: true)
 
 if get_option('tests')

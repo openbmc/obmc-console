@@ -32,3 +32,44 @@ foreach ct : tests_depend_iniparser
     )
   )
 endforeach
+
+integration_tests = [
+]
+
+foreach t : integration_tests
+bin = executable(
+  t,
+  f'integration_test/@t@.c',
+  'integration_test/dbus-test-utils.c',
+  'integration_test/console-server-test-util.c',
+  '../console-socket.c',
+  '../util.c',
+  c_args: [
+    '-g',
+    '-DSYSCONFDIR=""',
+    '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
+    '-fsanitize=address',
+  ],
+  link_args: [
+    '-fsanitize=address',
+  ],
+  include_directories: '..',
+  dependencies: [
+    dependency('libsystemd'),
+    dependency('libgpiod'),
+    iniparser_dep,
+  ],
+)
+
+test(
+  t,
+  find_program('dbus-run-session'),
+  args: [
+    '--',
+    files('wrapper.sh'),
+    bin.full_path(),
+    server_testing.full_path(),
+    client_testing.full_path(),
+  ],
+)
+endforeach
