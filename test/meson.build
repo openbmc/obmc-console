@@ -32,3 +32,32 @@ foreach ct : tests_depend_iniparser
     )
   )
 endforeach
+
+test(
+  'test-console-server-parse-args',
+  executable(
+    'test-console-server-parse-args',
+    'test-console-server-parse-args.c',
+    '../console-server.c',
+    '../console-socket.c',
+    '../console-mux.c',
+    '../console-dbus.c',
+    '../ringbuffer.c',
+    '../socket-handler.c',
+    '../log-handler.c',
+    '../tty-handler.c',
+    '../config.c',
+    '../util.c',
+    c_args: [
+      '-DSYSCONFDIR=""',
+      '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
+    ],
+    include_directories: '..',
+    dependencies: [
+      dependency('libsystemd'),
+      dependency('libgpiod'),
+      iniparser_dep,
+    ],
+  )
+)
+
