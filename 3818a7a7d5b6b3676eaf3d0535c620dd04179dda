@@ -142,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f22d1b19_9224fc24",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-30T09:40:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "24db8440_6f0c2ca0",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33b2555a_0298d5e6",
@@ -244,6 +268,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12a82b99_061f98ac",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-30T09:40:37Z",
+      "side": 1,
+      "message": "Deriving console id from the test name does not solve the issue of multiple instances of that test running at the same time. There needs to be a unique component that is incremented or randomized. \n\nWe could derive the default log file name from the console ID but that would not be backwards compatible. Any programs expecting the default filename at\n\n```\nstatic const char *default_filename \u003d LOCALSTATEDIR \"/log/obmc-console.log\";\n```\n\nmay  fail. We can create the symlink at runtime to fix the issue but the symlink would then need to be kept up to date when the console id is changed in configuration.\n\nWe could say that the default log file name will be derived from the console id \nonly in case of multiple consoles.",
+      "parentUuid": "bcf1f46f_99096465",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76b0864c_43389322",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -297,6 +339,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d176309_2ccbce4c",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-30T09:40:37Z",
+      "side": 1,
+      "message": "\u003e Can you unpack this for me? What do you mean?\n\nShell scripts are not type-safe and do not have robust error handling.\n\nAlso it\u0027s kind of hard to migrate code between the support code and the individual tests, because it\u0027s different languages. \n\n\u003e What are the specific concerns about future expansion? Can you enumerate them?\n\nBash scripts cannot call c functions, only the already compiled binaries.\n\nSo if there is any need in the future to call a C function from the bash script that does the setup and coordinates the processes, it will have to be a separate binary. \n\n\u003e set -eu goes a long way.\n\nSane defaults are not a strength of shell scripts either.",
+      "parentUuid": "26d0300a_6766da2c",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8237648d_0d349841",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -344,6 +404,24 @@
       "side": 1,
       "message": "\u003e If we avoid the shell scripts then people do not have to jump back and forth between 2 languages when working on the tests.\n\nI expect the intersection of the sets of people who are working on obmc-console and who lack familiarity with shells is empty. This isn\u0027t a concern we should be accounting for.\n\n\u003e Why would the setup be easier in shell? \n\nShells coordinate processes. I see that as a fundamental problem they solve.\n\n\u003e Handling the different processes has some boilerplate in C but at least it\u0027s explicit and easier to read.\n\nOn the flip-side, you\u0027re writing yet more C, which is an error-prone task at the best of times. I feel that should be common ground based on experience with getting the mux patches merged.\n\nShell scripts, despite some of their hassles, are at least succinct in terms of running and managing processes.",
       "parentUuid": "720fdf99_d2a09ce6",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b2ed37_e5932352",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-30T09:40:37Z",
+      "side": 1,
+      "message": "\u003e I expect the intersection of the sets of people who are working on obmc-console and who lack familiarity with shells is empty. This isn\u0027t a concern we should be accounting for.\n\nI don\u0027t have expertise with shell scripts, and my friend \nhttps://devhints.io/bash can vouch for that :)\nSwitching context between different languages just reduces the productivity and that\u0027s a concern.\n\n\u003e Shells coordinate processes. I see that as a fundamental problem they solve.\n\nYes they can do that well but C can do it just as well with some amount of boilerplate.\n\n\u003e On the flip-side, you\u0027re writing yet more C, which is an error-prone task at the best of times. I feel that should be common ground based on experience with getting the mux patches merged.\n\nAgreed that writing C code is an error-prone task.\n\nThe test code does not have to be watertight. It is ok IMO if there is edge cases in a test where memory can leak. A test should always terminate and has a timeout defined through meson anyways.\n\nIf the happy path is correct that\u0027s already enough for a regression test.\n\nWhen the unhappy path occurs then the test is already failed anyways and does not need to have perfect cleanup.\n\n\n\u003e Shell scripts, despite some of their hassles, are at least succinct in terms of running and managing processes.\n\nThey are succinct because they assume some default control flow that C does not.\nFor example the default in shell scripts is to continue despite the error and undefined variable.\n\nPatching that with the ```set -eu``` then leads to the problem with resource cleanup. Killing any processes we started during the test, and so on.\n\nSo there is a need for variables now to store the PID and such.\n\nWhich are untyped/string in bash. So now there is also a problem with readability.\n\nTo avoid repeating ourselves we write functions to extract the common code.\n\nThe functions are also untyped in bash. It is unclear which type the argument has. \n\nWhich makes it also hard to refactor any call sites.\n\n## in summary\n\n- i have many doubts about bash scripts\n- i have almost no expertise in writing bash scripts\n- shell scripts are objectively worse in various ways for many programming tasks\n- shell scripts do not scale due to above reason\n- the c code for a test does not have to have the same quality as the c code for a program\n- many checks can be ignored when writing a test in C. If the test crashes or segfaults, we are already on the unhappy path and the test has failed anyways.\n- we already have code for the integration tests written in C\n- it is unclear to me why shell has suddenly appeared on the drawing board. \n- it\u0027s not common to introduce a new language to a project just because it is slightly better at some task\n- it is unclear where the line should be drawn, if the entire test should be in bash or only the coordination part\n- writing tests in bash introduces an inconsistency with the existing tests which are written in C",
+      "parentUuid": "caa160fb_a1811442",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
