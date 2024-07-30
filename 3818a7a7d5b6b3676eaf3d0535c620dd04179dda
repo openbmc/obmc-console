@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "abed57a6_9a22c2a0",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "No, there\u0027s no need for libuuid. See my comment below about test names.",
+      "parentUuid": "5facc940_1ecb78d9",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eda97b1f_f814ceb6",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "But ```grep -qF``` has like 0 readability.\n\nI would have to look it up actually what these flags mean.",
       "parentUuid": "eda97b1f_f814ceb6",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24db8440_6f0c2ca0",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "Unfamiliarity doesn\u0027t mean it\u0027s the wrong tool?",
+      "parentUuid": "d46e305b_07f53918",
       "range": {
         "startLine": 37,
         "startChar": 1,
@@ -184,6 +226,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcf1f46f_99096465",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "Test names also need to be unique. Can we align things so the console ID is derived from the test name?\n\nRegarding the logs, can we derive the default log file name from the console ID (as an enhancement to the core obmc-console functionality)?",
+      "parentUuid": "e4920ff3_559b976d",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76b0864c_43389322",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -219,6 +279,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26d0300a_6766da2c",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "\u003e But not scalable for integration tests\n\nCan you unpack this for me? What do you mean?\n\n\u003e and future expansion.\n\nWhat are the specific concerns about future expansion? Can you enumerate them?\n\n\u003e I\u0027m somewhat allergic to bash scripts.\n\nThat\u0027s unfortunate, but it does not mean that shell scripts are not the right tool for the job.\n\n`set -eu` goes a long way.",
+      "parentUuid": "1bc924fc_30b16973",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8237648d_0d349841",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
@@ -248,6 +326,24 @@
       "side": 1,
       "message": "I try to avoid shell scripts whenever i can. When even a tiny bit of logic is required, shell scripts become unreadable by default.\n\n\nWhy would the setup be easier in shell? Handling the different processes has some boilerplate in C but at least it\u0027s explicit and easier to read.\n\n\nIf we avoid the shell scripts then people do not have to jump back and forth between 2 languages when working on the tests.",
       "parentUuid": "8237648d_0d349841",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa160fb_a1811442",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "\u003e If we avoid the shell scripts then people do not have to jump back and forth between 2 languages when working on the tests.\n\nI expect the intersection of the sets of people who are working on obmc-console and who lack familiarity with shells is empty. This isn\u0027t a concern we should be accounting for.\n\n\u003e Why would the setup be easier in shell? \n\nShells coordinate processes. I see that as a fundamental problem they solve.\n\n\u003e Handling the different processes has some boilerplate in C but at least it\u0027s explicit and easier to read.\n\nOn the flip-side, you\u0027re writing yet more C, which is an error-prone task at the best of times. I feel that should be common ground based on experience with getting the mux patches merged.\n\nShell scripts, despite some of their hassles, are at least succinct in terms of running and managing processes.",
+      "parentUuid": "720fdf99_d2a09ce6",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -353,6 +449,24 @@
       "side": 1,
       "message": "obmc-console-client would then need to be terminated after it has connected.\n\nOtherwise we just let it run free and hope it terminates when the server is killed.\n\nHow would we detect it has successfully connected?\n\nUsing the unix domain socket is a good idea but looking at ```client_init``` function, it\u0027s roughly the same amount of code.\n\nWhat about exposing parts of the ```client_init``` function as a separate function in obmc-console-client.h? \n\nThen we can re-use that function over here. Would that be ok with you?",
       "parentUuid": "d686ae93_b6e3583c",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "336f811b_49c4160c",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-30T00:15:29Z",
+      "side": 1,
+      "message": "\u003e Would that be ok with you?\n\nNot as yet. The discussion about doing this using shell scripts needs to be resolved.",
+      "parentUuid": "a83cf76e_af91d147",
       "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
