@@ -1,0 +1,47 @@
+#!/usr/bin/sh
+
+set -eu
+
+SOCAT="$1"
+SERVER="$2"
+
+# Meet DBus bus and path name constraints
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+SOCAT_PID=""
+SERVER_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$SERVER_PID" ] || kill -s INT "$SERVER_PID"
+  [ -z "$SOCAT_PID" ] || kill "$SOCAT_PID"
+  wait
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+TEST_LOG="${TEST_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+[$TEST_NAME]
+logfile = $TEST_LOG
+console-id = $TEST_NAME
+EOF
+
+"$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+SOCAT_PID="$!"
+while ! [ -e remote -a -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do sleep 1; done
+
+echo console-should-log-to-file > remote
+sleep 1
+grep -LF console-should-log-to-file "$TEST_LOG"
