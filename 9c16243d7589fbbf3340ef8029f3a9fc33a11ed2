@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc6dfd9_5f76757b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-31T13:53:11Z",
+      "side": 1,
+      "message": "looks good. \n\nThis was probably one of the easier easier examples but i see your point of how an integration test like this can be shorter when written in bash.\n\n\nThis however cannot do asan / ubsan on the code. \n\nThe application is not linked to the test so it is just like any other program that is called.\n\nAlso the code from the application cannot be re-used for the test.",
+      "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
