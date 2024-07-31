@@ -446,6 +446,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "434a3162_c5660f4c",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-07-31T16:37:58Z",
+      "side": 1,
+      "message": "Thanks for doing that work to provide the example shell script.\nI can see how it is very short 😊\n\nLooking at the overhead i caused with the ```struct console_server_args``` and separate main function, that is not necessary.\n\nWhen we compile the server and client also with asan support, then the test can just call ```execl``` or any of these functions with it after forking.\n\nSo there is no need for the separate main function or the separate struct for the arguments. So i could abandon 3 patches.\n\nWhat remains is still not small (looking at what\u0027s required to have ```test: console-logging```), including the support code, without the patches underneath.\n\n```\n[alex@thonkpadT14 obmc-console]$ git diff --stat debug-logging..6e0fa51\n meson.build                                       |  88 ++++++++++++++++++--------\n test/integration_test/console-server-test-util.c  | 232 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/integration_test/console-server-test-util.h  |  34 ++++++++++\n test/integration_test/dbus-test-utils.c           |  56 ++++++++++++++++\n test/integration_test/dbus-test-utils.h           |   5 ++\n test/integration_test/test-console-logs-to-file.c |  66 +++++++++++++++++++\n test/meson.build                                  |  42 ++++++++++++\n test/wrapper.sh                                   |  18 ++++++\n 8 files changed, 516 insertions(+), 25 deletions(-)\n```\n\nLet\u0027s say i can try to calculate the ```diff --stat ``` to be more in my favor.\n\nThe ```test: integration test support code```  is currently at \n7 files changed, 449 insertions(+), 25 deletions(-)\n\nSo let\u0027s say it\u0027s diff of +- 474.\n\nThe ```test: console logging``` is currently at + 67.\n\nWe have 5 integration tests. So the cost for one patch will be\n``` 474/5 \u003d 94.8 ```\nAdding that to our test we have ```67 + 95 \u003d 162```.\n\nSo my test now only weighs in at around ```162/59 ~\u003d 2.74``` times your script.\n\n\nThere are additional ways corners can be cut in the support code. I did not look into them much since the additional error messages were helpful when developing the tests.",
+      "parentUuid": "60ade0e0_23c5c5ef",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca752718_bf1c1970",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
