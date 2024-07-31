@@ -428,6 +428,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60ade0e0_23c5c5ef",
+        "filename": "test/integration_test/console-server-test-util.c",
+        "patchSetId": 60
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-07-31T05:02:18Z",
+      "side": 1,
+      "message": "As a demonstration of what I had in mind, I\u0027ve re-implemented [test: console logging](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73119) in [wip: tests: Alternative test-console-logs-to-file](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73211).\n\nAs a small bit of analysis, accounting for all the required infrastructure for [test: console logging](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73119), we have the following diffstat:\n\n```\n$ git fetch https://gerrit.openbmc.org/openbmc/obmc-console refs/changes/19/73119/2 \u0026\u0026 git checkout FETCH_HEAD\nHEAD is now at 83fedbc99c3f test: console logging\n$ git id ef4060373dbea920962be155a6fcc80a7f4547aa\nef4060373dbe (\"Add debug logging\")\n$ git diff --stat ef4060373dbea920962be155a6fcc80a7f4547aa..\n console-client-main.c                             |  22 ++++++++++++++++++++++\n console-client.c                                  |   2 +-\n console-client.h                                  |  19 +++++++++++++++++++\n console-server-main.c                             |  22 ++++++++++++++++++++++\n console-server.c                                  |  75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------\n console-server.h                                  |  14 ++++++++++++++\n meson.build                                       |   2 ++\n test/integration_test/console-server-test-util.c  | 244 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/integration_test/console-server-test-util.h  |  36 ++++++++++++++++++++++++++++++++++++\n test/integration_test/dbus-test-utils.c           |  56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/integration_test/dbus-test-utils.h           |   5 +++++\n test/integration_test/test-console-logs-to-file.c |  72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/meson.build                                  |  77 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/test-console-server-parse-args.c             |  63 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n test/wrapper.sh                                   |  16 ++++++++++++++++\n 15 files changed, 705 insertions(+), 20 deletions(-)\n$\n```\n\nAs it stands, `+705, -20` is all necessary for [test: console logging](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73119) to be run. Most of it\u0027s C, a small portion of it is shell, and another small portion is meson. By contrast, [wip: tests: Alternative test-console-logs-to-file](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73211) is a self-contained change that doesn\u0027t require any rework of the existing code, and weighs in at `+57, -2`. 45 lines of the diffstat are the (relatively straight-forward) shell script, which as far as I\u0027m aware meets all the isolation needs to enable parallel execution.",
+      "parentUuid": "a7b2ed37_e5932352",
+      "revId": "3818a7a7d5b6b3676eaf3d0535c620dd04179dda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca752718_bf1c1970",
         "filename": "test/integration_test/console-server-test-util.c",
         "patchSetId": 60
