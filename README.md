@@ -9,7 +9,7 @@ To build this project, run the following shell commands:
 
 To test:
 
-    meson test -C build
+    dbus-run-session meson test -C build
 
 ## To Run Server
 

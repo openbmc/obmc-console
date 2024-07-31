@@ -25,6 +25,14 @@ Change categories:
 
    More details can be found [in the documentation](docs/mux-support.md).
 
+4. Integration tests
+
+   Note that it's now advised to run `meson test ...` under [dbus-run-session][]
+   as the integration tests connect to the session bus.
+
+[dbus-run-session]:
+  https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html
+
 ### Changed:
 
 1. The bespoke config parser was replaced with iniparser
