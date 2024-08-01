@@ -16,6 +16,24 @@
       "message": "looks good. \n\nThis was probably one of the easier easier examples but i see your point of how an integration test like this can be shorter when written in bash.\n\n\nThis however cannot do asan / ubsan on the code. \n\nThe application is not linked to the test so it is just like any other program that is called.\n\nAlso the code from the application cannot be re-used for the test.",
       "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bede628_7def3911",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-01T00:34:27Z",
+      "side": 1,
+      "message": "\u003e This however cannot do asan / ubsan on the code. \n\nCan you unpack your concerns here?\n\nFor reference, in the following gist I introduce a heap overflow, and it it is detected just fine by ASAN:\n\nhttps://gist.github.com/amboar/afe2352080d9280df07f44105b4d7a9f\n\nThis works because the `obmc-console-server` binary is compiled and linked with ASAN support, as requested by `meson setup -Db_sanitize\u003daddress,undefined`, and we invoke the built binary. This goes for `obmc-console-client` as well.\n\n\u003e Also the code from the application cannot be re-used for the test.\n\nAs a maintainer of the code, for test cases like what I\u0027ve demonstrated here, copy/paste isn\u0027t high on my list of concerns. It\u0027s fine. It\u0027s just test code. We can always rework it later if becomes a maintenance concern, which, as a maintainer of obmc-console, is my problem to fix given I\u0027m asking you to create it. Please don\u0027t consider discarding the \"DRY\" principle a blocker to writing shell scripts for the tests.\n\n(A final nit is that the script is written for `sh` and not `bash`. It runs just fine in e.g. the [dash](https://man7.org/linux/man-pages/man1/dash.1.html) shell, which is constrained to the POSIX shell specification. IMO `bash` has a lot of features that allow the implementation to creep into the territory of \"this should not be a shell script\", and should be avoided).",
+      "parentUuid": "3bc6dfd9_5f76757b",
+      "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
