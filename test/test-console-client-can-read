@@ -1,0 +1,60 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+CLIENT="$3"
+
+# Meet DBus bus and path name constraints, append own PID for parallel runs
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+PTYS_PID=""
+SERVER_PID=""
+CLIENT_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$CLIENT_PID" ] || kill "$CLIENT_PID"
+  [ -z "$SERVER_PID" ] || kill "$SERVER_PID"
+  [ -z "$PTYS_PID" ] || kill "$PTYS_PID"
+  wait
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+TEST_LOG="${TEST_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+[$TEST_NAME]
+console-id = $TEST_NAME
+logfile = $TEST_LOG
+EOF
+
+"$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+PTYS_PID="$!"
+while ! [ -e remote ] || ! [ -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do sleep 1; done
+
+$SOCAT EXEC:"$CLIENT -i $TEST_NAME" EXEC:'grep -m1 -qF client-reads-this' &
+CLIENT_PID="$!"
+
+sleep 1
+
+echo client-reads-this > remote
+
+sleep 1
+
+# If we can signal the process, the test has failed.
+# The 'grep -m1' should have ended the process when the message was read.
+kill -0 "$CLIENT_PID" && exit 1
+CLIENT_PID=""
