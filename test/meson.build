@@ -58,3 +58,11 @@ test('test-console-client-can-write',
   depends: [ server, client ],
   suite: 'itest'
 )
+
+meson.override_find_program('test-console-socket-read', files('test-console-socket-read'))
+test('test-console-socket-read',
+  find_program('test-console-socket-read'),
+  args: [ socat.full_path(), server.full_path(), client.full_path() ],
+  depends: [ server ],
+  suite: 'itest'
+)
