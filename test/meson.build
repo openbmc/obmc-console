@@ -43,10 +43,16 @@ test('test-console-logs-to-file',
   suite: 'itests'
 )
 
-meson.override_find_program('test-console-client-can-read', files('test-console-client-can-read'))
-test('test-console-client-can-read',
-  find_program('test-console-client-can-read'),
-  args: [ socat.full_path(), server.full_path(), client.full_path() ],
-  depends: [ server, client ],
-  suite: 'itests'
-)
+client_tests = [
+  'test-console-client-can-read',
+  'test-console-client-can-write',
+]
+
+foreach ct : client_tests
+  test(ct,
+    find_program(ct),
+    args: [ socat.full_path(), server.full_path(), client.full_path() ],
+    depends: [ server, client ],
+    suite: 'itests'
+  )
+endforeach
