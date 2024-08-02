@@ -1,0 +1,54 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+
+# Meet DBus bus and path name constraints, append own PID for parallel runs
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+
+PTY_PID=""
+SERVER_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$SERVER_PID" ] || kill "$SERVER_PID" || true
+  [ -z "$PTY_PID" ] || kill "$PTY_PID"
+
+  wait
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+TEST_LOG="${TEST_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+[$TEST_NAME]
+console-id = $TEST_NAME
+logfile = $TEST_LOG
+EOF
+
+"$SOCAT" PTY,raw,echo=0,link=local EXEC:'grep -m1 -qF socket-write' &
+PTY_PID="$!"
+while ! [ -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do sleep 1; done
+
+sleep 1
+
+echo socket-write | socat -u - "ABSTRACT:obmc-console.${TEST_NAME}"
+
+sleep 1
+
+kill -0 "$PTY_PID" && exit 1
+PTY_PID=""
