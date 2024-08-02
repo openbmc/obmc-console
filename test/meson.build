@@ -39,6 +39,7 @@ server_tests = [
   'test-console-logs-to-file',
   'test-console-socket-read',
   'test-console-socket-write',
+  'test-multiple-consoles',
 ]
 
 foreach st : server_tests
