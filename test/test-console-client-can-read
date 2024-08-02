@@ -1,0 +1,67 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+CLIENT="$3"
+
+# Meet DBus bus and path name constraints
+TEST_NAME="$(basename "$0" | tr '-' '_')"
+TEST_DIR="$(mktemp --tmpdir --directory "$TEST_NAME.XXXXXX")"
+SOCAT_PID=""
+SERVER_PID=""
+CLIENT_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ $(kill -0 "$CLIENT_PID") ] || kill "$CLIENT_PID"
+  kill -- -$PIPER_PID
+  [ $(kill -0 "$SERVER_PID") ] || kill -s INT "$SERVER_PID"
+  [ $(kill -0 "$SOCAT_PID") ] || kill "$SOCAT_PID"
+  ps
+  wait
+  ps
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+TEST_LOG="${TEST_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+[$TEST_NAME]
+console-id = $TEST_NAME
+logfile = $TEST_LOG
+EOF
+
+"$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+SOCAT_PID="$!"
+while ! [ -e remote -a -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+
+sleep 1
+
+# create the input pipe for the client and keep it open
+mkfifo input_pipe
+setsid sh -c 'while true; do sleep 3600; done' > input_pipe &
+PIPER_PID="$!"
+
+# client should read the message
+"$CLIENT" -i "$TEST_NAME" > client-read.txt < input_pipe &
+CLIENT_PID="$!"
+
+sleep 1
+
+printf "client-reads-this" > remote
+
+sleep 1
+
+grep -qF client-reads-this client-read.txt
