@@ -74,3 +74,11 @@ test('test-console-socket-write',
   depends: [ server ],
   suite: 'itests'
 )
+
+meson.override_find_program('test-multiple-consoles', files('test-multiple-consoles'))
+test('test-multiple-consoles',
+  find_program('test-multiple-consoles'),
+  args: [ socat.full_path(), server.full_path() ],
+  depends: [ server ],
+  suite: 'itests'
+)

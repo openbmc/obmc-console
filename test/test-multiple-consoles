@@ -1,0 +1,67 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+
+# Meet DBus bus and path name constraints, append own PID for parallel runs
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+SOCAT_PID=""
+SERVER_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$SOCAT_PID2" ] || kill "$SOCAT_PID2"
+  [ -z "$SERVER_PID" ] || kill "$SERVER_PID"
+  [ -z "$SOCAT_PID" ] || kill "$SOCAT_PID"
+
+  wait
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+
+TEST_A_NAME="${TEST_NAME}_a"
+TEST_A_LOG="${TEST_A_NAME}.log"
+
+TEST_B_NAME="${TEST_NAME}_b"
+TEST_B_LOG="${TEST_B_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_A_NAME
+[$TEST_A_NAME]
+logfile = $TEST_A_LOG
+console-id = $TEST_A_NAME
+[$TEST_B_NAME]
+logfile = $TEST_B_LOG
+console-id = $TEST_B_NAME
+EOF
+
+"$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+SOCAT_PID="$!"
+while ! [ -e remote -a -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+
+while ! busctl status --user xyz.openbmc_project.Console."${TEST_A_NAME}"; do sleep 1; done
+
+echo "log-for-console-1" > remote
+sleep 1
+grep -qFL "log-for-console-1" "$TEST_A_LOG"
+
+# change the active console
+socat -u "ABSTRACT:obmc-console.${TEST_B_NAME}" CREATE:socket_read.txt &
+SOCAT_PID2="$!"
+sleep 1
+
+echo "log-for-console-2" > remote
+sleep 1
+grep -qFL "log-for-console-2" "$TEST_B_LOG"
