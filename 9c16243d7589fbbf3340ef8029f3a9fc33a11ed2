@@ -52,6 +52,24 @@
       "parentUuid": "7bede628_7def3911",
       "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ed0dad_fa095482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-05T01:28:19Z",
+      "side": 1,
+      "message": "\u003e Well meson has always been hard to grasp for me. Probably it did not work for me in this way because i never specified depends: [ server ],.\n\nIf you have questions about meson I\u0027m happy to have a crack at answering them; but really all I have is experience with bashing my head against it. However, I do find I do less head-bashing with meson than say autotools. The meson documentation tends to be quite good, and the language itself tends to be pretty readable. We need to specify `depends` in this instance to make sure that `obmc-console-server` is actually built before we invoke it in the test...\n\n\u003e Started implementing the tests in shell, for some reason some of them still fail in CI, but not when i run them in CI locally. Maybe i need to isolate them even more.\n\nI\u0027ve looked into this (also based on your DM) and got it sorted; with PS2 `dbus-run-session meson test --repeat 500 -C build test-console-logs-to-file` completes successfully. I\u0027ve made several small tweaks that you can see here:\n\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/73211/1..2/test/test-console-logs-to-file\n\nThe change that addresses the flakiness you found is to add:\n\n```\nwhile ! busctl status --user xyz.openbmc_project.Console.\"${TEST_NAME}\"; do sleep 1; done\n```\n\nI [used strace](https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73308/1/test/meson.build) to understand what was going on. It turned out that while the `obmc-console-server` process had been forked off, in the failing cases it had either not yet `exec`ed from the subshell to the `obmc-console-server` image, or had, but had not completed initialisation before we hit it with `kill -s INT ...`. Essentially it was a lack of control over the scheduling. Ensuring that its initialisation has completed by testing for its presence on DBus lead to much higher reliability.\n\nAnother thing to note in the intra-patch diff is adding support for parallel instances on the one DBus session via `${$}` (the PID of the current shell process). This allows meson\u0027s `--repeat N` to behave correctly.\n\nThe final important difference is I got the test suite name wrong: It should be `itests` (plural) and not `itest` (singular).\n\nI haven\u0027t yet looked at your subsequent test implementations, but I expect you will need to account for these changes too.",
+      "parentUuid": "a141ead7_3fbe1b21",
+      "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
