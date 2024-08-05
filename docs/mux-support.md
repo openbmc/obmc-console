@@ -39,7 +39,7 @@ of an N-bit number that is taken from 'mux-index'.
 For declaring the different consoles, the section name, e.g. `[host1]` must be
 the same as the console-id. All of the section names need to be unique.
 
-```
+```sh
 $ cat server.conf
 mux-gpios = MUX_CTL
 
@@ -55,7 +55,7 @@ logfile = /var/log/console-host2.log
 Now the server can be started. See the [Dbus Interface](#dbus-interface-example)
 and [Example Diagram](#example-diagram)
 
-```
+```sh
 $ obmc-console-server --config server.conf /dev/ttyS0
 ```
 
@@ -67,7 +67,7 @@ to this console. Any clients connected to other consoles are disconnected.
 
 ### Mux Control - Example
 
-```
+```sh
 $ obmc-console-client -i host2 &
 [1] 3422
 $ obmc-console-client -i host1
@@ -94,11 +94,11 @@ may be confusion as to why there is a gap in the logs.
 
 So obmc-console-server will print one of these messages to all clients:
 
-```
+```sh
 [obmc-console] %Y-%m-%d %H:%M:%S UTC CONNECTED
 ```
 
-```
+```sh
 [obmc-console] %Y-%m-%d %H:%M:%S UTC DISCONNECTED
 ```
 
@@ -112,7 +112,7 @@ The exact format of this log message is not fixed and could change.
 
 ## Dbus Interface Example
 
-```
+```sh
 $ busctl list
 ...
 xyz.openbmc_project.Console.host1 926 obmc-console-server root ...
@@ -120,7 +120,7 @@ xyz.openbmc_project.Console.host2 926 obmc-console-server root ...
 ...
 ```
 
-```
+```sh
 $ busctl tree xyz.openbmc_project.Console.host2
 └─ /xyz
   └─ /xyz/openbmc_project
@@ -136,7 +136,7 @@ $ busctl tree xyz.openbmc_project.Console.host1
       └─ /xyz/openbmc_project/console/host2
 ```
 
-```
+```sh
 $ busctl introspect xyz.openbmc_project.Console.host1 /xyz/openbmc_project/console/host1
 NAME                                TYPE      SIGNATURE RESULT/VALUE FLAGS
 org.freedesktop.DBus.Introspectable interface -         -            -
@@ -155,7 +155,7 @@ xyz.openbmc_project.Console.Access  interface -         -            -
 
 ## Example Diagram
 
-```
+```text
                                           +--------------------+
                                           | server.conf        |
                                           +--------------------+
