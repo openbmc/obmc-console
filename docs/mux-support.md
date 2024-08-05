@@ -1,4 +1,4 @@
-## Mux Support
+# Mux Support
 
 In some hardware designs, multiple UARTS may be available behind a Mux, which
 requires obmc-console to select one at a time.
