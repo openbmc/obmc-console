@@ -56,7 +56,7 @@ Now the server can be started. See the [Dbus Interface](#dbus-interface-example)
 and [Example Diagram](#example-diagram)
 
 ```text
-$ obmc-console-server --config server.conf /dev/ttyS0
+obmc-console-server --config server.conf /dev/ttyS0
 ```
 
 ## Mux Control
