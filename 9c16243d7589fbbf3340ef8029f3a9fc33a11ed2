@@ -70,6 +70,24 @@
       "parentUuid": "a141ead7_3fbe1b21",
       "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d223adfd_3f2d9bd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-05T08:50:44Z",
+      "side": 1,
+      "message": "Thanks for taking the time to look into this!\n\n\u003edbus-run-session meson test --repeat 500 -C build test-console-logs-to-file\n\nThis is good to know.\n\nUpdated the subsequent patches with your changes (unique name, directory, wait for obmc-console-server dbus, \"itest\"-\u003e\"itests\")\n\nNow they are passing in CI and also tested them locally with ```--repeat 50```",
+      "parentUuid": "b7ed0dad_fa095482",
+      "revId": "9c16243d7589fbbf3340ef8029f3a9fc33a11ed2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
