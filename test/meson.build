@@ -34,11 +34,16 @@ foreach ct : tests_depend_iniparser
 endforeach
 
 socat = find_program('socat', native: true)
+strace = find_program('strace', native: true)
 
 meson.override_find_program('test-console-logs-to-file', files('test-console-logs-to-file'))
 test('test-console-logs-to-file',
-  find_program('test-console-logs-to-file'),
-  args: [ socat.full_path(), server.full_path() ],
+  strace,
+  args: [
+    '-tt', '-y', '-Y', '-f', '-e', 'exit_group,write,%signal',
+    find_program('test-console-logs-to-file').full_path(),
+    socat.full_path(), server.full_path()
+  ],
   depends: [ server ],
   suite: 'itests'
 )
