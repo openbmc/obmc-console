@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dff053b_58bc09e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-06T01:43:39Z",
+      "side": 1,
+      "message": "Hi Alexander, I think we can reduce the moving parts to detect if the client has received expected data, see the comments inline.",
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3996403_e833584c",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-06T01:43:39Z",
+      "side": 1,
+      "message": "I\u0027d rather we use:\n\n```\n[ -z \"$CLIENT_PID\" ] || kill \"$CLIENT_PID\"\n```\n\nSame for the cases below. The \"`kill -0` has output\" trick involves yet another subshell when we can just test the variable directly.\n\nFinally, the discussion on the implementation below may impact what cleanup needs to be done here.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eecc3f16_fd1c0b04",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-06T01:43:39Z",
+      "side": 1,
+      "message": "So after a bit of experimentation I think we can simplify this a bit. Here\u0027s the diff that I\u0027ve tested:\n\n```\ndiff --git a/test/test-console-client-can-read b/test/test-console-client-can-read\nindex 6ad6f7ea388e..a39416e103ee 100755\n--- a/test/test-console-client-can-read\n+++ b/test/test-console-client-can-read\n@@ -17,8 +17,7 @@ cd \"$TEST_DIR\"\n \n cleanup()\n {\n-  [ $(kill -0 \"$CLIENT_PID\") ] || kill \"$CLIENT_PID\"\n-  kill -- -$PIPER_PID\n+  [ -z \"$CLIENT_PID\" ] || kill \"$CLIENT_PID\"\n   [ $(kill -0 \"$SERVER_PID\") ] || kill -s INT \"$SERVER_PID\"\n   [ $(kill -0 \"$SOCAT_PID\") ] || kill \"$SOCAT_PID\"\n   wait\n@@ -44,22 +43,13 @@ while ! [ -e remote -a -e local ]; do sleep 1; done\n \n \"$SERVER\" --config \"$TEST_CONF\" \"$(realpath local)\" \u0026\n SERVER_PID\u003d\"$!\"\n-\n while ! busctl status --user xyz.openbmc_project.Console.\"${TEST_NAME}\"; do sleep 1; done\n \n-# create the input pipe for the client and keep it open\n-mkfifo input_pipe\n-setsid sh -c \u0027while true; do sleep 3600; done\u0027 \u003e input_pipe \u0026\n-PIPER_PID\u003d\"$!\"\n-\n-# client should read the message\n-\"$CLIENT\" -i \"$TEST_NAME\" \u003e client-read.txt \u003c input_pipe \u0026\n+socat EXEC:\"$CLIENT -i $TEST_NAME\" EXEC:\u0027grep -m1 -F client-reads-this\u0027 \u0026\n CLIENT_PID\u003d\"$!\"\n \n+echo client-reads-this \u003e remote\n sleep 1\n \n-printf \"client-reads-this\" \u003e remote\n-\n-sleep 1\n-\n-grep -qF client-reads-this client-read.txt\n+! kill -0 \"$CLIENT_PID\"\n+CLIENT_PID\u003d\"\"\n```\n\nWhat do you think?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
