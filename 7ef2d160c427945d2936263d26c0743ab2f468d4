@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "057a227a_661f1ca8",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-06T12:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3996403_e833584c",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 30
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eecc3f16_fd1c0b04",
@@ -78,6 +102,30 @@
       "side": 1,
       "message": "Ah, so:\n\n```\n+socat EXEC:\"$CLIENT -i $TEST_NAME\" EXEC:\u0027grep -m1 -F client-reads-this\u0027 \u0026\n```\n\nshould be\n\n```\n+$SOCAT EXEC:\"$CLIENT -i $TEST_NAME\" EXEC:\u0027grep -m1 -F client-reads-this\u0027 \u0026\n```\n\nI meant to fix that before posting but it slipped through the cracks.",
       "parentUuid": "eecc3f16_fd1c0b04",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26eeca87_4d53538d",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-06T12:18:22Z",
+      "side": 1,
+      "message": "The trick with ```grep -m1``` is great, did not know of that before.\nsocat exec is also great.\n\nBut i do not understand how the grep will influence the exit code.\nDid some experiments to confirm this.\n\n```\n[alex@thonkpadT14 ~]$ false \u0026\n[1] 4304\n[1]+  Exit 1                  false\n[alex@thonkpadT14 ~]$ echo $?\n0\n[alex@thonkpadT14 ~]$ false\n[alex@thonkpadT14 ~]$ echo $?\n1\n```\n\nAlso this one\n\n```\n[alex@thonkpadT14 ~]$ false\n[alex@thonkpadT14 ~]$ socat EXEC:\"echo 1234\" EXEC:\"grep -m1 -F 1234\" \u0026\n[1] 4398\n[alex@thonkpadT14 ~]$ 2024/08/06 10:22:40 socat[4398] E write(5, 0x581753aa3000, 5): Broken pipe\n\n[1]+  Exit 1                  socat EXEC:\"echo 1234\" EXEC:\"grep -m1 -F 1234\"\n[alex@thonkpadT14 ~]$ echo $?\n0\n[alex@thonkpadT14 ~]$ socat EXEC:\"echo 1234\" EXEC:\"grep -m1 -F 12345\" \u0026\n[1] 4412\n[alex@thonkpadT14 ~]$ 2024/08/06 10:22:55 socat[4412] W waitpid(): child 4414 exited with status 1\n\n[1]+  Exit 1                  socat EXEC:\"echo 1234\" EXEC:\"grep -m1 -F 12345\"\n[alex@thonkpadT14 ~]$ echo $?\n0\n```\n\nSo the background process does not seem to influence the exit code, which makes sense since it might live on.\n\nAdded a ```wait``` on the socat which will make the grep timeout the test in the failure case.",
+      "parentUuid": "c7f94eeb_420184db",
       "range": {
         "startLine": 50,
         "startChar": 0,
