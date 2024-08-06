@@ -16,6 +16,24 @@
       "message": "Alexander: Can you take over this patch and clean it up? Mainly fix up the commit message so it\u0027s ready for submission, replacing the link to the other patch with an actual description (and removing `wip:` from the subject).",
       "revId": "5ea401f8783d149d4974852dbd61a36bac777165",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3bfa83d_21949b7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-06T12:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519bbfad_9d309df8",
+      "revId": "5ea401f8783d149d4974852dbd61a36bac777165",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
