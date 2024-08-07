@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a73a929_e473faec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T23:28:10Z",
+      "side": 1,
+      "message": "Hi Alexander, I have just the one outstanding request on the commit message (which also applies to the rest of the series). Otherwise, I think this is ready to merge.",
+      "revId": "f9672c5e0363dee4572d642dc5156bf64dfd6b82",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c87e95ae_d8428f33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T23:28:10Z",
+      "side": 1,
+      "message": "That\u0027s evident in Gerrit by those that were abandoned vs merged. There\u0027s no motivation for the `(shell)` suffix for anyone looking at the git log. Please remove it.",
+      "parentUuid": "0793cb14_b10a35b9",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "49b7893e10fcef1106e8f20ec09b56165237f8ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03084922_01950c89",
         "filename": "test/test-console-logs-to-file",
         "patchSetId": 3
