@@ -182,6 +182,30 @@
       },
       "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01d3eb5b_aff32e3a",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-07T10:00:55Z",
+      "side": 1,
+      "message": "Just looking at this explanation from a distance already shows how many mental hoops one has to go through to use bash effectively 😄\n\nAdded a small comment to summarize your explanations and otherwise changed it to be more in line with your diff.",
+      "parentUuid": "80304d0e_dd8fe847",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
