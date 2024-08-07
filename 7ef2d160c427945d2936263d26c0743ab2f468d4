@@ -134,6 +134,30 @@
       },
       "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a668df68_7ef7f1bd",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T00:21:20Z",
+      "side": 1,
+      "message": "\u003e But i do not understand how the grep will influence the exit code.\n\nAh, so I should probably have explained myself a bit more there, just sending you a diff was probably a bit terse 😊\n\nEssentially, the exit code of the grep does not influence the exit code of the script. That may seem surprising, but it\u0027s based on the observation that in the _absence_ of a match `grep -m1` _won\u0027t_ exit: We\u0027ve hooked its input up to an open stream (`stdout` of `obmc-console-client`) and it will keep waiting to read so long as `obmc-console-client` (and `socat`) is running.\n\nA further observation is that if the `EXEC:grep -m1 -F ...` subprocess exits,  which it will when it has a match, the `socat` process will also exit.\n\nCombined, these give us our pass/fail behaviour: If the `socat` process remains running then the grep has not matched, and we have a failure. Alternatively, if the `socat` process has exited we assume the grep has matched and we have success.\n\nSo the exit status of the test is determined by `! kill -0 \"$CLIENT_PID\"`, which is what determines whether our grep has succeeded or not. If we can signal `$CLIENT_PID` then we know that grep can\u0027t have found a match. Conversely, if we can\u0027t signal `$CLIENT_PID` then we assume we have a match. As the semantics are backwards, we use `!` to negate the exit status of `kill`.\n\n\u003e Added a wait on the socat which will make the grep timeout the test in the failure case.\n\nBased on the above, this should be unnecessary. We can determine a failure well before a timeout.",
+      "parentUuid": "26eeca87_4d53538d",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
