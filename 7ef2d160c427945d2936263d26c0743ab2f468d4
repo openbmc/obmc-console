@@ -206,6 +206,30 @@
       },
       "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dd177d3_9a530b96",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T23:38:48Z",
+      "side": 1,
+      "message": "\u003e Just looking at this explanation from a distance already shows how many mental hoops one has to go through to use bash effectively 😄\n\n`set -e` with `trap` is shell\u0027s exception handling, `\u0026` provides concurrency, `wait` is a join; it\u0027s the same stuff as is available in most other languages, just this language is optimised for handling these in terms of processes.\n\nThat said, I do have a tendency to shrink-wrap things a bit and look for opportunities to make the code more succinct, which is also at play here.\n\n\u003e Added a small comment to summarize your explanations\n\nGreat, thanks.",
+      "parentUuid": "01d3eb5b_aff32e3a",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "7ef2d160c427945d2936263d26c0743ab2f468d4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

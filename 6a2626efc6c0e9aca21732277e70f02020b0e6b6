@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01fa9416_7b3db56b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T23:38:48Z",
+      "side": 1,
+      "message": "Hi Alexander, just one final thought regarding the grep invocation.",
+      "revId": "6a2626efc6c0e9aca21732277e70f02020b0e6b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17da83ee_e33c3225",
+        "filename": "test/test-console-client-can-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-07T23:38:48Z",
+      "side": 1,
+      "message": "Ah, so a thought I had was that we should probably add the `-q` option to `grep` so it won\u0027t output the match back into `obmc-console-client`. It probably doesn\u0027t matter, but for the purpose of the test such a write is not necessary, and it would be better if it didn\u0027t confound someone\u0027s reasoning.",
+      "revId": "6a2626efc6c0e9aca21732277e70f02020b0e6b6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
