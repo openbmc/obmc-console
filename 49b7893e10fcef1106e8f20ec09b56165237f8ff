@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0793cb14_b10a35b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-07T10:00:40Z",
+      "side": 1,
+      "message": "Abandoned the C implementation. The ```(shell)``` suffix can be useful for people looking through old gerrit patches, to disambiguate them from the C tests.",
+      "parentUuid": "125f12d5_675353b7",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "49b7893e10fcef1106e8f20ec09b56165237f8ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03084922_01950c89",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-08-07T00:02:26Z",
       "side": 1,
       "message": "I realise that I\u0027m the one that implemented this, but can you please add a comment describing why we\u0027re appending `_${$}` here?",
+      "revId": "49b7893e10fcef1106e8f20ec09b56165237f8ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12458e41_3d0f744e",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-07T10:00:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03084922_01950c89",
       "revId": "49b7893e10fcef1106e8f20ec09b56165237f8ff",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
