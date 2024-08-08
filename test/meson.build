@@ -35,50 +35,34 @@ endforeach
 
 socat = find_program('socat', native: true)
 
-meson.override_find_program('test-console-logs-to-file', files('test-console-logs-to-file'))
-test('test-console-logs-to-file',
-  find_program('test-console-logs-to-file'),
-  args: [ socat.full_path(), server.full_path() ],
-  depends: [ server ],
-  suite: 'itests'
-)
+# List of tests and whether they require the client
+itests = [
+  [ 'test-console-logs-to-file', false ],
+  [ 'test-console-socket-read', false ],
+  [ 'test-console-socket-write', false ],
+  [ 'test-console-client-can-read', true ],
+  [ 'test-console-client-can-write', true ],
+  [ 'test-multiple-consoles', false ],
+]
 
-meson.override_find_program('test-console-client-can-read', files('test-console-client-can-read'))
-test('test-console-client-can-read',
-  find_program('test-console-client-can-read'),
-  args: [ socat.full_path(), server.full_path(), client.full_path() ],
-  depends: [ server, client ],
-  suite: 'itests'
-)
+foreach entry : itests
+  ct = entry[0]
+  requires_client = entry[1]
 
-meson.override_find_program('test-console-client-can-write', files('test-console-client-can-write'))
-test('test-console-client-can-write',
-  find_program('test-console-client-can-write'),
-  args: [ socat.full_path(), server.full_path(), client.full_path() ],
-  depends: [ server, client ],
-  suite: 'itests'
-)
+  meson.override_find_program(ct, files(ct))
 
-meson.override_find_program('test-console-socket-read', files('test-console-socket-read'))
-test('test-console-socket-read',
-  find_program('test-console-socket-read'),
-  args: [ socat.full_path(), server.full_path() ],
-  depends: [ server ],
-  suite: 'itests'
-)
+  if requires_client
+    test_deps = [ server, client ]
+    test_args = [ socat.full_path(), server.full_path(), client.full_path() ]
+  else
+    test_deps = [ server ]
+    test_args = [ socat.full_path(), server.full_path() ]
+  endif
 
-meson.override_find_program('test-console-socket-write', files('test-console-socket-write'))
-test('test-console-socket-write',
-  find_program('test-console-socket-write'),
-  args: [ socat.full_path(), server.full_path() ],
-  depends: [ server ],
-  suite: 'itests'
-)
-
-meson.override_find_program('test-multiple-consoles', files('test-multiple-consoles'))
-test('test-multiple-consoles',
-  find_program('test-multiple-consoles'),
-  args: [ socat.full_path(), server.full_path() ],
-  depends: [ server ],
-  suite: 'itests'
-)
+  test(ct,
+    find_program(ct),
+    args: test_args,
+    depends: test_deps,
+    suite: 'itests'
+  )
+endforeach
