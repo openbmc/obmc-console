@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee554205_06b37bcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:28:11Z",
+      "side": 1,
+      "message": "i feel like the linter is being aggressive here. \nThe \u0027$\u0027 was put there to show that a command is being run.\n\nThe output is irrelevant for the example.",
+      "revId": "8b432ba175c583865556e705594697deed473d0d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
