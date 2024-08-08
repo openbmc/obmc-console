@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c016a456_bedc3f37",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18bf67b5_74f6fbe4",
+      "range": {
+        "startLine": 73,
+        "startChar": 49,
+        "endLine": 73,
+        "endChar": 67
+      },
+      "revId": "c59e2d0a2399723e97ba7b978dc1db1f4e18ec75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "385f619f_7d8c2225",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf57a8b_9358b3aa",
+        "filename": "test/test-console-socket-write",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "385f619f_7d8c2225",
+      "revId": "c59e2d0a2399723e97ba7b978dc1db1f4e18ec75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bd1e697_d01175fc",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-08-08T00:02:59Z",
       "side": 1,
       "message": "Can we `EXEC:grep ...` here as well? That could save some background processes and files.",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "c59e2d0a2399723e97ba7b978dc1db1f4e18ec75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50344029_0f6e7b83",
+        "filename": "test/test-console-socket-write",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bd1e697_d01175fc",
       "range": {
         "startLine": 43,
         "startChar": 9,
