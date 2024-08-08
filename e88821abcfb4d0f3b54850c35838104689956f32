@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7eb080_5617ce89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "Ideally we wouldn\u0027t need a test for this, but it seems the socket name has become an ABI regardless due to other OpenBMc projects exploiting the naming scheme. Oh well.\n\nI have several comments inline.",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1083c50c_54ab5758",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "This also depends on the client. Can you check your other changes for this as well?",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2edf489_94cb9211",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "We could probably collate these into a loop? Something like:\n\n```\nclient_tests \u003d [\n  \u0027test-console-client-can-read\u0027,\n  \u0027test-console-client-can-write\u0027,\n  \u0027test-console-socket-read\u0027,\n]\n\nforeach ct : client_tests\n  meson.override_find_program(ct, files(ct))\n  test(ct,\n    find_program(ct),\n    args: [ socat.full_path(), server.full_path(), client.full_path() ],\n    depends: [ server, client ],\n    suite: \u0027itests\u0027\n  )\nendforeach\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75445be_3f069a81",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "This test doesn\u0027t depend on the client binary. Note that this impacts how its invoked in the meson test description, and also its dependencies (drop `client` in my suggestion there).",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b31640c_2b76a129",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "See comment on previous change.",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "842f9ca1_fdec8981",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:00:18Z",
+      "side": 1,
+      "message": "`EXEC:grep ...` like the other read test (along with the associated `! kill -0 ...`)?",
+      "range": {
+        "startLine": 56,
+        "startChar": 46,
+        "endLine": 56,
+        "endChar": 68
+      },
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
