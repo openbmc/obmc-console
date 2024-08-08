@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6045271b_08f90886",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c59730e4_977431b9",
+      "range": {
+        "startLine": 81,
+        "startChar": 49,
+        "endLine": 81,
+        "endChar": 67
+      },
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3120d975_fa903975",
@@ -54,6 +78,24 @@
       "writtenOn": "2024-08-08T00:09:59Z",
       "side": 1,
       "message": "Please follow the usual process cleanup pattern outlined in the previous changes.",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d8c1ce2_41c22b26",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3120d975_fa903975",
       "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -81,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34617d90_5c0ddddd",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "Mhm, yeah that will make it look better. The 2 names will have the same length 👍",
+      "parentUuid": "2c3207a2_f076602f",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45263ea0_5123dedf",
@@ -94,6 +160,24 @@
       "writtenOn": "2024-08-08T00:09:59Z",
       "side": 1,
       "message": "I think `grep -L` might be more useful here, as it prints the name of the file if it _doesn\u0027t_ match, which is our error case. It is silent if the file matches. This makes it easy to tell which grep has failed (if it was grep that failed).",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ea2daf_497604a5",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45263ea0_5123dedf",
       "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -115,6 +199,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58be184c_2f165961",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "Connecting with the client is unnecessary since we just care about changing the active console.\n\nConnecting to the socket is simpler and we do not need to depend on the client binary for this test.",
+      "parentUuid": "73b73ae0_f942322f",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "434b0f24_3a3d806c",
@@ -128,6 +230,24 @@
       "writtenOn": "2024-08-08T00:09:59Z",
       "side": 1,
       "message": "Please trim unnecessary whitespace (and address any other instances in the rest of your patches).",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d40af7_8d218d91",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:12Z",
+      "side": 1,
+      "message": "I can trim it here but this feels like a nit for a new file. A few extra lines will not harm anyone.",
+      "parentUuid": "434b0f24_3a3d806c",
       "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
