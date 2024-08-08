@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "753a993b_01741957",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1083c50c_54ab5758",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2edf489_94cb9211",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-08-08T00:00:18Z",
       "side": 1,
       "message": "We could probably collate these into a loop? Something like:\n\n```\nclient_tests \u003d [\n  \u0027test-console-client-can-read\u0027,\n  \u0027test-console-client-can-write\u0027,\n  \u0027test-console-socket-read\u0027,\n]\n\nforeach ct : client_tests\n  meson.override_find_program(ct, files(ct))\n  test(ct,\n    find_program(ct),\n    args: [ socat.full_path(), server.full_path(), client.full_path() ],\n    depends: [ server, client ],\n    suite: \u0027itests\u0027\n  )\nendforeach\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5590746_8ad45f11",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:03Z",
+      "side": 1,
+      "message": "Yes but i think this can be done in a later commit, since no individual testcase is responsible for it. I added a patch on top to refactor our the common parts in the test declaration https://gerrit.openbmc.org/c/openbmc/obmc-console/+/73551/1",
+      "parentUuid": "a2edf489_94cb9211",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -75,6 +117,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e566f6_64bdbfe4",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a75445be_3f069a81",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b31640c_2b76a129",
@@ -92,6 +152,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67d34f4e_f88fe22d",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b31640c_2b76a129",
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "842f9ca1_fdec8981",
@@ -105,6 +183,30 @@
       "writtenOn": "2024-08-08T00:00:18Z",
       "side": 1,
       "message": "`EXEC:grep ...` like the other read test (along with the associated `! kill -0 ...`)?",
+      "range": {
+        "startLine": 56,
+        "startChar": 46,
+        "endLine": 56,
+        "endChar": 68
+      },
+      "revId": "e88821abcfb4d0f3b54850c35838104689956f32",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a30995_960e46e6",
+        "filename": "test/test-console-socket-read",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-08-08T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "842f9ca1_fdec8981",
       "range": {
         "startLine": 56,
         "startChar": 46,
