@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95abcca_a52496cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Hi Alexander, I have a few requests on this one.",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c59730e4_977431b9",
+        "filename": "test/meson.build",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Test doesn\u0027t need the client, so no need to specify this here.",
+      "range": {
+        "startLine": 81,
+        "startChar": 49,
+        "endLine": 81,
+        "endChar": 67
+      },
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3120d975_fa903975",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Please follow the usual process cleanup pattern outlined in the previous changes.",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c3207a2_f076602f",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Rather than tack on `_OTHER` for one of these, can we please use `TEST_A_{NAME,LOG}` and `TEST_B_{NAME,LOG}`?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45263ea0_5123dedf",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "I think `grep -L` might be more useful here, as it prints the name of the file if it _doesn\u0027t_ match, which is our error case. It is silent if the file matches. This makes it easy to tell which grep has failed (if it was grep that failed).",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73b73ae0_f942322f",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Surely it\u0027s more idiomatic to just connect with the client? Why are we fiddling with the socket naming part of the ABI here? It seems like unnecessary detail.",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "434b0f24_3a3d806c",
+        "filename": "test/test-multiple-consoles",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-08-08T00:09:59Z",
+      "side": 1,
+      "message": "Please trim unnecessary whitespace (and address any other instances in the rest of your patches).",
+      "revId": "725e81d0435d96866df27cfe69a6df9bbf0e058c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
