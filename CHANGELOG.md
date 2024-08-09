@@ -21,6 +21,13 @@ Change categories:
 
 1. config: Added support for the `aspeed-uart-routing` configuration key
 2. config: Added support for the `ringbuffer-size` configuration key
+3. UART multiplexer support
+
+   More details can be found [in the documentation](docs/mux-support.md).
+
+### Changed:
+
+1. The bespoke config parser was replaced with iniparser
 
 ### Removed
 
