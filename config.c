@@ -149,10 +149,7 @@ struct terminal_speed_name {
 	const char *name;
 };
 
-#define TERM_SPEED(x)                                                          \
-	{                                                                      \
-		B##x, x, #x                                                    \
-	}
+#define TERM_SPEED(x) { B##x, x, #x }
 
 // clang-format off
 static const struct terminal_speed_name terminal_speeds[] = {
