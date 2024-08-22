@@ -136,7 +136,7 @@ static int log_create(struct log_handler *lh)
 		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
 	}
-	pos = lseek(lh->fd, 0, SEEK_CUR);
+	pos = lseek(lh->fd, 0, SEEK_END);
 	if (pos < 0) {
 		warn("Can't query log position for file %s", lh->log_filename);
 		close(lh->fd);
