@@ -26,13 +26,19 @@ trap cleanup EXIT
 
 TEST_CONF="${TEST_NAME}.conf"
 TEST_LOG="${TEST_NAME}.log"
+BLOCK_SIZE=1024
+LOG_MAX_SIZE=$((1 * $BLOCK_SIZE))
 
 cat <<EOF > "$TEST_CONF"
 active-console = $TEST_NAME
 [$TEST_NAME]
 logfile = $TEST_LOG
 console-id = $TEST_NAME
+logsize = $LOG_MAX_SIZE
 EOF
+
+# Write 1K of data to TEST_LOG
+dd if=/dev/zero bs=$BLOCK_SIZE count=$(($LOG_MAX_SIZE / $BLOCK_SIZE)) >> "$TEST_LOG"
 
 "$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
 PTYS_PID="$!"
@@ -45,3 +51,5 @@ while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do slee
 echo console-should-log-to-file > remote
 sleep 1
 grep -LF console-should-log-to-file "$TEST_LOG"
+
+[ -e "$TEST_LOG" ] && [ $(stat -c%s "$TEST_LOG") -le $LOG_MAX_SIZE ]
