@@ -30,7 +30,11 @@ TEST_LOG="${TEST_NAME}.log"
 cat <<EOF > "$TEST_CONF"
 logfile = $TEST_LOG
 console-id = $TEST_NAME
+logsize = 256k
 EOF
+
+# Write 256K of data to TEST_LOG
+dd if=/dev/zero bs=1K count=256 >> "$TEST_LOG"
 
 "$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
 PTYS_PID="$!"
@@ -43,3 +47,8 @@ while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do slee
 echo console-should-log-to-file-legacy-syntax > remote
 sleep 1
 grep -LF console-should-log-to-file-legacy-syntax "$TEST_LOG"
+
+LOG_SIZE=$(stat -c%s "$TEST_LOG")
+if [ "$LOG_SIZE" -ge 262144 ]; then
+  exit 1
+fi
