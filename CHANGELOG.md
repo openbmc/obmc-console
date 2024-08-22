@@ -80,3 +80,7 @@ Change categories:
 ### Fixed
 
 1. obmc-console: Consolidate handling of default socket-id
+
+### Fixed
+
+1. log-handler: Set the end of the file as the file size
