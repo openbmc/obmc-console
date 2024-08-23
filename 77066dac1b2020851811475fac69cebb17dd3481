@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bcd2284_23ab5488",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-08-23T03:37:32Z",
+      "side": 1,
+      "message": "Format issue need to wait https://gerrit.openbmc.org/c/openbmc/obmc-console/+/71164",
+      "revId": "77066dac1b2020851811475fac69cebb17dd3481",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
