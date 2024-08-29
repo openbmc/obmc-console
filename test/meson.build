@@ -55,6 +55,7 @@ endforeach
 client_tests = [
   'test-console-client-can-read',
   'test-console-client-can-write',
+  'test-console-client-no-args',
 ]
 
 foreach ct : client_tests
