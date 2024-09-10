@@ -16,6 +16,23 @@
       "message": "Any chance you can include the backtrace in the commit message?",
       "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c09afc54_fb4f12d3",
+        "filename": "config.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-10T07:15:36Z",
+      "side": 1,
+      "message": "Can you include a test case that covers this use-case? See the shell scripts we now have the perform integration testing.",
+      "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
