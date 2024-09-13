@@ -37,6 +37,7 @@ socat = find_program('socat', native: true)
 
 server_tests = [
   'test-console-logs-to-file',
+  'test-console-logs-to-file-no-sections',
   'test-console-socket-read',
   'test-console-socket-write',
   'test-multiple-consoles',

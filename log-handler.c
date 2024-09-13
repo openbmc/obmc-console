@@ -183,7 +183,7 @@ static struct handler *log_init(const struct handler_type *type
 	filename = config_get_section_value(config, console->console_id,
 					    "logfile");
 
-	if (!filename && console->server->n_consoles == 1) {
+	if (!filename && config_count_sections(config) == 0) {
 		filename = config_get_value(config, "logfile");
 	}
 
