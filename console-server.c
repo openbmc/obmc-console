@@ -1132,13 +1132,17 @@ static int console_server_add_console(struct console_server *server,
 	}
 	server->consoles = tmp;
 
+	server->n_consoles++;
+
 	console = console_init(server, config, console_id);
 	if (console == NULL) {
 		warnx("console_init failed");
+
+		server->n_consoles--;
 		return -1;
 	}
 
-	server->consoles[server->n_consoles++] = console;
+	server->consoles[server->n_consoles - 1] = console;
 
 	return 0;
 }
