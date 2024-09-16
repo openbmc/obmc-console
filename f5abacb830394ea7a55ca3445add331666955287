@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd67a86_05ae65e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-09-16T08:32:43Z",
+      "side": 1,
+      "message": "Adjusted.\n\nI thought that the sections are neat even when not using a uart mux.\nBecause it helps to separate the general config from the console specific config.\n\nBut yeah \u0027legacy\u0027 may be the wrong word here.",
+      "parentUuid": "b2236867_0953c2f1",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "f5abacb830394ea7a55ca3445add331666955287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06dc0086_c056ea99",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-09-16T04:30:25Z",
       "side": 1,
       "message": "Ah, so I reworked this as part of cleaning up some valgrind warnings in some error-handling paths. I think this is my bug. Sorry for that.",
+      "revId": "f5abacb830394ea7a55ca3445add331666955287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acaf7a2d_ddba5d45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-09-16T08:32:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "06dc0086_c056ea99",
       "revId": "f5abacb830394ea7a55ca3445add331666955287",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
