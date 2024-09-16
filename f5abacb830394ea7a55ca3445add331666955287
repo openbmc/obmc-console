@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2236867_0953c2f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-16T04:30:25Z",
+      "side": 1,
+      "message": "Is \"legacy\" accurate? I think it\u0027s the case for any non-muxed design?",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "f5abacb830394ea7a55ca3445add331666955287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06dc0086_c056ea99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-16T04:30:25Z",
+      "side": 1,
+      "message": "Ah, so I reworked this as part of cleaning up some valgrind warnings in some error-handling paths. I think this is my bug. Sorry for that.",
+      "revId": "f5abacb830394ea7a55ca3445add331666955287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a636b17a_d6115fea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-09-16T04:30:25Z",
+      "side": 1,
+      "message": "Thanks for addressing this! My only minor concern is around the choice of \"legacy\" as an adjective, which I\u0027m not sure is accurate.",
+      "revId": "f5abacb830394ea7a55ca3445add331666955287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
