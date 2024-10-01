@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "341bc56d_6916bb72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Updated",
+      "parentUuid": "7e31feb3_094c4793",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4674b75_21c16379",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-01T01:41:39Z",
       "side": 1,
       "message": "Hi Marshall, thanks for adding the tests. I have a few comments. Also, can you please update `CHANGELOG.md`?",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc7c457_37fe8f13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Updated",
+      "parentUuid": "e4674b75_21c16379",
       "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -88,6 +124,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24763d9f_64580b8c",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Based on the page size, I suggest setting 5K as the minimum log size.",
+      "parentUuid": "3246b040_5a00ad98",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2f8e254_8f32be09",
@@ -101,6 +155,30 @@
       "writtenOn": "2024-10-01T01:41:39Z",
       "side": 1,
       "message": "These numbers relate to the magic `256k` and `262144` below. Can you please make it clear (using derivations) how these values are all related?\n\n```\n...\nBLOCK_SIZE\u003d1024\nLOG_MAX_SIZE\u003d$((256 * $BLOCK_SIZE))\n...\nlogsize \u003d $LOG_MAX_SIZE\n...\ndd if\u003d/dev/zero bs\u003d$BLOCK_SIZE count\u003d$(($LOG_MAX_SIZE / $BLOCK_SIZE)) \u003e\u003e \"$TEST_LOG\"\n...\nLOG_SIZE\u003d$(stat -c%s \"$TEST_LOG\")\nif [ \"$LOG_SIZE\" -ge $LOG_MAX_SIZE ]; then\n...\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e28d5a34_f8802302",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Updated as the recommendation.",
+      "parentUuid": "d2f8e254_8f32be09",
       "range": {
         "startLine": 39,
         "startChar": 19,
@@ -128,6 +206,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1627d45_dd054263",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Thanks for pointing that out, I learned something new.",
+      "parentUuid": "014d9ffd_600e1d0c",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56532e38_fc69698c",
@@ -141,6 +237,24 @@
       "writtenOn": "2024-10-01T01:41:39Z",
       "side": 1,
       "message": "See comments on the other test.",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0047cb4f_c953a3ab",
+        "filename": "test/test-console-logs-to-file-no-sections",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-01T09:14:45Z",
+      "side": 1,
+      "message": "Update as the other test script",
+      "parentUuid": "56532e38_fc69698c",
       "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
