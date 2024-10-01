@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e31feb3_094c4793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "Can you please add a `Fixes:` tag?",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4674b75_21c16379",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "Hi Marshall, thanks for adding the tests. I have a few comments. Also, can you please update `CHANGELOG.md`?",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c827973d_11dc272e",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "Does it need to be this large to exercise the behaviour?",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f8e254_8f32be09",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "These numbers relate to the magic `256k` and `262144` below. Can you please make it clear (using derivations) how these values are all related?\n\n```\n...\nBLOCK_SIZE\u003d1024\nLOG_MAX_SIZE\u003d$((256 * $BLOCK_SIZE))\n...\nlogsize \u003d $LOG_MAX_SIZE\n...\ndd if\u003d/dev/zero bs\u003d$BLOCK_SIZE count\u003d$(($LOG_MAX_SIZE / $BLOCK_SIZE)) \u003e\u003e \"$TEST_LOG\"\n...\nLOG_SIZE\u003d$(stat -c%s \"$TEST_LOG\")\nif [ \"$LOG_SIZE\" -ge $LOG_MAX_SIZE ]; then\n...\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "014d9ffd_600e1d0c",
+        "filename": "test/test-console-logs-to-file",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "Note that we\u0027re using `set -e`, so this can be simplified quite a bit. I\u0027d write:\n\nWe can replace all of\n```\nLOG_SIZE\u003d$(stat -c%s \"$TEST_LOG\")\nif [ \"$LOG_SIZE\" -ge 262144 ]; then\n  exit 1\nfi\n```\nWith\n\n```\n[ -e \"$TEST_LOG\" ] \u0026\u0026 [ $(stat -c%s \"$TEST_LOG\") -le $LOG_MAX_SIZE ]\n```",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56532e38_fc69698c",
+        "filename": "test/test-console-logs-to-file-no-sections",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-01T01:41:39Z",
+      "side": 1,
+      "message": "See comments on the other test.",
+      "revId": "4114461aeca13b71d712f5a023e0ddac3613bda8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
