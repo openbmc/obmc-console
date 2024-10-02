@@ -19,6 +19,7 @@ ExecStart=/usr/sbin/dropbear -K 5 \
 SyslogIdentifier=console-client-%i
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
+KillSignal=SIGHUP
 
 [Install]
 WantedBy=default.target
