@@ -140,6 +140,24 @@
       "parentUuid": "7a8ed399_5c3fb13c",
       "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38fcd208_6edc6d81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-03T23:51:44Z",
+      "side": 1,
+      "message": "\u003e I have backported this fix downstream\n\nWhich fix? This one to obmc-console, or Matt\u0027s fix to dropbear?\n\nIt would be nice to get the upstream dropbear recipe bumped if necessary (though maybe it would need to wait for Matt to do a release).",
+      "parentUuid": "db620ece_31a282a2",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
