@@ -51,6 +51,24 @@
       "message": "I think Dropbear should have exit status 0 on SIGTERM (and probably also treat SIGHUP the same), given it\u0027s a graceful cleanup. I\u0027ll make that change upstream.",
       "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c2178f_7789aa23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-03T02:56:33Z",
+      "side": 1,
+      "message": "I\u0027ll mark this as CR-1 in that case, just so it\u0027s clear what the status is.",
+      "parentUuid": "2be5be37_e01c43c3",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
