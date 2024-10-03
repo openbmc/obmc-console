@@ -86,6 +86,42 @@
       "message": "I\u0027ve made the upstream change https://github.com/mkj/dropbear/commit/2d142c869bdbf986f1fc3c8ee95ec303d85b51d7\n\nAfter \"systemctl stop dropbear\":\n   Main PID: 1913691 (code\u003dexited, status\u003d0/SUCCESS)",
       "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a8ed399_5c3fb13c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2024-10-03T13:07:58Z",
+      "side": 1,
+      "message": "ok, Thanks!",
+      "parentUuid": "f9c2178f_7789aa23",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93856e63_50b69a49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2024-10-03T13:07:58Z",
+      "side": 1,
+      "message": "ok, great, Thanks!",
+      "parentUuid": "3b249cb8_8f2bd249",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
