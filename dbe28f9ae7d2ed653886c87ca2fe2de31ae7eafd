@@ -16,6 +16,24 @@
       "message": "Ah, so I guess I left what I was asking for a little under-specified.\n\nThe form of `Fixes:` tags are described at the bottom of this section of the kernel docs (you may have to scroll down a little bit, look just above \"Separate your changes\"):\n\nhttps://docs.kernel.org/process/submitting-patches.html#describe-your-changes\n\nYou can see some examples in the git history for the project if you run `git log --grep Fixes:`. A direct example is:\n\n```\ncommit d659cfcdf6639e2628c982cdf2c3db16649f17b9\nAuthor: Andrew Jeffery \u003candrew@codeconstruct.com.au\u003e\nDate:   Wed Jul 10 09:42:50 2024 +0930\n\n    config: Allow NULL for internal dict pointer\n    \n    If the default configuration file is not present, behave as if it\n    were empty. This allows obmc-console-server to not fail out if no\n    configuration is provided, but still fail out if a struct config object\n    couldn\u0027t be allocated.\n    \n    Change-Id: Ic188281f5fc41d94b3175c8009c97f1efb62699a\n    Fixes: 1e04f449b7f0 (\"use iniparser dependency for config file parsing\")\n    Signed-off-by: Andrew Jeffery \u003candrew@codeconstruct.com.au\u003e\n```\n\nAlso note that it\u0027s meant to part of the commit message \"trailer\" (i.e. goes directly above your `Signed-off-by` tag).",
       "revId": "dbe28f9ae7d2ed653886c87ca2fe2de31ae7eafd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49cd52f3_f5a87ccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002004
+      },
+      "writtenOn": "2024-10-04T03:37:52Z",
+      "side": 1,
+      "message": "Apologies for the late response, and thank you for the example.\nI added a fixes tag.",
+      "parentUuid": "740c51cb_6e29d26f",
+      "revId": "dbe28f9ae7d2ed653886c87ca2fe2de31ae7eafd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
