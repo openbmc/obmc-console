@@ -158,6 +158,24 @@
       "parentUuid": "db620ece_31a282a2",
       "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9179cb9_1cf701b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2024-10-04T14:25:25Z",
+      "side": 1,
+      "message": "Hi Andrew,\n\nI have backported Matt\u0027s fix to downstream dropbear. \nYes, It would be nice to get to newer dropbear.",
+      "parentUuid": "38fcd208_6edc6d81",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
