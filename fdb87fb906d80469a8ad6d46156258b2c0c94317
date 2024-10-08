@@ -176,6 +176,24 @@
       "parentUuid": "38fcd208_6edc6d81",
       "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de39cba3_66ef5222",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-10-08T07:27:27Z",
+      "side": 1,
+      "message": "Okay, great. Do you mind abandoning this change?",
+      "parentUuid": "b9179cb9_1cf701b5",
+      "revId": "fdb87fb906d80469a8ad6d46156258b2c0c94317",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
