@@ -43,7 +43,7 @@ const char *config_get_value(struct config *config, const char *name)
 	char buf[CONFIG_MAX_KEY_LENGTH];
 	int rc;
 
-	if (!config->dict) {
+	if (!(config && config->dict)) {
 		return NULL;
 	}
 
