@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a2c29b_84b07c67",
+        "filename": "socket-handler.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-05T11:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9583e371_154ab7e3",
+      "range": {
+        "startLine": 404,
+        "startChar": 1,
+        "endLine": 405,
+        "endChar": 12
+      },
+      "revId": "1abae21fb4a85c51fe099de54ea31388f9816f56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21ab25d2_93276403",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd53e39_525d9af1",
+        "filename": "socket-handler.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-05T11:11:57Z",
+      "side": 1,
+      "message": "Are you wondering, or do you want this change to fix it?\n\nnvm. I\u0027m updating the change to do the fix.",
+      "parentUuid": "21ab25d2_93276403",
+      "revId": "1abae21fb4a85c51fe099de54ea31388f9816f56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb441fb_fa5a481e",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-11-05T01:25:03Z",
       "side": 1,
       "message": "I\u0027d prefer:\n\n```\nif (sh-\u003epoller) {\n    return \u0026sh-\u003ehandler;\n}\n...\n```",
+      "range": {
+        "startLine": 505,
+        "startChar": 1,
+        "endLine": 510,
+        "endChar": 1
+      },
+      "revId": "1abae21fb4a85c51fe099de54ea31388f9816f56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be01cc2_3fe5d09c",
+        "filename": "socket-handler.c",
+        "patchSetId": 10
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-05T11:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb441fb_fa5a481e",
       "range": {
         "startLine": 505,
         "startChar": 1,
