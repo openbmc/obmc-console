@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ed8c67_ca20de3c",
+        "filename": "socket-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-06T09:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf00c307_2beeff2b",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "719be4f7_eeb1d371",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-11-06T01:25:35Z",
       "side": 1,
       "message": "This should clean up the ring-buffer consumer?",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2469ceb0_3b8bd5b2",
+        "filename": "socket-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-06T09:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "719be4f7_eeb1d371",
       "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c24c06e_d0a7d313",
+        "filename": "tty-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-06T09:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc16d8ff_df2c66ee",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f93d9f17_7299d745",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-11-06T01:25:35Z",
       "side": 1,
       "message": "Also needs to close `th-\u003efd`. Perhaps consider some cleanup jump labels.",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "425b0383_d22f4dd8",
+        "filename": "tty-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-06T09:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f93d9f17_7299d745",
       "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
