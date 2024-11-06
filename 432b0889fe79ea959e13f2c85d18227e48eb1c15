@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3726ea17_9896cea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:25:35Z",
+      "side": 1,
+      "message": "Nice one. Thanks for doing the analysis. I\u0027ve got a few comments, mainly around cleanup paths.",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf00c307_2beeff2b",
+        "filename": "socket-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:25:35Z",
+      "side": 1,
+      "message": "We should be cleaning up the poller as well?",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "719be4f7_eeb1d371",
+        "filename": "socket-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:25:35Z",
+      "side": 1,
+      "message": "This should clean up the ring-buffer consumer?",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc16d8ff_df2c66ee",
+        "filename": "tty-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:25:35Z",
+      "side": 1,
+      "message": "This leaks `th-\u003efd`.",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93d9f17_7299d745",
+        "filename": "tty-handler.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-06T01:25:35Z",
+      "side": 1,
+      "message": "Also needs to close `th-\u003efd`. Perhaps consider some cleanup jump labels.",
+      "revId": "432b0889fe79ea959e13f2c85d18227e48eb1c15",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
