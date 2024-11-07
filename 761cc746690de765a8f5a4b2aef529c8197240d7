@@ -33,6 +33,24 @@
       "message": "Hah! Well spotted.\n\nHowever, if the `malloc()` on 262 fails you\u0027re leaking `tty_path` as well.",
       "revId": "761cc746690de765a8f5a4b2aef529c8197240d7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25c5adc_87b6f689",
+        "filename": "tty-handler.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2024-11-07T13:12:18Z",
+      "side": 1,
+      "message": "Ok, i think it\u0027s fixed now.",
+      "parentUuid": "25b4d744_4ba24a11",
+      "revId": "761cc746690de765a8f5a4b2aef529c8197240d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
