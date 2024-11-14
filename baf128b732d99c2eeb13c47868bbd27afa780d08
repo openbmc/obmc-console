@@ -33,6 +33,24 @@
       "message": "Can you include a test case that covers this use-case? See the shell scripts we now have the perform integration testing.",
       "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "918dfa02_cb0a5826",
+        "filename": "config.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002100
+      },
+      "writtenOn": "2024-11-14T12:26:37Z",
+      "side": 1,
+      "message": "Validating invalid pointer will cause core dump issue.\n\nWith single SOL user will not be able to establish solssh session. with console log observed core dump at obmc-console server.\n\nIf we have failed to provide the client configuration core dump will be seen.",
+      "parentUuid": "c09afc54_fb4f12d3",
+      "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
