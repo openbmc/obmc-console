@@ -509,7 +509,7 @@ static void uart_routing_init(struct config *config)
 {
 	const char *muxcfg;
 	const char *p;
-	size_t buflen;
+	size_t buflen, dirlen = 0;
 	char *sink;
 	char *source;
 	char *muxdir;
@@ -527,19 +527,25 @@ static void uart_routing_init(struct config *config)
 		warn("Couldn't find uart-routing driver directory, cannot apply config");
 		return;
 	}
-	if (globbuf.gl_pathc != 1) {
+	if ((globbuf.gl_pathc == 0) || (globbuf.gl_pathc > 2)) {
 		warnx("Found %zd uart-routing driver directories, cannot apply config",
 		      globbuf.gl_pathc);
 		goto out_free_glob;
 	}
-	muxdir = globbuf.gl_pathv[0];
-
+	/* Find the maximum directory length */
+	for (size_t i = 0; i < globbuf.gl_pathc; i++) {
+		muxdir = globbuf.gl_pathv[i];
+		size_t len = strlen(muxdir);
+		if (len > dirlen) {
+			dirlen = len;
+		}
+	}
 	/*
 	 * Rather than faff about tracking a bunch of separate buffer sizes,
 	 * just use one (worst-case) size for all of them -- +2 for a trailing
 	 * NUL and a '/' separator to construct the sysfs file path.
 	 */
-	buflen = strlen(muxdir) + strlen(muxcfg) + 2;
+	buflen = dirlen + strlen(muxcfg) + 2;
 
 	sink = malloc(buflen);
 	source = malloc(buflen);
@@ -549,35 +555,40 @@ static void uart_routing_init(struct config *config)
 		goto out_free_bufs;
 	}
 
-	p = muxcfg;
-	while (*p) {
-		ssize_t bytes_scanned;
+	/* Search all matching directories */
+	for (size_t i = 0; i < globbuf.gl_pathc; i++) {
+		muxdir = globbuf.gl_pathv[i];
+		p = muxcfg;
+		while (*p) {
+			ssize_t bytes_scanned;
 
-		if (sscanf(p, " %[^:/ \t]:%[^: \t] %zn", sink, source,
-			   &bytes_scanned) != 2) {
-			warnx("Invalid syntax in aspeed uart config: '%s' not applied",
-			      p);
-			break;
-		}
-		p += bytes_scanned;
+			if (sscanf(p, " %[^:/ \t]:%[^: \t] %zn", sink, source,
+				   &bytes_scanned) != 2) {
+				warnx("Invalid syntax in aspeed uart config: '%s' not applied",
+				      p);
+				break;
+			}
+			p += bytes_scanned;
 
-		/*
-		 * Check that the sink name looks reasonable before proceeding
-		 * (there are other writable files in the same directory that
-		 * we shouldn't be touching, such as 'driver_override' and
-		 * 'uevent').
-		 */
-		if (strncmp(sink, "io", strlen("io")) != 0 &&
-		    strncmp(sink, "uart", strlen("uart")) != 0) {
-			warnx("Skipping invalid uart routing name '%s' (must be ioN or uartN)",
-			      sink);
-			continue;
-		}
+			/*
+			 * Check that the sink name looks reasonable before proceeding
+			 * (there are other writable files in the same directory that
+			 * we shouldn't be touching, such as 'driver_override' and
+			 * 'uevent').
+			 */
+			if (strncmp(sink, "io", strlen("io")) != 0 &&
+			    strncmp(sink, "uart", strlen("uart")) != 0) {
+				warnx("Skipping invalid uart routing name '%s' (must be ioN or uartN)",
+				      sink);
+				continue;
+			}
 
-		snprintf(path, buflen, "%s/%s", muxdir, sink);
-		if (write_to_path(path, source)) {
-			warn("Failed to apply uart-routing config '%s:%s'",
-			     sink, source);
+			snprintf(path, buflen, "%s/%s", muxdir, sink);
+			if (write_to_path(path, source)) {
+				warn("Failed to apply uart-routing config '%s:%s' in %s",
+				     sink, source, muxdir);
+				break;
+			}
 		}
 	}
 
