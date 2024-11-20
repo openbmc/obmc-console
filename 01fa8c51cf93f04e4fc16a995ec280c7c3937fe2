@@ -34,6 +34,24 @@
       "parentUuid": "7be9831c_d7cefe4f",
       "revId": "01fa8c51cf93f04e4fc16a995ec280c7c3937fe2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19bc48e1_0da01109",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2024-11-20T23:25:13Z",
+      "side": 1,
+      "message": "We require such changes to be merged into torvalds/linux.git so that any userspace ABI changes have been accounted for before we add application support.\n\nPlease mark this change as WIP until the driver patches are merged upstream.",
+      "parentUuid": "9a2178c0_a956a36d",
+      "revId": "01fa8c51cf93f04e4fc16a995ec280c7c3937fe2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
