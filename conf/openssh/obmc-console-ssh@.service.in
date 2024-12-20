@@ -1,0 +1,23 @@
+[Unit]
+Description=Console Client on %i
+Wants=sshdgenkeys.service
+After=sshdgenkeys.service
+
+[Service]
+# Unit defaults to a templated service.
+# Note: this intentionally does not read /etc/default/ssh or the system
+# SSHD_OPTS. The host console SSH service is configured only by its own
+# config file below.
+#
+# %i is the console port. The forced command is set here rather than in
+# sshd_config because sshd_config cannot vary it per instance, and on
+# concurrent-servers builds each port serves a different console. This
+# mirrors dropbear's -c option in the dropbear service.
+ExecStart=/usr/sbin/sshd -D -e -f /etc/obmc-console/ssh/sshd_config -p %i \
+    -o "ForceCommand=/usr/bin/obmc-console-client -c /etc/obmc-console/client.%i.conf"
+SyslogIdentifier=console-client-%i
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+
+[Install]
+# Handled by bitbake recipe
