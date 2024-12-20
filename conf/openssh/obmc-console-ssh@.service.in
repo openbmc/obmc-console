@@ -1,0 +1,17 @@
+[Unit]
+Description=Console Client on %i
+Wants=sshdgenkeys.service
+After=sshdgenkeys.service
+
+[Service]
+# Unit defaults to a templated service.
+# Note: this intentionally does not read /etc/default/ssh or the system
+# SSHD_OPTS. The host console SSH service is configured only by its own
+# config file below.
+ExecStart=/usr/sbin/sshd -D -e -f /etc/obmc-console/ssh/sshd_config -p %i
+SyslogIdentifier=console-client-%i
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+
+[Install]
+# Handled by bitbake recipe

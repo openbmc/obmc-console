@@ -117,3 +117,9 @@ test(
         include_directories: '..',
     ),
 )
+
+test(
+    'test-openssh-console-config',
+    find_program('test-openssh-console-config'),
+    args: [meson.project_source_root()],
+)

@@ -1,0 +1,16 @@
+# obmc-console host console SSH configuration.
+#
+# This file is deliberately self-contained and does not Include the system
+# /etc/ssh/sshd_config. The OS SSH integration has no business with the host
+# console service, and vice versa.
+#
+# The obmc-console client is forced regardless of what the connecting user
+# asks for, and only members of the "hostconsole" group may connect. This is
+# the openssh equivalent of dropbear's -c forced command and -G group option.
+ForceCommand /usr/bin/obmc-console-client
+AllowGroups hostconsole
+
+# Host keys are shared with the system SSH server.
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key

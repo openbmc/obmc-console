@@ -23,12 +23,21 @@ install_data(
     rename: ['obmc-console@.service', 'obmc-console@.socket'],
     install_dir: systemdsystemunitdir,
 )
+ssh_provider = get_option('ssh-provider')
+
 if get_option('ssh').allowed()
     install_data(
-        'conf/obmc-console-ssh@.service.in',
+        'conf' / ssh_provider / 'obmc-console-ssh@.service.in',
         rename: ['obmc-console-ssh@.service'],
         install_dir: systemdsystemunitdir,
     )
+    if ssh_provider == 'openssh'
+        install_data(
+            'conf/openssh/sshd_config.in',
+            rename: ['sshd_config'],
+            install_dir: get_option('sysconfdir') / 'obmc-console' / 'ssh',
+        )
+    endif
 endif
 
 if get_option('concurrent-servers')
@@ -45,7 +54,7 @@ else
             install_dir: systemdsystemunitdir,
         )
         install_data(
-            'conf/obmc-console-ssh@.service.d/use-socket.conf.in',
+            'conf' / ssh_provider / 'use-socket.conf.in',
             rename: ['use-socket.conf'],
             install_dir: systemdsystemunitdir / 'obmc-console-ssh@.service.d',
         )
