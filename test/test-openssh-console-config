@@ -1,0 +1,45 @@
+#!/usr/bin/sh
+
+set -eux
+
+SRCROOT="$1"
+DROPBEAR="$SRCROOT/conf/dropbear"
+OPENSSH="$SRCROOT/conf/openssh"
+SSHD_CONFIG="$OPENSSH/sshd_config.in"
+SERVICE="$OPENSSH/obmc-console-ssh@.service.in"
+USE_SOCKET="$OPENSSH/use-socket.conf.in"
+SOCKET="$SRCROOT/conf/obmc-console-ssh.socket.in"
+
+# strip comments and blank lines before negative ("must not contain") checks
+directives() { grep -vE '^[[:space:]]*(#|$)' "$1"; }
+
+for f in \
+    "$DROPBEAR/obmc-console-ssh@.service.in" \
+    "$DROPBEAR/use-socket.conf.in" \
+    "$SERVICE" "$USE_SOCKET" "$SSHD_CONFIG"; do
+    test -f "$f"
+done
+
+test -f "$SOCKET"
+grep -qE '^[[:space:]]*Accept[[:space:]]*=[[:space:]]*yes' "$SOCKET"
+! directives "$SOCKET" | grep -qiE 'dropbear|sshd' || exit 1
+
+grep -qE '^[[:space:]]*ForceCommand[[:space:]]+/usr/bin/obmc-console-client([[:space:]]|$)' "$SSHD_CONFIG"
+grep -qE '^[[:space:]]*AllowGroups[[:space:]]+hostconsole([[:space:]]|$)' "$SSHD_CONFIG"
+! directives "$SSHD_CONFIG" | grep -qiE '^[[:space:]]*Include([[:space:]]|$)' || exit 1
+
+# ForceCommand blocks a shell but not forwarding; dropbear uses -j and -k
+grep -qE '^[[:space:]]*DisableForwarding[[:space:]]+yes([[:space:]]|$)' "$SSHD_CONFIG"
+grep -qE '^[[:space:]]*PermitUserRC[[:space:]]+no([[:space:]]|$)' "$SSHD_CONFIG"
+
+directives "$USE_SOCKET" | grep -qE 'sshd([[:space:]]+[^[:space:]]+)*[[:space:]]+-i([[:space:]]|$)'
+! directives "$SERVICE" | grep -qE '/etc/default/ssh|SSHD_OPTS' || exit 1
+
+grep -qE '^[[:space:]]*ExecStart=.*[/[:space:]]sshd([[:space:]]|$)' "$SERVICE"
+
+# Each port serves a different console, so the forced command is set per
+# instance in the unit; sshd_config cannot vary it by port
+grep -qE 'ForceCommand=/usr/bin/obmc-console-client -c [^ ]*client\.%i\.conf' "$SERVICE"
+! directives "$SERVICE" | grep -qi 'dropbear' || exit 1
+! directives "$SSHD_CONFIG" | grep -qi 'dropbear' || exit 1
+! directives "$USE_SOCKET" | grep -qi 'dropbear' || exit 1

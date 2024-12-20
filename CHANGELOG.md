@@ -30,12 +30,17 @@ Change categories:
    Note that it's now advised to run `meson test ...` under [dbus-run-session][]
    as the integration tests connect to the session bus.
 
+5. Support for using OpenSSH as the host console SSH server
+
 [dbus-run-session]:
   https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html
 
 ### Changed
 
 1. The bespoke config parser was replaced with iniparser
+2. Build option `ssh` is now a combo of `none`, `dropbear` or `openssh` instead
+   of a meson feature. `-Dssh=enabled` and `-Dssh=auto` become `-Dssh=dropbear`,
+   and `-Dssh=disabled` becomes `-Dssh=none`.
 
 ### Removed
 
