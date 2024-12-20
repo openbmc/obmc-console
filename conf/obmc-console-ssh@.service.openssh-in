@@ -1,0 +1,15 @@
+[Unit]
+Description=Console Client on %i
+Wants=sshdgenkeys.service
+After=sshdgenkeys.service
+
+[Service]
+# Unit defaults to a templated service
+Environment="SSHD_OPTS="
+EnvironmentFile=-/etc/default/ssh
+ExecStart=-@SBINDIR@/sshd $SSHD_OPTS -f /etc/ssh/sshd_config_port_%i -p %i
+SyslogIdentifier=console-client-%i
+KillMode=process
+
+[Install]
+WantedBy=default.target

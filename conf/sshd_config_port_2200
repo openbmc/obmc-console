@@ -1,0 +1,7 @@
+# This is the OpenSSH server configuration for "host console" connections,
+# with default port 2200.  Use the default configuration except:
+# - Force command to obmc-console-client even if sftp or scp is used.
+# - Only allow users in the OpenBMC "hostconsole" group role.
+Include sshd_config
+ForceCommand /usr/bin/obmc-console-client -c /etc/obmc-console/client.2200.conf
+AllowGroups hostconsole

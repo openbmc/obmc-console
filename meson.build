@@ -22,7 +22,14 @@ install_data('conf/obmc-console@.service.in',
              install_dir: systemdsystemunitdir,
            )
 if get_option('ssh').allowed()
-  install_data('conf/obmc-console-ssh@.service.in',
+  if get_option('ssh-provider') == 'dropbear'
+    obmc_console_ssh_service_file = 'conf/obmc-console-ssh@.service.in'
+  elif get_option('ssh-provider') == 'openssh'
+    obmc_console_ssh_service_file = 'conf/obmc-console-ssh@.service.openssh-in'
+  else
+    assert(false, 'Unexpected ssh-provider')
+  endif
+  install_data(obmc_console_ssh_service_file,
             rename: [
               'obmc-console-ssh@.service'
             ],
