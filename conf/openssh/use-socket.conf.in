@@ -1,0 +1,4 @@
+[Service]
+ExecStart=
+ExecStart=-/usr/sbin/sshd -i -f /etc/obmc-console/ssh/sshd_config
+StandardInput=socket
