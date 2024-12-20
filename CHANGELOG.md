@@ -33,7 +33,7 @@ Change categories:
 [dbus-run-session]:
   https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html
 
-### Changed:
+### Changed
 
 1. The bespoke config parser was replaced with iniparser
 
@@ -81,6 +81,10 @@ Change categories:
 
 1. obmc-console: Consolidate handling of default socket-id
 
-### Fixed
+### Fixed Aug 2024
 
 1. log-handler: Set the end of the file as the file size
+
+### Added
+
+1. Build option ssh-provider; support for OpenSSH.
