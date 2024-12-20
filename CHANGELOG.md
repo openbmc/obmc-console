@@ -30,6 +30,8 @@ Change categories:
    Note that it's now advised to run `meson test ...` under [dbus-run-session][]
    as the integration tests connect to the session bus.
 
+5. Build option `ssh-provider` to select the SSH server, dropbear or openssh
+
 [dbus-run-session]:
   https://manpages.debian.org/bookworm/dbus-daemon/dbus-run-session.1.en.html
 
@@ -83,3 +85,7 @@ Change categories:
 
 1. obmc-console: Consolidate handling of default socket-id
 2. log-handler: Set the end of the file as the file size
+
+### Added
+
+1. Build option ssh-provider; support for OpenSSH.
