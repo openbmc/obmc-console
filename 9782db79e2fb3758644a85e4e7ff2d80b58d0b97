@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d442fa1_17752c66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000235
+      },
+      "writtenOn": "2025-01-16T22:25:12Z",
+      "side": 1,
+      "message": "The build failure was in commit_spelling / markdownlint:\n\u003e CHANGELOG.md:36:12 MD026/no-trailing-punctuation Trailing punctuation in heading [Punctuation: \u0027:\u0027]\n\u003e CHANGELOG.md:84 MD024/no-duplicate-heading Multiple headings with the same content [Context: \"Fixed\"]\n\nThis commit did not change CHANGELOG.md.  The colon can be easily removed.  But the MD024/no-duplicate-heading error message seems inappropriate.  I\u0027m not sure how to fix that.",
+      "revId": "9782db79e2fb3758644a85e4e7ff2d80b58d0b97",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
