@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76a41491_3d41674c",
+        "filename": "CHANGELOG.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-17T05:08:34Z",
+      "side": 1,
+      "message": "Please remove this addition",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9dc754a7_7a64efdd",
         "filename": "CHANGELOG.md",
         "patchSetId": 2
@@ -49,6 +72,63 @@
       "side": 1,
       "message": "codespell-dictionary - misspelling count \u003e\u003e /tmp/tmp.2qs79QlQ3p:10: compatability \u003d\u003d\u003e compatibility\n/tmp/tmp.2qs79QlQ3p:33: configuratons \u003d\u003d\u003e configurations\n2\ngeneric-dictionary - misspelling count \u003e\u003e /tmp/tmp.2qs79QlQ3p:10: compatability \u003d\u003d\u003e compatibility\n/tmp/tmp.2qs79QlQ3p:33: configuratons \u003d\u003d\u003e configurations\n2",
       "parentUuid": "9dc754a7_7a64efdd",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c178836_7673c620",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-17T05:08:34Z",
+      "side": 1,
+      "message": "giving this an extension like `.openssh-in` feels like a bit of a hack. How about we rearrange the directories so we have:\n\n- `conf/dropbear/`\n- `conf/openssh/`\n\nstick the files in there with their normal names, and fix the build system?",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9358107e_cdb551bc",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-17T05:08:34Z",
+      "side": 1,
+      "message": "I think I prefer we put this under e.g. `/etc/obmc-console/ssh`. The OS integration of OpenSSH doesn\u0027t have any business with these particular config files.\n\nI\u0027m also not a huge fan of how the file is named. Perhaps `sshd.%i.conf`",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4742a1af_37944d2f",
+        "filename": "conf/sshd_config_port_2200",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-17T05:08:34Z",
+      "side": 1,
+      "message": "Put this under `conf/openssh` as well?",
       "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
