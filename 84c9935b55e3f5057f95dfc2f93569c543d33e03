@@ -95,6 +95,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "964a7420_d7aba8d1",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-17T15:42:43Z",
+      "side": 1,
+      "message": "Do we really want the same default environment as the top-level ssh daemon?",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9358107e_cdb551bc",
         "filename": "conf/obmc-console-ssh@.service.openssh-in",
         "patchSetId": 2
@@ -118,6 +141,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6962711d_d2c5ea2a",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-17T15:42:43Z",
+      "side": 1,
+      "message": "Why aren\u0027t we using a .socket file rather than launching a long-running daemon?",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4742a1af_37944d2f",
         "filename": "conf/sshd_config_port_2200",
         "patchSetId": 2
@@ -129,6 +169,29 @@
       "writtenOn": "2025-01-17T05:08:34Z",
       "side": 1,
       "message": "Put this under `conf/openssh` as well?",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b97ee403_65e82ca0",
+        "filename": "conf/sshd_config_port_2200",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-17T15:42:43Z",
+      "side": 1,
+      "message": "Since we have a convention here already can we please use `CONSOLE_CLIENT` to generate these?  We already have that variable, which enables multiple obmc-console services, and is leveraged by multiple meta-layers.  Only supporting 2200 is only halfway enabling the feature.\n\nOh... this is in obmc-console and not in openbmc/openbmc.  We probably have some additional work to do at the OS level then to fully integrate this feature.",
+      "range": {
+        "startLine": 6,
+        "startChar": 70,
+        "endLine": 6,
+        "endChar": 74
+      },
       "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
