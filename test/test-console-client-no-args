@@ -1,0 +1,21 @@
+#!/usr/bin/sh
+
+set -eux
+
+CLIENT="$3"
+
+# Meet DBus bus and path name constraints, append own PID for parallel runs
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+$CLIENT 2>&1 >/dev/null | grep 'Connection refused'
