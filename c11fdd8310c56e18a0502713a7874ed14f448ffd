@@ -16,6 +16,24 @@
       "message": "Hi @andrew@codeconstruct.com.au How do I make this test to run with commit https://gerrit.openbmc.org/c/openbmc/obmc-console/+/74145 \n\nThis is a testcase I wrote for that issue.",
       "revId": "c11fdd8310c56e18a0502713a7874ed14f448ffd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8fe158_0de48472",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2025-01-23T20:23:58Z",
+      "side": 1,
+      "message": "I figured out it. So please ignore.",
+      "parentUuid": "406f5848_340eb376",
+      "revId": "c11fdd8310c56e18a0502713a7874ed14f448ffd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
