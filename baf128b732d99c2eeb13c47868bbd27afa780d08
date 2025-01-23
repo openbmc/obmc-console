@@ -87,6 +87,24 @@
       "parentUuid": "3ca1450c_bc0505d5",
       "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5abe5d77_e49cb8be",
+        "filename": "config.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2025-01-23T20:15:51Z",
+      "side": 1,
+      "message": "Pushed a testcase to test this fix: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/77442",
+      "parentUuid": "d8eaa393_bcc3ef99",
+      "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
