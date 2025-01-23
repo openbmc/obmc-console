@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59fd131d_ca168c49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2025-01-23T20:33:07Z",
+      "side": 1,
+      "message": "@andrew@codeconstruct.com.au I am not sure why it is failing here but all passed on my system. May be it is not pulling the fix?\n\n$ dbus-run-session meson test -C build\nninja: Entering directory `/home/ninad/dev/1110_ghe/obmc-console/build\u0027\n[49/49] Linking target obmc-console-server\n 1/19 obmc-console / test-ringbuffer-boundary-poll                        OK              0.06s\n 2/19 obmc-console / test-ringbuffer-boundary-read                        OK              0.06s\n 3/19 obmc-console / test-ringbuffer-contained-offset-read                OK              0.06s\n 4/19 obmc-console / test-ringbuffer-contained-read                       OK              0.05s\n 5/19 obmc-console / test-ringbuffer-poll-force                           OK              0.05s\n 6/19 obmc-console / test-ringbuffer-read-commit                          OK              0.05s\n 7/19 obmc-console / test-ringbuffer-simple-poll                          OK              0.05s\n 8/19 obmc-console / test-client-escape                                   OK              0.04s\n 9/19 obmc-console / test-config-resolve-console-id                       OK              0.04s\n10/19 obmc-console / test-config-parse                                    OK              0.04s\n11/19 obmc-console / test-config-parse-bytesize                           OK              0.04s\n12/19 obmc-console:itests / test-console-client-no-args                   OK              0.01s\n13/19 obmc-console:itests / test-console-logs-to-file                     OK              2.03s\n14/19 obmc-console:itests / test-console-logs-to-file-no-sections         OK              2.03s\n15/19 obmc-console:itests / test-console-socket-read                      OK              3.02s\n16/19 obmc-console:itests / test-console-socket-write                     OK              3.02s\n17/19 obmc-console:itests / test-console-client-can-read                  OK              3.02s\n18/19 obmc-console:itests / test-console-client-can-write                 OK              3.02s\n19/19 obmc-console:itests / test-multiple-consoles                        OK              5.04s\n\nOk:                 19  \nExpected Fail:      0   \nFail:               0   \nUnexpected Pass:    0   \nSkipped:            0   \nTimeout:            0   \n\nFull log written to /home/ninad/dev/1110_ghe/obmc-console/build/meson-logs/testlog.txt",
+      "revId": "1860c5359d07304bbaf88584ea5dc274effc5318",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
