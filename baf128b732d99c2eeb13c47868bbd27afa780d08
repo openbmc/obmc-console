@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c9ac1cd_69a5db58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-01-28T02:41:47Z",
+      "side": 1,
+      "message": "I was intending it to mean the symbolised stack state at the time of the crash, rather than the output from the journal, but we can probably survive.",
+      "parentUuid": "d138f552_107accce",
+      "revId": "baf128b732d99c2eeb13c47868bbd27afa780d08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c09afc54_fb4f12d3",
