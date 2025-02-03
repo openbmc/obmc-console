@@ -45,6 +45,7 @@ Change categories:
 ### Fixed
 
 1. console-server: Fix configuration of lpc_address and sirq sysfs attributes
+2. config.h: Include stddef.h for size_t
 
 ## [1.1.0] - 2023-06-07
 
