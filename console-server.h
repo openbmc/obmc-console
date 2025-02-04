@@ -250,6 +250,14 @@ ssize_t console_socket_path(socket_path_t path, const char *id);
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path);
 
+enum pii_data_t {
+	PII_DATA_UNKNOWN = 0,
+	PII_DATA_MACHINE = 1,
+	PII_DATA_USER = 2,
+};
+ssize_t console_pii_path(socket_path_t path, const char *id,
+			 enum pii_data_t pii_data);
+
 /* utils */
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
 

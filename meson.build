@@ -73,6 +73,7 @@ server = executable(
     'socket-handler.c',
            'syslog-handler.c',
     'tty-handler.c',
+    'pii-handler.c',
     'util.c',
     c_args: [
         '-DLOCALSTATEDIR="@0@"'.format(get_option('localstatedir')),
