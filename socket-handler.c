@@ -259,6 +259,7 @@ client_timeout(struct handler *handler __attribute__((unused)), void *data)
 
 	rc = client_drain_queue(client, 0);
 	if (rc) {
+		client->poller = NULL;
 		client_close(client);
 		return POLLER_REMOVE;
 	}
