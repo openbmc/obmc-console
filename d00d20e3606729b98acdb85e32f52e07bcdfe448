@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "068b6f86_b464b310",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-17T07:07:28Z",
+      "side": 1,
+      "message": "Can you please elaborate on this? My understanding is that the indexing in the poll event loop in `console-server.c:call_pollers()` will skip a poller. Is that what you\u0027ve observed?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "d00d20e3606729b98acdb85e32f52e07bcdfe448",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6341a0c1_78d0dba7",
+        "filename": "socket-handler.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-02-17T07:07:28Z",
+      "side": 1,
+      "message": "This seems a pretty subtle for the behaviour you\u0027re trying to affect. Have you considered other approaches? Perhaps we instead set `client-\u003epoller-\u003eremove \u003d true` in `client_close()` rather than immediately unregister?",
+      "revId": "d00d20e3606729b98acdb85e32f52e07bcdfe448",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
