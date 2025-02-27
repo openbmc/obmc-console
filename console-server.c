@@ -235,11 +235,44 @@ static int tty_find_device(struct console_server *server)
 		}
 
 		rc = access(tty_vuart_lpc_addr, F_OK);
-		if (!rc) {
-			server->tty.type = TTY_DEVICE_VUART;
-			server->tty.vuart.sysfs_devnode =
-				strdup(tty_sysfs_devnode);
+		if (rc) {
+			/*
+			 * Linux 6.12+ has a different path setup for ttys, so
+			 * try the updated path too.
+			 */
+			free(tty_device_reldir);
+			tty_device_reldir = NULL;
+			rc = asprintf(&tty_device_reldir, "%s/../../",
+				      tty_sysfs_devnode);
+			if (rc < 0) {
+				goto out_free;
+			}
+
+			free(tty_sysfs_devnode);
+			tty_sysfs_devnode = NULL;
+			tty_sysfs_devnode = realpath(tty_device_reldir, NULL);
+			if (!tty_sysfs_devnode) {
+				rc = 0;
+				goto out_free;
+			}
+
+			free(tty_vuart_lpc_addr);
+			tty_vuart_lpc_addr = NULL;
+			rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address",
+				      tty_sysfs_devnode);
+			if (rc < 0) {
+				goto out_free;
+			}
+
+			rc = access(tty_vuart_lpc_addr, F_OK);
+			if (rc) {
+				rc = 0;
+				goto out_free;
+			}
 		}
+
+		server->tty.type = TTY_DEVICE_VUART;
+		server->tty.vuart.sysfs_devnode = strdup(tty_sysfs_devnode);
 	}
 
 	rc = 0;
