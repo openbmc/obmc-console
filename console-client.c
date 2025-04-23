@@ -179,6 +179,49 @@ static int process_console(struct console_client *client)
 	return rc ? PROCESS_ERR : PROCESS_OK;
 }
 
+int process_cli(struct console_client *client, char *args[], size_t nargs)
+{
+	int rc;
+	char buf[4096] = { 0 };
+	struct pollfd pollfds[1];
+	size_t sz = 0;
+	size_t rem = sizeof(buf);
+	size_t written;
+	for (size_t i = 0; i < nargs - 1; i++) {
+		written = snprintf(buf + sz, rem, "%s ", args[i]);
+		if (written > rem) {
+			return PROCESS_ERR;
+		}
+		sz += written;
+		rem = sizeof(buf) - sz;
+	}
+	written = snprintf(buf + sz, rem, "%s\n", args[nargs - 1]);
+	if (written > rem) {
+		return PROCESS_ERR;
+	}
+	sz += written;
+	rc = write_buf_to_fd(client->console_sd, (uint8_t *)buf, sz);
+	if (rc < 0) {
+		return PROCESS_ERR;
+	}
+	for (;;) {
+		pollfds[0].fd = client->console_sd;
+		pollfds[0].events = POLLIN;
+		rc = poll(pollfds, 1, 1000);
+		if (rc == 0) {
+			break;
+		}
+		// TODO readback sz bytes and discard (Its what was sent.)
+		// TODO some way to read till we get the console shell prompt instead
+		// of using the 1s timeout?
+		rc = process_console(client);
+		if (rc != PROCESS_OK) {
+			break;
+		}
+	}
+	return rc;
+}
+
 /*
  * Setup our local file descriptors for IO: use stdin/stdout, and if we're on a
  * TTY, put it in canonical mode
@@ -346,6 +389,13 @@ int main(int argc, char *argv[])
 	rc = client_tty_init(client);
 	if (rc) {
 		goto out_client_fini;
+	}
+
+	if (optind < argc) {
+		int rc = process_cli(client, argv + optind, argc - optind);
+		client_fini(client);
+		config_fini(config);
+		return rc;
 	}
 
 	for (;;) {
