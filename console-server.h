@@ -269,7 +269,7 @@ int dbus_create_socket_consumer(struct console *console);
 #endif
 
 #define container_of(ptr, type, member)                                        \
-	((type *)((void *)((ptr) - offsetof(type, member))))
+	((type *)((void *)(((char *)(ptr)) - offsetof(type, member))))
 
 #define BUILD_ASSERT(c)                                                        \
 	do {                                                                   \
