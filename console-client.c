@@ -179,6 +179,90 @@ static int process_console(struct console_client *client)
 	return rc ? PROCESS_ERR : PROCESS_OK;
 }
 
+static int write_cli_command(struct console_client* client, char *args[], size_t nargs,
+			     ssize_t *written_bytes)
+{
+	size_t written;
+	size_t sz = 0;
+  int rc;
+	char buf[4096] = { 0 };
+	size_t rem = sizeof(buf);
+
+	for (size_t i = 0; i < nargs - 1; i++) {
+		written = snprintf(buf + sz, rem, "%s ", args[i]);
+		if (written > rem) {
+			return PROCESS_ERR;
+		}
+		sz += written;
+		rem = sizeof(buf) - sz;
+	}
+	written = snprintf(buf + sz, rem, "%s\n", args[nargs - 1]);
+	if (written > rem) {
+		return PROCESS_ERR;
+	}
+	sz += written;
+	rc = write_buf_to_fd(client->console_sd, (uint8_t *)buf, sz);
+	if (rc < 0) {
+		return PROCESS_ERR;
+	}
+	*written_bytes = (ssize_t)sz - 1;
+	return PROCESS_OK;
+}
+
+int process_cli(struct console_client *client, struct config *config,
+		char *args[], size_t nargs)
+{
+	int rc;
+	struct pollfd pollfds[1];
+	ssize_t written_size = 0;
+	uint8_t rbuf[4096];
+
+	rc = write_cli_command(client, args, nargs, &written_size);
+	if (rc < 0) {
+		return rc;
+	}
+	const uint8_t *term_seq = config ? (const uint8_t *)config_get_value(
+						   config, "console-prompt") :
+					   NULL;
+	int timeout = term_seq ? -1 : 1000;
+
+	for (;;) {
+		pollfds[0].fd = client->console_sd;
+		pollfds[0].events = POLLIN;
+		rc = poll(pollfds, 1, timeout);
+		if (rc == 0) {
+			break;
+		}
+		uint8_t *bufptr = rbuf;
+		ssize_t len = read(client->console_sd, rbuf, sizeof(rbuf));
+		if (len <= 0) {
+			return len < 0 ? PROCESS_ERR : PROCESS_EXIT;
+		}
+		if (written_size > 0) {
+			ssize_t discard_bytes =
+				len <= written_size ? len : written_size;
+			written_size -= discard_bytes;
+			bufptr += discard_bytes;
+			len -= discard_bytes;
+		}
+		if (len == 0) {
+			continue;
+		}
+		if (term_seq) {
+			uint8_t *start_seq = (uint8_t *)strstr((char *)bufptr,
+							       (char *)term_seq);
+			if (start_seq) {
+				len = (ssize_t)start_seq - (ssize_t)bufptr;
+				return write_buf_to_fd(client->fd_out, bufptr,
+						       len);
+			}
+		} else {
+			write_buf_to_fd(client->fd_out, bufptr, len);
+		}
+	}
+	return PROCESS_OK;
+}
+
 /*
  * Setup our local file descriptors for IO: use stdin/stdout, and if we're on a
  * TTY, put it in canonical mode
@@ -314,7 +398,7 @@ int main(int argc, char *argv[])
 				"Usage: %s "
 				"[-e <escape sequence>]"
 				"[-i <console ID>]"
-				"[-c <config>]\n",
+				"[-c <config>] [OPTIONAL ARGS]\n",
 				argv[0]);
 			return EXIT_FAILURE;
 		}
@@ -346,6 +430,14 @@ int main(int argc, char *argv[])
 	rc = client_tty_init(client);
 	if (rc) {
 		goto out_client_fini;
+	}
+
+	if (optind < argc) {
+		int rc = process_cli(client, config, argv + optind,
+				     argc - optind);
+		client_fini(client);
+		config_fini(config);
+		return rc;
 	}
 
 	for (;;) {
