@@ -60,6 +60,18 @@ reference
 [docs/mux-support.md](https://github.com/openbmc/obmc-console/blob/master/docs/mux-support.md)
 in that case.
 
+## Single command supports (pexpect)
+
+Supports the ability for users to issue commands similar to pexpect to the
+remote console. The user can pass a configuration `console-prompt` which can
+specify the prompt text of the remote console. Example use:
+
+obmc-console-client -c /tmp/client.conf -i dev
+
+Example contents of /tmp/client.conf from the above example:
+
+console-prompt = ^[[1;32muart:~$ ^[[m
+
 ## Sample Development Setup
 
 For developing obmc-console, we can use pseudo terminals (pty's) in Linux.
