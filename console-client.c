@@ -179,6 +179,75 @@ static int process_console(struct console_client *client)
 	return rc ? PROCESS_ERR : PROCESS_OK;
 }
 
+int process_cli(struct console_client *client, struct config *config,
+		char *args[], size_t nargs)
+{
+	int rc;
+	char buf[4096] = { 0 };
+	struct pollfd pollfds[1];
+	size_t sz = 0;
+	size_t rem = sizeof(buf);
+	size_t written;
+	for (size_t i = 0; i < nargs - 1; i++) {
+		written = snprintf(buf + sz, rem, "%s ", args[i]);
+		if (written > rem) {
+			return PROCESS_ERR;
+		}
+		sz += written;
+		rem = sizeof(buf) - sz;
+	}
+	written = snprintf(buf + sz, rem, "%s\n", args[nargs - 1]);
+	if (written > rem) {
+		return PROCESS_ERR;
+	}
+	sz += written;
+	rc = write_buf_to_fd(client->console_sd, (uint8_t *)buf, sz);
+	if (rc < 0) {
+		return PROCESS_ERR;
+	}
+	ssize_t total_readb = 0;
+	uint8_t rbuf[4096];
+	sz--;
+	while ((size_t)total_readb < sz) {
+		ssize_t readb =
+			read(client->console_sd, rbuf, sz - total_readb);
+		if (readb < 0 || readb == 0) {
+			return readb < 0 ? PROCESS_ERR : PROCESS_EXIT;
+		}
+		total_readb += readb;
+	}
+	const uint8_t *term_seq = config ? (const uint8_t *)config_get_value(
+						   config, "console-prompt") :
+					   NULL;
+
+	total_readb = 0;
+	for (;;) {
+		pollfds[0].fd = client->console_sd;
+		pollfds[0].events = POLLIN;
+		rc = poll(pollfds, 1, term_seq ? -1 : 1000);
+		if (rc == 0) {
+			break;
+		}
+		ssize_t len = read(client->console_sd, rbuf + total_readb,
+				   sizeof(rbuf) - total_readb);
+		if (len <= 0) {
+			return len < 0 ? PROCESS_ERR : PROCESS_EXIT;
+		}
+		total_readb += (size_t)len;
+		if (term_seq) {
+			uint8_t *start_seq = (uint8_t *)strstr(
+				(char *)rbuf, (char *)term_seq);
+			if (start_seq) {
+				size_t nbytes =
+					(size_t)start_seq - (size_t)rbuf;
+				return write_buf_to_fd(client->fd_out, rbuf,
+						       nbytes);
+			}
+		}
+	}
+	return write_buf_to_fd(client->fd_out, rbuf, total_readb);
+}
+
 /*
  * Setup our local file descriptors for IO: use stdin/stdout, and if we're on a
  * TTY, put it in canonical mode
@@ -346,6 +415,14 @@ int main(int argc, char *argv[])
 	rc = client_tty_init(client);
 	if (rc) {
 		goto out_client_fini;
+	}
+
+	if (optind < argc) {
+		int rc = process_cli(client, config, argv + optind,
+				     argc - optind);
+		client_fini(client);
+		config_fini(config);
+		return rc;
 	}
 
 	for (;;) {
