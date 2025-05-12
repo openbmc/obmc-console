@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
+#include <limits.h>
 
 #include <sys/mman.h>
 
@@ -29,11 +31,18 @@
 
 #include "console-server.h"
 #include "config.h"
+#define MAX_TIMESTAMP_LEN		64
+#define DEFAULT_IS_ENABLE_LOG_TIMESTAMP 0
 
 struct log_handler {
 	struct handler handler;
 	struct console *console;
 	struct ringbuffer_consumer *rbc;
+	struct ringbuffer_log_sentence {
+		uint8_t buf[4096]; // timestamp + data
+		size_t buf_len;
+	} log_sentence;
+
 	int fd;
 	size_t size;
 	size_t maxsize;
@@ -44,6 +53,8 @@ struct log_handler {
 
 static const char *default_filename = LOCALSTATEDIR "/log/obmc-console.log";
 static const size_t default_logsize = 16ul * 1024ul;
+static int isEnableLogTimestamp = DEFAULT_IS_ENABLE_LOG_TIMESTAMP;
+static unsigned int line_count = 0;
 
 static struct log_handler *to_log_handler(struct handler *handler)
 {
@@ -64,6 +75,8 @@ static int log_trim(struct log_handler *lh)
 	}
 
 	lh->fd = open(lh->log_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	line_count = 0;
+
 	if (lh->fd < 0) {
 		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
@@ -71,6 +84,22 @@ static int log_trim(struct log_handler *lh)
 
 	lh->size = 0;
 
+	return 0;
+}
+
+int parse_binary_string(const char *str, int *out)
+{
+	char *endptr;
+	errno = 0;
+
+	long val = strtol(str, &endptr, 10);
+
+	if (errno == ERANGE || endptr == str || *endptr != '\0' || val < 0 ||
+	    val > 1) {
+		return -1;
+	}
+
+	*out = (int)val;
 	return 0;
 }
 
@@ -100,25 +129,93 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 	return 0;
 }
 
+static const char *generate_timestamp(void)
+{
+	static char ts_buf[MAX_TIMESTAMP_LEN];
+	struct timeval tv;
+	struct tm *tm_info;
+
+	gettimeofday(&tv, NULL);
+	time_t seconds = tv.tv_sec;
+	tm_info = localtime(&seconds);
+
+	line_count++;
+
+	strftime(ts_buf, sizeof(ts_buf), "%a %b %d %H:%M:%S %Y", tm_info);
+	snprintf(ts_buf + strlen(ts_buf), sizeof(ts_buf) - strlen(ts_buf),
+		 " %07u ", line_count);
+
+	return ts_buf;
+}
+
+int flush_log_sentence(struct log_handler *lh)
+{
+	int rc = log_data(lh, lh->log_sentence.buf, lh->log_sentence.buf_len);
+	lh->log_sentence.buf_len = 0;
+
+	return rc;
+}
+
 static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg, size_t force_len
 						    __attribute__((unused)))
 {
 	struct log_handler *lh = arg;
 	uint8_t *buf;
 	size_t len;
-	int rc;
 
 	/* we log synchronously, so just dequeue everything we can, and
-	 * commit straight away. */
+	* commit straight away. */
 	for (;;) {
 		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf);
 		if (!len) {
 			break;
 		}
 
-		rc = log_data(lh, buf, len);
-		if (rc) {
-			return RINGBUFFER_POLL_REMOVE;
+		if (isEnableLogTimestamp) {
+			for (size_t i = 0; i < len; i++) {
+				if (lh->log_sentence.buf_len == 0) {
+					const char *ts_buf =
+						generate_timestamp();
+
+					if (!ts_buf) {
+						warnx("Failed to generate timestamp");
+						lh->log_sentence.buf_len = 0;
+						return RINGBUFFER_POLL_REMOVE;
+					}
+
+					size_t ts_len = strlen(ts_buf);
+					if (ts_len >=
+					    sizeof(lh->log_sentence.buf)) {
+						warnx("Timestamp too long");
+						lh->log_sentence.buf_len = 0;
+						return RINGBUFFER_POLL_REMOVE;
+					}
+
+					memcpy(lh->log_sentence.buf, ts_buf,
+					       ts_len);
+					lh->log_sentence.buf_len = ts_len;
+				}
+
+				if (lh->log_sentence.buf_len <
+				    sizeof(lh->log_sentence.buf)) {
+					lh->log_sentence
+						.buf[lh->log_sentence.buf_len++] =
+						buf[i];
+				}
+
+				// When buf forms a sentence, write it to log
+				if (buf[i] == '\n' ||
+				    lh->log_sentence.buf_len >=
+					    sizeof(lh->log_sentence.buf)) {
+					if (flush_log_sentence(lh)) {
+						return RINGBUFFER_POLL_REMOVE;
+					}
+				}
+			}
+		} else {
+			if (log_data(lh, buf, len)) {
+				return RINGBUFFER_POLL_REMOVE;
+			}
 		}
 
 		ringbuffer_dequeue_commit(lh->rbc, len);
@@ -159,6 +256,7 @@ static struct handler *log_init(const struct handler_type *type
 	const char *logsize_str;
 	size_t logsize = default_logsize;
 	int rc;
+	const char *enable_timestamp_str;
 
 	lh = malloc(sizeof(*lh));
 	if (!lh) {
@@ -170,6 +268,15 @@ static struct handler *log_init(const struct handler_type *type
 	lh->size = 0;
 	lh->log_filename = NULL;
 	lh->rotate_filename = NULL;
+	lh->log_sentence.buf_len = 0;
+
+	enable_timestamp_str =
+		config_get_value(config, "is-enable-log-timestamp");
+	if (enable_timestamp_str != NULL &&
+	    parse_binary_string(enable_timestamp_str, &isEnableLogTimestamp) ==
+		    -1) {
+		warn("is-enable-log-timestamp only allows 0 and 1");
+	}
 
 	logsize_str = config_get_value(config, "logsize");
 	rc = config_parse_bytesize(logsize_str, &logsize);
