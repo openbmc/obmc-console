@@ -29,11 +29,17 @@
 
 #include "console-server.h"
 #include "config.h"
+#define MAX_TIMESTAMP_LEN 64
 
 struct log_handler {
 	struct handler handler;
 	struct console *console;
 	struct ringbuffer_consumer *rbc;
+	struct ringbuffer_log_sentence {
+		uint8_t buf[4096]; // timestamp + data
+		size_t buf_len;
+	} log_sentence;
+
 	int fd;
 	size_t size;
 	size_t maxsize;
@@ -100,25 +106,73 @@ static int log_data(struct log_handler *lh, uint8_t *buf, size_t len)
 	return 0;
 }
 
+static const char *generate_timestamp(void)
+{
+    static char ts_buf[MAX_TIMESTAMP_LEN];
+    struct timeval tv;
+    struct tm *tm_info;
+
+    gettimeofday(&tv, NULL);
+    time_t seconds = tv.tv_sec;
+    tm_info = localtime(&seconds);
+    strftime(ts_buf, sizeof(ts_buf), "[%Y-%m-%d %H:%M:%S] ", tm_info);
+
+    return ts_buf;
+}
+
+int flush_log_sentence(struct log_handler *lh) {
+    int rc = log_data(lh, lh->log_sentence.buf, lh->log_sentence.buf_len);
+    lh->log_sentence.buf_len = 0;
+
+    return rc;
+}
+
 static enum ringbuffer_poll_ret log_ringbuffer_poll(void *arg, size_t force_len
-						    __attribute__((unused)))
+	__attribute__((unused)))
 {
 	struct log_handler *lh = arg;
 	uint8_t *buf;
 	size_t len;
-	int rc;
 
 	/* we log synchronously, so just dequeue everything we can, and
-	 * commit straight away. */
+	* commit straight away. */
 	for (;;) {
 		len = ringbuffer_dequeue_peek(lh->rbc, 0, &buf);
 		if (!len) {
 			break;
 		}
 
-		rc = log_data(lh, buf, len);
-		if (rc) {
-			return RINGBUFFER_POLL_REMOVE;
+		for (size_t i = 0; i < len; i++) {
+			if (lh->log_sentence.buf_len == 0) {
+				const char *ts_buf = generate_timestamp();
+
+				if (!ts_buf) {
+					warnx("Failed to generate timestamp");
+					lh->log_sentence.buf_len = 0;
+					return RINGBUFFER_POLL_REMOVE;
+				}
+
+				size_t ts_len = strlen(ts_buf);
+				if (ts_len >= sizeof(lh->log_sentence.buf)) {
+					warnx("Timestamp too long");
+					lh->log_sentence.buf_len = 0;
+					return RINGBUFFER_POLL_REMOVE;
+				}
+
+				memcpy(lh->log_sentence.buf, ts_buf, ts_len);
+				lh->log_sentence.buf_len = ts_len;
+			}
+
+			if (lh->log_sentence.buf_len < sizeof(lh->log_sentence.buf)) {
+				lh->log_sentence.buf[lh->log_sentence.buf_len++] = buf[i];
+			}
+
+			// When buf forms a sentence, write it to log
+			if (buf[i] == '\n' || lh->log_sentence.buf_len >= sizeof(lh->log_sentence.buf)) {
+				if (flush_log_sentence(lh)) {
+					return RINGBUFFER_POLL_REMOVE;
+				}
+			}
 		}
 
 		ringbuffer_dequeue_commit(lh->rbc, len);
@@ -170,6 +224,7 @@ static struct handler *log_init(const struct handler_type *type
 	lh->size = 0;
 	lh->log_filename = NULL;
 	lh->rotate_filename = NULL;
+	lh->log_sentence.buf_len = 0;
 
 	logsize_str = config_get_value(config, "logsize");
 	rc = config_parse_bytesize(logsize_str, &logsize);
