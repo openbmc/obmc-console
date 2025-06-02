@@ -46,6 +46,7 @@ Change categories:
 
 1. console-server: Fix configuration of lpc_address and sirq sysfs attributes
 2. config.h: Include stddef.h for size_t
+3. console-server: Fix pointer arithmetic in container_of() implementation
 
 ## [1.1.0] - 2023-06-07
 
