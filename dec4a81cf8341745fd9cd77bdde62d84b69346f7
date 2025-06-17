@@ -34,6 +34,24 @@
       "parentUuid": "ca8238c6_ea9b0023",
       "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a37d1b_85716f89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-17T14:07:38Z",
+      "side": 1,
+      "message": "@andrew@codeconstruct.com.au - Are there any alternative ideas for being able to programmatically interact with the obmc-console?  \"I\u0027m not in favour\" doesn\u0027t give us much in terms of why and/or direction.\n\nI can say I\u0027m not really liking the \"here is the console pattern to look at\" part of this.  Could we simplify it to be something like this?\n\n1) Get the most recent line (or partial line).\n2) Inject the following characters into the console.",
+      "parentUuid": "df70aeae_d41faddd",
+      "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
