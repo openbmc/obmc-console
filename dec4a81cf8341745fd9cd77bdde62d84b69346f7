@@ -16,6 +16,24 @@
       "message": "I\u0027m not in favour of adding such a facility.",
       "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df70aeae_d41faddd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-06-17T03:36:05Z",
+      "side": 1,
+      "message": ":-( the alternative is to bring in things like python3-pexpect which I was trying to avoid. One of the main usecases was to dump states of a target controller and hook that up into phosphor-debug-collector.",
+      "parentUuid": "ca8238c6_ea9b0023",
+      "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
