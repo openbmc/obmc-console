@@ -52,6 +52,24 @@
       "parentUuid": "df70aeae_d41faddd",
       "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0c9d690_64015f53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-06-17T17:40:11Z",
+      "side": 1,
+      "message": "To be honest, we could live with just an inject and exit since the output would be in the logfile. Dont really need to wait on the term output. I was trying to make this look like `ssh root@\u003cblah\u003e cat /etc/os-release`.",
+      "parentUuid": "c3a37d1b_85716f89",
+      "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
