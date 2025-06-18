@@ -70,6 +70,24 @@
       "parentUuid": "c3a37d1b_85716f89",
       "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe53da1c_dff14ab6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-06-18T04:32:47Z",
+      "side": 1,
+      "message": "\u003e the alternative is to bring in things like python3-pexpect\n\nGoing from \"can I add 100 lines of C to obmc-console\" to \"we need to drag in the python ecosystem and pexpect\" is a huge leap. You\u0027ve just demonstrated you can do the thing in 100 lines of C, why all of a sudden python?\n\nI don\u0027t see why you can\u0027t write an application that creates a pair of pipes, forks, and in the child, dup them to stdin/stdout then exec obmc-console-client to connect to the unix domain socket. Slightly more brittle would be composing the unix domain socket address for the server yourself and connecting directly (not having to fork/exec).\n\nEither way, from there, you do what you did with this patch, but in your own application.\n\nIf that\u0027s too raw, then there\u0027s always libexpect, or expect itself.\n\nA stock expect install on my debian system is ~5MB:\n\n```\n[I] 0 andrew@heihei ~\u003e apt show expect tcl8.6 libtcl8.6 tcl-expect 2\u003e/dev/null | grep Installed-Size | cut -d\u0027 \u0027 -f2 | tr \u0027\\n\u0027 \u0027+\u0027 | tr -d \u0027,\u0027 | sed -E \u0027s/$/0/\u0027 | math\n5135\n```\n\nBy comparison for python appears to be ~14MB:\n\n```\n[I] 0 andrew@heihei ~\u003e apt show python3.11 libpython3.11-stdlib libpython3.11-minimal 2\u003e/dev/null | grep Installed-Size | cut -d\u0027 \u0027 -f2 | tr \u0027\\n\u0027 \u0027+\u0027 | tr -d \u0027,\u0027 | sed -E \u0027s/$/0/\u0027 | math\n14531\n```\n\nI\u0027d be surprised if the expect/tcl install couldn\u0027t be cut down further.\n\nI prefer we don\u0027t start influencing the data stream in obmc-console-client, beyond potentially handling escape sequences to issue e.g. a break on the UART. _That_ introspection is bounded to affecting behaviour of the hardware. I don\u0027t think obmc-console should implement interactions with the entity on the remote side - it should remain a transport mechanism.",
+      "parentUuid": "d0c9d690_64015f53",
+      "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
