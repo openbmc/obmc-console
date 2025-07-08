@@ -22,6 +22,30 @@
       },
       "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6461d423_3a89a103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-07-08T00:45:22Z",
+      "side": 1,
+      "message": "We use this feature to monitor boot time in the fleet. Currently, this is not a requirement for any phase exit, but would be nice to have as early in NPI as possible to monitor the effect of different components and firmwares on boot time to be sure that we will be within our maintenance SLOs during production.",
+      "parentUuid": "85c46323_7ce1d1ef",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
