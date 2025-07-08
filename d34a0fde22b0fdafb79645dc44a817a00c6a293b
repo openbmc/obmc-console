@@ -87,6 +87,24 @@
       "message": "The serial console is not a stream of ASCII lines; it\u0027s essentially binary data, that *most of the time* is line-based.\n\nWhat happens when a tui is started on the console? How are you intending to handle the tty control sequences? Inserting timestamps into that binary stream is going to make things messy...",
       "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e69777e2_24164e4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-07-08T03:11:22Z",
+      "side": 1,
+      "message": "What happens when a tui is started on the console? \nIt will print the timestamp at the beginning and leave the rest unchanged.\n\nHow are you intending to handle the tty control sequences?\nControl characters are still displayed in the same way as before, including colors, line breaks, cursor movements, and so on.\n\nIndeed, if the input contains control characters like \u0027\\r\u0027, which moves the cursor back to the beginning of the line, using $cat to view the file may result in the timestamp being overwritten. However, if you open the file with $vi (which does not interpret control characters), the timestamp will be displayed correctly.",
+      "parentUuid": "54108d39_6b889a3a",
+      "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
