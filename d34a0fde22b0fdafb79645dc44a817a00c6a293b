@@ -46,6 +46,23 @@
       },
       "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54108d39_6b889a3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-07-08T01:13:52Z",
+      "side": 1,
+      "message": "The serial console is not a stream of ASCII lines; it\u0027s essentially binary data, that *most of the time* is line-based.\n\nWhat happens when a tui is started on the console? How are you intending to handle the tty control sequences? Inserting timestamps into that binary stream is going to make things messy...",
+      "revId": "d34a0fde22b0fdafb79645dc44a817a00c6a293b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
