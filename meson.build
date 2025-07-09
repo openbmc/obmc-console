@@ -14,7 +14,9 @@ project(
 
 add_project_arguments('-D_GNU_SOURCE', language: 'c')
 
-systemdsystemunitdir = dependency('systemd').get_variable('systemdsystemunitdir')
+systemdsystemunitdir = dependency('systemd').get_variable(
+    'systemd_system_unit_dir',
+)
 install_data(
     'conf/obmc-console@.service.in',
     'conf/obmc-console@.socket.in',
