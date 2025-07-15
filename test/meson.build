@@ -75,3 +75,17 @@ foreach ct : client_tests
         suite: 'itests',
     )
 endforeach
+
+test(
+    'test-log-handler',
+    executable(
+        'test-log-handler',
+        'test-log-handler.c',
+        '../config.c',
+        '../ringbuffer.c',
+        '../util.c',
+        dependencies: [iniparser_dep],
+        c_args: ['-DSYSCONFDIR=""', '-DLOCALSTATEDIR=""'],
+        include_directories: '..',
+    ),
+)
