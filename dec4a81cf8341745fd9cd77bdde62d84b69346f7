@@ -88,6 +88,24 @@
       "parentUuid": "d0c9d690_64015f53",
       "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c18ba323_81df635c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-07-18T18:37:28Z",
+      "side": 1,
+      "message": "Thanks for the comment Andrew. let me think this through and get back. I was able to get some things done using the `expect` CLI.",
+      "parentUuid": "fe53da1c_dff14ab6",
+      "revId": "dec4a81cf8341745fd9cd77bdde62d84b69346f7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
