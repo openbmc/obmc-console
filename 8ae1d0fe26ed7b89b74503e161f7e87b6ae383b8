@@ -16,6 +16,24 @@
       "message": "Hello. I wanted to chime into the discussion coming from bmcweb. Due to the fact, that the current redfish implementation for hostlogs coming from phosphor-hostlogger is unclear and there being an interest to move to the hostlogs coming from obmc-console, we would benefit from this change adding timestamps to the log messages.",
       "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9824359_b5e1de0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-08-20T02:31:00Z",
+      "side": 1,
+      "message": "How are you proposing to properly timestamp the box-drawing modes and cursor/screen control sequences?",
+      "parentUuid": "7429c05d_753af2a6",
+      "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
