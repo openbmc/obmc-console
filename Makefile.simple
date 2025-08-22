@@ -1,0 +1,94 @@
+# Simple Makefile for obmc-console (minimal build complexity)
+# This version can be used when:
+# - You want zero-configuration builds
+# - pkg-config detection fails
+# - You just want to build the binaries quickly
+# - You don't need build-time systemd service file generation
+#
+# NOTE: The binaries produced are 100% feature-identical to the full Makefile,
+#       including all systemd, D-Bus, GPIO mux, and logging features.
+#       Only the build process is simplified, not the functionality.
+#
+# Usage:
+#   make -f Makefile.simple          # Build fully-featured binaries
+#   make -f Makefile.simple install  # Install binaries only
+#   make -f Makefile.simple clean    # Clean build artifacts
+
+# Project information
+PACKAGE = obmc-console
+VERSION = 1.1.0
+
+# Build configuration
+CC ?= gcc
+INSTALL ?= install
+
+# Directories
+PREFIX ?= /usr
+BINDIR ?= $(PREFIX)/bin
+SBINDIR ?= $(PREFIX)/sbin
+SYSCONFDIR ?= /etc
+LOCALSTATEDIR ?= /var
+SYSTEMD_SYSTEM_UNIT_DIR ?= $(PREFIX)/lib/systemd/system
+
+# Compiler flags
+CFLAGS ?= -O2 -g
+CFLAGS += -Wall -Wextra
+CFLAGS += -std=gnu17
+CFLAGS += -D_GNU_SOURCE
+CFLAGS += -DLOCALSTATEDIR=\"$(LOCALSTATEDIR)\"
+CFLAGS += -DSYSCONFDIR=\"$(SYSCONFDIR)\"
+
+# Minimal dependencies (fallback when pkg-config fails)
+LIBS = -lsystemd -liniparser -lgpiod -lrt
+
+# Source files
+SERVER_SOURCES = config.c console-dbus.c console-server.c console-socket.c \
+                 console-mux.c log-handler.c ringbuffer.c socket-handler.c \
+                 tty-handler.c util.c
+
+CLIENT_SOURCES = config.c console-client.c console-socket.c util.c
+
+SERVER_OBJECTS = $(SERVER_SOURCES:.c=.o)
+CLIENT_OBJECTS = $(CLIENT_SOURCES:.c=.o)
+
+# Targets
+TARGETS = obmc-console-server obmc-console-client
+
+.PHONY: all clean install
+
+all: $(TARGETS)
+
+# Server executable
+obmc-console-server: $(SERVER_OBJECTS)
+	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+
+# Client executable
+obmc-console-client: $(CLIENT_OBJECTS)
+	$(CC) $(LDFLAGS) -o $@ $^ -liniparser
+
+# Object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Install target (binaries only)
+install: $(TARGETS)
+	$(INSTALL) -d $(DESTDIR)$(SBINDIR)
+	$(INSTALL) -d $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 obmc-console-server $(DESTDIR)$(SBINDIR)/
+	$(INSTALL) -m 755 obmc-console-client $(DESTDIR)$(BINDIR)/
+
+clean:
+	rm -f $(SERVER_OBJECTS) $(CLIENT_OBJECTS) $(TARGETS)
+
+# Dependencies (simplified)
+config.o: config.c config.h config-internal.h
+console-client.o: console-client.c console-server.h config.h
+console-dbus.o: console-dbus.c console-server.h
+console-mux.o: console-mux.c console-server.h console-mux.h
+console-server.o: console-server.c console-server.h console-mux.h config.h
+console-socket.o: console-socket.c console-server.h
+log-handler.o: log-handler.c console-server.h config.h
+ringbuffer.o: ringbuffer.c console-server.h
+socket-handler.o: socket-handler.c console-server.h console-mux.h
+tty-handler.o: tty-handler.c console-server.h config.h
+util.o: util.c util.h
