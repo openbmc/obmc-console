@@ -34,6 +34,24 @@
       "parentUuid": "7429c05d_753af2a6",
       "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af865620_07dfb924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-08-22T05:48:10Z",
+      "side": 1,
+      "message": "The box-drawing mode is totally fine, because the entire box-drawing sequence is sent in one message, so there will be only a single timestamp before the drawing. I can show you what the log looks like if you want.\n\nIf the input contains control characters like \u0027\\r\u0027, which moves the cursor back to the beginning of the line, using \"cat\" to view the file may result in the timestamp being overwritten. However, if you open the file with \"vi\" (which does not interpret control characters), the timestamp will be displayed correctly.",
+      "parentUuid": "b9824359_b5e1de0a",
+      "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
