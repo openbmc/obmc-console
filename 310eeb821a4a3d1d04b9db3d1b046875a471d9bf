@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8d0001c_2357710e",
+        "filename": "console-server.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000025
+      },
+      "writtenOn": "2025-09-09T19:28:41Z",
+      "side": 1,
+      "message": "6.6:\n```# ls -l /sys/class/tty/\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 console -\u003e ../../devices/virtual/tty/console\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ptmx -\u003e ../../devices/virtual/tty/ptmx\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 tty -\u003e ../../devices/virtual/tty/tty\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS0 -\u003e ../../devices/platform/ahb/1e780000.apb/1e788000.serial/tty/ttyS0\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS1 -\u003e ../../devices/platform/ahb/1e780000.apb/1e78d000.serial/tty/ttyS1\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS2 -\u003e ../../devices/platform/serial8250/tty/ttyS2\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS3 -\u003e ../../devices/platform/serial8250/tty/ttyS3\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS4 -\u003e ../../devices/platform/ahb/1e780000.apb/1e784000.serial/tty/ttyS4\nlrwxrwxrwx    1 root     root             0 Aug  1 14:52 ttyS5 -\u003e ../../devices/platform/ahb/1e780000.apb/1e787000.serial/tty/ttyS5```\n\n\n6.12:\n```# ls -l /sys/class/tty/\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 console -\u003e ../../devices/virtual/tty/console\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ptmx -\u003e ../../devices/virtual/tty/ptmx\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 tty -\u003e ../../devices/virtual/tty/tty\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS0 -\u003e ../../devices/platform/ahb/1e780000.apb/1e788000.serial/1e788000.serial:0/1e788000.serial:0.0/tty/ttyS0\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS1 -\u003e ../../devices/platform/ahb/1e780000.apb/1e78d000.serial/1e78d000.serial:0/1e78d000.serial:0.0/tty/ttyS1\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS2 -\u003e ../../devices/platform/serial8250/serial8250:0/serial8250:0.2/tty/ttyS2\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS3 -\u003e ../../devices/platform/serial8250/serial8250:0/serial8250:0.3/tty/ttyS3\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS4 -\u003e ../../devices/platform/ahb/1e780000.apb/1e784000.serial/1e784000.serial:0/1e784000.serial:0.0/tty/ttyS4\nlrwxrwxrwx    1 root     root             0 Sep  9 19:18 ttyS5 -\u003e ../../devices/platform/ahb/1e780000.apb/1e787000.serial/1e787000.serial:0/1e787000.serial:0.0/tty/ttyS5```",
+      "parentUuid": "53157676_353ee2da",
+      "range": {
+        "startLine": 240,
+        "startChar": 1,
+        "endLine": 241,
+        "endChar": 31
+      },
+      "revId": "310eeb821a4a3d1d04b9db3d1b046875a471d9bf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd690d53_625140ad",
         "filename": "console-server.c",
         "patchSetId": 1
