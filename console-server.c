@@ -208,6 +208,14 @@ static int tty_find_device(struct console_server *server)
 		goto out_free;
 	}
 
+	rc = asprintf(&server->tty.dev, "/dev/%s", tty_kname_real);
+	if (rc < 0) {
+		goto out_free;
+	}
+
+	// Default to non-VUART
+	server->tty.type = TTY_DEVICE_UART;
+
 	rc = asprintf(&tty_device_reldir, "%s/../../", tty_device_tty_dir);
 	if (rc < 0) {
 		goto out_free;
@@ -217,14 +225,6 @@ static int tty_find_device(struct console_server *server)
 	if (!tty_sysfs_devnode) {
 		warn("Can't find parent device for %s", tty_kname_real);
 	}
-
-	rc = asprintf(&server->tty.dev, "/dev/%s", tty_kname_real);
-	if (rc < 0) {
-		goto out_free;
-	}
-
-	// Default to non-VUART
-	server->tty.type = TTY_DEVICE_UART;
 
 	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
 	if (tty_sysfs_devnode) {
