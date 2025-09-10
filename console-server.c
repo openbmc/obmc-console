@@ -222,24 +222,25 @@ static int tty_find_device(struct console_server *server)
 	}
 
 	tty_sysfs_devnode = realpath(tty_device_reldir, NULL);
+	/* not really an error, but it'd be unusual if we cannot resolve
+	 * two parent dirs...
+	 */
 	if (!tty_sysfs_devnode) {
 		warn("Can't find parent device for %s", tty_kname_real);
+		rc = 0;
+		goto out_free;
 	}
 
 	/* Arbitrarily pick an attribute to differentiate UART vs VUART */
-	if (tty_sysfs_devnode) {
-		rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address",
-			      tty_sysfs_devnode);
-		if (rc < 0) {
-			goto out_free;
-		}
+	rc = asprintf(&tty_vuart_lpc_addr, "%s/lpc_address", tty_sysfs_devnode);
+	if (rc < 0) {
+		goto out_free;
+	}
 
-		rc = access(tty_vuart_lpc_addr, F_OK);
-		if (!rc) {
-			server->tty.type = TTY_DEVICE_VUART;
-			server->tty.vuart.sysfs_devnode =
-				strdup(tty_sysfs_devnode);
-		}
+	rc = access(tty_vuart_lpc_addr, F_OK);
+	if (!rc) {
+		server->tty.type = TTY_DEVICE_VUART;
+		server->tty.vuart.sysfs_devnode = strdup(tty_sysfs_devnode);
 	}
 
 	rc = 0;
