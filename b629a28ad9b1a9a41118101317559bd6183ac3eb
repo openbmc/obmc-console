@@ -33,6 +33,24 @@
       "message": "I\u0027m not enthused by this, but I also don\u0027t like any alternatives I tried.",
       "revId": "b629a28ad9b1a9a41118101317559bd6183ac3eb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8dde00a_465d03dc",
+        "filename": "console-server.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-09-10T04:16:30Z",
+      "side": 1,
+      "message": "I think the path resolution changes are unavoidable, and we don\u0027t have any easier options with handy symlinks within the sysfs tree.\n\nHowever, I\u0027m not too keen on this fallback approach - it hides the two options of path resolution.\n\nPerhaps something like this: https://github.com/jk-ozlabs/obmc-console/blob/9639e633529e0ecd56a23363d1657100c2be4f9e/console-server.c#L217-L234\n\n\\- where the path configurations are explicit, and we just loop over those.\n\nFeel free to steal/squash from that [`experimental/vuart-sysfs`](https://github.com/openbmc/obmc-console/compare/master...jk-ozlabs:obmc-console:experimental/vuart-sysfs) branch, but note that it\u0027s just a sketch for this comment - I have not built nor tested)",
+      "parentUuid": "6f3c6bf5_075b0ac5",
+      "revId": "b629a28ad9b1a9a41118101317559bd6183ac3eb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
