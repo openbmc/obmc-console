@@ -50,6 +50,23 @@
       "message": "Could you please help review this commit?\n\nThanks",
       "revId": "243abb5182a443643d7b520d9cb9b148088b1134",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "398c0d79_f4b97a60",
+        "filename": "log-handler.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-10-24T16:21:05Z",
+      "side": 1,
+      "message": "This seems verbose. Can we just call the config `log-timestamp`.\n@andrew@codeconstruct.com.au what do you think? This would not impact default handling and we can enable it on a per-console basis. So, if there are binary transfers on particular consoles, it could be kept disabled there.",
+      "revId": "243abb5182a443643d7b520d9cb9b148088b1134",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
