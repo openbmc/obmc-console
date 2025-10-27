@@ -67,6 +67,24 @@
       "message": "This seems verbose. Can we just call the config `log-timestamp`.\n@andrew@codeconstruct.com.au what do you think? This would not impact default handling and we can enable it on a per-console basis. So, if there are binary transfers on particular consoles, it could be kept disabled there.",
       "revId": "243abb5182a443643d7b520d9cb9b148088b1134",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b25bd2a4_7f58c675",
+        "filename": "log-handler.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-10-27T01:53:14Z",
+      "side": 1,
+      "message": "Sure, I will fix the config name.",
+      "parentUuid": "398c0d79_f4b97a60",
+      "revId": "243abb5182a443643d7b520d9cb9b148088b1134",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
