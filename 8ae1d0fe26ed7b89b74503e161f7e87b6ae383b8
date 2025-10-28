@@ -70,6 +70,24 @@
       "parentUuid": "af865620_07dfb924",
       "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1de733b_d6b3695d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-10-28T00:48:43Z",
+      "side": 1,
+      "message": "What might work instead is a specific-text-only stream of the log data. This would be intended to use as an 8-bit-clean log of the data, and you would be able to timestamp/etc as necessary.\n\nThis would involve conversion from binary into ASCII (or even utf-8), before interpreting as text, and coming up with a strategy for that conversion. A simple initial approach may be to substitute invalid bytes.",
+      "parentUuid": "d4d04832_fc7dc4f5",
+      "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
