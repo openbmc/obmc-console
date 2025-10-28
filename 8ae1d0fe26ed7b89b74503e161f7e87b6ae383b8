@@ -52,6 +52,24 @@
       "parentUuid": "b9824359_b5e1de0a",
       "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d04832_fc7dc4f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-10-28T00:44:54Z",
+      "side": 1,
+      "message": "\u003e because the entire box-drawing sequence is sent in one message\n\nyou have no guarantee of that. you may be inserting a timestamp in the middle of a drawing sequence, or possibly as part of a terminal escape sequence.\n\nThere are multiple other scenarios where you cannot assume that you can insert text data into the serial output, expecting that it will be a valid \"sentence\" when parsed.\n\nStill a no from me, as you\u0027re attempting to add timestamps to what is essentially a binary data stream.",
+      "parentUuid": "af865620_07dfb924",
+      "revId": "8ae1d0fe26ed7b89b74503e161f7e87b6ae383b8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
