@@ -474,7 +474,7 @@ static struct handler *socket_init(const struct handler_type *type
 
 		rc = bind(sh->sd, (struct sockaddr *)&addr, addrlen);
 		if (rc) {
-			socket_path_t name;
+			socket_path_t name = { 0 };
 			console_socket_path_readable(&addr, addrlen, name);
 			warn("Can't bind to socket path %s (terminated at first null)",
 			     name);
