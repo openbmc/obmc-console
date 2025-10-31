@@ -16,6 +16,24 @@
       "message": "We might need someone at a higher pay-grade to approve this, as I believe IBM have specific requirements about the format of the copyright notice.\n\nMore generally though, the apache license states:\n\n\u003e You must retain, in the Source form of any Derivative Works\n\u003e that You distribute, all copyright, patent, trademark, and \n\u003e attribution notices from the Source form of the Work, \n\u003e excluding those notices that do not pertain to any part of the Derivative Works\n\nand it doesn\u0027t seem to me like this is retaining that notice.",
       "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ad3cc8_fae56d47",
+        "filename": "config.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-10-31T10:12:32Z",
+      "side": 0,
+      "message": "\u003e You must retain, in the Source form of any Derivative Works\nthat You distribute, all copyright, patent, trademark, and\nattribution notices from the Source form of the Work,\n\nWe retain the notice but in a different form. For example if we changed the file encoding or made a screenshot of the file, *the notice is also retained,\nbut not byte-for-byte.*\n\n\u003e \"Source\" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.\n\nIf we view a patch to be a derived work from the parent commit, the source form may be different, right? So if the new source form is to use SPDX, the representation is different but the notice is in the source form of the derived work.\n\nI have some viewpoint on `SPDX-License-Identifier`. We make it clear, without doubt, in machine-readable form, what is the license of this file. All attributions and copyright holders are still present.\n\nThere is an lwn article about SPDX usage.\nhttps://lwn.net/Articles/739183/\n\n\u003e as I believe IBM have specific requirements about the format of the copyright notice.\n\n@spinler@us.ibm.com can you help out here, is it okay for IBM?",
+      "parentUuid": "6b3cc889_ece9d7e4",
+      "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
