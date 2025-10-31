@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b3cc889_ece9d7e4",
+        "filename": "config.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-10-31T07:11:33Z",
+      "side": 0,
+      "message": "We might need someone at a higher pay-grade to approve this, as I believe IBM have specific requirements about the format of the copyright notice.\n\nMore generally though, the apache license states:\n\n\u003e You must retain, in the Source form of any Derivative Works\n\u003e that You distribute, all copyright, patent, trademark, and \n\u003e attribution notices from the Source form of the Work, \n\u003e excluding those notices that do not pertain to any part of the Derivative Works\n\nand it doesn\u0027t seem to me like this is retaining that notice.",
+      "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
