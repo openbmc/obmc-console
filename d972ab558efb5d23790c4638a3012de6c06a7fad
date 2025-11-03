@@ -34,6 +34,24 @@
       "parentUuid": "6b3cc889_ece9d7e4",
       "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dee04b7_9d07b611",
+        "filename": "config.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-11-03T02:01:23Z",
+      "side": 0,
+      "message": "\u003e We retain the notice but in a different form. For example if we changed the file encoding or made a screenshot of the file, the notice is also retained,\nbut not byte-for-byte.\n\nThat is clearly different, your examples are a format conversion, not a change in the content. Arguing that the representation of the full copyright notice is still present in this file is disingenuous.\n\n... and, in my understanding, the presence of that full copyright text is the requirement for clearly applying a license to a source text.\n\n\u003e We make it clear, without doubt,\n\nI think you will have a difficult time arguing this. The clarity is reduced, and is no longer in the form that a typical counsel will argue is necessary.\n\nThat said, if you have actual legal counsel advising this is okay, and the ToF recognise that advice, I will happily be corrected on this.\n\nThe ASF have actual requirements on the presence of the full header on their own contributions:\n\n  https://www.apache.org/legal/src-headers.html\n\nand have specific advice for applying the license:\n\n  https://www.apache.org/licenses/LICENSE-2.0.html#apply\n\n\u003e There is an lwn article about SPDX usage.\nhttps://lwn.net/Articles/739183/\n\nYes, that\u0027s good for the kernel context, but only covers the SPDX-License-Identifier header, not the FileCopyrightText header. Note that the kernel requirements still require a copyright \u0026 attribution header in conjunction with the SPDX metadata.\n\nI am 100% in support of adding the SPDX headers, but they should be in conjunction to the standard header.\n\nNothing in the REUSE specs seems to require removing existing texts.\n\nIn fact, the SPDX advice states:\n\n\u003e SPDX IDs are intending to express information about licenses. Copyright notices ‐\n\u003e statements about who owns the copyright in a file or project ‐ are outside the\n\u003e scope of SPDX short-form IDs.\n\u003e\n\u003e Therefore, you **should not** remove or modify existing copyright notices in files \n\u003e when adding an SPDX ID.\n\n\\- https://spdx.dev/learn/handling-license-info/ , emphasis in original.\n\nFor context on the IBM side: ISTR that the required form included the © symbol, at least. This is one of the preferred formats of the RESUSE spec.",
+      "parentUuid": "d5ad3cc8_fae56d47",
+      "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
