@@ -52,6 +52,24 @@
       "parentUuid": "d5ad3cc8_fae56d47",
       "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cba508d_2d369520",
+        "filename": "config.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-11-05T16:25:12Z",
+      "side": 0,
+      "message": "I asked about this on reuse mailing lists reuse@lists.fsfe.org and got following response (archives seem to require an account, but it\u0027s a public list so I\u0027m re-posting here)\n\n```\nHi Alexander,\n\nI don\u0027t have a good answer for this.\n\nMPL-2.0 has a FAQ[1] which says:\n\n\u003e Q27: Can I use a machine-readable header in my source code files to indicate that the file is under the MPL?\n\u003e\n\u003e Use of a standards-compliant, machine-readable license metadata header in source code files can be compliant with the notice-related goals and requirements of MPL 2.0.\n\u003e\n\u003e MPL 2.0 recommends the use of the specific text in Exhibits A or B in order to provide consistency for recipients of source code. However, the license was drafted with the understanding that not all technical communities may be able to, or wish to, use the header in the recommended manner. In particular, Exhibit A notes that it may not be \"desirable\" to include the standard header in all files, and describes some alternative mechanisms.\n\u003e\n\u003e As a result, use of a machine-readable mechanism, such as a Software Package Data Exchange® (SPDX) ID, can meet the requirements of the license.\n\u003e\n\u003e Where a relevant technical community\u0027s stated policy is to require such machine-readable license metadata, such as those communities that recommend use of SPDX IDs or the REUSE project\u0027s licensing data specification, we recommend following that community\u0027s practice.\n\nOn a purist technicality, this FAQ answer contradicts the license text\nin the same way as you have described in your e-mail message, and\nsomewhat acknowledges this. But Mozilla decide to interpret the license\na little more generously here.\n\nYou could _probably_ safely do the same with Apache, but I am not a\nlawyer, and if I were, I wouldn\u0027t be your lawyer.\n\nEssentially you can ask yourself:\n\n1. Would the original author object to your changing of the header?\n2. If they object, would it be a severe upset?\n3. If the upset is severe, is it severe enough to start legal\nproceedings against you? (And do you care to \n4. If they start legal proceedings against you, would they win?\n\nIf at any stage the answer is \u0027yes\u0027, that\u0027s a sign that you may not\nwant to do this. But _if_ the author objects, you can just write\nanother patch to fix it, and they\u0027ll probably be nice about it.\n\nI hope this helps.\n\nYours with kindness,\nCarmen\n\n[1]: https://www.mozilla.org/en-US/MPL/2.0/FAQ/\n```\n\nThe response is not conclusive, i am just listing it here for reference since it has a few good points.\n\n@spinler@us.ibm.com can you confirm/deny it it\u0027s okay on IBM side to make this change?\n\nIf IBM has specific requirements on their copyright notice then maybe they also have a lawyer to help clarify this.",
+      "parentUuid": "0dee04b7_9d07b611",
+      "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
