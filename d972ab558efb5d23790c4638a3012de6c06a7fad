@@ -70,6 +70,24 @@
       "parentUuid": "0dee04b7_9d07b611",
       "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa7039a_7a36ed85",
+        "filename": "config.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-05T17:19:52Z",
+      "side": 0,
+      "message": "I wouldn\u0027t even know where to track that down, but I can try.  Looking at IBM\u0027s own projects at github.com/IBM most projects don\u0027t seem to use source file copyrights at all, and they\u0027re MIT \u0026 apache from what I\u0027ve seen.",
+      "parentUuid": "6cba508d_2d369520",
+      "revId": "d972ab558efb5d23790c4638a3012de6c06a7fad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
