@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4be4cf0b_6969192a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000212
+      },
+      "writtenOn": "2025-11-06T03:27:05Z",
+      "side": 1,
+      "message": "\u003e\u003e You can pipe the xxx.log file into some terminal emulator lib and get accurate boundaries between text and terminal control code,\n\nThats a good use-case of maintaining a binary \"pure\" log file.\n\n\u003e\u003e Each line would store a pair of timestamp len, like\n\nNot liking this, since it would be a nightmare to maintain atomicity between the two files since they are both \"rotated\" at a fixed size. I would rather just duplicate the content into the .timestamp file.",
+      "parentUuid": "9e3a94f8_8d58f464",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "923471ac_8c3496ab",
         "filename": "log-handler.c",
         "patchSetId": 6
