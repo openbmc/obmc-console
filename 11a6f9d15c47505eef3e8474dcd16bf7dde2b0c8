@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e3a94f8_8d58f464",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001839
+      },
+      "writtenOn": "2025-11-06T03:02:25Z",
+      "side": 1,
+      "message": "I am not a user of the obmc-console log file, but in other context, I have found it dreadful to see my log file getting clobbered with timestamps. Those should really be part of the metadata/structured fields, like how you do structured logging in journald and defer displaying to another tool, journalctl.\n\nI think we could do something similar here. Instead of storing the timestamp data directly in-band, _maybe_ you could probably store it side-band in an `xxx.log.timestamp` file instead, like a database index file.\n\nEach line would store a pair of `timestamp len`, like\n\n```\n1762430400 0\n1762430460 512\n1762430520 1536\n1762430580 2048\n1762430640 2560\n```\n\nthen have a display tool that grab the `xxx.log` and `xxx.log.timestamp`, use the timestamp and len to slice the log file and display the log in the time axis.\n\nBonus point:\n\n- One that don\u0027t care about timestamp can still grab only the `xxx.log` file\n- You can pipe the `xxx.log` file into some terminal emulator lib and get accurate boundaries between text and terminal control code, that would help not slicing the log file at awkward position that might break the output.\n\nI have not thought of any reasons that this might not work.",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "923471ac_8c3496ab",
         "filename": "log-handler.c",
         "patchSetId": 6
