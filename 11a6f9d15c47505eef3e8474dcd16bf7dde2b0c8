@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e67b29e8_efa6bdf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001839
+      },
+      "writtenOn": "2025-11-06T03:46:46Z",
+      "side": 1,
+      "message": "\u003e Not liking this, since it would be a nightmare to maintain atomicity between the two files since they are both \"rotated\" at a fixed size. I would rather just duplicate the content into the .timestamp file.\n\nI am not sure what atomicity between two files mean (may be consistency?), but I don\u0027t see the reason why you cannot rotate them in lockstep :) When you need to rotate one, you also rotate the other, whether it is the log file or timestamp file. `xxx.log` and `xxx.log.1` has `xxx.log.timestamp` and `xxx.log.1.timestamp`. Am I missing something here?",
+      "parentUuid": "4be4cf0b_6969192a",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "923471ac_8c3496ab",
         "filename": "log-handler.c",
         "patchSetId": 6
