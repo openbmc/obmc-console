@@ -120,6 +120,24 @@
       "message": "@jk@ozlabs.org what do you think of a new config `logfile-timestamped \u003d /path/to/text/file`. \nWe will need a global config and a similar named section config for multiplexed consoles.",
       "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee22da3b_e5e025e4",
+        "filename": "log-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2025-11-06T03:48:13Z",
+      "side": 1,
+      "message": "Yeah, I think it would be reasonable to create a separate text-friendly log stream for this. Whether that is timestamped or not could be configurable.\n\nSo maybe something like:\n\n```\nlogfile-text \u003d /path/to/text-log\nlogfile-text-timestamp \u003d true\n```\n\nConversion from the binary serial data to text-friendly is non-trivial though, we\u0027d need to define the conversion policy there. Perhaps starting with just replacing non-ASCII characters may be sufficient? You\u0027d still get the box-drawing characters (as they\u0027re just ASCII with a code switch), but that might be okay.\n\nWe could then do a more text-friendly log rotation too.",
+      "parentUuid": "f64e9c33_4f066f41",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
