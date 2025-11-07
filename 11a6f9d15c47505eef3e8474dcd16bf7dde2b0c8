@@ -88,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb5cac5_bdd5f4b0",
+        "filename": "log-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-11-07T02:14:17Z",
+      "side": 1,
+      "message": "Sure, i will fix it.",
+      "parentUuid": "923471ac_8c3496ab",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1022c7d9_42d1b10c",
@@ -101,6 +119,24 @@
       "writtenOn": "2025-10-29T20:02:13Z",
       "side": 1,
       "message": "Why not just have generate_timestamp() taken in a buf and a len instead of returning a pointer to a static buf and copy it? It could return the number of bytes it added to the buf. I would probably wrap this all up in a function called init_log_sentence()",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7687bd_be22cf1e",
+        "filename": "log-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-11-07T02:14:17Z",
+      "side": 1,
+      "message": "Sure, i will fix it.",
+      "parentUuid": "1022c7d9_42d1b10c",
       "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -136,6 +172,24 @@
       "side": 1,
       "message": "Yeah, I think it would be reasonable to create a separate text-friendly log stream for this. Whether that is timestamped or not could be configurable.\n\nSo maybe something like:\n\n```\nlogfile-text \u003d /path/to/text-log\nlogfile-text-timestamp \u003d true\n```\n\nConversion from the binary serial data to text-friendly is non-trivial though, we\u0027d need to define the conversion policy there. Perhaps starting with just replacing non-ASCII characters may be sufficient? You\u0027d still get the box-drawing characters (as they\u0027re just ASCII with a code switch), but that might be okay.\n\nWe could then do a more text-friendly log rotation too.",
       "parentUuid": "f64e9c33_4f066f41",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b105cb70_eaccc7eb",
+        "filename": "log-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2025-11-07T02:14:17Z",
+      "side": 1,
+      "message": "Sure, I’ll follow your approach and start by replacing non-ASCII characters as you suggested.",
+      "parentUuid": "ee22da3b_e5e025e4",
       "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
