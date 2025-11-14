@@ -16,6 +16,23 @@
       "message": "Looks good for me",
       "revId": "1588f74cf2493ddfd3bab36c1aab7bbe6b44e4a3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b76e2d3_2c506804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-11-14T01:24:24Z",
+      "side": 1,
+      "message": "This obscures warnings from e.g. valgrind and other sanitizers about access to uninitialised data. Sanitizer warnings are arguably a better outcome than access to initialised data that is (to some degree) invalid.\n\nThe uninitialised object is mooted by the fact that we immediately `memcpy()` into the buffer and explicitly terminate it, thereby initialising it. Any writes to the buffer prior are redundant. I don\u0027t see squashing the warning from the tool as beneficial, though I will be swayed if other obmc-console maintainers see some benefit.",
+      "revId": "1588f74cf2493ddfd3bab36c1aab7bbe6b44e4a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
