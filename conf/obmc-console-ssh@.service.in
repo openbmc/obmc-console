@@ -22,4 +22,4 @@ ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 
 [Install]
-WantedBy=default.target
+# Handled by bitbake recipe

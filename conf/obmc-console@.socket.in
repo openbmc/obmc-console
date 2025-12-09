@@ -7,4 +7,4 @@ Accept=no
 Service=obmc-console@%i.service
 
 [Install]
-WantedBy=sockets.target
+# Handled by bitbake recipe
