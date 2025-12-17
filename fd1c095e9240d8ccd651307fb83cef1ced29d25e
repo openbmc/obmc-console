@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beadbace_167d5369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-17T06:03:54Z",
+      "side": 1,
+      "message": "Can you add a new-line above the code fence?",
+      "revId": "fd1c095e9240d8ccd651307fb83cef1ced29d25e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4ce62fe_b718dd91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-17T06:03:54Z",
+      "side": 1,
+      "message": "Is there a bitbake documentation link we can add to supplement the patch?",
+      "revId": "fd1c095e9240d8ccd651307fb83cef1ced29d25e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
