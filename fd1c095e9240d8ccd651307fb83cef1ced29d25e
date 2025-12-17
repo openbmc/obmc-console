@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "221bb13a_df03fcd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-12-17T15:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beadbace_167d5369",
+      "revId": "fd1c095e9240d8ccd651307fb83cef1ced29d25e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4ce62fe_b718dd91",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-17T06:03:54Z",
       "side": 1,
       "message": "Is there a bitbake documentation link we can add to supplement the patch?",
+      "revId": "fd1c095e9240d8ccd651307fb83cef1ced29d25e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c99de8da_ae1c0d48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-12-17T15:55:12Z",
+      "side": 1,
+      "message": "No, unfortunately I think we were doing something that bitbake and the systemd.bbclass did not support, but happened to get lucky and it worked. Yocto then added something tangential that breaks us but there\u0027s no real reason behind that other then we were doing something we weren\u0027t supposed to. High level it makes sense to me, if your recipes are installing the services in the correct .wants/.required directories then you don\u0027t want the systemd.bbclass also trying to install them.",
+      "parentUuid": "f4ce62fe_b718dd91",
       "revId": "fd1c095e9240d8ccd651307fb83cef1ced29d25e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
