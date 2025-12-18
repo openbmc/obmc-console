@@ -16,6 +16,24 @@
       "message": "Perhaps this is an indicator that we should move all the service unit infrastructure out of obmc-console to alongside the recipe.",
       "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45023e48_a640b2aa",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-18T00:29:00Z",
+      "side": 1,
+      "message": "Possibly a quicker route is to remove the `[Install]` section altogether rather than leave this bitbake-specific comment?",
+      "parentUuid": "973292c2_20e703f8",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
