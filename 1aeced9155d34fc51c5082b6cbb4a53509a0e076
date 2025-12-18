@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "973292c2_20e703f8",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2025-12-18T00:02:52Z",
+      "side": 1,
+      "message": "Perhaps this is an indicator that we should move all the service unit infrastructure out of obmc-console to alongside the recipe.",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
