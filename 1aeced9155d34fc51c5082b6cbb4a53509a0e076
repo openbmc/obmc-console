@@ -34,6 +34,24 @@
       "parentUuid": "973292c2_20e703f8",
       "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23defaab_c83e4da0",
+        "filename": "conf/obmc-console-ssh@.service.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2026-01-04T13:42:00Z",
+      "side": 1,
+      "message": "\u003e Perhaps this is an indicator that we should move all the service unit infrastructure out of obmc-console to alongside the recipe.\n\nThis is the way we did it originally but we ran into situations where the openbmc/openbmc maintainers were then responsible for different repos service file reviews. With the OWNERS concept, we could fix that now but I think having the services closer to the code is better for when there are co-req changes and general maintainability.\n\n\u003e Possibly a quicker route is to remove the [Install] section altogether rather than leave this bitbake-specific comment?\n\nIf that\u0027s what it takes to get this merged then I\u0027ll do it. I prefer having the documentation in the service file as an FYI when people look at it to understand how/who installs it. Your call though. If you look at the topic for this review, the comment was approved and merged in all the other repos so there is something to be said with consistency. But again, you\u0027re the maintainer so I\u0027ll do what you want to get this merged.",
+      "parentUuid": "45023e48_a640b2aa",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
