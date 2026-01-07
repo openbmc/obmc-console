@@ -71,6 +71,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c583545_4a89cf71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-07T01:17:10Z",
+      "side": 1,
+      "message": "In cases such as power loss, BMC reset, or process crash, the log and timestamp files can easily become out of sync (e.g. missing or incorrect offsets), making the index unreliable.\n\nSo I think this approach may make things a bit more complicated.",
+      "parentUuid": "e67b29e8_efa6bdf5",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "923471ac_8c3496ab",
@@ -190,6 +208,24 @@
       "side": 1,
       "message": "Sure, I’ll follow your approach and start by replacing non-ASCII characters as you suggested.",
       "parentUuid": "ee22da3b_e5e025e4",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da90b693_09b79212",
+        "filename": "log-handler.c",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-07T01:17:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b105cb70_eaccc7eb",
       "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
