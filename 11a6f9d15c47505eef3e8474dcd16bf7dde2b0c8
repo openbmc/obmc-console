@@ -89,6 +89,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abf00f18_1caaa5c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001839
+      },
+      "writtenOn": "2026-01-07T03:26:50Z",
+      "side": 1,
+      "message": "Log rotation is supposed to solve that though. [systemd\u0027s journald](https://systemd.io/JOURNAL_FILE_FORMAT) does this:\n\n\u003e If any kind of corruption is noticed by a writer it should immediately rotate the file and start a new one. No further writes should be attempted to the original file, but it should be left around so that as little data as possible is lost.\n\nBut it is fair, I see obmc-console log rotation is currently very limited, so it might not be the most attractive solution to build upon. I still think it is more robust than filter through terminal escape sequences though, given its infamous complexities. I hope the parser in this changeset does not require much maintainance / change in the future, otherwise we are reimplementing `libvterm` or the more recent `libghostty-vt` inside `obmc-console` :D\n\n(Not a comment on the changeset itself so feel free to mark this comment as resolved.)",
+      "parentUuid": "8c583545_4a89cf71",
+      "revId": "11a6f9d15c47505eef3e8474dcd16bf7dde2b0c8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "923471ac_8c3496ab",
