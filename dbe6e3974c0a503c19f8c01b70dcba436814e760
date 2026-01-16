@@ -86,6 +86,23 @@
       "message": "Hi @patrick@stwcx.xyz, @andrew@codeconstruct.com.au, @joel@jms.id.au, @amithash@meta.com, \nCould you please help review this commits? Thanks.",
       "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "384a7c39_94533469",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-01-16T00:10:21Z",
+      "side": 1,
+      "message": "There are some formatting issues in the code comments, but beyond that, a few general points:\n\n- The patch is relatively large and involved with the escape sequence parsing but there are no tests provided\n- I\u0027d like to see discussion in the commit message of why this feature must be implemented in obmc-console and not elsewhere\n\nOn the last point, other processes can consume the stream and perform this kind of transformation without risking the stability of the the console server itself.\n\nMy impression is there\u0027s a bit of a delay in reviews because there\u0027s not a strong appetite for the feature, given the constraints it operates under.",
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
