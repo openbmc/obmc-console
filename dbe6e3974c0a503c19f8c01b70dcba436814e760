@@ -103,6 +103,24 @@
       "message": "There are some formatting issues in the code comments, but beyond that, a few general points:\n\n- The patch is relatively large and involved with the escape sequence parsing but there are no tests provided\n- I\u0027d like to see discussion in the commit message of why this feature must be implemented in obmc-console and not elsewhere\n\nOn the last point, other processes can consume the stream and perform this kind of transformation without risking the stability of the the console server itself.\n\nMy impression is there\u0027s a bit of a delay in reviews because there\u0027s not a strong appetite for the feature, given the constraints it operates under.",
       "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1cc3db_a6eeb2a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-19T06:55:33Z",
+      "side": 1,
+      "message": "Thanks for the review and the constructive feedback.\nI will address your points in the next patch set:\n\n1. Unit Tests:\nI will add a standalone unit test suite for the sanitize_to_ascii_ansi state machine.\n\n2. Why implement this in obmc-console instead of an external process?\n- Reuse of Infrastructure: It allows us to directly leverage the existing log_trim, file rotation, and configuration parsing logic. Implementing this externally would require re-implementing these robust file-management features.\n\n- Data Integrity: By handling this within the log-handler, we ensure the timestamped log follows the exact same lifecycle and reliability as the raw log, without the risk of data loss if an external pipe or process crashes.\n\nI will also fix the comment formatting issues and update the commit message to include this architectural justification.",
+      "parentUuid": "384a7c39_94533469",
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
