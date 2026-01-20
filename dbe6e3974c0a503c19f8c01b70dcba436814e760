@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "48f809dc_4b30c9fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-20T02:08:53Z",
+      "side": 1,
+      "message": "\u003e Please write automated tests to demonstrate the capability and drop this section.\nSure, I will implement the automated tests as requested and mark this thread as resolved once they are submitted.",
+      "parentUuid": "f7f2db48_402a4d68",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c27d0d11_3bfe27c4",
