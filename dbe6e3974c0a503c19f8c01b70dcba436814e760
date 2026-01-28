@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "127bbe12_35577ea4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-28T06:53:25Z",
+      "side": 1,
+      "message": "Fix in Patchset 17.",
+      "parentUuid": "933a48ba_cd0dbbad",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7f2db48_402a4d68",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "\u003e Please write automated tests to demonstrate the capability and drop this section.\nSure, I will implement the automated tests as requested and mark this thread as resolved once they are submitted.",
       "parentUuid": "f7f2db48_402a4d68",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0adb63_1e76c45f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-28T06:53:25Z",
+      "side": 1,
+      "message": "Fix in Patchset 17.",
+      "parentUuid": "48f809dc_4b30c9fd",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -189,6 +237,24 @@
       "side": 1,
       "message": "Thanks for the review and the constructive feedback.\nI will address your points in the next patch set:\n\n1. Unit Tests:\nI will add a standalone unit test suite for the sanitize_to_ascii_ansi state machine.\n\n2. Why implement this in obmc-console instead of an external process?\n- Reuse of Infrastructure: It allows us to directly leverage the existing log_trim, file rotation, and configuration parsing logic. Implementing this externally would require re-implementing these robust file-management features.\n\n- Data Integrity: By handling this within the log-handler, we ensure the timestamped log follows the exact same lifecycle and reliability as the raw log, without the risk of data loss if an external pipe or process crashes.\n\nI will also fix the comment formatting issues and update the commit message to include this architectural justification.",
       "parentUuid": "384a7c39_94533469",
+      "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5be6c0_ef6e12c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-01-28T06:53:25Z",
+      "side": 1,
+      "message": "Fix in Patchset 17.",
+      "parentUuid": "be1cc3db_a6eeb2a4",
       "revId": "dbe6e3974c0a503c19f8c01b70dcba436814e760",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
