@@ -52,6 +52,24 @@
       "parentUuid": "9a2178c0_a956a36d",
       "revId": "01fa8c51cf93f04e4fc16a995ec280c7c3937fe2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83342c59_a6fd707f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002108
+      },
+      "writtenOn": "2026-02-04T01:44:42Z",
+      "side": 1,
+      "message": "The driver patches have already been submitted for upstream review (link below). We will keep this change marked as WIP until the patches are merged into torvalds/linux.git.\n \nhttps://patchwork.ozlabs.org/project/linux-aspeed/list/?series\u003d490738",
+      "parentUuid": "19bc48e1_0da01109",
+      "revId": "01fa8c51cf93f04e4fc16a995ec280c7c3937fe2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
