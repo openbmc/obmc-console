@@ -6,6 +6,7 @@ tests = [
     'test-ringbuffer-poll-force',
     'test-ringbuffer-read-commit',
     'test-ringbuffer-simple-poll',
+    'test_console_socket_path_readable',
 ]
 
 foreach t : tests
