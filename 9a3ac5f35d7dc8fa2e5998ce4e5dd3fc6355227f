@@ -1,6 +1,155 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "74720a50_552e27c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Headers like \"Description:\" and \"Motivation:\" aren\u0027t particularly helpful - the entire commit message body is ~15 lines. They may be helpful in multi-page documents to provide entry-points into the content, but that\u0027s not a problem that needs solving here. Can you please remove them?",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef39244_751b5e68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Please try to avoid using phrases like \"This change ...\". Given this is the commit message of the change in question, I certainly hope that the message describes the change, and not some other change 😊\n\n\"This change introduces\" can be replaced with e.g. \"Add\":\n\n\u003e Add an optional ...\n\nBroadly, writing in the \"imperative mood\" makes for succinct commit messages.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0ad59ce_5b625845",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "I prefer function names are identified with a suffix of `()` so that it\u0027s obvious that\u0027s what you\u0027re referring to. So in this case, `sanitize_to_ascii_ansi()`.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49909625_3e59ce2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 14,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41df239_7cce8bcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Please move this sentence to follow at the end of line 11 above.",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb11440_1ef171ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "These are all still bullet-points. Please remove the bullet-points.",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61afd11d_2496895a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary. We can find this by looking at the change. Please remove it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0a488761_ee26de82",
@@ -14,6 +163,57 @@
       "writtenOn": "2026-01-28T06:53:25Z",
       "side": 1,
       "message": "Added automated testing.",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cfd4ab_5d8e2880",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "We could perhaps use the ascii codes themselves?",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc47317c_edb23d29",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Is there a reason the text log handling can\u0027t be separated from the binary log handling? Specifically, why not a separate struct, and separate function implementations that deal with the corresponding struct types. Combining both in this way appears to make for an awkward implementation below, with a lot of rearranging of existing code, which may be unnecessary.\n\nI feel it would give a cleaner change if they were separated.",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3d1081d_362c1df7",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:39:38Z",
+      "side": 1,
+      "message": "Why use a separate directory?",
       "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
