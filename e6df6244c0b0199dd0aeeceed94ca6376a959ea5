@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76fc540b_d388db86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-02-16T00:46:36Z",
+      "side": 1,
+      "message": "I think 4 headings in a commit message body of 26 lines is a bit much. Please remove the headings.\n\nIts best to lead with the motivation.\n\nRather than a \"Test Plan\", provide unit tests that require the expected behaviour. That way you can remove the entire section.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "e6df6244c0b0199dd0aeeceed94ca6376a959ea5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
