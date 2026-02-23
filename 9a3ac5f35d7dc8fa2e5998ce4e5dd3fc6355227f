@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07203d21_17ad1246",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "74720a50_552e27c2",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eef39244_751b5e68",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-02-16T00:39:38Z",
       "side": 1,
       "message": "Please try to avoid using phrases like \"This change ...\". Given this is the commit message of the change in question, I certainly hope that the message describes the change, and not some other change 😊\n\n\"This change introduces\" can be replaced with e.g. \"Add\":\n\n\u003e Add an optional ...\n\nBroadly, writing in the \"imperative mood\" makes for succinct commit messages.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1490e17a_4b1ed083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "eef39244_751b5e68",
       "range": {
         "startLine": 10,
         "startChar": 2,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "391ebd07_e76ad923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "f0ad59ce_5b625845",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49909625_3e59ce2e",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-02-16T00:39:38Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 14,
+        "startChar": 51,
+        "endLine": 14,
+        "endChar": 59
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e11274c0_d0b90e06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "49909625_3e59ce2e",
       "range": {
         "startLine": 14,
         "startChar": 51,
@@ -110,6 +200,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1bd4613_b23b0474",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "e41df239_7cce8bcd",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fb11440_1ef171ef",
@@ -127,6 +241,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceaa59be_f50363ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "0fb11440_1ef171ef",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61afd11d_2496895a",
@@ -140,6 +272,30 @@
       "writtenOn": "2026-02-16T00:39:38Z",
       "side": 1,
       "message": "I don\u0027t think this is necessary. We can find this by looking at the change. Please remove it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d249c43_ff4108df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Fix in Patchset 18.",
+      "parentUuid": "61afd11d_2496895a",
       "range": {
         "startLine": 23,
         "startChar": 1,
@@ -186,6 +342,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2abee0b_5d370583",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Simply filtering by ASCII would still leave fragmented parts of escape sequences (like colors and cursor controls) in the log. I used a state machine to strip them out entirely for a cleaner text log, but I can simplify this if you prefer to keep the raw sequences.",
+      "parentUuid": "29cfd4ab_5d8e2880",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc47317c_edb23d29",
         "filename": "log-handler.c",
         "patchSetId": 17
@@ -203,6 +377,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d80bfa18_d5e6e2ac",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "cc47317c_edb23d29",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3d1081d_362c1df7",
         "filename": "log-handler.c",
         "patchSetId": 17
@@ -214,6 +406,24 @@
       "writtenOn": "2026-02-16T00:39:38Z",
       "side": 1,
       "message": "Why use a separate directory?",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4036e3b_c6373e58",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-23T08:30:14Z",
+      "side": 1,
+      "message": "You\u0027re right, there\u0027s no need for a separate directory. I\u0027ll change the path to /log/obmc-console-timestamp.log to keep it simple.",
+      "parentUuid": "a3d1081d_362c1df7",
       "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
