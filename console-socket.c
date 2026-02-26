@@ -57,16 +57,21 @@ ssize_t console_socket_path(socket_path_t sun_path, const char *id)
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
 				     size_t addrlen, socket_path_t path)
 {
-	const char *src = (const char *)addr;
 	size_t len;
 
 	if (addrlen > SSIZE_MAX) {
 		return -EINVAL;
 	}
 
-	len = addrlen - sizeof(addr->sun_family) - 1;
-	memcpy(path, src + sizeof(addr->sun_family) + 1, len);
+	if (addr->sun_path[0] == '\0') {
+		// Abstract namespace: name is the next (addrlen - 1) bytes
+		len = addrlen > 0 ? addrlen - 1 : 0;
+		memcpy(path, addr->sun_path + 1, len);
+	} else {
+		// Filesystem path: treat as a normal C string
+		len = strnlen(addr->sun_path, sizeof(addr->sun_path));
+		memcpy(path, addr->sun_path, len);
+	}
 	path[len] = '\0';
-
 	return (ssize_t)len; /* strlen() style */
 }
