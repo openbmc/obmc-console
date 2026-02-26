@@ -393,6 +393,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "237fc954_b594fd67",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-26T05:48:45Z",
+      "side": 1,
+      "message": "Fix in Patchset 19.",
+      "parentUuid": "d80bfa18_d5e6e2ac",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3d1081d_362c1df7",
@@ -424,6 +442,24 @@
       "side": 1,
       "message": "You\u0027re right, there\u0027s no need for a separate directory. I\u0027ll change the path to /log/obmc-console-timestamp.log to keep it simple.",
       "parentUuid": "a3d1081d_362c1df7",
+      "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80a4df4_874aa7c4",
+        "filename": "log-handler.c",
+        "patchSetId": 17
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-02-26T05:48:45Z",
+      "side": 1,
+      "message": "Fix in Patchset 19.",
+      "parentUuid": "a4036e3b_c6373e58",
       "revId": "9a3ac5f35d7dc8fa2e5998ce4e5dd3fc6355227f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
