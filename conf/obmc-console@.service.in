@@ -4,6 +4,7 @@ ConditionPathExists=/etc/obmc-console/server.%i.conf
 
 [Service]
 # Instance ID is the VUART basename
+ExecStartPre=-/usr/bin/obmc-console-server-pre.sh %i
 ExecStart=/usr/sbin/obmc-console-server --config /etc/obmc-console/server.%i.conf %i
 SyslogIdentifier=%i-console-server
 Restart=always
