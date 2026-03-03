@@ -34,6 +34,24 @@
       "parentUuid": "ae47d980_551cd9e5",
       "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cfffb3c_45ec9780",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2026-03-03T23:59:52Z",
+      "side": 1,
+      "message": "Added the script: https://gerrit.openbmc.org/c/openbmc/openbmc/+/88003",
+      "parentUuid": "1ee75e48_88ec0838",
+      "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
