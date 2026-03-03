@@ -16,6 +16,24 @@
       "message": "\u003e Sometimes we want to dynamically update config files based on the\n\u003e requirement. For example, if we want to append BMC position in the log\n\u003e file name for multi-bmc configuration then we can do it as part of this\n\u003e pre-script. This is an optional script.\n\nThen make the `ExecStartPre` optional too, by defining it in a customisation of the service definition, in the same place that you provide the script.\n\nIncluding a reference to a non-existent script in the upstream service definition is messy.",
       "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee75e48_88ec0838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001634
+      },
+      "writtenOn": "2026-03-03T20:46:07Z",
+      "side": 1,
+      "message": "Jeremy, Thanks for the review. I am going to upstream my script under meta-ibm customization. Will that satisfy your requirement? The optional feature of service file is for this purpose otherwise I will have to carry this service file in my company specific customization just for this single change. So anyone wants to add this script will have it in their company specific area.",
+      "parentUuid": "ae47d980_551cd9e5",
+      "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
