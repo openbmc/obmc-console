@@ -52,6 +52,24 @@
       "parentUuid": "1ee75e48_88ec0838",
       "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64074922_3feae63e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-03-04T01:32:49Z",
+      "side": 1,
+      "message": "\u003e I will have to carry this service file in my company specific customization just for this single change.\n\nAs opposed to *everyone else* carrying the reference to your company-specific customisation?\nYou don\u0027t need to carry the service file, just the `*.d/` fragment that defines `ExecStartPre`.\n\n\nIf this becomes common infrastructure, we can move it to the common service file then, but that is not the case at the moment.\n\nKeep the reference to the script alongside the actual script.",
+      "parentUuid": "8cfffb3c_45ec9780",
+      "revId": "24553b40d6a7b23c6ea04fff3bb9410267bf2629",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
