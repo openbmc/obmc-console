@@ -16,6 +16,23 @@
       "message": "Fix lists:\n1. Separate function implementations that deal with the corresponding struct types.\n2. Save the timestamped logs to the default log folder.",
       "revId": "8458337a6d36e24b862588936fc8ced0cc3db3b2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410ae46c_db0c2d7e",
+        "filename": "log-handler.c",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:09:19Z",
+      "side": 1,
+      "message": "This wasn\u0027t really what I meant. The split between binary and text continues to be quite disruptive to this file (though maybe less so now than what we had in PS17). What I was suggesting was completely separating the text implementation, into e.g. text-log-handler.c\n\n\nThere\u0027s no reason to combine the two. We can have as many ringbuffer consumers as we need (... within reason). I don\u0027t think there\u0027s a strong need to jam these two implementations together this way.\n\nBefore this change log-handler.c was 234 lines. You\u0027re adding more than double the total length to it. Separate the text handling out and keep the binary log handling simple?",
+      "revId": "8458337a6d36e24b862588936fc8ced0cc3db3b2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
