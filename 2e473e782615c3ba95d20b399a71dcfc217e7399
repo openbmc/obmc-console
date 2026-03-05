@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f30292_4f7363b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "Which error logs? I suspect it might be from obmc-console-client?\n\nIs your issue fixed by this patch?\n\n```\ndiff --git a/console-client.c b/console-client.c\nindex 67d163abb779..5a5bce800a0e 100644\n--- a/console-client.c\n+++ b/console-client.c\n@@ -219,6 +219,7 @@ static int client_init(struct console_client *client, struct config *config,\n        const char *resolved_id \u003d NULL;\n        struct sockaddr_un addr;\n        socket_path_t path;\n+       size_t addrlen;\n        ssize_t len;\n        int rc;\n \n@@ -249,7 +250,8 @@ static int client_init(struct console_client *client, struct config *config,\n                return 0;\n        }\n \n-       console_socket_path_readable(\u0026addr, len, path);\n+       addrlen \u003d sizeof(addr) - sizeof(addr.sun_path) + len;\n+       console_socket_path_readable(\u0026addr, addrlen, path);\n        warn(\"Can\u0027t connect to console server \u0027@%s\u0027\", path);\n cleanup:\n```",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1010437d_8a9bfc35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "Hi Sean. I made some comments on the test cases before poking around some more at the uses of `console_socket_path_readable()`. I think there\u0027s an issue in console-client.c. Please see the comment on the commit message.",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "904a194c_cc233195",
+        "filename": "console-socket.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "We only care for abstract socket names. See `console_socket_path()` above.\n\nWhy are we adding this case?",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 36
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c5e0939_f2287143",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "Why have you copied this in? What happens when fixes are applied to the application copy and not here?\n\nThere a number of better ways to deal with this:\n\n- Define the meson test to require `console-socket.c` as a source file\n- Define the meson test to depend on the object file\n- Build the console-server objects into a static library against which you link the test (need to be careful with this though due to the tricks with handler registration).\n- `#include \"console-socket.c\"`\n...",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e50ed530_379d792f",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "This is `memset(3)` but with the parameters swapped.",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03f659a5_4987d3d8",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "Several things here: Can you please avoid the trailing comments to avoid the line-wrap here, and for consistency can you please avoid C++-style comments:\n\n\n```\n/* ensure NUL within sun_path */\nstrncpy(addr.sun_path, src, sizeof(addr.sun_path));\n\n```\n\n\nPlease fix this throughout.\n\nHowever, it\u0027s not clear what you\u0027re trying to suggest with the comment. `sizeof(addr.sun_path)` gives the full length of the destination buffer, and `strncpy()` does not guarantee a NULL terminator if the source string length matches the destination buffer length.\n\n\nThis seems misleading?\n\nAlso given the effort you went to with `SOCKET_PATH_MAX` above, why not use that?",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e713ad2_9f4c00c8",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T04:55:16Z",
+      "side": 1,
+      "message": "`assert(!strcmp(...))`.",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
