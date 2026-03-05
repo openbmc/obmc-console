@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc8021fb_35f63863",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-03-05T23:06:10Z",
+      "side": 1,
+      "message": "Perhaps you can replace the implementation of your patch here with that one 😊\n\nHowever, maybe something worth considering is updating the logic of `console_socket_path()` to return the derived struct size so that the `addrlen` arithmetic isn\u0027t necessary after both calls.",
+      "parentUuid": "522745da_46e750af",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1010437d_8a9bfc35",
