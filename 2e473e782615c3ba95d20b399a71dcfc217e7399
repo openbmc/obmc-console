@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "522745da_46e750af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-03-05T10:03:08Z",
+      "side": 1,
+      "message": "Yes, the log is from obmc-console-client, and the patch resolves my issue. It looks like you’ve proposed a better solution.",
+      "parentUuid": "38f30292_4f7363b6",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1010437d_8a9bfc35",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14
@@ -37,6 +61,24 @@
       "writtenOn": "2026-03-05T04:55:16Z",
       "side": 1,
       "message": "Hi Sean. I made some comments on the test cases before poking around some more at the uses of `console_socket_path_readable()`. I think there\u0027s an issue in console-client.c. Please see the comment on the commit message.",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b89de2bd_62587b60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-03-05T10:03:08Z",
+      "side": 1,
+      "message": "Hi Andrew, thank you for the feedback and for calling out the problems—much appreciated. I guess I should abandon this commit, but if you’d prefer I revise it instead, please let me know.",
+      "parentUuid": "1010437d_8a9bfc35",
       "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
