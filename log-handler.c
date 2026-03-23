@@ -22,13 +22,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include <sys/mman.h>
-
 #include <linux/types.h>
 
 #include "console-server.h"
 #include "config.h"
+#include "util.h"
 
 struct log_handler {
 	struct handler handler;
@@ -52,25 +51,12 @@ static struct log_handler *to_log_handler(struct handler *handler)
 
 static int log_trim(struct log_handler *lh)
 {
-	int rc;
-
-	/* Move the log buffer file to the rotate file */
-	close(lh->fd);
-	rc = rename(lh->log_filename, lh->rotate_filename);
-	if (rc) {
-		warn("Failed to rename %s to %s", lh->log_filename,
-		     lh->rotate_filename);
-		/* don't return, as we need to re-open the logfile */
-	}
-
-	lh->fd = open(lh->log_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	lh->fd = rotate_single_file(lh->log_filename, lh->rotate_filename,
+				    lh->fd);
 	if (lh->fd < 0) {
-		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
 	}
-
 	lh->size = 0;
-
 	return 0;
 }
 
@@ -136,12 +122,13 @@ static int log_create(struct log_handler *lh)
 		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
 	}
+
 	pos = lseek(lh->fd, 0, SEEK_END);
 	if (pos < 0) {
 		warn("Can't query log position for file %s", lh->log_filename);
-		close(lh->fd);
 		return -1;
 	}
+
 	lh->size = pos;
 	if ((size_t)pos >= lh->maxsize) {
 		return log_trim(lh);
@@ -166,7 +153,8 @@ static struct handler *log_init(const struct handler_type *type
 	}
 
 	lh->console = console;
-	lh->pagesize = 4096;
+	lh->fd = -1;
+	lh->pagesize = sysconf(_SC_PAGESIZE);
 	lh->size = 0;
 	lh->log_filename = NULL;
 	lh->rotate_filename = NULL;
@@ -203,6 +191,7 @@ static struct handler *log_init(const struct handler_type *type
 	if (rc < 0) {
 		goto err_free;
 	}
+
 	lh->rbc = console_ringbuffer_consumer_register(console,
 						       log_ringbuffer_poll, lh);
 
@@ -211,6 +200,7 @@ static struct handler *log_init(const struct handler_type *type
 err_free:
 	free(lh->rotate_filename);
 	free(lh->log_filename);
+	close(lh->fd);
 	free(lh);
 	return NULL;
 }
