@@ -29,6 +29,7 @@
 
 #include "console-server.h"
 #include "config.h"
+#include "util.h"
 
 struct log_handler {
 	struct handler handler;
@@ -52,25 +53,12 @@ static struct log_handler *to_log_handler(struct handler *handler)
 
 static int log_trim(struct log_handler *lh)
 {
-	int rc;
-
-	/* Move the log buffer file to the rotate file */
-	close(lh->fd);
-	rc = rename(lh->log_filename, lh->rotate_filename);
-	if (rc) {
-		warn("Failed to rename %s to %s", lh->log_filename,
-		     lh->rotate_filename);
-		/* don't return, as we need to re-open the logfile */
-	}
-
-	lh->fd = open(lh->log_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	lh->fd = rotate_single_file(lh->log_filename, lh->rotate_filename,
+				    lh->fd);
 	if (lh->fd < 0) {
-		warn("Can't open log buffer file %s", lh->log_filename);
 		return -1;
 	}
-
 	lh->size = 0;
-
 	return 0;
 }
 

@@ -15,9 +15,13 @@
  */
 
 #include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 #include <unistd.h>
+#include <stdint.h>
 
-#include "console-server.h"
+#include "util.h"
 
 int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 {
@@ -33,4 +37,30 @@ int write_buf_to_fd(int fd, const uint8_t *buf, size_t len)
 	}
 
 	return 0;
+}
+
+int rotate_single_file(const char *filename, const char *rotate_filename,
+		       int old_fd)
+{
+	int rc;
+
+	/* close old fd (ignore errors) */
+	if (old_fd >= 0) {
+		close(old_fd);
+	}
+
+	/* rename old -> rotate */
+	rc = rename(filename, rotate_filename);
+	if (rc) {
+		warn("Failed to rename %s to %s\n", filename, rotate_filename);
+	}
+
+	/* open new empty file */
+	int new_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (new_fd < 0) {
+		warn("Can't open log file %s\n", filename);
+		return -1;
+	}
+
+	return new_fd;
 }
