@@ -16,4 +16,11 @@
 
 #pragma once
 
+#include <stdint.h>
+#include <stddef.h>
+
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+int rotate_single_file(const char *filename, const char *rotate_filename,
+		       int old_fd);
+int write_buf_to_fd(int fd, const uint8_t *buf, size_t len);
