@@ -75,3 +75,17 @@ foreach ct : client_tests
         suite: 'itests',
     )
 endforeach
+
+test(
+    'test-console-socket-path',
+    executable(
+        'test-console-socket-path',
+        'test-console-socket-path.c',
+        '../console-socket.c',
+        c_args: [
+            '-DSYSCONFDIR=""',
+            '-DCONSOLE_SOCKET_PREFIX="obmc-console"',
+        ],
+        include_directories: '..',
+    ),
+)
