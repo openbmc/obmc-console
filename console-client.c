@@ -219,7 +219,7 @@ static int client_init(struct console_client *client, struct config *config,
 	const char *resolved_id = NULL;
 	struct sockaddr_un addr;
 	socket_path_t path;
-	ssize_t len;
+	ssize_t addrlen;
 	int rc;
 
 	client->console_sd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -233,8 +233,8 @@ static int client_init(struct console_client *client, struct config *config,
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(addr.sun_path, resolved_id);
-	if (len < 0) {
+	addrlen = console_socket_path(addr.sun_path, resolved_id);
+	if (addrlen < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
 		} else {
@@ -243,13 +243,12 @@ static int client_init(struct console_client *client, struct config *config,
 		goto cleanup;
 	}
 
-	rc = connect(client->console_sd, (struct sockaddr *)&addr,
-		     sizeof(addr) - sizeof(addr.sun_path) + len);
+	rc = connect(client->console_sd, (struct sockaddr *)&addr, addrlen);
 	if (!rc) {
 		return 0;
 	}
 
-	console_socket_path_readable(&addr, len, path);
+	console_socket_path_readable(&addr, addrlen, path);
 	warn("Can't connect to console server '@%s'", path);
 cleanup:
 	close(client->console_sd);
