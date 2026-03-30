@@ -51,7 +51,8 @@ ssize_t console_socket_path(socket_path_t sun_path, const char *id)
 
 	sun_path[0] = '\0';
 
-	return rc + 1 /* Capture NUL prefix */;
+	/* Capture NUL prefix */
+	return offsetof(struct sockaddr_un, sun_path) + rc + 1;
 }
 
 ssize_t console_socket_path_readable(const struct sockaddr_un *addr,
