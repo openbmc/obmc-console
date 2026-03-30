@@ -433,8 +433,7 @@ static struct handler *socket_init(const struct handler_type *type
 {
 	struct socket_handler *sh;
 	struct sockaddr_un addr;
-	size_t addrlen;
-	ssize_t len;
+	ssize_t addrlen;
 	int rc;
 
 	sh = malloc(sizeof(*sh));
@@ -448,8 +447,8 @@ static struct handler *socket_init(const struct handler_type *type
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	len = console_socket_path(addr.sun_path, console->console_id);
-	if (len < 0) {
+	addrlen = console_socket_path(addr.sun_path, console->console_id);
+	if (addrlen < 0) {
 		if (errno) {
 			warn("Failed to configure socket: %s", strerror(errno));
 		} else {
@@ -461,7 +460,7 @@ static struct handler *socket_init(const struct handler_type *type
 	/* Try to take a socket from systemd first */
 	if (sd_listen_fds(0) == 1 &&
 	    sd_is_socket_unix(SD_LISTEN_FDS_START, SOCK_STREAM, 1,
-			      addr.sun_path, len) > 0) {
+			      addr.sun_path, addrlen) > 0) {
 		sh->sd = SD_LISTEN_FDS_START;
 	} else {
 		sh->sd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -469,8 +468,6 @@ static struct handler *socket_init(const struct handler_type *type
 			warn("Can't create socket");
 			goto err_free;
 		}
-
-		addrlen = sizeof(addr) - sizeof(addr.sun_path) + len;
 
 		rc = bind(sh->sd, (struct sockaddr *)&addr, addrlen);
 		if (rc) {
