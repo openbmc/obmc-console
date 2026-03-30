@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e12db43c_43cf8225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-03-30T09:11:05Z",
+      "side": 1,
+      "message": "Thanks for the suggestion! I\u0027ve updated the implementation of console_socket_path() to return the derived struct size. Sorry for the delayed response!",
+      "parentUuid": "cc8021fb_35f63863",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1010437d_8a9bfc35",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14
