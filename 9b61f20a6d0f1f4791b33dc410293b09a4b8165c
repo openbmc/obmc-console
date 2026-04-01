@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c08d2a38_2a9947e0",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002230
+      },
+      "writtenOn": "2026-04-01T09:11:24Z",
+      "side": 1,
+      "message": "It seems you\u0027re trying to mimc ANSI C functions time format. Is there particular reason for this, or we can use ISO 8601 instead (\"2026-03-31T11:43:39Z\" instead of \"Tue Mar 31 11:43:39 2026\").\n\nOne of the practical benefit of this would be - easy to order entries by time (especially if one wants to mix entries from different log files) operating with the text without parsing it and converting to a time structure/unixtime.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
