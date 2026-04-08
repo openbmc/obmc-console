@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349fc09e_5819b54e",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 0,
+      "message": "This seems to have been open-coded into log_init; is this required for the underlying change?",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

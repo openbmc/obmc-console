@@ -3,6 +3,80 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae97cf59_df9522fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "I think this looks generally pretty good, some minor comments inline, but there seem to be some unrelated changes to the existing log-handler.c. If this needs fixes, I\u0027d prefer those to be in a separate change.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c536bf_eed3ffeb",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "not sure if we need this? you don\u0027t seem to be adding any usage of `errno`.",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7ca68f_2d7435e2",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "Minor: this can just be a `close(lh-\u003efd)`, no particular harm in passing -1 there.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb771149_0467eb4c",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "This might be a good contender for unit tests on specific ansi sequences.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c08d2a38_2a9947e0",
         "filename": "text-log-handler.c",
         "patchSetId": 23
@@ -14,6 +88,40 @@
       "writtenOn": "2026-04-01T09:11:24Z",
       "side": 1,
       "message": "It seems you\u0027re trying to mimc ANSI C functions time format. Is there particular reason for this, or we can use ISO 8601 instead (\"2026-03-31T11:43:39Z\" instead of \"Tue Mar 31 11:43:39 2026\").\n\nOne of the practical benefit of this would be - easy to order entries by time (especially if one wants to mix entries from different log files) operating with the text without parsing it and converting to a time structure/unixtime.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb7a821_07f2e65d",
+        "filename": "util.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "`warn` includes the string representation of `errno`, and doesn\u0027t need a newline.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d039930a_c4fb2297",
+        "filename": "util.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-08T06:52:17Z",
+      "side": 1,
+      "message": "`warn` already includes the string representation of `errno`.",
       "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
