@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb1b9572_937372ce",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "b4c536bf_eed3ffeb",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce7ca68f_2d7435e2",
@@ -58,6 +82,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6e02947_7cdba234",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "ce7ca68f_2d7435e2",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb771149_0467eb4c",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-04-08T06:52:17Z",
       "side": 1,
       "message": "This might be a good contender for unit tests on specific ansi sequences.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feea1c7f_42764f45",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 1,
+      "message": "Agreed, the test for this function has been included in test-test-log-handler.c.",
+      "parentUuid": "eb771149_0467eb4c",
       "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -145,6 +205,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c117aff8_91bf084c",
+        "filename": "util.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "ceb7a821_07f2e65d",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d039930a_c4fb2297",
@@ -158,6 +236,24 @@
       "writtenOn": "2026-04-08T06:52:17Z",
       "side": 1,
       "message": "`warn` already includes the string representation of `errno`.",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19964fb8_c9c2bdb8",
+        "filename": "util.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "d039930a_c4fb2297",
       "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

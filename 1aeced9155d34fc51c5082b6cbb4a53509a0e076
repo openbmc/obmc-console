@@ -16,6 +16,42 @@
       "message": "This seems to have been open-coded into log_init; is this required for the underlying change?",
       "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b1a3b8_fce368a9",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 0,
+      "message": "You are right, I\u0027ll add this function back.",
+      "parentUuid": "349fc09e_5819b54e",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f44d392d_c7fcd721",
+        "filename": "log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-09T07:47:08Z",
+      "side": 0,
+      "message": "You are right, it is not necessary to delete this function.\nI will add this function back.",
+      "parentUuid": "349fc09e_5819b54e",
+      "revId": "1aeced9155d34fc51c5082b6cbb4a53509a0e076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
