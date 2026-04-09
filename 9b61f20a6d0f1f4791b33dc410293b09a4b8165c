@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d7eb0823_05d3ee9b",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-09T01:33:15Z",
+      "side": 1,
+      "message": "The ctime format (\"Tue Mar 31 11:43:39 2026\") is fairly common for logs, so I am fine with using that here. We might want to make that format string a (documented) const, or use `%c`, but that may vary on locale settings, but that\u0027s something we can discuss separately.\n\nHowever: ctime assumes `%e` instead of `%d`. Are you OK with that divergence?",
+      "parentUuid": "81217b5a_d6590647",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ceb7a821_07f2e65d",
         "filename": "util.c",
         "patchSetId": 23
