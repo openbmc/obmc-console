@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1db033_b069e124",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-13T06:22:19Z",
+      "side": 1,
+      "message": "1. Fix issues related to \"errno.h\" and the \"errno\" variable\n2. Fix issues related to \"close(lh-fd)\"\n3. Revert unnecessary changes in log.-handler.c",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

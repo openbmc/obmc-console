@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e489cea_f9c18610",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-13T06:22:19Z",
+      "side": 1,
+      "message": "Sure, I will fix it.",
+      "parentUuid": "ae97cf59_df9522fb",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4c536bf_eed3ffeb",
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "The ctime format (\"Tue Mar 31 11:43:39 2026\") is fairly common for logs, so I am fine with using that here. We might want to make that format string a (documented) const, or use `%c`, but that may vary on locale settings, but that\u0027s something we can discuss separately.\n\nHowever: ctime assumes `%e` instead of `%d`. Are you OK with that divergence?",
       "parentUuid": "81217b5a_d6590647",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698920c4_ca18f8d6",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-13T06:22:19Z",
+      "side": 1,
+      "message": "I personally feel zero-padding looks cleaner for users.\nWhat\u0027s your take on this? Should I stick to the strict ctime format instead?",
+      "parentUuid": "d7eb0823_05d3ee9b",
       "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
