@@ -64,6 +64,7 @@ client_tests = [
     'test-console-client-can-read',
     'test-console-client-can-write',
     'test-console-client-no-args',
+    'test-console-client-reconnect',
 ]
 
 foreach ct : client_tests
