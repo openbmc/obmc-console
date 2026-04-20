@@ -61,17 +61,18 @@ foreach st : server_tests
 endforeach
 
 client_tests = [
-    'test-console-client-can-read',
-    'test-console-client-can-write',
-    'test-console-client-no-args',
+    ['test-console-client-can-read',    client],
+    ['test-console-client-can-write',   client],
+    ['test-console-client-no-args',     client],
+    ['test-console-client-reconnect',   client_reconnect],
 ]
 
 foreach ct : client_tests
     test(
-        ct,
-        find_program(ct),
-        args: [socat.full_path(), server.full_path(), client.full_path()],
-        depends: [server, client],
+        ct[0],
+        find_program(ct[0]),
+        args: [socat.full_path(), server.full_path(), ct[1].full_path()],
+        depends: [server, ct[1]],
         suite: 'itests',
     )
 endforeach
