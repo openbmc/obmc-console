@@ -95,7 +95,10 @@ client = executable(
     'console-client.c',
     'console-socket.c',
     'util.c',
-    c_args: ['-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))],
+    c_args: [
+      '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+      get_option('console-reconnect').allowed() ? '-DENABLE_CONSOLE_RECONNECT' : [],
+    ],
     dependencies: [iniparser_dep],
     install: true,
 )
