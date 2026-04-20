@@ -95,9 +95,26 @@ client = executable(
     'console-client.c',
     'console-socket.c',
     'util.c',
-    c_args: ['-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir'))],
+    c_args: [
+        '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+        get_option('console-reconnect').allowed() ? '-DENABLE_CONSOLE_RECONNECT' : [],
+    ],
     dependencies: [iniparser_dep],
     install: true,
+)
+
+client_reconnect = executable(
+    'obmc-console-client-reconnect',
+    'config.c',
+    'console-client.c',
+    'console-socket.c',
+    'util.c',
+    c_args: [
+        '-DSYSCONFDIR="@0@"'.format(get_option('sysconfdir')),
+        '-DENABLE_CONSOLE_RECONNECT',
+    ],
+    dependencies: [iniparser_dep],
+    build_by_default: false,
 )
 
 if get_option('tests')

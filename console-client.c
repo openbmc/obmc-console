@@ -31,7 +31,9 @@
 #include "console-server.h"
 #include "config.h"
 
-#define EXIT_ESCAPE 2
+#define EXIT_ESCAPE	      2
+#define RECONNECT_DELAY_S     1
+#define RECONNECT_MAX_RETRIES 10
 
 enum process_rc {
 	PROCESS_OK = 0,
@@ -264,6 +266,53 @@ static void client_fini(struct console_client *client)
 	close(client->console_sd);
 }
 
+#ifdef ENABLE_CONSOLE_RECONNECT
+static int client_reconnect(struct console_client *client,
+			    struct config *config, const char *console_id)
+{
+	int retries = 0;
+	int rc;
+	struct termios termios;
+
+	/* Fix output BEFORE printing anything */
+	if (client->is_tty) {
+		tcgetattr(client->fd_in, &termios);
+		termios.c_oflag = client->orig_termios.c_oflag;
+		tcsetattr(client->fd_in, TCSANOW, &termios);
+	}
+
+	fprintf(stderr, "Attempting to reconnect...\n");
+
+	close(client->console_sd);
+
+	while (retries < RECONNECT_MAX_RETRIES) {
+		/* wait before retrying to give
+                 * console-server time to restart */
+		sleep(RECONNECT_DELAY_S);
+
+		rc = client_init(client, config, console_id);
+		if (!rc) {
+			fprintf(stderr, "Reconnected successfully");
+
+			/* Restore raw mode after reconnect success */
+			if (client->is_tty) {
+				tcgetattr(client->fd_in, &termios);
+				cfmakeraw(&termios);
+				tcsetattr(client->fd_in, TCSANOW, &termios);
+			}
+
+			return 0;
+		}
+
+		retries++;
+	}
+
+	fprintf(stderr, "Failed to reconnect after %d attempts\n",
+		RECONNECT_MAX_RETRIES);
+	return -1;
+}
+#endif
+
 int main(int argc, char *argv[])
 {
 	struct console_client _client;
@@ -353,7 +402,9 @@ int main(int argc, char *argv[])
 		pollfds[0].events = POLLIN;
 		pollfds[1].fd = client->console_sd;
 		pollfds[1].events = POLLIN;
-
+#ifdef ENABLE_CONSOLE_RECONNECT
+		int console_exit = 0;
+#endif
 		rc = poll(pollfds, 2, -1);
 		if (rc < 0) {
 			warn("Poll failure");
@@ -366,8 +417,23 @@ int main(int argc, char *argv[])
 
 		if (prc == PROCESS_OK && pollfds[1].revents) {
 			prc = process_console(client);
+#ifdef ENABLE_CONSOLE_RECONNECT
+			console_exit = (prc == PROCESS_EXIT);
+#endif
 		}
-
+#ifdef ENABLE_CONSOLE_RECONNECT
+		/* handle reconnection on connection close */
+		if (prc == PROCESS_EXIT && console_exit) {
+			rc = client_reconnect(client, config, console_id);
+			if (rc) {
+				/* give up after max retries */
+				break;
+			}
+			/* reset state and continue polling */
+			prc = PROCESS_OK;
+			continue;
+		}
+#endif
 		rc = (prc == PROCESS_ERR) ? -1 : 0;
 		if (prc != PROCESS_OK) {
 			break;
