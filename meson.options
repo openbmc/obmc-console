@@ -11,3 +11,9 @@ option(
     description: 'Support obmc-console-ssh and obmc-console-ssh-socket',
 )
 option('tests', type: 'boolean', description: 'Enable the test suite')
+option(
+    'console-reconnect',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enable console reconnection on server restart'
+)
