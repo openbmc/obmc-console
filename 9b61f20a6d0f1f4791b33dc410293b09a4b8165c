@@ -226,6 +226,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2af8e913_604b5e6a",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-20T06:22:49Z",
+      "side": 1,
+      "message": "@ifelmail@gmail.com mentioned some DC tools that need to parse this; I assume they would expect a ctime-like format rather than going for a cleaner look. However, if you have any actual data on requirements (ie., what those tools expect), then defer to that.",
+      "parentUuid": "698920c4_ca18f8d6",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ceb7a821_07f2e65d",
         "filename": "util.c",
         "patchSetId": 23
