@@ -1,0 +1,105 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+CLIENT="$3"
+
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+PTYS_PID=""
+SERVER_PID=""
+CLIENT_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$CLIENT_PID" ] || kill "$CLIENT_PID" 2>/dev/null || true
+  [ -z "$SERVER_PID" ] || kill "$SERVER_PID" 2>/dev/null || true
+  [ -z "$PTYS_PID" ] || kill "$PTYS_PID" 2>/dev/null || true
+  wait 2>/dev/null || true
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+TEST_LOG="${TEST_NAME}.log"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+[$TEST_NAME]
+console-id = $TEST_NAME
+logfile = $TEST_LOG
+EOF
+
+"$SOCAT" -u PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+PTYS_PID="$!"
+while ! [ -e remote ] || ! [ -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+
+# Wait for server to register on D-Bus
+for i in $(seq 1 10); do
+    if busctl status --user xyz.openbmc_project.Console."${TEST_NAME}" 2>/dev/null; then
+        break
+    fi
+    if [ $i -eq 10 ]; then
+        echo "FAIL: Server failed to register on D-Bus"
+        exit 1
+    fi
+    sleep 1
+done
+
+# Start client with stdin from /dev/null to prevent EOF exit
+tail -f /dev/null | $CLIENT -i $TEST_NAME &
+CLIENT_PID="$!"
+sleep 1
+
+if ! kill -0 "$CLIENT_PID" 2>/dev/null; then
+    echo "FAIL: client failed to start"
+    cat "$TEST_LOG"
+    exit 1
+fi
+
+echo "✓ Client started"
+
+# Kill server
+kill "$SERVER_PID"
+sleep 1
+
+if ! kill -0 "$CLIENT_PID" 2>/dev/null; then
+    echo "FAIL: client died after server shutdown"
+    exit 1
+fi
+
+echo "✓ Client survived server shutdown"
+
+# Restart server
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+
+for i in $(seq 1 10); do
+    if busctl status --user xyz.openbmc_project.Console."${TEST_NAME}" 2>/dev/null; then
+        break
+    fi
+    if [ $i -eq 10 ]; then
+        echo "FAIL: Server failed to re-register on D-Bus"
+        exit 1
+    fi
+    sleep 1
+done
+
+sleep 2
+
+if ! kill -0 "$CLIENT_PID" 2>/dev/null; then
+    echo "FAIL: client died instead of reconnecting"
+    exit 1
+fi
+
+echo "PASS: client reconnected successfully"
+exit 0
