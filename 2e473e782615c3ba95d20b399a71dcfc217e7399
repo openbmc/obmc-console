@@ -154,6 +154,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbb4d1e_458f0736",
+        "filename": "console-socket.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-04-21T06:43:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "904a194c_cc233195",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 36
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c5e0939_f2287143",
@@ -167,6 +191,24 @@
       "writtenOn": "2026-03-05T04:55:16Z",
       "side": 1,
       "message": "Why have you copied this in? What happens when fixes are applied to the application copy and not here?\n\nThere a number of better ways to deal with this:\n\n- Define the meson test to require `console-socket.c` as a source file\n- Define the meson test to depend on the object file\n- Build the console-server objects into a static library against which you link the test (need to be careful with this though due to the tricks with handler registration).\n- `#include \"console-socket.c\"`\n...",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b1f66a_6883b5e7",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-04-21T06:43:52Z",
+      "side": 1,
+      "message": "Thanks for the suggestion! I\u0027ve fixed these in the updated unittest script.",
+      "parentUuid": "0c5e0939_f2287143",
       "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -188,6 +230,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7dd26b5_f7789c94",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-04-21T06:43:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e50ed530_379d792f",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03f659a5_4987d3d8",
@@ -205,6 +265,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a148ef7a_3f43340d",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-04-21T06:43:52Z",
+      "side": 1,
+      "message": "Sure. I\u0027ve also fixed these in the updated unittest script.",
+      "parentUuid": "03f659a5_4987d3d8",
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e713ad2_9f4c00c8",
@@ -218,6 +296,30 @@
       "writtenOn": "2026-03-05T04:55:16Z",
       "side": 1,
       "message": "`assert(!strcmp(...))`.",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 1
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6204fffe_69773e5b",
+        "filename": "test/test_console_socket_path_readable.c",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-04-21T06:43:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7e713ad2_9f4c00c8",
       "range": {
         "startLine": 77,
         "startChar": 1,
