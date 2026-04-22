@@ -260,6 +260,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b753078d_0076ff01",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-22T05:07:25Z",
+      "side": 1,
+      "message": "As far as I\u0027m aware, the timestamp format currently implemented is exactly what the DC tools mentioned by Igor Kanyuka require, rather than the ctime format. Therefore, I believe we can close this comment.",
+      "parentUuid": "c04f1244_57796e81",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceb7a821_07f2e65d",
