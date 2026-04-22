@@ -278,6 +278,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfc5646e_10ae51e6",
+        "filename": "text-log-handler.c",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002230
+      },
+      "writtenOn": "2026-04-22T06:19:25Z",
+      "side": 1,
+      "message": "Yes, this is what Facility Engineers say their tooling expect, so let\u0027s leave it in this format if no one has strong opinions on the format.",
+      "parentUuid": "b753078d_0076ff01",
+      "revId": "9b61f20a6d0f1f4791b33dc410293b09a4b8165c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceb7a821_07f2e65d",
