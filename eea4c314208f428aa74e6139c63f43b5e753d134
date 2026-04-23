@@ -1,0 +1,8 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Jeremy Kerr <jk@ozlabs.org>
+Submitted-by: Jeremy Kerr <jk@ozlabs.org>
+Submitted-at: Thu, 23 Apr 2026 08:02:35 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/obmc-console/+/81656
+Comments-Total: 105
+Project: openbmc/obmc-console
+Branch: refs/heads/master
