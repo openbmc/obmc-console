@@ -70,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a9a0adb_de5f5f2e",
+        "filename": "text-log-handler.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-23T07:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17e043af_ace4d7f6",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "971ad020_143bcce4",
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Thank you for your review. I will fix it.",
       "parentUuid": "971ad020_143bcce4",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb04901_d68c6760",
+        "filename": "text-log-handler.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2026-04-23T07:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90f2dd76_e5dca830",
       "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
