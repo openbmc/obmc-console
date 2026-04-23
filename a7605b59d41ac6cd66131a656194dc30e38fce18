@@ -16,6 +16,57 @@
       "message": "1. Fix issues related to \"errno.h\" and the \"errno\" variable\n2. Fix issues related to \"close(lh-fd)\"\n3. Revert unnecessary changes in log.-handler.c",
       "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911ba295_bffda157",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-23T03:15:44Z",
+      "side": 1,
+      "message": "Looks good, thanks!\n\nI have a couple of minor comments, but up to you on whether they need any changes. If not, feel free to submit.\n\nMaking `rotate_single_file` common looks good too; For future submissions, I would suggest splitting that out so that your functional change is smaller - but absolutely no need to alter that here.",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b97507_96540472",
+        "filename": "text-log-handler.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-23T03:15:44Z",
+      "side": 1,
+      "message": "Minor: you may want to add your own copyright notice here.",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "971ad020_143bcce4",
+        "filename": "text-log-handler.c",
+        "patchSetId": 26
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-04-23T03:15:44Z",
+      "side": 1,
+      "message": "Minor: doesn\u0027t seem to be used?",
+      "revId": "a7605b59d41ac6cd66131a656194dc30e38fce18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
