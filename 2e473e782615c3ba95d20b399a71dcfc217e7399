@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b0a66efc_967f4b93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T01:58:39Z",
+      "side": 1,
+      "message": "\u003e Thanks for the suggestion! I\u0027ve updated the implementation of console_socket_path() to return the derived struct size. Sorry for the delayed response!\n\nReviving this thread: So on closer inspection, my suggestion there set things off down a bad path. PS22 doesn\u0027t update the call-site in `set_socket_info()` in `console-server.c`. That call-site expects the returned value to be the length of `sun_path`, not the full struct size. Further, making `console_socket_path()` return the struct size is a bit of hack in terms of its point of abstraction. I think we have have to back out of that.",
+      "parentUuid": "e12db43c_43cf8225",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2e473e782615c3ba95d20b399a71dcfc217e7399",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1010437d_8a9bfc35",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

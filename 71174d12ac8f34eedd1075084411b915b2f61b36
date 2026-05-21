@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef14ed13_d253df1d",
+        "filename": "socket-handler.c",
+        "patchSetId": 22
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T01:58:39Z",
+      "side": 1,
+      "message": "Ah, so a small wart here:\n\n\u003e       sd_is_socket_unix() is similar to sd_is_socket() but optionally checks\n\u003e       the AF_UNIX path the socket is bound to, unless the path parameter is\n\u003e       NULL. For normal file system AF_UNIX sockets, set the length parameter\n\u003e       to 0. For Linux abstract namespace sockets, set the length to the size\n\u003e       of the address, including the initial 0 byte, and set the path to the\n\u003e       initial 0 byte of the socket address.\n\nhttps://man7.org/linux/man-pages/man3/sd_is_socket_unix.3.html#DESCRIPTION\n\nThis needs to be the length of the content of `addr.sun_path`, not the length of `addr` including the content of `sun_path`. The code will likely cause an out-of-bounds read.\n\nThis should be `addrlen - offsetof(struct sockaddr_un, sun_path)`.",
+      "revId": "71174d12ac8f34eedd1075084411b915b2f61b36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba1b7ea3_89c5aad4",
+        "filename": "test/test-console-socket-path.c",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T01:58:39Z",
+      "side": 1,
+      "message": "What motivated this? No other tests do so. These should be removed throughout.",
+      "revId": "71174d12ac8f34eedd1075084411b915b2f61b36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "651477c6_672f724e",
+        "filename": "test/test-console-socket-path.c",
+        "patchSetId": 22
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T01:58:39Z",
+      "side": 1,
+      "message": "I think this and the test case above should be combined. I don\u0027t see why they should be separated.",
+      "revId": "71174d12ac8f34eedd1075084411b915b2f61b36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
