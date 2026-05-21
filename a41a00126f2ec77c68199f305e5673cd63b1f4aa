@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e1ad622_465209f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "Please try to avoid adding build configuration options. Any new build configuration options need to come with significant justification as to why the behaviour can\u0027t compose well at runtime.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3379e90_f852e1d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "The commit message is to describe \"why\", not \"what\". \"What\" is documented in the patch itself. Please remove this.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27bc5638_f12ddd35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "This heading is unnecessary. Further, describing the motivation is what the commit message is for, making this also unnecessary.",
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea74bc3d_4473b142",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "Why is this true? Why does this need to be true?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9604dea_42f8a8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me how a 1-second retry properly addresses this concern. It may reduce the probability that many messages are missed, but it doesn\u0027t eliminate the concern that no messages are lost.",
+      "range": {
+        "startLine": 22,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60831cbb_c097208b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "This sounds like it interacts badly with the console mux behaviour. Can you please work discuss how your requirements can compose with that feature?\n\nIn-tree documentation: https://github.com/openbmc/obmc-console/blob/master/docs/mux-support.md\nDesign documentation: https://github.com/openbmc/docs/blob/master/designs/uart-mux-support.md",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e0e371f_e50f67e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "Hi Sean, this one needs a bit of work. I have some comments inline.",
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2f59d5_c8eb5961",
+        "filename": "meson.options",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2026-05-21T02:10:15Z",
+      "side": 1,
+      "message": "This means that, by default, it will not be built during CI, which I can\u0027t accept.",
+      "revId": "a41a00126f2ec77c68199f305e5673cd63b1f4aa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
