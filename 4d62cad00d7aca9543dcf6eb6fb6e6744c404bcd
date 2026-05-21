@@ -16,6 +16,24 @@
       "message": "@sean.he.wiwynn@gmail.com can you please test PS22?",
       "revId": "4d62cad00d7aca9543dcf6eb6fb6e6744c404bcd",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "597bb96b_086c34bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002173
+      },
+      "writtenOn": "2026-05-21T06:51:59Z",
+      "side": 1,
+      "message": "Hi Andrew, did you mean PS23? I thought you had already updated the code in that patchset. Either way, both PS22 and PS23 work fine on my platform.",
+      "parentUuid": "8d90ba8a_f2a6c543",
+      "revId": "4d62cad00d7aca9543dcf6eb6fb6e6744c404bcd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
