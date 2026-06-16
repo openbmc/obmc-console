@@ -169,11 +169,87 @@ static void test_text_log_truncation(void)
 	unlink(rotate_file);
 }
 
+static void test_no_split_on_rotation(void)
+{
+	struct text_log_handler lh;
+	const char *log_file = "/tmp/test_no_split.log";
+	const char *rotate_file = "/tmp/test_no_split.log.1";
+	unlink(log_file);
+	unlink(rotate_file);
+
+	/* Setup handler with small maxsize so one entry causes rotation */
+	lh.log_filename = strdup(log_file);
+	lh.rotate_filename = strdup(rotate_file);
+	lh.maxsize = 50;
+	lh.pagesize = 4096;
+	lh.size = 0;
+	lh.line_count = 0;
+	lh.fd = open(log_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	assert(lh.fd >= 0 && "open failed");
+
+	/* Prefill with 20 bytes so adding a ~39-byte entry forces rotation first */
+	uint8_t prefill[20];
+	memset(prefill, 'A', sizeof(prefill));
+	int rc = text_logger_write_data(&lh, prefill, sizeof(prefill));
+	assert(rc == 0 && lh.size == 20);
+
+	/* Prepare a short line and flush it as a single entry */
+	memcpy(lh.linebuf, "hello", 5);
+	lh.linebuf_len = 5;
+
+	rc = flush_line(&lh);
+	assert(rc == 0);
+
+	/* Rotated file should have only the old content (20 'A's) */
+	struct stat st_rot = { 0 };
+	int s = stat(rotate_file, &st_rot);
+	assert(s == 0 && st_rot.st_size == 20);
+
+	int fr = open(rotate_file, O_RDONLY);
+	assert(fr >= 0);
+	uint8_t checkA[20];
+	ssize_t nr = read(fr, checkA, sizeof(checkA));
+	assert(nr == 20);
+	for (int i = 0; i < 20; i++) {
+		assert(checkA[i] == 'A');
+	}
+	close(fr);
+
+	/* New log file should start with the full entry (timestamp + "hello\n")
+	   Compute expected timestamp length for line_count 0 */
+	char ts_buf[TIMESTAMP_BUF_SIZE];
+	ssize_t ts_len = generate_timestamp_text(ts_buf, sizeof(ts_buf), 0);
+	assert(ts_len > 0);
+	size_t expected = (size_t)ts_len + 5 + 1;
+
+	struct stat st_log = { 0 };
+	s = stat(log_file, &st_log);
+	assert(s == 0 && (size_t)st_log.st_size == expected);
+
+	int fl = open(log_file, O_RDONLY);
+	assert(fl >= 0);
+	char *full = malloc(expected);
+	nr = read(fl, full, expected);
+	assert(nr == (ssize_t)expected);
+	/* Verify it ends with "hello\n" */
+	assert(expected >= 6);
+	assert(memcmp(full + expected - 6, "hello\n", 6) == 0);
+	close(fl);
+	free(full);
+
+	close(lh.fd);
+	free(lh.log_filename);
+	free(lh.rotate_filename);
+	unlink(log_file);
+	unlink(rotate_file);
+}
+
 int main(void)
 {
 	test_sanitize_to_ascii_ansi();
 	test_generate_timestamp_text();
 	test_text_log_rotation();
 	test_text_log_truncation();
+	test_no_split_on_rotation();
 	return EXIT_SUCCESS;
 }

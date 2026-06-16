@@ -256,21 +256,34 @@ static int flush_line(struct text_log_handler *lh)
 	ssize_t ts_len =
 		generate_timestamp_text(ts_buf, sizeof(ts_buf), lh->line_count);
 
+	if (ts_len < 0) {
+		ts_len = 0;
+	}
+
+	size_t entry_len = (size_t)ts_len + lh->linebuf_len + 1;
+
+	size_t effective_len = entry_len > lh->maxsize ? lh->maxsize :
+							 entry_len;
+	if (lh->size + effective_len > lh->maxsize) {
+		if (text_logger_trim(lh) < 0) {
+			warn("text_logger_trim failed");
+			return -1;
+		}
+	}
+
+	char entry_buf[TIMESTAMP_BUF_SIZE + sizeof(lh->linebuf) + 1];
+	size_t pos = 0;
 	if (ts_len > 0) {
-		if (text_logger_write_data(lh, (uint8_t *)ts_buf,
-					   (size_t)ts_len)) {
-			return -1;
-		}
+		memcpy(entry_buf + pos, ts_buf, (size_t)ts_len);
+		pos += (size_t)ts_len;
 	}
-
 	if (lh->linebuf_len > 0) {
-		if (text_logger_write_data(lh, (uint8_t *)lh->linebuf,
-					   lh->linebuf_len)) {
-			return -1;
-		}
+		memcpy(entry_buf + pos, lh->linebuf, lh->linebuf_len);
+		pos += lh->linebuf_len;
 	}
+	entry_buf[pos++] = '\n';
 
-	if (text_logger_write_data(lh, (uint8_t *)"\n", 1)) {
+	if (text_logger_write_data(lh, (uint8_t *)entry_buf, pos)) {
 		return -1;
 	}
 
