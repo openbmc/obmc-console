@@ -11,3 +11,10 @@ option(
     description: 'Support obmc-console-ssh and obmc-console-ssh-socket',
 )
 option('tests', type: 'boolean', description: 'Enable the test suite')
+option(
+    'ssh-provider',
+    type: 'combo',
+    choices: ['dropbear', 'openssh'],
+    value: 'dropbear',
+    description: 'Which SSH server obmc-console SSH access uses',
+)
