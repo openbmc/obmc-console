@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af30cb29_795728a0",
+        "filename": "CHANGELOG.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76a41491_3d41674c",
+      "range": {
+        "startLine": 84,
+        "startChar": 9,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dc754a7_7a64efdd",
@@ -76,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d67fdf7b_4e104fbf",
+        "filename": "CHANGELOG.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e6a371_6573b301",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c178836_7673c620",
@@ -93,6 +135,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8566b588_72149aa2",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c178836_7673c620",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "964a7420_d7aba8d1",
@@ -106,6 +166,30 @@
       "writtenOn": "2025-01-17T15:42:43Z",
       "side": 1,
       "message": "Do we really want the same default environment as the top-level ssh daemon?",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c9cc255_0596e5c8",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964a7420_d7aba8d1",
       "range": {
         "startLine": 9,
         "startChar": 17,
@@ -141,6 +225,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7a35c59_01b1df2b",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "The config is now installed to /etc/obmc-console/ssh/sshd_config. The %i per-instance naming was not adopted as the single config file handles the port via the service template\u0027s %i in -p %i on ExecStart, so one config file serves all instances.",
+      "parentUuid": "9358107e_cdb551bc",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6962711d_d2c5ea2a",
         "filename": "conf/obmc-console-ssh@.service.openssh-in",
         "patchSetId": 2
@@ -152,6 +260,24 @@
       "writtenOn": "2025-01-17T15:42:43Z",
       "side": 1,
       "message": "Why aren\u0027t we using a .socket file rather than launching a long-running daemon?",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c277e3_1b77ab2e",
+        "filename": "conf/obmc-console-ssh@.service.openssh-in",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6962711d_d2c5ea2a",
       "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -173,6 +299,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da1fa83d_5147d15c",
+        "filename": "conf/sshd_config_port_2200",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4742a1af_37944d2f",
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b97ee403_65e82ca0",
@@ -186,6 +330,30 @@
       "writtenOn": "2025-01-17T15:42:43Z",
       "side": 1,
       "message": "Since we have a convention here already can we please use `CONSOLE_CLIENT` to generate these?  We already have that variable, which enables multiple obmc-console services, and is leveraged by multiple meta-layers.  Only supporting 2200 is only halfway enabling the feature.\n\nOh... this is in obmc-console and not in openbmc/openbmc.  We probably have some additional work to do at the OS level then to fully integrate this feature.",
+      "range": {
+        "startLine": 6,
+        "startChar": 70,
+        "endLine": 6,
+        "endChar": 74
+      },
+      "revId": "84c9935b55e3f5057f95dfc2f93569c543d33e03",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6340f92b_58f9029e",
+        "filename": "conf/sshd_config_port_2200",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-13T21:21:37Z",
+      "side": 1,
+      "message": "The hardcoded port 2200 / sshd_config_port_2200 file is removed entirely. The new design installs a single sshd_config (via sshd_config.in) under /etc/obmc-console/ssh/, and the service template uses %i for the port via -p %i in the ExecStart. Full CONSOLE_CLIENT-style multi-instance support at the OS/bitbake layer is outside this patch\u0027s scope but is no longer blocked by the file-per-port design.",
+      "parentUuid": "b97ee403_65e82ca0",
       "range": {
         "startLine": 6,
         "startChar": 70,
