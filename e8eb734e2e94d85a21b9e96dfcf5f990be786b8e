@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a8d87a_1f37ece1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-14T16:54:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3df6716c_af6e020f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83071312_0838f361",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fea81c9e_aa200a08",
+        "filename": "conf/openssh/obmc-console-ssh@.service.in",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-14T16:54:50Z",
+      "side": 1,
+      "message": "The `sshd -D` here is the base service, which is only the effective ExecStart in the multiconsole case. In the default single console configuration the `use-socket.conf` drop-in overrides it to `sshd -i`, socket activated, with no long-running daemon. I mirrored the existing dropbear configuration since dropbear\u0027s base service is `dropbear -F` and its drop-in overrides to `dropbear -i` the same way. Either way the socket model should be default for single console use.\n\nIf you mean we should move to the socket model for multi console then I believe dropbear also needs to change.",
+      "parentUuid": "83071312_0838f361",
+      "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8558c2d_707e1701",
         "filename": "meson.build",
         "patchSetId": 6
@@ -54,6 +96,24 @@
       "writtenOn": "2026-07-13T22:06:13Z",
       "side": 1,
       "message": "Should we make `ssh` an option which is [\"none\", \"dropbear\", \"ssh\"] instead of 2 different options?",
+      "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc895103_db5e63b1",
+        "filename": "meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002986
+      },
+      "writtenOn": "2026-07-14T16:54:50Z",
+      "side": 1,
+      "message": "I like this idea; might be breaking changes if `ssh` is already being used as a bool flag in scripts elsewhere, though. If that\u0027s a concern then we could make it an enum like this `[\u0027auto\u0027, \u0027disabled\u0027, \u0027enabled\u0027, \u0027dropbear\u0027, \u0027openssh\u0027]`. I think the ssh option originally had \u0027auto\u0027, \u0027disabled\u0027, and \u0027enabled\u0027 so these will need to be mapped.",
+      "parentUuid": "b8558c2d_707e1701",
       "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
