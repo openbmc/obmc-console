@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-#include <endian.h>
 #include <err.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/mman.h>
-#include <linux/types.h>
 #include <sys/time.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <limits.h>
 
 #include "console-server.h"
 #include "config.h"
@@ -87,7 +88,6 @@ static int text_logger_trim(struct text_log_handler *lh)
 	}
 
 	lh->size = 0;
-	lh->line_count = 0;
 
 	return 0;
 }
@@ -137,6 +137,107 @@ static int log_create(struct text_log_handler *lh)
 	}
 
 	return 0;
+}
+
+static int read_last_line_count_from_path(const char *path, int *out_count)
+{
+	int fd = open(path, O_RDONLY);
+	if (fd < 0) {
+		return -1;
+	}
+
+	struct stat st = { 0 };
+	if (fstat(fd, &st) < 0) {
+		close(fd);
+		return -1;
+	}
+	if (st.st_size <= 0) {
+		close(fd);
+		return -1;
+	}
+
+	size_t max_scan = (size_t)(16 * 1024);
+	size_t to_read = (size_t)st.st_size < max_scan ? (size_t)st.st_size :
+							 max_scan;
+	off_t start = (off_t)st.st_size - (off_t)to_read;
+	char *buf = malloc(to_read + 1);
+	if (!buf) {
+		close(fd);
+		return -1;
+	}
+
+	ssize_t n = pread(fd, buf, to_read, start);
+	close(fd);
+	if (n <= 0) {
+		free(buf);
+		return -1;
+	}
+	buf[n] = '\0';
+
+	// Find end of last complete line (ending with '\n') within buffer
+	ssize_t end_idx = -1;
+	for (ssize_t i = n - 1; i >= 0; --i) {
+		if (buf[i] == '\n') {
+			end_idx = i;
+			break;
+		}
+	}
+	if (end_idx < 0) {
+		end_idx = n; // line ends at buffer end
+	}
+
+	// Backward scan: try the last line; if invalid/missing timestamp, move to previous line
+	int found = 0;
+	char *buf_start = buf;
+	char *buf_end = buf + n;
+	char *scan_end = (end_idx < n) ? (buf + end_idx) :
+					 buf_end; // last newline or end
+
+	while (scan_end > buf_start) {
+		char saved = *scan_end;
+		*scan_end = '\0';
+
+		char *prev_nl = strrchr(buf_start, '\n');
+		const char *line_start = prev_nl ? (prev_nl + 1) : buf_start;
+
+		struct tm parsed = (struct tm){ 0 };
+		char *after_ts =
+			strptime(line_start, "%a %b %d %H:%M:%S %Y", &parsed);
+		if (after_ts && *after_ts == ' ') {
+			errno = 0;
+			char *endp = NULL;
+			long v = strtol(after_ts + 1, &endp, 10);
+			if (errno == 0 && endp && endp > after_ts + 1 &&
+			    *endp == ' ' && v >= 0 && v <= INT_MAX) {
+				*out_count = (int)v;
+				found = 1;
+				*scan_end = saved;
+				break;
+			}
+		}
+
+		*scan_end = saved;
+		if (!prev_nl) {
+			break;	    // no more lines to scan
+		}
+		scan_end = prev_nl; // move to end of previous line
+	}
+
+	free(buf);
+	return found ? 0 : -1;
+}
+
+static void init_persistent_line_count(struct text_log_handler *lh)
+{
+	int last = 0;
+	if (read_last_line_count_from_path(lh->log_filename, &last) == 0) {
+		lh->line_count = last + 1;
+		return;
+	}
+	if (read_last_line_count_from_path(lh->rotate_filename, &last) == 0) {
+		lh->line_count = last + 1;
+		return;
+	}
 }
 
 static size_t sanitize_to_ascii_ansi(const uint8_t *in, size_t in_len,
@@ -387,7 +488,7 @@ static struct handler *text_log_init(const struct handler_type *type
 	lh->rotate_filename = NULL;
 	lh->ansi_st.mode = ANSI_NORMAL;
 	lh->linebuf_len = 0;
-	lh->line_count = 0;
+	lh->line_count = 0; // will be updated from persisted logs below
 
 	logsize_str = config_get_value(config, "logsize");
 	rc = config_parse_bytesize(logsize_str, &logsize);
@@ -418,6 +519,9 @@ static struct handler *text_log_init(const struct handler_type *type
 	if (rc < 0) {
 		goto err_free;
 	}
+
+	// Update line counter based on existing logs so it persists across restarts
+	init_persistent_line_count(lh);
 
 	lh->rbc = console_ringbuffer_consumer_register(
 		console, text_log_ringbuffer_poll, lh);

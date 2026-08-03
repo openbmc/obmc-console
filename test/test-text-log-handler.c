@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <locale.h>
 
 #include "../console-server.h"
 #include "../text-log-handler.c"
@@ -244,12 +245,217 @@ static void test_no_split_on_rotation(void)
 	unlink(rotate_file);
 }
 
+static void test_persist_line_counter(void)
+{
+	struct text_log_handler lh1;
+	const char *log_file = "/tmp/test_persist.log";
+	const char *rotate_file = "/tmp/test_persist.log.1";
+	unlink(log_file);
+	unlink(rotate_file);
+
+	lh1.log_filename = strdup(log_file);
+	lh1.rotate_filename = strdup(rotate_file);
+	lh1.maxsize = (size_t)(64 * 1024);
+	lh1.pagesize = 4096;
+	lh1.size = 0;
+	lh1.line_count = 0;
+	lh1.fd = open(log_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	assert(lh1.fd >= 0);
+
+	memcpy(lh1.linebuf, "first", 5);
+	lh1.linebuf_len = 5;
+	assert(flush_line(&lh1) == 0);
+	memcpy(lh1.linebuf, "second", 6);
+	lh1.linebuf_len = 6;
+	assert(flush_line(&lh1) == 0);
+	close(lh1.fd);
+	free(lh1.log_filename);
+	free(lh1.rotate_filename);
+
+	/* Simulate a new process with fresh handler; it should pick up last count */
+	struct text_log_handler lh2;
+	lh2.log_filename = strdup(log_file);
+	lh2.rotate_filename = strdup(rotate_file);
+	lh2.maxsize = (size_t)(64 * 1024);
+	lh2.pagesize = 4096;
+	lh2.line_count = 0;
+	lh2.fd = open(log_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	assert(lh2.fd >= 0);
+	/* Determine current size */
+	off_t pos = lseek(lh2.fd, 0, SEEK_END);
+	lh2.size = (size_t)pos;
+
+	/* Initialize persistent counter from existing file */
+	init_persistent_line_count(&lh2);
+	memcpy(lh2.linebuf, "third", 5);
+	lh2.linebuf_len = 5;
+	assert(flush_line(&lh2) == 0);
+	close(lh2.fd);
+
+	/* Read back last line and check it contains " 0000002 " */
+	int fd = open(log_file, O_RDONLY);
+	assert(fd >= 0);
+	struct stat st = { 0 };
+	assert(fstat(fd, &st) == 0);
+	size_t to_read = st.st_size < 4096 ? st.st_size : 4096;
+	char *buf = malloc(to_read + 1);
+	assert(buf);
+	ssize_t n = pread(fd, buf, to_read, (off_t)(st.st_size - to_read));
+	assert(n == (ssize_t)to_read);
+	buf[n] = '\0';
+	assert(strstr(buf, " 0000002 ") != NULL);
+	free(buf);
+	close(fd);
+
+	unlink(log_file);
+	unlink(rotate_file);
+	free(lh2.log_filename);
+	free(lh2.rotate_filename);
+}
+
+static void test_persist_line_counter_large(void)
+{
+	struct text_log_handler lh2;
+	const char *log_file = "/tmp/test_persist_large.log";
+	const char *rotate_file = "/tmp/test_persist_large.log.1";
+	unlink(log_file);
+	unlink(rotate_file);
+
+	/* Seed file with a single line having a large counter (>= 10,000,000) */
+	int fdw = open(log_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	assert(fdw >= 0);
+	char ts_buf[TIMESTAMP_BUF_SIZE];
+	ssize_t ts_len =
+		generate_timestamp_text(ts_buf, sizeof(ts_buf), 10000000);
+	assert(ts_len > 0);
+	const char *msg = "seed\n";
+	ssize_t wr = write(fdw, ts_buf, (size_t)ts_len);
+	assert(wr == ts_len);
+	wr = write(fdw, msg, strlen(msg));
+	assert(wr == (ssize_t)strlen(msg));
+	close(fdw);
+
+	/* Fresh handler should read last counter and set next value */
+	lh2.log_filename = strdup(log_file);
+	lh2.rotate_filename = strdup(rotate_file);
+	lh2.maxsize = (size_t)(64 * 1024);
+	lh2.pagesize = 4096;
+	lh2.line_count = 0;
+	lh2.fd = open(log_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	assert(lh2.fd >= 0);
+	off_t pos = lseek(lh2.fd, 0, SEEK_END);
+	lh2.size = (size_t)pos;
+
+	init_persistent_line_count(&lh2);
+	memcpy(lh2.linebuf, "next", 4);
+	lh2.linebuf_len = 4;
+	assert(flush_line(&lh2) == 0);
+	close(lh2.fd);
+
+	int fdr = open(log_file, O_RDONLY);
+	assert(fdr >= 0);
+	struct stat st = { 0 };
+	assert(fstat(fdr, &st) == 0);
+	size_t to_read = st.st_size < 4096 ? st.st_size : 4096;
+	char *buf = malloc(to_read + 1);
+	assert(buf);
+	ssize_t n = pread(fdr, buf, to_read, (off_t)(st.st_size - to_read));
+	assert(n == (ssize_t)to_read);
+	buf[n] = '\0';
+	assert(strstr(buf, " 10000001 ") != NULL);
+	free(buf);
+	close(fdr);
+
+	unlink(log_file);
+	unlink(rotate_file);
+	free(lh2.log_filename);
+	free(lh2.rotate_filename);
+}
+
+static void test_persist_line_counter_skip_malformed_tail(void)
+{
+	struct text_log_handler lh1;
+	const char *log_file = "/tmp/test_persist_skip.log";
+	const char *rotate_file = "/tmp/test_persist_skip.log.1";
+	unlink(log_file);
+	unlink(rotate_file);
+
+	lh1.log_filename = strdup(log_file);
+	lh1.rotate_filename = strdup(rotate_file);
+	lh1.maxsize = (size_t)(64 * 1024);
+	lh1.pagesize = 4096;
+	lh1.size = 0;
+	lh1.line_count = 0;
+	lh1.fd = open(log_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	assert(lh1.fd >= 0);
+
+	memcpy(lh1.linebuf, "first", 5);
+	lh1.linebuf_len = 5;
+	assert(flush_line(&lh1) == 0);
+	memcpy(lh1.linebuf, "second", 6);
+	lh1.linebuf_len = 6;
+	assert(flush_line(&lh1) == 0);
+	close(lh1.fd);
+	free(lh1.log_filename);
+	free(lh1.rotate_filename);
+
+	/* Append a malformed last line without timestamp */
+	int fa = open(log_file, O_WRONLY | O_APPEND);
+	assert(fa >= 0);
+	const char *bad = "notimestamp tail\n";
+	ssize_t wr = write(fa, bad, strlen(bad));
+	assert(wr == (ssize_t)strlen(bad));
+	close(fa);
+
+	/* New handler should skip malformed tail and recover from previous line (counter 1) */
+	struct text_log_handler lh2;
+	lh2.log_filename = strdup(log_file);
+	lh2.rotate_filename = strdup(rotate_file);
+	lh2.maxsize = (size_t)(64 * 1024);
+	lh2.pagesize = 4096;
+	lh2.line_count = 0;
+	lh2.fd = open(log_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	assert(lh2.fd >= 0);
+	off_t pos = lseek(lh2.fd, 0, SEEK_END);
+	lh2.size = (size_t)pos;
+
+	init_persistent_line_count(&lh2);
+	/* Next should be 2 */
+	memcpy(lh2.linebuf, "third", 5);
+	lh2.linebuf_len = 5;
+	assert(flush_line(&lh2) == 0);
+	close(lh2.fd);
+
+	int fd = open(log_file, O_RDONLY);
+	assert(fd >= 0);
+	struct stat st = { 0 };
+	assert(fstat(fd, &st) == 0);
+	size_t to_read = st.st_size < 4096 ? st.st_size : 4096;
+	char *buf = malloc(to_read + 1);
+	assert(buf);
+	ssize_t n = pread(fd, buf, to_read, (off_t)(st.st_size - to_read));
+	assert(n == (ssize_t)to_read);
+	buf[n] = '\0';
+	assert(strstr(buf, " 0000002 ") != NULL);
+	free(buf);
+	close(fd);
+
+	unlink(log_file);
+	unlink(rotate_file);
+	free(lh2.log_filename);
+	free(lh2.rotate_filename);
+}
+
 int main(void)
 {
+	setlocale(LC_TIME, "C");
 	test_sanitize_to_ascii_ansi();
 	test_generate_timestamp_text();
 	test_text_log_rotation();
 	test_text_log_truncation();
 	test_no_split_on_rotation();
+	test_persist_line_counter();
+	test_persist_line_counter_large();
+	test_persist_line_counter_skip_malformed_tail();
 	return EXIT_SUCCESS;
 }
