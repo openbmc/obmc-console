@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d31f6ad8_bf26dbfc",
+        "filename": "conf/openssh/obmc-console-ssh@.service.in",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-11T18:55:21Z",
+      "side": 1,
+      "message": "sshd is significantly more memory intensive than dropbear.\n\nI\u0027ll let the maintainers decide if they want this done as a .service or a .socket though.  My preference would be .socket as that is how openssh works by default on openbmc.",
+      "parentUuid": "fea81c9e_aa200a08",
+      "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8558c2d_707e1701",
         "filename": "meson.build",
         "patchSetId": 6
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "I like this idea; might be breaking changes if `ssh` is already being used as a bool flag in scripts elsewhere, though. If that\u0027s a concern then we could make it an enum like this `[\u0027auto\u0027, \u0027disabled\u0027, \u0027enabled\u0027, \u0027dropbear\u0027, \u0027openssh\u0027]`. I think the ssh option originally had \u0027auto\u0027, \u0027disabled\u0027, and \u0027enabled\u0027 so these will need to be mapped.",
       "parentUuid": "b8558c2d_707e1701",
+      "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef9eec6_9981cfac",
+        "filename": "meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-11T18:55:21Z",
+      "side": 1,
+      "message": "auto/disabled/enabled are a concept in meson of a \"feature\".  That should not be replicated here.\n\ndisabled / enabled are hard settings.\nauto essentially means \"enable if all the dependencies are met\".",
+      "parentUuid": "fc895103_db5e63b1",
       "revId": "e8eb734e2e94d85a21b9e96dfcf5f990be786b8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
