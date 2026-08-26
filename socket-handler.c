@@ -442,6 +442,8 @@ static struct handler *socket_init(const struct handler_type *type
 		return NULL;
 	}
 
+	memset(sh, 0, sizeof(*sh));
+
 	sh->console = console;
 	sh->clients = NULL;
 	sh->n_clients = 0;
