@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6fcb8c68_c98fea7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002108
+      },
+      "writtenOn": "2026-08-26T02:15:26Z",
+      "side": 1,
+      "message": "You\u0027re right, socket_init()\u0027s sh allocation isn\u0027t memset either.",
+      "parentUuid": "d2136a58_96733f14",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "d5c086eec57c9e2525421570fed67f78560cd46d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4c668e27_4bae747f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
