@@ -264,6 +264,8 @@ static struct handler *tty_init(const struct handler_type *type
 		return NULL;
 	}
 
+	memset(th, 0, sizeof(*th));
+
 	th->fd = open(tty_path, O_RDWR | O_NONBLOCK);
 	if (th->fd < 0) {
 		warn("Can't open %s; disabling local tty", tty_name);
