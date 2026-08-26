@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2136a58_96733f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-08-26T01:50:49Z",
+      "side": 1,
+      "message": "Hm, it doesn\u0027t though. Maybe we need the same there?",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "d5c086eec57c9e2525421570fed67f78560cd46d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4c668e27_4bae747f",
