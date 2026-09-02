@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6f704e7e_858c2ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002108
+      },
+      "writtenOn": "2026-09-02T01:32:27Z",
+      "side": 1,
+      "message": "@jk@ozlabs.org, gentle ping. Could you please review the latest patchset? Thanks!",
+      "parentUuid": "69dab052_679ecac9",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "d5c086eec57c9e2525421570fed67f78560cd46d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4c668e27_4bae747f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
