@@ -16,6 +16,24 @@
       "message": "The change looks correct in the handling of the EINTR state, but I\u0027d suggest a slightly different approach to the fix. Instead of resetting `rc` and proceeding with the increment, only incrementing `pos` when we make progress.\n\nSomething like:\n\n```\ndiff --git a/socket-handler.c b/socket-handler.c\nindex a957b3c..ac29b13 100644\n--- a/socket-handler.c\n+++ b/socket-handler.c\n@@ -145,7 +145,7 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,\n                flags |\u003d MSG_DONTWAIT;\n        }\n \n-       for (pos \u003d 0; pos \u003c len; pos +\u003d rc) {\n+       for (pos \u003d 0; pos \u003c len;) {\n                rc \u003d send(fd, (char *)buf + pos, len - pos, flags);\n                if (rc \u003c 0) {\n                        if (!block \u0026\u0026\n@@ -163,6 +163,7 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,\n                if (rc \u003d\u003d 0) {\n                        return -1;\n                }\n+               pos +\u003d rc;\n        }\n \n        return (ssize_t)pos;\n\n```\n\n\nif that makes it slightly more clear?\n\nThe CI failures look like effects of a compiler bump, no action required there.",
       "revId": "468c8f1215febebd767ba56d604f601d70eb2b04",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2108d9d_a682a871",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2026-11-04T06:10:09Z",
+      "side": 1,
+      "message": "\u003e The CI failures look like effects of a compiler bump, no action required there.\n\nhttps://github.com/llvm/llvm-project/issues/196557",
+      "parentUuid": "de7ec63c_2cc1d56b",
+      "revId": "468c8f1215febebd767ba56d604f601d70eb2b04",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
