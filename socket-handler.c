@@ -173,6 +173,8 @@ static ssize_t send_all(struct client *client, void *buf, size_t len,
 			}
 
 			if (errno == EINTR) {
+				/* nothing was sent; do not move pos */
+				rc = 0;
 				continue;
 			}
 
