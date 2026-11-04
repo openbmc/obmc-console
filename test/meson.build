@@ -46,6 +46,7 @@ server_tests = [
     'test-console-logs-to-file',
     'test-console-logs-to-file-no-sections',
     'test-console-socket-read',
+    'test-console-socket-stalled-client',
     'test-console-socket-write',
     'test-multiple-consoles',
 ]

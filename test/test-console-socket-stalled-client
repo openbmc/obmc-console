@@ -1,0 +1,79 @@
+#!/usr/bin/sh
+
+set -eux
+
+SOCAT="$1"
+SERVER="$2"
+
+# Meet DBus bus and path name constraints, append own PID for parallel runs
+TEST_NAME="$(basename "$0" | tr '-' '_')"_${$}
+TEST_DIR="$(mktemp --tmpdir --directory "${TEST_NAME}.XXXXXX")"
+
+PTYS_PID=""
+STALLED_PID=""
+FILL_PID=""
+SUN_PID=""
+SERVER_PID=""
+
+cd "$TEST_DIR"
+
+cleanup()
+{
+  [ -z "$SUN_PID" ] || kill "$SUN_PID"
+  [ -z "$FILL_PID" ] || kill "$FILL_PID"
+  [ -z "$STALLED_PID" ] || kill "$STALLED_PID" 2>/dev/null || true
+  [ -z "$SERVER_PID" ] || kill "$SERVER_PID"
+  [ -z "$PTYS_PID" ] || kill "$PTYS_PID"
+  wait
+  cd -
+  rm -rf "$TEST_DIR"
+}
+
+trap cleanup EXIT
+
+TEST_CONF="${TEST_NAME}.conf"
+
+cat <<EOF > "$TEST_CONF"
+active-console = $TEST_NAME
+ringbuffer-size = 8k
+[$TEST_NAME]
+console-id = $TEST_NAME
+EOF
+
+"$SOCAT" PTY,raw,echo=0,link=remote PTY,raw,echo=0,wait-slave,link=local &
+PTYS_PID="$!"
+while ! [ -e remote ] || ! [ -e local ]; do sleep 1; done
+
+"$SERVER" --config "$TEST_CONF" "$(realpath local)" &
+SERVER_PID="$!"
+while ! busctl status --user xyz.openbmc_project.Console."${TEST_NAME}"; do sleep 1; done
+
+# A client that keeps its socket open but never reads from it
+"$SOCAT" -u "ABSTRACT:obmc-console.${TEST_NAME}" EXEC:'sleep 30' \
+  > /dev/null 2>&1 &
+STALLED_PID="$!"
+
+sleep 1
+
+# Fill the stalled client's ringbuffer window and its socket buffers
+head -c 4194304 /dev/zero > remote &
+FILL_PID="$!"
+
+sleep 1
+
+# The server must close the stalled client and serve a new one
+"$SOCAT" -u "ABSTRACT:obmc-console.${TEST_NAME}" EXEC:'grep -m1 -qF stalled-client' &
+SUN_PID="$!"
+
+sleep 10
+
+timeout 5 sh -c 'echo "stalled-client" > remote'
+
+sleep 2
+
+kill -0 "$SUN_PID" && exit 1
+SUN_PID=""
+
+# The rest of the fill data reaches the server too
+wait "$FILL_PID"
+FILL_PID=""

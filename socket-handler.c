@@ -36,6 +36,8 @@
 #define SOCKET_HANDLER_PKT_SIZE 512
 /* Set poll() timeout to 4000 uS, or 4 mS */
 #define SOCKET_HANDLER_PKT_US_TIMEOUT 4000
+/* Longest time a forced (blocking) send may wait for a client to read */
+#define SOCKET_HANDLER_SEND_TIMEOUT_S 5
 
 struct client {
 	struct socket_handler *sh;
@@ -63,6 +65,22 @@ static struct timeval const socket_handler_timeout = {
 static struct socket_handler *to_socket_handler(struct handler *handler)
 {
 	return container_of(handler, struct socket_handler, handler);
+}
+
+/* A client that stops reading must not stop the server. When the client's
+ * ringbuffer window is full, ringbuffer_queue() forces a blocking send to it.
+ * Bound that send, so it fails and the client is closed instead.
+ */
+static void client_set_send_timeout(int fd)
+{
+	const struct timeval tv = {
+		.tv_sec = SOCKET_HANDLER_SEND_TIMEOUT_S,
+		.tv_usec = 0,
+	};
+
+	if (setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv))) {
+		warn("Failed to set the send timeout on a client socket");
+	}
 }
 
 static void client_close(struct client *client)
@@ -237,6 +255,10 @@ static enum ringbuffer_poll_ret client_ringbuffer_poll(void *arg,
 
 	rc = client_drain_queue(client, force_len);
 	if (rc) {
+		if (force_len && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+			warnx("Closing a client that did not read for %d seconds",
+			      SOCKET_HANDLER_SEND_TIMEOUT_S);
+		}
 		client->rbc = NULL;
 		client_close(client);
 		return RINGBUFFER_POLL_REMOVE;
@@ -323,6 +345,8 @@ static enum poller_ret socket_poll(struct handler *handler, int events,
 		return POLLER_OK;
 	}
 
+	client_set_send_timeout(fd);
+
 	console_mux_activate(sh->console);
 
 	client = malloc(sizeof(*client));
@@ -380,6 +404,8 @@ int dbus_create_socket_consumer(struct console *console)
 		warn("Failed to create socket pair");
 		return -errno;
 	}
+
+	client_set_send_timeout(fds[0]);
 
 	client = malloc(sizeof(*client));
 	if (client == NULL) {
