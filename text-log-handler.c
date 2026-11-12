@@ -252,25 +252,58 @@ static int flush_line(struct text_log_handler *lh)
 		return -1;
 	}
 
+	char record_buf[TIMESTAMP_BUF_SIZE + sizeof(lh->linebuf) + 1];
 	char ts_buf[TIMESTAMP_BUF_SIZE];
 	ssize_t ts_len =
 		generate_timestamp_text(ts_buf, sizeof(ts_buf), lh->line_count);
+	size_t prefix_len = ts_len > 0 && (size_t)ts_len < sizeof(ts_buf) ?
+				    (size_t)ts_len :
+				    0;
+	size_t record_len = prefix_len + lh->linebuf_len + 1;
+	size_t rotate_len = record_len > lh->maxsize ? lh->maxsize : record_len;
 
-	if (ts_len > 0) {
-		if (text_logger_write_data(lh, (uint8_t *)ts_buf,
-					   (size_t)ts_len)) {
+	/* Rotate the complete record so its timestamp and contents stay together. */
+	if (lh->size > lh->maxsize || rotate_len > lh->maxsize - lh->size) {
+		if (text_logger_trim(lh) < 0) {
+			warn("text_logger_trim failed");
 			return -1;
 		}
+
+		/* Rotation resets line_count; use the new file's numbering. */
+		ts_len = generate_timestamp_text(ts_buf, sizeof(ts_buf),
+						 lh->line_count);
+		prefix_len = ts_len > 0 && (size_t)ts_len < sizeof(ts_buf) ?
+				     (size_t)ts_len :
+				     0;
 	}
 
-	if (lh->linebuf_len > 0) {
-		if (text_logger_write_data(lh, (uint8_t *)lh->linebuf,
-					   lh->linebuf_len)) {
-			return -1;
-		}
+	size_t pos = 0;
+	size_t payload_len = lh->linebuf_len;
+	size_t payload_offset = 0;
+	if (prefix_len > 0) {
+		memcpy(record_buf, ts_buf, prefix_len);
+		pos += prefix_len;
 	}
 
-	if (text_logger_write_data(lh, (uint8_t *)"\n", 1)) {
+	if (pos + 1 > lh->maxsize) {
+		warnx("maxsize too small for timestamped log record");
+		return -1;
+	}
+
+	size_t max_payload_len = lh->maxsize - pos - 1;
+	if (payload_len > max_payload_len) {
+		payload_offset = payload_len - max_payload_len;
+		payload_len = max_payload_len;
+	}
+
+	if (payload_len > 0) {
+		memcpy(record_buf + pos, lh->linebuf + payload_offset,
+		       payload_len);
+		pos += payload_len;
+	}
+	record_buf[pos++] = '\n';
+
+	if (text_logger_write_data(lh, (uint8_t *)record_buf, pos)) {
 		return -1;
 	}
 
