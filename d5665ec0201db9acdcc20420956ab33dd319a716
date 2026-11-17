@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae5754c_3c3d2a2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002547
+      },
+      "writtenOn": "2026-11-17T06:08:52Z",
+      "side": 1,
+      "message": "Hi Oliver and maintainers,\n\nThis change overlaps with 93613:\nhttps://gerrit.openbmc.org/c/openbmc/obmc-console/+/93613\n\nBoth changes assemble a complete timestamped record and check\nrotation before writing it, preventing records from being split\nacross log files.\n\nThis patch also regenerates the prefix after rotation resets the\nline counter, so the first record in the new file uses 0000000.\nFor oversized records, it preserves the timestamp and trailing\nnewline while retaining only the payload tail. The regression\ntests cover these cases and exact size boundaries.\n\nCould you review these differences and advise whether to continue\nhere or consolidate the work into 93613? I would like to avoid\nmaintaining two competing fixes for the same issue.\n\nThe patchset\u0027s CI failed in the Clang 23 build because\nthe existing __COUNTER__ macro in console-server.h triggers\n-Werror,-Wc2y-extensions. That macro is unchanged by this patch;\nboth preceding 22-test runs passed.",
+      "revId": "d5665ec0201db9acdcc20420956ab33dd319a716",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
